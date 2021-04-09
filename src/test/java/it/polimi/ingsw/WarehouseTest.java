@@ -8,23 +8,31 @@ import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertTrue;
 
 public class WarehouseTest{
 
     private Warehouse test;
+    private ArrayList<Resource> resourcesIn;
+    private HashMap<Resource, Integer> cost;
 
     @Before
     public void setUp(){
+
         test = new Warehouse();
+        resourcesIn = new ArrayList<>();
+        cost = new HashMap<>();
     }
 
     @Test (expected = StorageOutOfBoundsException.class)
     public void testStorageOutOfBounds() throws StorageOutOfBoundsException,
             BadInputFormatException, IllegalInsertionException {
 
-        ArrayList<Resource> resourcesIn = new ArrayList<>();
         resourcesIn.add(Resource.STONE);
         test.putResource(4, resourcesIn);
     }
@@ -33,7 +41,7 @@ public class WarehouseTest{
     public void testBadInputFormatException1() throws StorageOutOfBoundsException,
             BadInputFormatException, IllegalInsertionException {
 
-        ArrayList<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.clear();
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(1, resourcesIn);
@@ -45,7 +53,7 @@ public class WarehouseTest{
     public void testBadInputFormatException2() throws StorageOutOfBoundsException,
             BadInputFormatException, IllegalInsertionException {
 
-        ArrayList<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.clear();
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.COIN);
@@ -56,7 +64,7 @@ public class WarehouseTest{
     public void testMoveResource1() throws StorageOutOfBoundsException,
             IllegalInsertionException, BadInputFormatException, IllegalMoveException {
 
-        ArrayList<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.clear();
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(3, resourcesIn);
@@ -68,12 +76,23 @@ public class WarehouseTest{
     public void testMoveResource2() throws StorageOutOfBoundsException,
             IllegalInsertionException, BadInputFormatException, IllegalMoveException {
 
-        ArrayList<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.clear();
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(2, resourcesIn);
         test.moveResource(2, 1);
+    }
 
+    @Test
+    public void testCheckAvailability() throws IllegalInsertionException,
+            BadInputFormatException, StorageOutOfBoundsException {
+
+        resourcesIn.clear();
+        resourcesIn.add(Resource.STONE);
+        resourcesIn.add(Resource.STONE);
+        test.putResource(2, resourcesIn);
+        this.cost.put(Resource.STONE, 2);
+        assertTrue("Test passed", test.checkAvailability(cost));
     }
 
     @After

@@ -2,15 +2,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class Warehouse implements Deposit{
     /**
-     * 1 - scaffale con capacità 1
-     * 2 - scaffale con capacità 2
-     * 3 - scaffale con capacità 3
+     * 1 - shelf with capacity = 1
+     * 2 - shelf with capacity = 2
+     * 3 - shelf with capacity = 3
      */
     private HashMap<Integer, ArrayList<Resource>> warehouse;
 
@@ -18,6 +16,7 @@ public class Warehouse implements Deposit{
         warehouse = new HashMap<>();
         for (int i = 1; i <= 3; i++) {
             warehouse.put(i, new ArrayList<>(0));
+            (warehouse.get(i)).size();
         }
     }
 
@@ -32,75 +31,49 @@ public class Warehouse implements Deposit{
 
         if(resourceIn.size() > destStorage) throw new BadInputFormatException();
 
-        //verifico che l'arraylist contenga risorse dello stesso tipo
+        //checking that resourcesIn contains resources of the same type
         Resource check = resourceIn.get(0);
         for(Resource resource : resourceIn){
             if(!resource.equals(check))
                 throw new BadInputFormatException();
         }
 
-        //verifico che non siano presenti in scaffali diversi da destStorage risorse del tipo che voglio inserire in destStorage
-        for(int i = 1; (i <= 3) && (i != destStorage); i++){
-            if(warehouse.get(i).get(0).equals(check))
-                throw new IllegalInsertionException();
+        //checking that resource type equal to resourcesIn is not contained in shelves other than destStorage
+        for(int i = 1; (i <= 3) && (i != destStorage); i++) {
+            if((warehouse.get(i)).size() != 0) {
+                if ((warehouse.get(i)).get(0).equals(check))
+                    throw new IllegalInsertionException();
+            }
         }
 
-        //verifico che il tipo di risorse presenti in destStorage sia lo stesso di resourceIn
-        if((warehouse.get(destStorage).get(0) != check) && (warehouse.get(destStorage).size() != 0))
+        //switch case: the shelf is full
+        if((warehouse.get(destStorage)).size() == destStorage)
             throw new IllegalInsertionException();
 
-        //caso in cui lo scaffale è totalmente vuoto
-        if(warehouse.get(destStorage).size() == 0)
-            warehouse.get(destStorage).addAll(resourceIn);
+        //switch case: shelf is filled partially
+        if(warehouse.get(destStorage).size() != 0){
 
-        //caso in cui lo scaffale è pieno
-        if(warehouse.get(destStorage).size() == destStorage)
-            throw new IllegalInsertionException();
+            //checking that resource type in destStorage is the same of resourceIn
+            if (((warehouse.get(destStorage)).get(0) != check))
+                throw new IllegalInsertionException();
 
-        //caso in cui lo scaffale è riempito parzialmente
-        if((warehouse.get(destStorage).size() + resourceIn.size()) <= destStorage){
-            warehouse.get(destStorage).addAll(resourceIn);
-        } else throw new IllegalInsertionException();
+            //checking that there is enough capacity left to insert resourceIn
+            if((warehouse.get(destStorage).size() + resourceIn.size()) <= destStorage)
+                warehouse.get(destStorage).addAll(resourceIn);
+            else throw new IllegalInsertionException();
+
+        } else warehouse.get(destStorage).addAll(resourceIn); //switch case: the chosen shelf is empty
+
 
     }
 
     public void moveResource(int sourceStorage, int destStorage) throws IllegalMoveException, StorageOutOfBoundsException {
+
         if(sourceStorage < 1 || sourceStorage > 3) throw new StorageOutOfBoundsException();
         if(destStorage < 1 || destStorage > 3) throw new StorageOutOfBoundsException();
-        if((warehouse.get(sourceStorage).size() <= destStorage) && (warehouse.get(destStorage).size() <= sourceStorage)){
-            /*
-            int tempIndex = 0;
-            if(destStorage > sourceStorage)
-                tempIndex = sourceStorage;
-            else tempIndex = destStorage;
+        if((warehouse.get(sourceStorage).size() <= destStorage) &&
+                (warehouse.get(destStorage).size() <= sourceStorage)){
 
-            for(int i = 0; i < tempIndex; i++) {
-                Resource tempSource = warehouse.get(destStorage).get(i);
-            }
-
-
-            ArrayList<Resource> temp = new ArrayList<>();
-
-            for(Resource resource : warehouse.get(destStorage)){
-                temp.add(resource);
-            }
-
-            for(Resource resource : warehouse.get(destStorage)){
-                warehouse.get(destStorage).remove(resource);
-            }
-
-            for(Resource resource : warehouse.get(sourceStorage)){
-                warehouse.get(destStorage).add(resource);
-            }
-
-            for(Resource resource : warehouse.get(sourceStorage)){
-                warehouse.get(sourceStorage).remove(resource);
-            }
-
-            for(Resource resource : temp){
-                warehouse.get(sourceStorage).add(resource);
-            }
-*/
             ArrayList<Resource> temp1 = new ArrayList<>(warehouse.get(destStorage));
             ArrayList<Resource> temp2 = new ArrayList<>(warehouse.get(sourceStorage));
 
@@ -118,11 +91,49 @@ public class Warehouse implements Deposit{
     @Override
     public void pullResource(HashMap<Resource, Integer> cost){
 
+        if(this.checkAvailability(cost)) {
+
+            Set<Resource> resourcesToPull = cost.keySet();
+            Iterator iterator = resourcesToPull.iterator();
+
+            while (iterator.hasNext()) {
+                Resource resource = (Resource) iterator.next();
+                Integer resourceCost = cost.get(resource);
+                for(int i = 1; i <= 3; i++)
+
+                    if(warehouse.get(i).size() != 0)
+
+                        //checking that it is the right shelf
+                        if (warehouse.get(i).get(0).equals(resource))
+
+                            for(int j = 0; j < resourceCost; j++)
+                                warehouse.get(i).remove(resource);
+            }
+
+            System.out.println("Resources pulled");
+        }
     }
 
     @Override
     public boolean checkAvailability(HashMap<Resource, Integer> cost) {
 
-        return false;
+        Set<Resource> resourcesToCheck = cost.keySet();
+        Iterator iterator = resourcesToCheck.iterator();
+
+        while(iterator.hasNext()){
+
+            Resource resource = (Resource) iterator.next();
+            Integer resourceCost = cost.get(resource);
+
+            for(int i = 1; i <= 3; i++)
+                if(warehouse.get(i).size() != 0)
+                    if (warehouse.get(i).get(0).equals(resource) && warehouse.get(i).size() >= resourceCost)
+                        resourcesToCheck.remove(resource);
+        }
+
+        if(resourcesToCheck.size() == 0)
+            return true;
+        else return false;
     }
+
 }
