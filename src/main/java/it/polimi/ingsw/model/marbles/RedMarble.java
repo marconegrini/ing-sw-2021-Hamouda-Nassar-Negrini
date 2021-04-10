@@ -15,6 +15,8 @@ public class RedMarble implements Marble{
 
     @Override
     public Optional<Resource> onMarblePickup(){
+
+        // TODO create a method that increment the faith path of the Player
         return Optional.of(Resource.FAITH);
     }
 
