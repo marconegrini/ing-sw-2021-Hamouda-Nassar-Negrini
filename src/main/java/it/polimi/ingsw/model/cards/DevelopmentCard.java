@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 public class DevelopmentCard extends Card{
 
-    private int Vp;
     private Color color;
     private Level level;
     private HashMap<Resource, Integer> cardCost;
