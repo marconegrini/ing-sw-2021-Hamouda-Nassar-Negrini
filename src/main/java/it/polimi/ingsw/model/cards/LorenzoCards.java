@@ -11,7 +11,7 @@ public class LorenzoCards {
     }
 
 
-    public void onPickUp(){
+    public void onPool(){
 
     switch (cardType){
 
