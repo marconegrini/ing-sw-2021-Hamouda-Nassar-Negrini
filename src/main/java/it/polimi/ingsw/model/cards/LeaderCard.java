@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
-public class LeaderCard {
+public abstract class LeaderCard {
+    private boolean isFlipped;
+
 }
