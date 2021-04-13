@@ -6,8 +6,23 @@ public class Game {
 
     private ArrayList<GameInstance> gameInstances;
 
+    private Integer gameId;
+
     public Game(boolean multiplayer){
-        if(multiplayer) new MultiPlayerGameInstance();
-        if(!multiplayer) new SinglePlayerGameInstance();
+
+        if(gameInstances == null){
+            gameInstances = new ArrayList<>();
+            gameId = 0;
+        }
+
+        if(multiplayer) {
+            GameInstance newGame = new MultiPlayerGameInstance(gameId);
+            gameInstances.add(newGame);
+        } else {
+            GameInstance newGame = new SinglePlayerGameInstance(gameId);
+            gameInstances.add(newGame);
+        }
+
+        gameId++;
     }
 }
