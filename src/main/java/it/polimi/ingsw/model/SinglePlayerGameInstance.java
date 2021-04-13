@@ -6,7 +6,13 @@ public class SinglePlayerGameInstance extends GameInstance{
 
     private SinglePlayer player;
 
-    public SinglePlayerGameInstance(){
+    public SinglePlayerGameInstance(Integer gameId){
+        this.gameId = gameId;
         player = new SinglePlayer();
+    }
+
+    @Override
+    public Integer getGameId() {
+        return null;
     }
 }
