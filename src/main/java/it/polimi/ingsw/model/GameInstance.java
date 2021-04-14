@@ -10,8 +10,6 @@ public abstract class GameInstance {
 
     //protected MarketBoard marketBoard;
 
-    //protected FaithPath faithPath;
-
     public abstract Integer getGameId();
 
 }

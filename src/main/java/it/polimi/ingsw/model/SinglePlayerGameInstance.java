@@ -13,6 +13,6 @@ public class SinglePlayerGameInstance extends GameInstance{
 
     @Override
     public Integer getGameId() {
-        return null;
+        return this.gameId;
     }
 }

@@ -2,27 +2,42 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+//classe singleton
 public class Game {
 
-    private ArrayList<GameInstance> gameInstances;
+    private static Game instance;
 
-    private Integer gameId;
+    private static ArrayList<GameInstance> gameInstances;
 
-    public Game(boolean multiplayer){
+    private static Integer gameId;
 
-        if(gameInstances == null){
-            gameInstances = new ArrayList<>();
-            gameId = 0;
-        }
-
-        if(multiplayer) {
-            GameInstance newGame = new MultiPlayerGameInstance(gameId);
-            gameInstances.add(newGame);
-        } else {
-            GameInstance newGame = new SinglePlayerGameInstance(gameId);
-            gameInstances.add(newGame);
-        }
-
-        gameId++;
+    private Game() {
+        gameInstances = new ArrayList<>();
+        gameId = 0;
     }
+
+    public static Game getInstance(){
+        if(instance == null){
+            synchronized (instance){
+                if(instance == null)
+                    instance = new Game();
+            }
+        }
+        return instance;
+    }
+
+    public static GameInstance newGame(boolean multiplayer){
+        synchronized (gameInstances){
+            GameInstance newGameInstance;
+            if(multiplayer) {
+                newGameInstance = new MultiPlayerGameInstance(gameId);
+            } else {
+                newGameInstance = new SinglePlayerGameInstance(gameId);
+            }
+            gameInstances.add(newGameInstance);
+            gameId++;
+            return newGameInstance;
+        }
+    }
+
 }

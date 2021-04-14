@@ -8,5 +8,6 @@ public class SinglePlayer extends Player{
 
     private ArrayDeque<Card> lorenzoCardsDeck;
 
+    //TODO single player userFaithPath
     public SinglePlayer(){}
 }
