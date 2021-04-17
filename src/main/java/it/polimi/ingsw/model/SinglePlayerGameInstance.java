@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 
 public class SinglePlayerGameInstance extends GameInstance{
 
@@ -8,11 +9,32 @@ public class SinglePlayerGameInstance extends GameInstance{
 
     public SinglePlayerGameInstance(Integer gameId){
         this.gameId = gameId;
-        player = new SinglePlayer();
+    }
+
+    public void incrementFaithPathPos(Player player){
+        if(player.getUserId().equals(this.player.getUserId())) {
+            Integer newPlayingUserPos;
+            this.player.incrementFaithPathPosition();
+            newPlayingUserPos = this.player.getFaithPathPosition();
+            this.player.updateFaithPath(newPlayingUserPos);
+        }
+    }
+
+    public void incrementLorenzoPosition(){
+        this.player.incrementLorenzoPosition();
+        this.player.updateFaithPath(this.player.getLorenzoPosition());
     }
 
     @Override
     public Integer getGameId() {
         return this.gameId;
+    }
+
+    @Override
+    public void addPlayer(String nickname, Integer userId, boolean hasCalamaio) throws MaxPlayersException {
+        if(player==null) {
+            FaithPath newUserFaithPath = new FaithPath();
+            player = new SinglePlayer(nickname, userId, newUserFaithPath);
+        }
     }
 }

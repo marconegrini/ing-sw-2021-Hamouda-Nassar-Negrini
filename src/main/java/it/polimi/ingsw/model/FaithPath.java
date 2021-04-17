@@ -9,16 +9,13 @@ public class FaithPath {
 
     private Integer userPosition;
 
-    private Integer pathId;
-
     private ArrayList<VaticanSection> vaticanSections;
 
     private HashMap<Integer, Integer> victoryPoints;
 
-    public FaithPath(Integer pathId){
+    public FaithPath(){
 
-        userPosition = 0;
-        this.pathId = pathId;
+        this.userPosition = 0;
         vaticanSections = new ArrayList<>();
 
         Integer startPos = 0;
@@ -36,20 +33,14 @@ public class FaithPath {
         userPosition++;
     }
 
-    public Integer getPathId(){
-        return this.pathId;
-    }
-
     public Integer getUserPosition(){
         return this.userPosition;
     }
 
-    public void update(Player player, Integer newPlayerPosition) {
-        for(VaticanSection vs : vaticanSections){
-            if(vs.rapportoVaticano(newPlayerPosition)){
+    public void update(Integer newPlayingUserPos) {
+        for(VaticanSection vs : vaticanSections)
+            if(vs.rapportoVaticano(newPlayingUserPos))
                 vs.activate(this.userPosition);
-            }
-        }
     }
 
     public Integer getVictoryPoints(){

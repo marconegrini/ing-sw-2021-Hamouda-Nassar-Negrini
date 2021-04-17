@@ -9,10 +9,10 @@ public class LorenzoCards {
         this.cardType = cardType;
     }
 
-public LorenzoCardsTypes getType(){return this.cardType;}
+    public LorenzoCardsTypes getType(){return this.cardType;}
 
 
-public void onPool(){
+    public void onPool(){
 
         switch (cardType){
 

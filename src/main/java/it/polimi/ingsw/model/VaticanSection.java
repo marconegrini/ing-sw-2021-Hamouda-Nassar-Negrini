@@ -17,23 +17,25 @@ public class VaticanSection {
     }
 
     public void flipCard(){
-        cardFlipped = true;
+        this.cardFlipped = true;
     }
 
     //the argument is someone else's position
     public boolean rapportoVaticano(Integer position){
-        return position.equals(this.spazioPapa) && !activated;
+        return position.equals(this.spazioPapa) && !this.activated;
     }
 
     public void activate(Integer userPosition){
-        if(userPosition >= startPos && userPosition <= spazioPapa)
+        //if the user position is inside vatican section, papalFavorCard is flipped
+        if(userPosition >= this.startPos && userPosition <= this.spazioPapa)
             this.flipCard();
 
-        activated = true;
+        //in any case, the vatican section is activated
+        this.activated = true;
     }
 
     public Integer getVictoryPoints(){
-        if(this.activated)
+        if(this.cardFlipped)
             return this.victoryPoints;
         else return 0;
     }
