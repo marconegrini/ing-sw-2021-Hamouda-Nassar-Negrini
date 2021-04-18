@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.util.HashMap;
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
-    private final HashMap <Resource, Integer> OutProductionResource;
+    private final HashMap <Resource, Integer> outProductionResource;
     protected final HashMap<CardColor, Level> activationCost;
 
     public WhiteMarbleLeaderCard(int vp, HashMap<CardColor, Level> activationCost, HashMap <Resource, Integer> OutProductionResource) {
@@ -16,7 +16,16 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         this.isFlipped = false;
 
         this.activationCost=activationCost;
-        this.OutProductionResource=OutProductionResource;
+        this.outProductionResource = OutProductionResource;
+    }
+
+    /**
+     * the method is called by the controller only when the player picks up a white marble
+     * from the market and decide to use his WhiteMarble LeaderCard to use obtain the resources.
+     * @return returns the resources in output
+     */
+    public HashMap <Resource, Integer> useLeaderCard(){
+        return outProductionResource;
     }
 
 
@@ -26,6 +35,6 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
     }
 
     public HashMap<Resource, Integer> getOutProductionResource() {
-        return OutProductionResource;
+        return outProductionResource;
     }
 }

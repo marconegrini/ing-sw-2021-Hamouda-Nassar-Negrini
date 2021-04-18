@@ -1,4 +1,11 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
-public class StorageLeaderCard {
+import it.polimi.ingsw.model.cards.LeaderCard;
+
+public class StorageLeaderCard extends LeaderCard {
+
+    public StorageLeaderCard(){
+
+    }
+
 }

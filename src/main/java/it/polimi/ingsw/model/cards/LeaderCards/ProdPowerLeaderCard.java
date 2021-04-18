@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
 
 import java.util.HashMap;
-import java.util.Set;
 
 
 /**
@@ -17,11 +16,11 @@ import java.util.Set;
  *
  * */
 
-public class ProdPowerLeaderCard extends LeaderCard {
+public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
 
 
     private final HashMap <Resource, Integer> resourceInProductionType;
-    private final HashMap<CardColor, Level> activationCost;
+
     private final int outProductionResourceNum ;
     private final int outProductionFaithPoints ;
 
@@ -57,40 +56,31 @@ public class ProdPowerLeaderCard extends LeaderCard {
     }
 
 
-    /**
-     *  An important supposition: FOR ALL THE LEADER CARDS THE ACTIVATION COST CAN'T BE TWO DV CARDS WITH THE SAME COLOUR!!
-     * @param givenCardsToUse they are cards passed by the user to activate the leader card
-     * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
-     */
-    public boolean verifyToActivate(HashMap<CardColor, Level> givenCardsToUse){
-        Set<CardColor> activationCostColors = activationCost.keySet();
-        Set<CardColor> cardsToCheck = givenCardsToUse.keySet();
+    //public boolean activateLeaderCard(HashMap<CardColor, Level> cardsIn){} //in the super class
 
-        boolean innerVerification = false;
-        boolean result = false;
 
-        /**
-         * if the given cards cover all the cost cards the result
-         */
-        for (CardColor activationCostColor  : activationCostColors){
-            for (CardColor cardColorToCheck : cardsToCheck)
-                if (activationCostColor.equals(cardColorToCheck) && activationCost.get(activationCostColor).equals(givenCardsToUse.get(cardColorToCheck))) {
-                    result = true;
-                    break;
-                }else
-                    result = false;
-        }
-    return result;
+    public HashMap <Resource, Integer> useCard(HashMap<Resource, Integer> resourceIn) throws UnsufficientResourcesException {
+    //TODO call the verification method from the coffer&Warehouse and if true return the resources..
+        // TODO give the player the possibility to choose one (or more) Resource as a given output as well as the faithPoint
+
+        Integer faithPoints = faithPointsNum();
+        HashMap<Resource, Integer> tempHash = new HashMap<>();
+        tempHash.put(Resource.FAITH,faithPoints);
+
+        return tempHash;
     }
 
-    public int receiveFaithPoints(){
+
+
+
+    public Integer faithPointsNum(){
         return outProductionFaithPoints;
     }
 
     /**
      *  the controller or the class that manage the production will use this attribute to know how many resources should the user choose
      */
-    public int getOutProductionResourceNum(){
+    public Integer getOutProductionResourceNum(){
         return outProductionResourceNum;
     }
 
