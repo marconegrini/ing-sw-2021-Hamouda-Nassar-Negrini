@@ -2,7 +2,10 @@ package it.polimi.ingsw.model.cards;
 
 import java.util.HashMap;
 
-
+/**
+ * The card is initially unflipped it means it's on its face at the begging, it can't be used, isFlipped=false;
+ * when a card isFlipped it can be used.
+ */
 public abstract class LeaderCard extends Card{
     protected boolean isFlipped;
 

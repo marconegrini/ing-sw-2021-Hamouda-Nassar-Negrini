@@ -21,7 +21,7 @@ public abstract class WhiteProdDiscountCardsSuperClass extends LeaderCard {
     }
 
     /**
-     *  An important supposition: FOR ALL THE LEADER CARDS THE ACTIVATION COST CAN'T BE TWO DV CARDS WITH THE SAME COLOUR!!
+     *  An important supposition: FOR ALL THE LEADER CARDS THE ACTIVATION COST CAN'T BE TWO DV CARDS WITH THE SAME COLOUR!! (we will use HashMap)
      * @param cardsIn they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
      */
@@ -33,8 +33,8 @@ public abstract class WhiteProdDiscountCardsSuperClass extends LeaderCard {
 
         boolean result = false;
 
-        /**
-         * if the given cards cover all the costCards the result is true
+        /*
+          if the given cards cover all the costCards the result is true
          */
         for (CardColor activationCostColor  : activationCostColors){
 
@@ -49,7 +49,7 @@ public abstract class WhiteProdDiscountCardsSuperClass extends LeaderCard {
                     innerResult = false;
             }
 
-            //if i arrive here with a false it means that i checked one DV card of the cost and it didn't match with ANY of the given card.
+            //if i arrive here with a false it means that i checked one DV card of the cost and it didn't match with ANY of the given cards.
             if (innerResult ==false)
             {result=false;
                 break;}
