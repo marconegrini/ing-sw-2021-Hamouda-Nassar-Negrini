@@ -22,7 +22,7 @@ public class Warehouse implements Deposit{
 
     /**
      * @param destStorage: requires an integer between 1 and 3
-     * @param resourceIn: requires an ArrayList of the same tipe of resources
+     * @param resourceIn: requires an ArrayList of the same type of resources
      */
     public void putResource(int destStorage, ArrayList<Resource> resourceIn) throws StorageOutOfBoundsException,
             BadInputFormatException, IllegalInsertionException {

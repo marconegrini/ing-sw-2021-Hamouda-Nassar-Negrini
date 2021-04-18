@@ -8,6 +8,13 @@ public abstract class LeaderCard extends Card{
 
 
     //public abstract HashMap<Object, Integer> getActivationCost();
-    public abstract int discardAndReceiveVPointsIfNotActivated();
+
+    public int discardAndReceiveVPointsIfNotActivated() {
+        //TODO add a method that discards the card or manage the discard from the controller.
+        this.isFlipped=false;
+        return getVictoryPoints();
+    }
+
     public boolean isFlippes(){return this.isFlipped;}
+
 }

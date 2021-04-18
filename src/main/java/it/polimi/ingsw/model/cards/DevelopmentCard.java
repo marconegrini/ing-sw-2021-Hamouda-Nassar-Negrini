@@ -15,12 +15,12 @@ public class DevelopmentCard extends Card{
     private final HashMap<Resource, Integer> productionIn;
     private final HashMap<Resource, Integer> productionOut;
 
-    public DevelopmentCard(int Vp, CardColor color, Level level,
+    public DevelopmentCard(int Vp, CardColor cardColour, Level level,
                            HashMap<Resource, Integer> cardCost,
                            HashMap<Resource, Integer> productionIn,
                            HashMap<Resource, Integer> productionOut){
         this.Vp = Vp;
-        this.color = color;
+        this.color = cardColour;
         this.level = level;
         this.cardCost = cardCost;
         this.productionIn = productionIn;
