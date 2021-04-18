@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.model.DevCardSlots;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
@@ -42,7 +42,7 @@ public class DevCardSlotsTest {
 
     @Test
     public void testInsertCard() throws IllegalInsertionException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(0, card1);
         test.addCard(1, card1);
         test.addCard(2, card1);
@@ -51,40 +51,40 @@ public class DevCardSlotsTest {
 
     @Test (expected = IllegalInsertionException.class)
     public void testInsertCard1() throws IllegalInsertionException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
         test.addCard(2, card1);
     }
 
     @Test (expected = IndexOutOfBoundsException.class)
     public void testInsertCard2() throws IllegalInsertionException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(3, card1);
     }
 
     @Test
     public void testResourcesProductionIn() throws IllegalInsertionException, EmptySlotException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);
         assertEquals(prodIn, test.resourcesProductionIn(1));
     }
 
     @Test (expected = EmptySlotException.class)
     public void testResourcesProductionIn1() throws IllegalInsertionException, EmptySlotException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);
         assertEquals(prodIn, test.resourcesProductionIn(0));
     }
 
     @Test
     public void testResourcesProductionOut() throws IllegalInsertionException, EmptySlotException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);
         assertEquals(prodOut, test.resourcesProductionOut(1));
     }
 
     @Test (expected = EmptySlotException.class)
     public void testResourcesProductionOut1() throws IllegalInsertionException, EmptySlotException {
-        DevelopmentCard card1 = new DevelopmentCard(2, Color.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);
         assertEquals(prodOut, test.resourcesProductionOut(0));
     }

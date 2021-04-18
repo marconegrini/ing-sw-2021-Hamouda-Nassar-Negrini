@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 
 public abstract class LeaderCard extends Card{
-    private boolean isFlipped;
-    private HashMap<Object, Integer> activationCost;
+    protected boolean isFlipped;
 
-    public abstract HashMap<Object, Integer> getActivationCost();
-    public abstract void use();
+
+    //public abstract HashMap<Object, Integer> getActivationCost();
     public abstract int discardAndReceiveVPointsIfNotActivated();
+    public boolean isFlippes(){return this.isFlipped;}
 }

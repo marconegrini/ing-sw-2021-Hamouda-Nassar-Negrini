@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 
@@ -8,13 +9,13 @@ import java.util.HashMap;
 
 public class DevelopmentCard extends Card{
 
-    private final Color color;
+    private final CardColor color;
     private final Level level;
     private final HashMap<Resource, Integer> cardCost;
     private final HashMap<Resource, Integer> productionIn;
     private final HashMap<Resource, Integer> productionOut;
 
-    public DevelopmentCard(int Vp, Color color, Level level,
+    public DevelopmentCard(int Vp, CardColor color, Level level,
                            HashMap<Resource, Integer> cardCost,
                            HashMap<Resource, Integer> productionIn,
                            HashMap<Resource, Integer> productionOut){
@@ -31,7 +32,7 @@ public class DevelopmentCard extends Card{
         return this.Vp;
     }
 
-    public Color getColor() {
+    public CardColor getColor() {
         return color;
     }
 
