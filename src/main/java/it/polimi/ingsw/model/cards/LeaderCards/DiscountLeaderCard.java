@@ -15,9 +15,9 @@ import java.util.HashMap;
 
 public class DiscountLeaderCard extends LeaderCard {
     private final HashMap <Resource, Integer> discountedResource;
-    private final HashMap<CardColor, Level> activationCost;
+    private final HashMap<CardColor, Integer> activationCost;
 
-    public DiscountLeaderCard(int vp, HashMap<CardColor, Level> activationCost, HashMap <Resource, Integer> discountedResource) {
+    public DiscountLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> discountedResource) {
         this.Vp = vp;
         this.isFlipped = false;
 
@@ -27,7 +27,7 @@ public class DiscountLeaderCard extends LeaderCard {
 
 
     //getters
-    public HashMap<CardColor, Level> getActivationCost() {
+    public HashMap<CardColor, Integer> getActivationCost() {
         return activationCost;
     }
 
