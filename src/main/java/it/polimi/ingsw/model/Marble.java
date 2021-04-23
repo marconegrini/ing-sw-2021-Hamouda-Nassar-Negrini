@@ -14,8 +14,5 @@ public class Marble {
         return color;
     }
 
-//    public void setColor(Color color){
-//        this.color = color;
-//    }
 
 }
