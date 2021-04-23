@@ -59,6 +59,10 @@ public class DevCardSlots {
         } else throw new EmptySlotException();
     }
 
+
+
+
+
     public int getVictoryPoints(){
         int result = 0;
         for(int i=0; i<3; i++){
