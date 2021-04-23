@@ -21,8 +21,8 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
 
     private final HashMap <Resource, Integer> productionIn;
 
-    private final int outProductionResourceNum ;
-    private final int outProductionFaithPoints ;
+    private final int outProductionResourceNum;
+    private final int outProductionFaithPoints;
     private final Level requiredActivationLevel;
 
     /**
@@ -36,7 +36,7 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
      * @param outProductionResourceNum number of resources in output, the controller or the class that manage the production will
      *                                 use this number to know how many resources should the user choose.
      */
-    public ProdPowerLeaderCard(int vp, HashMap<CardColor, Level> activationCost, HashMap <Resource, Integer> productionIn, int outProductionResourceNum, int outProductionFaithPoints) {
+    public ProdPowerLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> productionIn, int outProductionResourceNum, int outProductionFaithPoints) {
         this.Vp = vp;
         this.isFlipped=false;
         this.requiredActivationLevel = Level.SECOND;

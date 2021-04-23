@@ -3,15 +3,15 @@ package it.polimi.ingsw.model.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,7 +23,8 @@ public class LeaderCardParser extends Parser{
     }
 
     public ArrayList<LeaderCard> getLeaderCardsDeck(){
-        ArrayList<DevelopmentCard> leaderCards = new ArrayList<>();
+
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
 
         while (parser.hasNext()) {
             JsonElement element = parser.next();
@@ -42,8 +43,7 @@ public class LeaderCardParser extends Parser{
                     JsonArray jsonArray1 = jsonObject.get("activationCost").getAsJsonArray();
                     JsonArray jsonArray2 = jsonObject.get("leaderPower").getAsJsonArray();
 
-
-                    if(jsonObject.get("type").equals("discount")){
+                    if(jsonObject.get("type").getAsString().equals("discount")){
 
                         HashMap<CardColor, Integer> activationCost = new HashMap();
 
@@ -72,10 +72,10 @@ public class LeaderCardParser extends Parser{
 
                         DiscountLeaderCard leaderCard = new DiscountLeaderCard(victoryPoints, activationCost, discountedResource);
 
-
+                        leaderCards.add(leaderCard);
                     }
 
-                    if(jsonObject.get("type").equals("storage")){
+                    if(jsonObject.get("type").getAsString().equals("storage")){
 
                         HashMap<Resource, Integer> activationCost = new HashMap();
 
@@ -104,9 +104,11 @@ public class LeaderCardParser extends Parser{
 
                         StorageLeaderCard leaderCard = new StorageLeaderCard(victoryPoints, activationCost, storage);
 
+                        leaderCards.add(leaderCard);
+
                     }
 
-                    if(jsonObject.get("type").equals("marble")){
+                    if(jsonObject.get("type").getAsString().equals("marble")){
 
 
                         HashMap<CardColor, Integer> activationCost = new HashMap();
@@ -137,12 +139,11 @@ public class LeaderCardParser extends Parser{
 
                         WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(victoryPoints, activationCost, productionOut);
 
-
-
+                        leaderCards.add(leaderCard);
 
                     }
 
-                    if(jsonObject.get("type").equals("production")){
+                    if(jsonObject.get("type").getAsString().equals("production")){
 
                         HashMap<CardColor, Integer> activationCost = new HashMap();
 
@@ -157,7 +158,9 @@ public class LeaderCardParser extends Parser{
                             activationCost.put(cardColor, cost);
                         }
 
-                        HashMap<Resource, Integer> productionOut = new HashMap();
+                        HashMap<Resource, Integer> productionIn = new HashMap();
+                        Integer outProductionResourceNum = jsonObject.get("resourceOut").getAsInt();
+                        Integer outProductionFaithPoints = jsonObject.get("faithOut").getAsInt();
 
                         for(JsonElement elem : jsonArray2){
 
@@ -166,13 +169,12 @@ public class LeaderCardParser extends Parser{
                             String tempResource = object.get("resource").getAsString();
                             Resource resource = Resource.getEnum(tempResource);
                             Integer value = object.get("value").getAsInt();
-
-                            productionOut.put(resource, value);
-
+                            productionIn.put(resource, value);
                         }
 
-                        WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(victoryPoints, activationCost, productionOut);
+                        ProdPowerLeaderCard leaderCard = new ProdPowerLeaderCard(victoryPoints, activationCost, productionIn, outProductionResourceNum, outProductionFaithPoints);
 
+                        leaderCards.add(leaderCard);
 
                     }
 
@@ -184,6 +186,21 @@ public class LeaderCardParser extends Parser{
 
 
 
-                return null;
+                return leaderCards;
+    }
+
+    public void close(){
+        try{
+            this.inputStream.close();
+        } catch (IOException e){
+            System.err.println("Exception while closing file");
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        ArrayList<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        parser.close();
     }
 }

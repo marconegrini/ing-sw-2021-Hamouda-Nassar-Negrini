@@ -153,7 +153,7 @@
           "cost": 2
         },
         {
-          "CardColor": "BLUE",
+          "cardColor": "BLUE",
           "cost": 1
         }
       ],
@@ -173,7 +173,7 @@
           "cost": 2
         },
         {
-          "CardColor": "VIOLET",
+          "cardColor": "VIOLET",
           "cost": 1
         }
       ],
@@ -193,7 +193,7 @@
           "cost": 2
         },
         {
-          "CardColor": "YELLOW",
+          "cardColor": "YELLOW",
           "cost": 1
         }
       ],
@@ -213,7 +213,7 @@
           "cost": 2
         },
         {
-          "CardColor": "GREEN",
+          "cardColor": "GREEN",
           "cost": 1
         }
       ],
@@ -236,12 +236,12 @@
       ],
       "leaderPower": [
         {
-          "resourceIn": "SHIELD",
-          "valueIn": 1,
-          "valueOut": 1,
-          "faithOut": 1
+          "resource": "SHIELD",
+          "value": 1
         }
-      ]
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
     },
 
     {
@@ -255,12 +255,12 @@
       ],
       "leaderPower": [
         {
-          "resourceIn": "SERVANT",
-          "valueIn": 1,
-          "valueOut": 1,
-          "faithOut": 1
+          "resource": "SERVANT",
+          "value": 1
         }
-      ]
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
     },
 
     {
@@ -274,12 +274,12 @@
       ],
       "leaderPower": [
         {
-          "resourceIn": "STONE",
-          "valueIn": 1,
-          "valueOut": 1,
-          "faithOut": 1
+          "resource": "STONE",
+          "value": 1
         }
-      ]
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
     },
 
     {
@@ -293,12 +293,12 @@
       ],
       "leaderPower": [
         {
-          "resourceIn": "COIN",
-          "valueIn": 1,
-          "valueOut": 1,
-          "faithOut": 1
+          "resource": "COIN",
+          "value": 1
         }
-      ]
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
     }
   ]
 }
