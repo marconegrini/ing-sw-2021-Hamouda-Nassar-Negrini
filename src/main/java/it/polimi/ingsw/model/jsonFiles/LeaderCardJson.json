@@ -1,0 +1,246 @@
+{
+  "leader cards" : [
+    {
+      "type": "discount",
+      "Vp": 2,
+      "activationCost": [
+        {
+          "cardColor": "YELLOW",
+          "cost": 1
+        },
+        {
+          "CardColor": "GREEN",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SERVANT",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "discount",
+      "Vp": 2,
+      "activationCost": [
+        {
+          "cardColor": "BLUE",
+          "cost": 1
+        },
+        {
+          "CardColor": "VIOLET",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SHIELD",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "discount",
+      "Vp": 2,
+      "activationCost": [
+        {
+          "cardColor": "GREEN",
+          "cost": 1
+        },
+        {
+          "CardColor": "BLUE",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "STONE",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "discount",
+      "Vp": 2,
+      "activationCost": [
+        {
+          "cardColor": "YELLOW",
+          "cost": 1
+        },
+        {
+          "CardColor": "VIOLET",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "COIN",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "storage",
+      "Vp": 3,
+      "activationCost": [
+        {
+          "resource": "COIN",
+          "cost": 5
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "STONE",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "storage",
+      "Vp": 3,
+      "activationCost": [
+        {
+          "resource": "STONE",
+          "cost": 5
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SERVANT",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "storage",
+      "Vp": 3,
+      "activationCost": [
+        {
+          "resource": "SERVANT",
+          "cost": 5
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SHIELD",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "storage",
+      "Vp": 3,
+      "activationCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 5
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "COIN",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "type": "marble",
+      "Vp": 5,
+      "activationCost": [
+        {
+          "cardColor": "YELLOW",
+          "level": 2
+        },
+        {
+          "CardColor": "BLUE",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SERVANT",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "marble",
+      "Vp": 5,
+      "activationCost": [
+        {
+          "cardColor": "GREEN",
+          "level": 2
+        },
+        {
+          "CardColor": "VIOLET",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SHIELD",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "marble",
+      "Vp": 5,
+      "activationCost": [
+        {
+          "cardColor": "BLUE",
+          "level": 2
+        },
+        {
+          "CardColor": "YELLOW",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "STONE",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "type": "marble",
+      "Vp": 5,
+      "activationCost": [
+        {
+          "cardColor": "VIOLET",
+          "level": 2
+        },
+        {
+          "CardColor": "GREEN",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "COIN",
+          "value": 1
+        }
+      ]
+    },
+
+    {
+      "type": "production",
+      "Vp": 4,
+      "activationCost": [
+        {
+          "cardColor": "YELLOW",
+          "level": 2
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SHIELD",
+          "value": 1
+        }
+      ]
+    }
+
+  ]
+}

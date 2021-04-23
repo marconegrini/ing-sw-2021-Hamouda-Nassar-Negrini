@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 public class ConcreteProdPowerLeaderCardF extends LeaderCardFactory {
 
-    Resource productionInResourceType;
-
     @Override
     public LeaderCard construct(DataIn dataIn) {
         return null;

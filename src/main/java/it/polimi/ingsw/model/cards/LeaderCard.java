@@ -18,6 +18,5 @@ public abstract class LeaderCard extends Card{
         return getVictoryPoints();
     }
 
-    public boolean isFlippes(){return this.isFlipped;}
-
+    public boolean isFlipped() {return this.isFlipped;}
 }

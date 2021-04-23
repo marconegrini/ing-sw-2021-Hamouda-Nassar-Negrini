@@ -8,13 +8,13 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.util.HashMap;
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
-    private final HashMap <Resource, Integer> outProductionResource;
-    protected final HashMap<CardColor, Level> activationCost;
 
-    public WhiteMarbleLeaderCard(int vp, HashMap<CardColor, Level> activationCost, HashMap <Resource, Integer> OutProductionResource) {
+    private final HashMap <Resource, Integer> outProductionResource;
+    protected final HashMap<CardColor, Integer> activationCost;
+
+    public WhiteMarbleLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> OutProductionResource) {
         this.Vp = vp;
         this.isFlipped = false;
-
         this.activationCost=activationCost;
         this.outProductionResource = OutProductionResource;
     }
@@ -30,7 +30,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
 
 
     //getters
-    public HashMap<CardColor, Level> getActivationCost() {
+    public HashMap<CardColor, Integer> getActivationCost() {
         return activationCost;
     }
 

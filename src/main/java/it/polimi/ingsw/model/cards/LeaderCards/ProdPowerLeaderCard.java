@@ -23,6 +23,7 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
 
     private final int outProductionResourceNum ;
     private final int outProductionFaithPoints ;
+    private final Level requiredActivationLevel;
 
     /**
      *
@@ -38,7 +39,7 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
     public ProdPowerLeaderCard(int vp, HashMap<CardColor, Level> activationCost, HashMap <Resource, Integer> resourceInProductionType, int outProductionResourceNum, int outProductionFaithPoints) {
         this.Vp = vp;
         this.isFlipped=false;
-
+        this.requiredActivationLevel = Level.SECOND;
         this.activationCost = activationCost;
         this.resourceInProductionType=resourceInProductionType;
 
