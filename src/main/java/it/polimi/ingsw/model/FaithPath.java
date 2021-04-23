@@ -13,10 +13,13 @@ public class FaithPath {
 
     private HashMap<Integer, Integer> victoryPoints;
 
+    private Integer end;
+
     public FaithPath(){
 
         this.userPosition = 0;
         vaticanSections = new ArrayList<>();
+        end = 20;
 
         Integer startPos = 0;
         Integer spazioPapa = 0;
@@ -53,6 +56,15 @@ public class FaithPath {
 
         return result;
 
+    }
+
+    public Integer getEnd(){
+        return this.end;
+    }
+
+    public boolean ended(){
+        if(userPosition.equals(this.end)) return true;
+        return false;
     }
 
 

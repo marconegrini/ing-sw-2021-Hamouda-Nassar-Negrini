@@ -38,6 +38,11 @@ public class SinglePlayer extends Player{
     public Integer getLorenzoPosition(){
         return this.croceNera;
     }
+    
+    public boolean lorenzoWins(){
+        if(croceNera.equals(this.userFaithPath.getEnd())) return true;
+        return false;
+    }
 
     @Override
     public void updateFaithPath(Integer newPlayingUserPos) {
