@@ -10,6 +10,8 @@ public enum Resource {
             return Resource.SERVANT;
         else if(value.toUpperCase().equals(Resource.STONE.toString()))
             return Resource.STONE;
+        else if(value.toUpperCase().equals(Resource.FAITH.toString()))
+            return Resource.FAITH;
         else return Resource.SHIELD;
     }
 }
