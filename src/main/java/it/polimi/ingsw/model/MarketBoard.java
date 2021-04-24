@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.Resource;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class MarketBoard {
 
@@ -14,60 +13,82 @@ public class MarketBoard {
 
     public MarketBoard(){
         marbles = new Marble[3][4];
-        externalMarble = new Marble(Color.RED);
         setupMarketBoard();
-        shuffleMarketBoard();
     }
 
 
-    /*
+    /**
      *
-     * Setting up the market board putting the colored marbles
+     * Setting up the market board. The method put the marbles inside
+     * a stack, the it shuffle that stack and pop all the marbles
+     * inside marbles[][]
      *
      */
 
     private void setupMarketBoard(){
 
+        Stack<Marble> marbleStack= new Stack<>();
        // Adding the 4 white marbles
         for (int i=0; i<4; i++){
-            marbles[0][i] = new Marble(Color.WHITE);
+            marbleStack.push(new Marble(Color.WHITE));
         }
 
         // Adding the 2 blue marbels
         for (int i=0; i<2; i++){
-            marbles[1][i] = new Marble(Color.BLUE);
+            marbleStack.push(new Marble(Color.BLUE));
         }
 
         // Adding the 2 grey marbels
-        for (int i=2; i<4; i++){
-            marbles[1][i] = new Marble(Color.GREY);
+        for (int i=0; i<2; i++){
+            marbleStack.push(new Marble(Color.GREY));
         }
 
         // Adding the 2 yellow marbels
         for (int i=0; i<2; i++){
-            marbles[2][i] = new Marble(Color.YELLOW);
+            marbleStack.push(new Marble(Color.YELLOW));
         }
 
         // Adding the 2 violet marbels
-        for (int i=2; i<4; i++){
-            marbles[2][i] = new Marble(Color.VIOLET);
+        for (int i=0; i<2; i++){
+            marbleStack.push(new Marble(Color.VIOLET));
         }
+
+        //Adding the red marble
+        marbleStack.push(new Marble(Color.RED));
+
+        //Shuffling the stack
+        Collections.shuffle(marbleStack);
+
+        //putting the marbles inside marbles[][]
+        for (int i=0; i<3; i++){
+            for (int j=0; j<4; j++){
+                marbles[i][j] = marbleStack.pop();
+            }
+        }
+
+        externalMarble = marbleStack.pop();
+
+
     }
 
-    /*
+    /**
      *
      * Returns an ArrayList of Marbles of the selected row or column,
      * insert a marble in a row or a column, moves the other
      * marbles of one position and changes the external marbles.
      *
+     * @param row  the row indicate if the parameter rowOrColNum refers to a row or a column
+     * @param rowOrColNum  the rowOrColNum indicate the column or the row selected
+     * @return  an ArrayList with the picked marbles
      */
     public ArrayList<Marble> insertMarble(boolean row, int rowOrColNum){
 
         Marble temporaryMarble;
-        ArrayList<Marble> pickedResources;
+        ArrayList<Marble> pickedMarbles;
+        //ArrayList<Resource> pickedResources;
 
         if (row){
-            pickedResources = new ArrayList<>(Arrays.asList(marbles[rowOrColNum])); //Create the arraylist with the entire row
+            pickedMarbles = new ArrayList<>(Arrays.asList(marbles[rowOrColNum])); //Create the arraylist with the entire row
             temporaryMarble = marbles[rowOrColNum][3];
             for (int i=3; i>0; i--){
                 marbles[rowOrColNum][i] = marbles[rowOrColNum][i-1];
@@ -75,38 +96,22 @@ public class MarketBoard {
             marbles[rowOrColNum][0] = externalMarble;
             externalMarble = temporaryMarble;
         } else {
-            pickedResources = new ArrayList<>();
+            pickedMarbles = new ArrayList<>();
             temporaryMarble = marbles[0][rowOrColNum];
             for (int i=0; i<2; i++){
-                pickedResources.add(marbles[i][rowOrColNum]);
+                pickedMarbles.add(marbles[i][rowOrColNum]);
                 marbles[i][rowOrColNum] = marbles[i+1][rowOrColNum];
             }
-            pickedResources.add(marbles[2][rowOrColNum]);
+            pickedMarbles.add(marbles[2][rowOrColNum]);
             marbles[2][rowOrColNum] = externalMarble;
             externalMarble = temporaryMarble;
         }
 
-        return pickedResources;
+        //pickedResources = fromMarblesToResources(pickedMarbles);
+
+        return pickedMarbles;
     }
 
     public Marble[][] getMarketBoard (){return marbles.clone();}
-
-    /*
-     *
-     * This method use the insertMarble() to shuffle the marketBoard.
-     * It generate a random number (maximum 20) that will be use to shuffle the
-     * marketBoard.
-     *
-     */
-    public void shuffleMarketBoard(){
-
-        Random random = new Random();
-        System.out.println("Inside market board shuffle");
-        for (int i=0; i< (int)Math.floor(Math.random()*(20-5+1)+5); i++){
-            if (i%2 == 0)   insertMarble(true, random.nextInt(3));
-            else            insertMarble(false, random.nextInt(4));
-         }
-
-    }
 
 }
