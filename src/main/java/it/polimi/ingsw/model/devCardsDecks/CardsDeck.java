@@ -25,6 +25,7 @@ public class CardsDeck {
     public void initializeCardsDeck(){
         DevelopmentCardParser parser = new DevelopmentCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/DevCardJson.json");
         ArrayList<DevelopmentCard> deck = parser.getDevelopmentCardsDeck();
+        parser.close();
         for(DevelopmentCard card : deck){
             if(card.getLevel().equals(Level.FIRST)){
                 if(card.getColor().equals(CardColor.GREEN))

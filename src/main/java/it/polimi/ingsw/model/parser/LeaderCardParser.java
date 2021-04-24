@@ -177,15 +177,9 @@ public class LeaderCardParser extends Parser{
                         leaderCards.add(leaderCard);
 
                     }
-
-
-
                 }
             }
         }
-
-
-
                 return leaderCards;
     }
 
