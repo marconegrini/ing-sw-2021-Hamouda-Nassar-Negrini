@@ -9,12 +9,16 @@ public abstract class GameInstance {
 
     protected CardsDeck cardsDeck;
 
-    //protected MarketBoard marketBoard;
+    protected MarketBoard marketBoard;
 
     public abstract Integer getGameId();
 
     public abstract void addPlayer(String nickname, Integer userId, boolean hasCalamaio) throws MaxPlayersException;
 
+    public abstract Player getPlayer(Integer playerId);
+    /*
     public abstract void incrementFaithPathPos(Player player);
+
+     */
 
 }

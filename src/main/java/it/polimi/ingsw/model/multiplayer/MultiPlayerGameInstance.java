@@ -28,6 +28,15 @@ public class MultiPlayerGameInstance extends GameInstance {
     }
 
     @Override
+    public Player getPlayer(Integer playerId){
+        for(Player player : players) {
+            if (player.getUserId().equals(playerId)) return player;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /*
+    @Override
     public void incrementFaithPathPos(Player player){
         Integer newPlayingUserPos = 0;
         //incrementing user position and storing in newPlayingUserPos the new incremented value
@@ -43,9 +52,10 @@ public class MultiPlayerGameInstance extends GameInstance {
             p.updateFaithPath(newPlayingUserPos);
         }
     }
-
+*/
     @Override
     public Integer getGameId() {
         return this.gameId;
     }
+
 }

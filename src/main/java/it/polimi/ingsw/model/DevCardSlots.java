@@ -8,7 +8,9 @@ import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class DevCardSlots {
 
@@ -72,4 +74,14 @@ public class DevCardSlots {
 
         return result;
     }
+
+    public ArrayList<DevelopmentCard> peekCards(){
+        List<DevelopmentCard> peekCards = new ArrayList<DevelopmentCard>();
+        peekCards.add(cardSlot.get(0).peek());
+        peekCards.add(cardSlot.get(1).peek());
+        peekCards.add(cardSlot.get(2).peek());
+        List<DevelopmentCard> result = peekCards.stream().map(x -> new DevelopmentCard(x.getVictoryPoints(), x.getColor(), x.getLevel(), x.getCardCost(), x.getProductionIn(), x.getProductionOut())).collect(Collectors.toList());
+        return (ArrayList<DevelopmentCard>) result;
+    }
+
 }

@@ -35,11 +35,11 @@ public abstract class Parser {
         }
     }
 
-    public void close() throws IOException {
+    public void close(){
         try {
             this.inputStream.close();
         } catch (IOException e){
-            System.err.println("Exception occured while closing file");
+            System.out.println("Exception occured while closing file");
             e.printStackTrace();
         }
     }

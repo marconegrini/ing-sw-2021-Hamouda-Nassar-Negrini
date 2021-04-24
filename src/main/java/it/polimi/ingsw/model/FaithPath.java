@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import it.polimi.ingsw.model.parser.FaithPathParser;
+import it.polimi.ingsw.model.parser.Parser;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.util.*;
 
 public class FaithPath {
 
@@ -18,18 +20,22 @@ public class FaithPath {
     public FaithPath(){
 
         this.userPosition = 0;
-        vaticanSections = new ArrayList<>();
+        this.vaticanSections = new ArrayList<>();
         end = 20;
 
         Integer startPos = 0;
         Integer spazioPapa = 0;
         Integer victoryPoints = 0;
 
-        for(int i = 0; i <= 3; i++)
-            //TODO integrazione file json per valori esatti di inzio e fine dei rapporti in vaticano
-            vaticanSections.add(new VaticanSection(startPos, spazioPapa, victoryPoints));
+        FaithPathParser parser = new FaithPathParser("src/main/java/it/polimi/ingsw/model/jsonFiles/faithPathInfoJson.json");
 
-        //TODO integrazione file json per istanziare HashMap victoryPoints
+        this.vaticanSections.addAll(parser.getVaticanSections());
+
+        this.victoryPoints = parser.getFaithPathVictoryPoints();
+
+
+        parser.close();
+
     }
 
     public void incrementUserPosition(){
@@ -67,5 +73,9 @@ public class FaithPath {
         return false;
     }
 
+    public static void main(String[] args) {
+        FaithPath faithPath = new FaithPath();
+
+    }
 
 }

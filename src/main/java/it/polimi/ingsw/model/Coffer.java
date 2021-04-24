@@ -64,4 +64,9 @@ public class Coffer implements Deposit{
         return true;
     }
 
+    public HashMap<Resource, Integer> getTotalResources(){
+        Object result = coffer.clone();
+        return (HashMap<Resource, Integer>) result;
+    }
+
 }
