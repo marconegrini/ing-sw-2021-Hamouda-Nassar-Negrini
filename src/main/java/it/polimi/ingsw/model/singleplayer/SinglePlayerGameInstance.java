@@ -1,9 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.singleplayer;
 
-import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.GameInstance;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
-public class SinglePlayerGameInstance extends GameInstance{
+public class SinglePlayerGameInstance extends GameInstance {
 
     private SinglePlayer player;
 
@@ -18,6 +21,7 @@ public class SinglePlayerGameInstance extends GameInstance{
             newPlayingUserPos = this.player.getFaithPathPosition();
             this.player.updateFaithPath(newPlayingUserPos);
         }
+
     }
 
     public void incrementLorenzoPosition(){

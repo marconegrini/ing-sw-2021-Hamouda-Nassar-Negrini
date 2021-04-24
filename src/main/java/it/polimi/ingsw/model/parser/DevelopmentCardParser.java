@@ -87,17 +87,4 @@ public class DevelopmentCardParser extends Parser {
 
         return developmentCards;
     }
-
-    public static void main(String[] args) {
-        DevelopmentCardParser parser = new DevelopmentCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/DevCardJson.json");
-        ArrayList<DevelopmentCard> deck = parser.getDevelopmentCardsDeck();
-        try{
-            parser.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-
-
 }

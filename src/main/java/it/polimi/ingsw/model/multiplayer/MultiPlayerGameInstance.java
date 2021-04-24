@@ -1,10 +1,14 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.multiplayer;
 
+import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.GameInstance;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 
 import java.util.ArrayList;
 
-public class MultiPlayerGameInstance extends GameInstance{
+public class MultiPlayerGameInstance extends GameInstance {
 
     private ArrayList<MultiPlayer> players;
 

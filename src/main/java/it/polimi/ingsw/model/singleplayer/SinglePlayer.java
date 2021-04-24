@@ -1,10 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.singleplayer;
 
+import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Card;
 
 import java.util.ArrayDeque;
 
-public class SinglePlayer extends Player{
+public class SinglePlayer extends Player {
 
     private ArrayDeque<Card> lorenzoCardsDeck;
 
