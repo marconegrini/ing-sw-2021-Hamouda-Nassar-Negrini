@@ -112,6 +112,7 @@ public class MarketBoard {
         return pickedMarbles;
     }
 
-    public Marble[][] getMarketBoard (){return marbles.clone();}
+    public Marble[][] getMarketBoardMarbles () {return marbles.clone();}
 
+    public Color getExternalMarbleColor () {return externalMarble.getColor();}
 }
