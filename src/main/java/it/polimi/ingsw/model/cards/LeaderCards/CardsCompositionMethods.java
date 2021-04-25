@@ -104,10 +104,6 @@ public CardsCompositionMethods(){}
             } );
 
 
-            System.out.println(currentLevel);
-            System.out.println(cardsOccurrences);
-
-
             cardsOccurrences.forEach((k,v) -> cardsOccurrences.replace(k,0) );
         }
 
