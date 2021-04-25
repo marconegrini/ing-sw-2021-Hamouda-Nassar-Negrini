@@ -169,8 +169,7 @@
       "Vp": 5,
       "activationCost": [
         {
-          "cardColor": "GREEN",
-          "level": 2
+          "cardColor": "GREEN"
         },
         {
           "CardColor": "VIOLET",

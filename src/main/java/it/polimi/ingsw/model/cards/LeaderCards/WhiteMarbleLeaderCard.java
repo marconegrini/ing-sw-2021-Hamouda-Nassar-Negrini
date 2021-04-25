@@ -1,22 +1,30 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
+import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
+
 import it.polimi.ingsw.model.enumerations.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
 
     private final HashMap <Resource, Integer> outProductionResource;
-    protected final HashMap<CardColor, Integer> activationCost;
+    private final HashMap<LeaderCardCost,Integer> activationCost;
 
-    public WhiteMarbleLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> OutProductionResource) {
+    private CardsCompositionMethods cardsCompositionMethods;
+
+
+
+    public WhiteMarbleLeaderCard(int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> OutProductionResource) {
         this.Vp = vp;
         this.isFlipped = false;
-        this.activationCost=activationCost;
         this.outProductionResource = OutProductionResource;
+        this.activationCost=activationCost;
+
+        cardsCompositionMethods =new CardsCompositionMethods(activationCost);
     }
 
     /**
@@ -30,11 +38,19 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
 
 
     //getters
-    public HashMap<CardColor, Integer> getActivationCost() {
+    public HashMap<LeaderCardCost,Integer> getActivationCost() {
         return activationCost;
     }
 
     public HashMap<Resource, Integer> getOutProductionResource() {
         return outProductionResource;
     }
+
+
+    public boolean verifyToActivate(ArrayList<LeaderCardCost> cards){
+        return cardsCompositionMethods.verifyToActivate(cards);
+    }
+
+
+
 }

@@ -29,6 +29,7 @@ public class ConcreteStorageLeaderCardF extends LeaderCardFactory{
         HashMap<Resource, Integer> storage = new HashMap<Resource, Integer>();
         storage.put(dataIn.getResourceType(), 2);
 
-        return new StorageLeaderCard(dataIn.getVp(), activationCost, storage);
+//        return new StorageLeaderCard(dataIn.getVp(), activationCost, storage);
+          return null;
     }
 }
