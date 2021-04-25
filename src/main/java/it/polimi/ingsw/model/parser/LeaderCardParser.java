@@ -4,11 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
-import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
-import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCardCost;
+import it.polimi.ingsw.model.cards.LeaderCards.*;
 import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.io.IOException;
@@ -17,12 +16,15 @@ import java.util.HashMap;
 
 public class LeaderCardParser extends Parser{
 
+    private CardsCompositionMethods cardsCompositionMethods;
 
     public LeaderCardParser(String filePath) {
         super(filePath);
     }
 
     public ArrayList<LeaderCard> getLeaderCardsDeck(){
+
+        cardsCompositionMethods=new CardsCompositionMethods();
 
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class LeaderCardParser extends Parser{
 
                     if(jsonObject.get("type").getAsString().equals("discount")){
 
-                        HashMap<CardColor, Integer> activationCost = new HashMap();
+                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
 
                         for(JsonElement elem  : jsonArray1){
                             JsonObject object = elem.getAsJsonObject();
@@ -54,10 +56,10 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(cardColor, cost);
+                            activationCost.put(new LeaderCardCost(cardColor, Level.ANY), cost);
                         }
 
-                        HashMap<Resource, Integer> discountedResource = new HashMap();
+                        HashMap<Resource, Integer> discountedResource = new HashMap<>();
 
                         for(JsonElement elem : jsonArray2){
                             JsonObject object = elem.getAsJsonObject();
@@ -69,6 +71,7 @@ public class LeaderCardParser extends Parser{
                             discountedResource.put(resource, discountValue);
 
                         }
+
 
                         DiscountLeaderCard leaderCard = new DiscountLeaderCard(victoryPoints, activationCost, discountedResource);
 
@@ -111,7 +114,7 @@ public class LeaderCardParser extends Parser{
                     if(jsonObject.get("type").getAsString().equals("marble")){
 
 
-                        HashMap<CardColor, Integer> activationCost = new HashMap();
+                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
 
                         for(JsonElement elem  : jsonArray1){
                             JsonObject object = elem.getAsJsonObject();
@@ -120,10 +123,10 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(cardColor, cost);
+                            activationCost.put(new LeaderCardCost(cardColor, Level.ANY), cost);
                         }
 
-                        HashMap<Resource, Integer> productionOut = new HashMap();
+                        HashMap<Resource, Integer> productionOut = new HashMap<>();
 
                         for(JsonElement elem : jsonArray2){
 
@@ -145,7 +148,7 @@ public class LeaderCardParser extends Parser{
 
                     if(jsonObject.get("type").getAsString().equals("production")){
 
-                        HashMap<CardColor, Integer> activationCost = new HashMap();
+                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
 
                         for(JsonElement elem  : jsonArray1){
 
@@ -155,10 +158,10 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(cardColor, cost);
+                            activationCost.put(new LeaderCardCost(cardColor, Level.ANY), cost);
                         }
 
-                        HashMap<Resource, Integer> productionIn = new HashMap();
+                        HashMap<Resource, Integer> productionIn = new HashMap<>();
                         Integer outProductionResourceNum = jsonObject.get("resourceOut").getAsInt();
                         Integer outProductionFaithPoints = jsonObject.get("faithOut").getAsInt();
 

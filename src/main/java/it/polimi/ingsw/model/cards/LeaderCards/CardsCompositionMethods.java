@@ -17,7 +17,7 @@ public CardsCompositionMethods(HashMap<LeaderCardCost,Integer> activationCost){
     this.activationCost=activationCost;
 }
 
-
+public CardsCompositionMethods(){}
     /**
      * @param cardsIn they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
@@ -39,7 +39,7 @@ public CardsCompositionMethods(HashMap<LeaderCardCost,Integer> activationCost){
             for (LeaderCardCost k2: inCardsOccurrencesKeys){
                 v1=activationCost.get(k1);
                 v2=inCardsOccurrences.get(k2);
-                if ( k1.getColor() == k2.getColor() && k1.getLevel() == k2.getLevel() ) {
+                if ( k1.getColor() == k2.getColor() && k1.getLevel() == k2.getLevel() | k1.getLevel() == Level.ANY ) {
                     if (v1 > v2)
                         {result=false; break outerLoop; }
                     else result = true;
@@ -53,7 +53,7 @@ public CardsCompositionMethods(HashMap<LeaderCardCost,Integer> activationCost){
 
 
     /**
-     *
+     * This method convert the arrayList coming from the personal slots of a player into a hashMap to be able to make the confront and verification to activate.
      * @param cards an array of development cards to be put into a hashMap that have a key the class LeaderCardCost and as a value it have the number of occurrences.
      * @return a HashMap  that have the class LeaderCardCost that contains
                   the two attributes CardColor and Level, and as a value of respective (Color,Level) the number of
@@ -103,8 +103,10 @@ public CardsCompositionMethods(HashMap<LeaderCardCost,Integer> activationCost){
                     cardsOccurrencesReturn.put(new LeaderCardCost(k,currentLevel),v);
             } );
 
+
             System.out.println(currentLevel);
             System.out.println(cardsOccurrences);
+
 
             cardsOccurrences.forEach((k,v) -> cardsOccurrences.replace(k,0) );
         }
