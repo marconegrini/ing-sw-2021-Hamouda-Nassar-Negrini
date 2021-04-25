@@ -11,16 +11,21 @@ import java.util.HashMap;
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
 
+    private final HashMap <Resource, Integer> productionOut;
+    protected final HashMap<CardColor, Integer> activationCost;
     private final HashMap <Resource, Integer> outProductionResource;
     private final HashMap<LeaderCardCost,Integer> activationCost;
 
     private CardsCompositionMethods cardsCompositionMethods;
 
+    public WhiteMarbleLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> productionOut) {
 
 
     public WhiteMarbleLeaderCard(int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> OutProductionResource) {
         this.Vp = vp;
         this.isFlipped = false;
+        this.activationCost = activationCost;
+        this.productionOut = productionOut;
         this.outProductionResource = OutProductionResource;
         this.activationCost=activationCost;
 
@@ -33,7 +38,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
      * @return returns the resources in output
      */
     public HashMap <Resource, Integer> useLeaderCard(){
-        return outProductionResource;
+        return productionOut;
     }
 
 
@@ -43,7 +48,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
     }
 
     public HashMap<Resource, Integer> getOutProductionResource() {
-        return outProductionResource;
+        return productionOut;
     }
 
 

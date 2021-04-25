@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class ProdPowerLeaderCard extends LeaderCard {
 
 
-    private final HashMap <Resource, Integer> resourceInProductionType;
+    private final HashMap <Resource, Integer> productionIn;
 
     private final int outProductionResourceNum ;
     private final int outProductionFaithPoints ;
@@ -35,7 +35,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
      * @param activationCost the cost to activate the Leader card for he first time,
      *                       the activation cost for this specific Leader card is of Development card type.
      *                      * An important supposition: FOR ALL THE LEADER CARDS THE ACTIVATION COST CAN'T BE TWO DV CARDS WITH THE SAME COLOUR!!
-     * @param resourceInProductionType the type and number of resources that are necessary to activate the card and produce output.
+     * @param productionIn the type and number of resources that are necessary to activate the card and produce output.
      * @param outProductionFaithPoints number of faith points out of the production (in output)
      * @param outProductionResourceNum number of resources in output, the controller or the class that manage the production will
      *                                 use this number to know how many resources should the user choose.
@@ -44,7 +44,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         this.Vp = vp;
         this.isFlipped=false;
         this.activationCost = activationCost;
-        this.resourceInProductionType=resourceInProductionType;
+        this.productionIn=productionIn;
 
         this.outProductionFaithPoints = outProductionFaithPoints;
         this.outProductionResourceNum = outProductionResourceNum;
@@ -56,7 +56,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
     //getters
     public HashMap <Resource, Integer> getResourceInProduction()
-    { return resourceInProductionType; }
+    { return productionIn; }
 
     public HashMap<CardColor, Level> getActivationCost() {
         return null;

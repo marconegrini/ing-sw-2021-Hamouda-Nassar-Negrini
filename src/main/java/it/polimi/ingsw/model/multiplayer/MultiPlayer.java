@@ -1,6 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.multiplayer;
 
-public class MultiPlayer extends Player{
+import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+
+public class MultiPlayer extends Player {
 
     public MultiPlayer(String nickname, Integer userId, boolean hasCalamaio, FaithPath userFaithPath){
         this.hasCalamaio = hasCalamaio;
@@ -23,5 +28,20 @@ public class MultiPlayer extends Player{
     @Override
     public void updateFaithPath(Integer newPlayingUserPos){
         this.userFaithPath.update(newPlayingUserPos);
+    }
+
+    @Override
+    public void buyResources() {
+
+    }
+
+    @Override
+    public void buyDevelopmentCard() {
+
+    }
+
+    @Override
+    public void activateProduction() {
+
     }
 }

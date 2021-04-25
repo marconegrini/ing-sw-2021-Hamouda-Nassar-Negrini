@@ -136,4 +136,16 @@ public class Warehouse implements Deposit{
         else return false;
     }
 
+    public HashMap<Resource, Integer> getTotalResources(){
+        HashMap<Resource, Integer> result = new HashMap();
+        for(int i = 0; i < 2; i++){
+            if(warehouse.get(i).size() != 0){
+                Integer count = warehouse.get(i).size();
+                Resource resource = warehouse.get(i).get(0);
+                result.put(resource, count);
+            }
+        }
+        return result;
+    }
+
 }

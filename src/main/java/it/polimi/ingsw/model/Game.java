@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+
 import java.util.ArrayList;
 
 //classe singleton

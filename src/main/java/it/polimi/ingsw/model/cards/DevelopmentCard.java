@@ -39,14 +39,14 @@ public class DevelopmentCard extends Card{
     }
 
     public HashMap<Resource, Integer> getCardCost() {
-        return cardCost;
+        return (HashMap<Resource, Integer>) cardCost.clone();
     }
 
     public HashMap<Resource, Integer> getProductionIn() {
-        return productionIn;
+        return (HashMap<Resource, Integer>) productionIn.clone();
     }
 
     public HashMap<Resource, Integer> getProductionOut() {
-        return productionOut;
+        return (HashMap<Resource, Integer>) productionOut.clone();
     }
 }

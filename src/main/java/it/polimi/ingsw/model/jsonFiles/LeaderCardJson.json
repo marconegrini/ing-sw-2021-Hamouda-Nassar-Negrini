@@ -1,5 +1,5 @@
 {
-  "leader cards" : [
+  "leaderCards" : [
     {
       "type": "discount",
       "Vp": 2,
@@ -9,7 +9,7 @@
           "cost": 1
         },
         {
-          "CardColor": "GREEN",
+          "cardColor": "GREEN",
           "cost": 1
         }
       ],
@@ -29,7 +29,7 @@
           "cost": 1
         },
         {
-          "CardColor": "VIOLET",
+          "cardColor": "VIOLET",
           "cost": 1
         }
       ],
@@ -49,7 +49,7 @@
           "cost": 1
         },
         {
-          "CardColor": "BLUE",
+          "cardColor": "BLUE",
           "cost": 1
         }
       ],
@@ -69,7 +69,7 @@
           "cost": 1
         },
         {
-          "CardColor": "VIOLET",
+          "cardColor": "VIOLET",
           "cost": 1
         }
       ],
@@ -150,10 +150,10 @@
       "activationCost": [
         {
           "cardColor": "YELLOW",
-          "level": 2
+          "cost": 2
         },
         {
-          "CardColor": "BLUE",
+          "cardColor": "BLUE",
           "cost": 1
         }
       ],
@@ -169,10 +169,11 @@
       "Vp": 5,
       "activationCost": [
         {
-          "cardColor": "GREEN"
+          "cardColor": "GREEN",
+          "cost": 2
         },
         {
-          "CardColor": "VIOLET",
+          "cardColor": "VIOLET",
           "cost": 1
         }
       ],
@@ -189,10 +190,10 @@
       "activationCost": [
         {
           "cardColor": "BLUE",
-          "level": 2
+          "cost": 2
         },
         {
-          "CardColor": "YELLOW",
+          "cardColor": "YELLOW",
           "cost": 1
         }
       ],
@@ -209,10 +210,10 @@
       "activationCost": [
         {
           "cardColor": "VIOLET",
-          "level": 2
+          "cost": 2
         },
         {
-          "CardColor": "GREEN",
+          "cardColor": "GREEN",
           "cost": 1
         }
       ],
@@ -230,7 +231,7 @@
       "activationCost": [
         {
           "cardColor": "YELLOW",
-          "level": 2
+          "cost": 1
         }
       ],
       "leaderPower": [
@@ -238,8 +239,66 @@
           "resource": "SHIELD",
           "value": 1
         }
-      ]
-    }
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
+    },
 
+    {
+      "type": "production",
+      "Vp": 4,
+      "activationCost": [
+        {
+          "cardColor": "BLUE",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "SERVANT",
+          "value": 1
+        }
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
+    },
+
+    {
+      "type": "production",
+      "Vp": 4,
+      "activationCost": [
+        {
+          "cardColor": "VIOLET",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "STONE",
+          "value": 1
+        }
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
+    },
+
+    {
+      "type": "production",
+      "Vp": 4,
+      "activationCost": [
+        {
+          "cardColor": "GREEN",
+          "cost": 1
+        }
+      ],
+      "leaderPower": [
+        {
+          "resource": "COIN",
+          "value": 1
+        }
+      ],
+      "resourceOut": 1,
+      "faithOut": 1
+    }
   ]
 }
