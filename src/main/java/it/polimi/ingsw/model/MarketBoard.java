@@ -20,7 +20,7 @@ public class MarketBoard {
     /**
      *
      * Setting up the market board. The method put the marbles inside
-     * a stack, the it shuffle that stack and pop all the marbles
+     * a stack, then it shuffle that stack and pop all the marbles
      * inside marbles[][]
      *
      */

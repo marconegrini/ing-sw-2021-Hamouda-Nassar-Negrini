@@ -49,7 +49,7 @@ public class CardsCompositionMethodsTest {
                 .filter(x->!(x.getCardType().equals(CardType.STORAGE) |x.getCardType().equals(CardType.PRODUCTION) ))
                 .collect(Collectors.toList());
 
-        //leaderCards2 contains only <production> leader cards
+        //leaderCards2 contains only <Production> leader cards
         List<LeaderCard> leaderCards2 = leaderCards.stream()
                 .filter(x-> (x.getCardType().equals(CardType.PRODUCTION) ))
                 .collect(Collectors.toList());

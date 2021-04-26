@@ -5,8 +5,10 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PersonalBoard {
+
     private Warehouse warehouse;
     private Coffer coffer;
     private DevCardSlots devCardSlots;
@@ -20,12 +22,19 @@ public class PersonalBoard {
     }
 
 
-    public HashMap<Resource, Integer> getWarehouse() {
+    public List<Resource> getWarehouseResource() {
         return warehouse.getTotalResources();
     }
 
-    public Coffer getCoffer() {
-        return coffer;
+    public List<Resource> getCofferResource() {
+        return coffer.getTotalResources();
+    }
+
+    public List<Resource> getTotalResource(){
+        List<Resource> totalResource = this.getWarehouseResource();
+        totalResource.addAll(this.getCofferResource());
+
+        return totalResource;
     }
 
     public DevCardSlots getDevCardSlots() {

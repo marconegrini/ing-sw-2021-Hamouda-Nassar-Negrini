@@ -195,15 +195,6 @@ public class LeaderCardParser extends Parser{
                 return leaderCards;
     }
 
-    public void close(){
-        try{
-            this.inputStream.close();
-        } catch (IOException e){
-            System.err.println("Exception while closing file");
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         ArrayList<LeaderCard> leaderCards = parser.getLeaderCardsDeck();

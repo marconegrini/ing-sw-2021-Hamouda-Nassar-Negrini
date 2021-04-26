@@ -75,10 +75,4 @@ public class FaithPath {
         if(userPosition.equals(this.end)) return true;
         return false;
     }
-
-    public static void main(String[] args) {
-        FaithPath faithPath = new FaithPath();
-
-    }
-
 }
