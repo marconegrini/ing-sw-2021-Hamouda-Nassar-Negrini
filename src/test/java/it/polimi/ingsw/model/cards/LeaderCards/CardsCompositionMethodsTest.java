@@ -44,39 +44,60 @@ public class CardsCompositionMethodsTest {
         leaderCardParser.close();
 
 
-        //returns List of <Marble> and <Discount> leader cards
+        //leaderCards1 contains only <Marble> and <Discount> leader cards
         List<LeaderCard> leaderCards1 = leaderCards.stream()
                 .filter(x->!(x.getCardType().equals(CardType.STORAGE) |x.getCardType().equals(CardType.PRODUCTION) ))
                 .collect(Collectors.toList());
 
-        //returns List of <production> leader cards
+        //leaderCards2 contains only <production> leader cards
         List<LeaderCard> leaderCards2 = leaderCards.stream()
                 .filter(x-> (x.getCardType().equals(CardType.PRODUCTION) ))
                 .collect(Collectors.toList());
 
-
+        /*
+            ASSERTION:the size of the array list passed to the method "verifyToActivate(cardsIn)"
+             must not be bigger than 3 element maximum (the size of the DVcards that a player could have in the first place on his board)
+         */
 
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
-        assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
+        assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.FIRST));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(1).verifyToActivate(cardsIn));
-        cardsIn.add(new LeaderCardCost(CardColor.VIOLET, Level.FIRST));
         cardsIn.add(new LeaderCardCost(CardColor.BLUE, Level.THIRD));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(2).verifyToActivate(cardsIn));
+
+        cardsIn.clear();
+        cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
+        assertFalse("wrong return verifyToActivate method", leaderCards1.get(3).verifyToActivate(cardsIn));
+        cardsIn.add(new LeaderCardCost(CardColor.VIOLET, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(3).verifyToActivate(cardsIn));
         cardsIn.remove(cardsIn.size() - 1);
+        assertFalse("wrong return verifyToActivate method", leaderCards1.get(3).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(4).verifyToActivate(cardsIn));
-        cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.SECOND));
+
+        cardsIn.clear();
+        cardsIn.add(new LeaderCardCost(CardColor.BLUE, Level.FIRST));
+        cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
+        cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(4).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(5).verifyToActivate(cardsIn));
+
+        cardsIn.clear();
         cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.SECOND));
+        cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.THIRD));
+        cardsIn.add(new LeaderCardCost(CardColor.VIOLET, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(5).verifyToActivate(cardsIn));
+
+        cardsIn.clear();
+        cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.SECOND));
+        cardsIn.add(new LeaderCardCost(CardColor.BLUE, Level.SECOND));
+        cardsIn.add(new LeaderCardCost(CardColor.BLUE, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(6).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(7).verifyToActivate(cardsIn));
-        cardsIn.add(new LeaderCardCost(CardColor.VIOLET, Level.SECOND));
 
+        //<production cards> (require only second level DVcards)
         cardsIn.clear();
         assertFalse("wrong return verifyToActivate method", leaderCards2.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.SECOND));
@@ -85,14 +106,13 @@ public class CardsCompositionMethodsTest {
         assertFalse("wrong return verifyToActivate method", leaderCards2.get(1).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.BLUE, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards2.get(1).verifyToActivate(cardsIn));
+
         cardsIn.clear();
         cardsIn.add(new LeaderCardCost(CardColor.VIOLET, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards2.get(2).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards2.get(3).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.SECOND));
         assertTrue("wrong return verifyToActivate method", leaderCards2.get(3).verifyToActivate(cardsIn));
-
-
 
     }
 

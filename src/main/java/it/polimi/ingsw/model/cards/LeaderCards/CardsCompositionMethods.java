@@ -22,10 +22,14 @@ public CardsCompositionMethods(){}
      * @param cardsIn they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
      */
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn) throws NullPointerException{
+    public boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException{
+
+        //the number of elements mustn't be greater than 3
+        if ( (cardsIn.size()) > 3 ){
+            throw new IndexOutOfBoundsException("Index " + (cardsIn.size()-1) + " is out of bounds!");
+        }
 
         boolean result = false;
-
         HashMap<LeaderCardCost,Integer> inCardsOccurrences = cardsOccurrencesMethod(cardsIn);
 
         //Lambda expression
@@ -35,14 +39,15 @@ public CardsCompositionMethods(){}
         int v2=0;
         int counter=0;
 
-        outerLoop:
         for (LeaderCardCost k1: actCardKeys ){
 
             for (LeaderCardCost k2: inCardsOccurrencesKeys){
 
                 v1=activationCost.get(k1);
                 v2=inCardsOccurrences.get(k2);
-                if ( k1.getColor() == k2.getColor() && ( k1.getLevel() == k2.getLevel() | k1.getLevel()==Level.ANY ) ) {
+                if ( k1.getColor() == k2.getColor() && ( k1.getLevel() == k2.getLevel() | k1.getLevel() == Level.ANY ) ) {
+
+                    //in case the level is indifferent, will be considered the occurrences of all the cards of the same color of any level.
                     if (k1.getLevel()==Level.ANY){
 
                         v2 = inCardsOccurrences.entrySet().stream()
@@ -52,10 +57,12 @@ public CardsCompositionMethods(){}
                     }
 
                     if (v1 > v2)
-                        {result=false; break outerLoop; }
+                        {result=false; }
                     else result = true;
                 }
             }
+
+            if(result==false){ break; }
         }
 
 
@@ -115,6 +122,7 @@ public CardsCompositionMethods(){}
 
             cardsOccurrences.forEach((k,v) -> cardsOccurrences.replace(k,0) );
         }
+
 
         return cardsOccurrencesReturn;
 
