@@ -18,4 +18,22 @@ public class PersonalBoard {
         devCardSlots = new DevCardSlots();
         leaderCards = new ArrayList<>(0);
     }
+
+
+    public HashMap<Resource, Integer> getWarehouse() {
+        return warehouse.getTotalResources();
+    }
+
+    public Coffer getCoffer() {
+        return coffer;
+    }
+
+    public DevCardSlots getDevCardSlots() {
+        return devCardSlots;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
 }
