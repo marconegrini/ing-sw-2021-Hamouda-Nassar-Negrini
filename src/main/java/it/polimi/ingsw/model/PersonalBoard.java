@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PersonalBoard {
     private Warehouse warehouse;

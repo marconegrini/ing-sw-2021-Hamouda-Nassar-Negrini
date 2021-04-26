@@ -23,10 +23,13 @@ public class CardsDeckTest {
     @Test
     public void testDeckInitialization(){
         cardsDeck.initializeCardsDeck();
+        DevelopmentCard card = cardsDeck.peekCard(0, 0);
+        assertEquals(card.getLevel(), Level.FIRST);
+
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
                 while(!cardsDeck.emptyDeck(i, j)) {
-                    DevelopmentCard card = cardsDeck.popCard(i, j);
+                    card = cardsDeck.popCard(i, j);
                     if(i == 0) assertEquals(card.getLevel(), Level.FIRST);
                     if(i == 1) assertEquals(card.getLevel(), Level.SECOND);
                     if(i == 2) assertEquals(card.getLevel(), Level.THIRD);

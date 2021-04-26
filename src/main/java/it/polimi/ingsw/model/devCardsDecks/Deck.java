@@ -21,9 +21,9 @@ public class Deck {
         return deck.peek();
     }
 
-    public void removeCard(){
+    /*public void removeCard(){
         deck.pop();
-    }
+    }*/
 
     public void pushCard(DevelopmentCard card){
         deck.push(card);

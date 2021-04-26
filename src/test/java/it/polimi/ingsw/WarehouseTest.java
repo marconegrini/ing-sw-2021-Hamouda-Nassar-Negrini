@@ -13,6 +13,7 @@ import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class WarehouseTest{
@@ -93,6 +94,9 @@ public class WarehouseTest{
         test.putResource(2, resourcesIn);
         this.cost.put(Resource.STONE, 2);
         assertTrue("Test passed", test.checkAvailability(cost));
+        assertEquals(test.getResourcesOnShlef(2), resourcesIn );
+        this.cost.put(Resource.STONE, 2);
+        assertEquals(test.getTotalResources(), cost);
     }
 
     @After
