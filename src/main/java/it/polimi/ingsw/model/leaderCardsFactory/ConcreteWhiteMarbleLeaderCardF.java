@@ -29,6 +29,7 @@ public class ConcreteWhiteMarbleLeaderCardF extends LeaderCardFactory{
         HashMap<Resource, Integer> productionResource = new HashMap<>();
         productionResource.put(dataIn.getResourceType(), 1);
 
-        return new WhiteMarbleLeaderCard(dataIn.getVp(), activationCost, productionResource);
+        //return new WhiteMarbleLeaderCard(dataIn.getVp(), activationCost, productionResource);
+        return null;
     }
 }

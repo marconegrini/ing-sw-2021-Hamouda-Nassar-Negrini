@@ -1,11 +1,15 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -16,15 +20,16 @@ import java.util.HashMap;
  *
  * */
 
-public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
+public class ProdPowerLeaderCard extends LeaderCard {
 
 
     private final HashMap <Resource, Integer> productionIn;
 
-    private final int outProductionResourceNum;
-    private final int outProductionFaithPoints;
-    private final Level requiredActivationLevel;
+    private final int outProductionResourceNum ;
+    private final int outProductionFaithPoints ;
+    private final HashMap<LeaderCardCost,Integer> activationCost;
 
+    private CardsCompositionMethods cardsCompositionMethods;
     /**
      *
      * @param vp Victory points
@@ -36,15 +41,26 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
      * @param outProductionResourceNum number of resources in output, the controller or the class that manage the production will
      *                                 use this number to know how many resources should the user choose.
      */
-    public ProdPowerLeaderCard(int vp, HashMap<CardColor, Integer> activationCost, HashMap <Resource, Integer> productionIn, int outProductionResourceNum, int outProductionFaithPoints) {
+    public ProdPowerLeaderCard(
+            CardType cardType,
+            int vp,
+            HashMap<LeaderCardCost,Integer> activationCost,
+            HashMap <Resource, Integer> productionIn,
+            int outProductionResourceNum,
+            int outProductionFaithPoints)
+
+    {
+        this.cardType=cardType;
         this.Vp = vp;
         this.isFlipped=false;
-        this.requiredActivationLevel = Level.SECOND;
         this.activationCost = activationCost;
         this.productionIn=productionIn;
 
         this.outProductionFaithPoints = outProductionFaithPoints;
         this.outProductionResourceNum = outProductionResourceNum;
+
+        cardsCompositionMethods =new CardsCompositionMethods(activationCost);
+
     }
 
 
@@ -52,8 +68,8 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
     public HashMap <Resource, Integer> getResourceInProduction()
     { return productionIn; }
 
-    public HashMap<CardColor, Level> getActivationCost() {
-        return null;
+    public HashMap<LeaderCardCost, Integer> getActivationCost() {
+        return activationCost;
     }
 
 
@@ -72,8 +88,6 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
     }
 
 
-
-
     public Integer faithPointsNum(){
         return outProductionFaithPoints;
     }
@@ -83,6 +97,10 @@ public class ProdPowerLeaderCard extends WhiteProdDiscountCardsSuperClass {
      */
     public Integer getOutProductionResourceNum(){
         return outProductionResourceNum;
+    }
+
+    public boolean verifyToActivate(ArrayList<LeaderCardCost> cards){
+        return cardsCompositionMethods.verifyToActivate(cards);
     }
 
 

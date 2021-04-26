@@ -328,7 +328,7 @@
     },
     {
       "Vp":3,
-      "color":"GREEN",
+      "color":"VIOLET",
       "level":"FIRST",
       "cardCost": [
         {
@@ -359,7 +359,7 @@
     },
     {
       "Vp":3,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"FIRST",
       "cardCost": [
         {
@@ -390,42 +390,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
-      "level":"FIRST",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -529,6 +494,41 @@
       ]
     },
     {
+      "Vp":4,
+      "color":"GREEN",
+      "level":"FIRST",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
       "Vp":1,
       "color":"GREEN",
       "level":"SECOND",
@@ -918,7 +918,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"VIOLET",
       "level":"SECOND",
       "cardCost": [
         {
@@ -953,7 +953,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"SECOND",
       "cardCost": [
         {
@@ -988,7 +988,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"SECOND",
       "cardCost": [
         {
@@ -1481,7 +1481,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"VIOLET",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1516,7 +1516,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1551,7 +1551,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"THIRD",
       "cardCost": [
         {

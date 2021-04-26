@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.leaderCardsFactory;
 
 import it.polimi.ingsw.model.DataIn;
+import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ public class ConcreteDiscountLeaderCardF extends LeaderCardFactory{
         for(Object o : cardsToCast){
             cards.add((CardColor) o);
         }
-        HashMap<CardColor, Integer> activationCost = new HashMap<>();
-        for(CardColor card : cards)
-            activationCost.put(card, dataIn.getActivationCost().get(card));
+        HashMap<LeaderCardCost,Integer> activationCost = new HashMap<>();
+//        for(CardColor card : cards)
+//            activationCost.put(card, dataIn.getActivationCost().get(card));
 
         HashMap<Resource, Integer> discountedResource = new HashMap<Resource, Integer>();
         discountedResource.put(dataIn.getResourceType(), 1);
 
-        return new DiscountLeaderCard(dataIn.getVp(), activationCost, discountedResource);
+        return null;
     }
 }

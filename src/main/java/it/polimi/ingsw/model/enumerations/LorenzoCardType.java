@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.enumerations;
 
-public enum LorenzoCardsTypes {
+public enum LorenzoCardType {
  DISCARD2GREENDVCARDS,
  DISCARD2YELLOWDVCARDS,
  DISCARD2BLUEDVCARDS,
