@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PersonalBoard {
     private Warehouse warehouse;
@@ -16,4 +18,22 @@ public class PersonalBoard {
         devCardSlots = new DevCardSlots();
         leaderCards = new ArrayList<>(0);
     }
+
+
+    public HashMap<Resource, Integer> getWarehouse() {
+        return warehouse.getTotalResources();
+    }
+
+    public Coffer getCoffer() {
+        return coffer;
+    }
+
+    public DevCardSlots getDevCardSlots() {
+        return devCardSlots;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
 }

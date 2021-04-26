@@ -14,12 +14,10 @@ import static org.junit.Assert.*;
 public class MarketBoard_Test {
 
     private MarketBoard market;
-    private Marble[][] oldMarket;
 
     @Before
     public void setUp(){
         market = new MarketBoard();
-        oldMarket = market.getMarketBoardMarbles();
     }
 
     @After
@@ -32,7 +30,6 @@ public class MarketBoard_Test {
         Color oldExternalMarble = market.getExternalMarbleColor();
 
         market.insertMarble(true, 0);
-        //System.out.println("Afte);
 
         assertNotEquals(oldExternalMarble, market.getExternalMarbleColor());
 
@@ -48,8 +45,6 @@ public class MarketBoard_Test {
         for (int i=0; i<3; i++){
             List<Marble> newMarket = Arrays.asList( market.getMarketBoardMarbles()[i]);
             assertEquals(newMarket, Arrays.asList(market.getMarketBoardMarbles()[i]));
-
         }
-        //assertNotEquals();
     }
 }

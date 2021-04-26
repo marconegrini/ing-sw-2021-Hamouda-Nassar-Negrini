@@ -138,14 +138,20 @@ public class Warehouse implements Deposit{
 
     public HashMap<Resource, Integer> getTotalResources(){
         HashMap<Resource, Integer> result = new HashMap();
-        for(int i = 0; i < 2; i++){
+        for(int i = 1; i < 3; i++){
             if(warehouse.get(i).size() != 0){
                 Integer count = warehouse.get(i).size();
                 Resource resource = warehouse.get(i).get(0);
                 result.put(resource, count);
             }
         }
-        return result;
+        Object resources = result.clone();
+        return (HashMap<Resource, Integer>) resources;
+    }
+
+    public List<Resource> getResourcesOnShlef (int shelf){
+        Object result = warehouse.get(shelf).clone();
+        return (List<Resource>) result;
     }
 
 }
