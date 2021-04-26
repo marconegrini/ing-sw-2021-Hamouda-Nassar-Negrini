@@ -81,10 +81,10 @@ public class MarketBoard {
      * @param rowOrColNum  the rowOrColNum indicate the column or the row selected
      * @return  an ArrayList with the picked marbles
      */
-    public ArrayList<Marble> insertMarble(boolean row, int rowOrColNum){
+    public List<Marble> insertMarble(boolean row, int rowOrColNum){
 
         Marble temporaryMarble;
-        ArrayList<Marble> pickedMarbles;
+        List<Marble> pickedMarbles;
         //ArrayList<Resource> pickedResources;
 
         if (row){
