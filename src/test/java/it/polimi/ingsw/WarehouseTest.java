@@ -13,6 +13,7 @@ import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class WarehouseTest{
@@ -29,71 +30,120 @@ public class WarehouseTest{
         cost = new HashMap<>();
     }
 
-    @Test (expected = StorageOutOfBoundsException.class)
-    public void testStorageOutOfBounds() throws StorageOutOfBoundsException,
-            BadInputFormatException, IllegalInsertionException {
-
+    @Test
+            (expected = IllegalInsertionException.class)
+    public void testPutResources1() throws IllegalInsertionException, StorageOutOfBoundsException {
         resourcesIn.add(Resource.STONE);
-        test.putResource(4, resourcesIn);
+        resourcesIn.add(Resource.COIN);
+        test.putResource(3, resourcesIn);
     }
 
-    @Test (expected = BadInputFormatException.class)
-    public void testBadInputFormatException1() throws StorageOutOfBoundsException,
-            BadInputFormatException, IllegalInsertionException {
-
-        resourcesIn.clear();
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
+    @Test
+            (expected = IllegalInsertionException.class)
+    public void testPutResources2() throws IllegalInsertionException, StorageOutOfBoundsException {
+        resourcesIn.add(Resource.COIN);
         test.putResource(1, resourcesIn);
         resourcesIn.add(Resource.COIN);
-        test.putResource(3, resourcesIn);
+        test.putResource(2, resourcesIn);
     }
 
-    @Test (expected = BadInputFormatException.class)
-    public void testBadInputFormatException2() throws StorageOutOfBoundsException,
-            BadInputFormatException, IllegalInsertionException {
-
-        resourcesIn.clear();
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
+    @Test
+            (expected = IllegalInsertionException.class)
+    public void testPutResources3() throws IllegalInsertionException, StorageOutOfBoundsException {
         resourcesIn.add(Resource.COIN);
-        test.putResource(3, resourcesIn);
+        test.putResource(1, resourcesIn);
+        test.putResource(1, resourcesIn);
     }
 
     @Test
-    public void testMoveResource1() throws StorageOutOfBoundsException,
-            IllegalInsertionException, BadInputFormatException, IllegalMoveException {
-
+            (expected = IllegalInsertionException.class)
+    public void testPutResources4() throws IllegalInsertionException, StorageOutOfBoundsException {
+        resourcesIn.add(Resource.COIN);
+        test.putResource(2, resourcesIn);
         resourcesIn.clear();
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
-        test.putResource(3, resourcesIn);
-        test.moveResource(3, 2);
-
-    }
-
-    @Test (expected = IllegalMoveException.class)
-    public void testMoveResource2() throws StorageOutOfBoundsException,
-            IllegalInsertionException, BadInputFormatException, IllegalMoveException {
-
-        resourcesIn.clear();
-        resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(2, resourcesIn);
-        test.moveResource(2, 1);
     }
 
     @Test
-    public void testCheckAvailability() throws IllegalInsertionException,
-            BadInputFormatException, StorageOutOfBoundsException {
+            (expected = IllegalInsertionException.class)
+    public void testPutResources5() throws IllegalInsertionException, StorageOutOfBoundsException {
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        test.putResource(2, resourcesIn);
+    }
 
+    @Test
+            (expected = IllegalInsertionException.class)
+    public void testPutResources6() throws IllegalInsertionException, StorageOutOfBoundsException {
+        resourcesIn.add(Resource.COIN);
+        test.putResource(2, resourcesIn);
+        resourcesIn.add(Resource.COIN);
+        test.putResource(2, resourcesIn);
+    }
+
+    @Test
+            (expected = StorageOutOfBoundsException.class)
+    public void testMoveResource1() throws StorageOutOfBoundsException, IllegalMoveException {
+        test.moveResource(1, 5);
+    }
+
+    @Test
+    public void testMoveResource2() throws StorageOutOfBoundsException, IllegalMoveException, IllegalInsertionException {
+        resourcesIn.add(Resource.STONE);
+        resourcesIn.add(Resource.STONE);
+        test.putResource(3, resourcesIn);
         resourcesIn.clear();
+        resourcesIn.add(Resource.COIN);
+        test.putResource(2, resourcesIn);
+        test.moveResource(2,3);
+    }
+
+    @Test
+            (expected = IllegalMoveException.class)
+    public void testMoveResource3() throws StorageOutOfBoundsException, IllegalMoveException, IllegalInsertionException {
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(2, resourcesIn);
-        this.cost.put(Resource.STONE, 2);
-        assertTrue("Test passed", test.checkAvailability(cost));
+        resourcesIn.clear();
+        resourcesIn.add(Resource.COIN);
+        test.putResource(1, resourcesIn);
+        test.moveResource(2,1);
     }
+
+    @Test
+    public void testCheckAvailability1() throws StorageOutOfBoundsException, IllegalInsertionException {
+        resourcesIn.add(Resource.COIN);
+        test.putResource(1, resourcesIn);
+        resourcesIn.add(Resource.STONE);
+        assertEquals(false, test.checkAvailability(resourcesIn));
+    }
+
+    @Test
+    public void testCheckAvailability2() throws StorageOutOfBoundsException, IllegalInsertionException {
+        resourcesIn.add(Resource.COIN);
+        test.putResource(1, resourcesIn);
+        assertEquals(true, test.checkAvailability(resourcesIn));
+    }
+
+    @Test
+    public void testPullResource1() throws StorageOutOfBoundsException, IllegalInsertionException {
+        resourcesIn.add(Resource.STONE);
+        resourcesIn.add(Resource.STONE);
+        test.putResource(3, resourcesIn);
+        resourcesIn.clear();
+        resourcesIn.add(Resource.SHIELD);
+        test.putResource(2, resourcesIn);
+        resourcesIn.add(Resource.STONE);
+        test.pullResource(resourcesIn);
+        resourcesIn.remove(Resource.SHIELD);
+        assertEquals(true, test.checkAvailability(resourcesIn));
+        resourcesIn.add(Resource.SHIELD);
+        assertEquals(false, test.checkAvailability(resourcesIn));
+
+    }
+
 
     @After
     public void clear(){

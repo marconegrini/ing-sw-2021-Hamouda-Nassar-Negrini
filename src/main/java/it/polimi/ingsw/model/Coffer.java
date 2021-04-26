@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class Coffer implements Deposit{
 
-    private HashMap<Resource, Integer> coffer;
+    private Map<Resource, Integer> coffer;
 
     public Coffer(){
         coffer = new HashMap<>();
@@ -18,55 +17,79 @@ public class Coffer implements Deposit{
         coffer.put(Resource.STONE, 0);
     }
 
-    public void putResource(HashMap<Resource, Integer> resources){
-        Set<Resource> resourcesToPut = resources.keySet();
-        Iterator iterator = resourcesToPut.iterator();
+    public void putResource(List<Resource> resources){
+        Integer coinOccurr = occurrences(Resource.COIN, resources);
+        Integer stoneOccurr = occurrences(Resource.STONE, resources);
+        Integer servantOccurr = occurrences(Resource.SERVANT, resources);
+        Integer shieldOccurr = occurrences(Resource.SHIELD, resources);
 
-        while (iterator.hasNext()) {
-            Resource resource = (Resource) iterator.next();
-            Integer resourceNumber = resources.get(resource);
-            Integer cofferResourceNumber = coffer.get(resource);
-            coffer.put(resource, resourceNumber + cofferResourceNumber);
-        }
+        coinOccurr += coffer.get(Resource.COIN);
+        coffer.put(Resource.COIN, coinOccurr);
+
+        stoneOccurr += coffer.get(Resource.STONE);
+        coffer.put(Resource.STONE, stoneOccurr);
+
+        servantOccurr += coffer.get(Resource.SERVANT);
+        coffer.put(Resource.SERVANT, servantOccurr);
+
+        shieldOccurr += coffer.get(Resource.SHIELD);
+        coffer.put(Resource.SHIELD, shieldOccurr);
+
     }
 
     @Override
-    public void pullResource(HashMap<Resource, Integer> cost) {
-        if(this.checkAvailability(cost)){
-            Set<Resource> resourcesToPull = cost.keySet();
-            Iterator iterator = resourcesToPull.iterator();
+    public void pullResource(List<Resource> resourcesToTake) throws UnsufficientResourcesException{
 
-            while(iterator.hasNext()) {
-                Resource resource = (Resource) iterator.next();
-                Integer resourceCost = cost.get(resource);
-                Integer cofferResourceNumber = coffer.get(resource);
+        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
+        Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);
+        Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);
+        Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);
 
-                coffer.put(resource, cofferResourceNumber - resourceCost);
-            }
+        if(this.checkAvailability(resourcesToTake)){
 
-         System.out.println("Resources pulled");
-        }
+            coinOccurr = coffer.get(Resource.COIN) - coinOccurr;
+            coffer.put(Resource.COIN, coinOccurr);
+
+            stoneOccurr = coffer.get(Resource.STONE) - stoneOccurr;
+            coffer.put(Resource.STONE, stoneOccurr);
+
+            servantOccurr = coffer.get(Resource.SERVANT) - servantOccurr;
+            coffer.put(Resource.SERVANT, servantOccurr);
+
+            shieldOccurr = coffer.get(Resource.SHIELD) - shieldOccurr;
+            coffer.put(Resource.SHIELD, shieldOccurr);
+
+        } else throw new UnsufficientResourcesException();
     }
 
     @Override
-    public boolean checkAvailability(HashMap<Resource, Integer> cost) {
-        Set<Resource> resourcesToCheck = cost.keySet();
-        Iterator iterator = resourcesToCheck.iterator();
+    public boolean checkAvailability(List<Resource> resourcesToTake) {
 
-        while(iterator.hasNext()){
-            Resource resource = (Resource) iterator.next();
-            Integer resourceCost = cost.get(resource);
-            Integer cofferResourceNumber = coffer.get(resource);
+        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
+        Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);
+        Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);
+        Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);
 
-            if(cofferResourceNumber < resourceCost)    return false;
-        }
+        if(coinOccurr > coffer.get(Resource.COIN)) return false;
+        if(stoneOccurr > coffer.get(Resource.STONE)) return false;
+        if(servantOccurr > coffer.get(Resource.SERVANT)) return false;
+        if(shieldOccurr > coffer.get(Resource.SHIELD)) return false;
 
         return true;
     }
 
-    public HashMap<Resource, Integer> getTotalResources(){
-        Object result = coffer.clone();
-        return (HashMap<Resource, Integer>) result;
+    @Override
+    public List<Resource> getTotalResources() {
+        List<Resource> totalResources = new ArrayList<>();
+        for (Resource resource : coffer.keySet())
+            for (int i = 0; i < coffer.get(resource); i++)
+                totalResources.add(resource);
+
+        return totalResources;
+    }
+
+    public Integer occurrences(Resource resource, List<Resource> resources){
+        return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
 }

@@ -14,6 +14,8 @@ public class FaithPathParser extends Parser{
 
     HashMap<Integer, Integer> victoryPoints;
 
+    Integer end;
+
     public FaithPathParser(String filePath) {
         super(filePath);
 
@@ -30,11 +32,16 @@ public class FaithPathParser extends Parser{
 
                 JsonArray jsonRapportiVaticano = fileObject.get("rapportiVaticano").getAsJsonArray();
 
+                end = 0;
+
                 for (JsonElement jsonElement : jsonRapportiVaticano) {
                     JsonObject object = jsonElement.getAsJsonObject();
                     Integer startPos = object.get("start").getAsInt();
                     Integer spazioPapa = object.get("end").getAsInt();
                     Integer victoryPoints = object.get("vp").getAsInt();
+
+                    if(spazioPapa > end)
+                        end = spazioPapa;
 
                     VaticanSection vaticanSection = new VaticanSection(startPos, spazioPapa, victoryPoints);
 
@@ -61,5 +68,9 @@ public class FaithPathParser extends Parser{
 
     public HashMap<Integer, Integer> getFaithPathVictoryPoints(){
         return this.victoryPoints;
+    }
+
+    public Integer getEnd(){
+        return this.end;
     }
 }

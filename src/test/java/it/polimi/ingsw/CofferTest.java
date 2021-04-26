@@ -1,8 +1,12 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.model.Coffer;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
@@ -13,32 +17,50 @@ import static org.junit.Assert.*;
 public class CofferTest {
 
     private Coffer test;
-    private HashMap<Resource, Integer> resourceIn;
+    private List<Resource> resourceIn;
 
     @Before
     public void setUp(){
         test = new Coffer();
-        resourceIn = new HashMap<>();
+        resourceIn = new ArrayList();
     }
 
     @Test
     public void testPutResources(){
-        resourceIn.put(Resource.STONE, 2);
-        resourceIn.put(Resource.COIN, 2);
+        resourceIn.add(Resource.SHIELD);
+        resourceIn.add(Resource.STONE);
+        resourceIn.add(Resource.COIN);
+        resourceIn.add(Resource.SERVANT);
         test.putResource(resourceIn);
-        assertTrue("Test 1 not passed", test.checkAvailability(resourceIn));
-        resourceIn.put(Resource.SERVANT, 2);
-        assertFalse("Test 2 not passed", test.checkAvailability(resourceIn));
+        assertEquals(true, test.checkAvailability(resourceIn));
     }
 
     @Test
-    public void testPullResource(){
-        resourceIn.put(Resource.STONE, 2);
-        resourceIn.put(Resource.COIN, 2);
+    public void pullResources() throws UnsufficientResourcesException {
+        resourceIn.add(Resource.SHIELD);
+        resourceIn.add(Resource.STONE);
+        resourceIn.add(Resource.COIN);
+        resourceIn.add(Resource.SERVANT);
         test.putResource(resourceIn);
+        resourceIn.clear();
+        resourceIn.add(Resource.COIN);
+        resourceIn.add(Resource.SERVANT);
         test.pullResource(resourceIn);
-        assertFalse("Test 3 not passed", test.checkAvailability(resourceIn));
+        assertEquals(false, test.checkAvailability(resourceIn));
+        resourceIn.clear();
+        resourceIn.add(Resource.SHIELD);
+        resourceIn.add(Resource.STONE);
+        assertEquals(true, test.checkAvailability(resourceIn));
     }
+
+    @Test
+    public void testGetTotalResources(){
+        resourceIn.add(Resource.SHIELD);
+        resourceIn.add(Resource.STONE);
+        test.putResource(resourceIn);
+        assertEquals(resourceIn, test.getTotalResources());
+    }
+
 
     @After
     public void clear(){

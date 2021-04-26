@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.enumerations;
 
-public enum Resource {
+import java.util.function.Predicate;
+
+public enum Resource implements Predicate<Resource> {
     COIN, SERVANT, SHIELD, STONE, FAITH;
 
     public static Resource getEnum(String value) {
@@ -13,5 +15,10 @@ public enum Resource {
         else if(value.toUpperCase().equals(Resource.FAITH.toString()))
             return Resource.FAITH;
         else return Resource.SHIELD;
+    }
+
+    @Override
+    public boolean test(Resource resource) {
+        return false;
     }
 }

@@ -21,7 +21,6 @@ public class FaithPath {
 
         this.userPosition = 0;
         this.vaticanSections = new ArrayList<>();
-        end = 20;
 
         Integer startPos = 0;
         Integer spazioPapa = 0;
@@ -33,6 +32,7 @@ public class FaithPath {
 
         this.victoryPoints = parser.getFaithPathVictoryPoints();
 
+        this.end = parser.getEnd();
 
         parser.close();
 
@@ -58,7 +58,10 @@ public class FaithPath {
             result += vs.getVictoryPoints();
         }
 
-        //TODO sommare a result i punti vittoria guardando l'Hashmap
+        Set<Integer> victoryPointsPositions = this.victoryPoints.keySet();
+        for(Integer position : victoryPointsPositions)
+            if(position <= this.userPosition)
+                result += victoryPoints.get(position);
 
         return result;
 

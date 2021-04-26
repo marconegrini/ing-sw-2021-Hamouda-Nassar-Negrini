@@ -3,6 +3,8 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Warehouse implements Deposit{
     /**
@@ -10,63 +12,72 @@ public class Warehouse implements Deposit{
      * 2 - shelf with capacity = 2
      * 3 - shelf with capacity = 3
      */
-    private HashMap<Integer, ArrayList<Resource>> warehouse;
+    private Map<Integer, List<Resource>> warehouse;
 
     public Warehouse(){
         warehouse = new HashMap<>();
-        for (int i = 1; i <= 3; i++) {
-            warehouse.put(i, new ArrayList<>(0));
-            (warehouse.get(i)).size();
+        for (int storage = 1; storage <= 3; storage++) {
+            warehouse.put(storage, new ArrayList<>(0));
         }
     }
 
     /**
-     * @param destStorage: requires an integer between 1 and 3
-     * @param resourceIn: requires an ArrayList of the same type of resources
+     *
+     *  @param destStorage: requires an integer between 1 and 3
+     *  @param resourceIn: requires an ArrayList of the same type of resources
+     * @throws StorageOutOfBoundsException if destStorage is not between 1 and 3
+     * @throws IllegalInsertionException if the insertion doesn't satisfy warehouse's rules
      */
-    public void putResource(int destStorage, ArrayList<Resource> resourceIn) throws StorageOutOfBoundsException,
-            BadInputFormatException, IllegalInsertionException {
+    public void putResource(int destStorage, List<Resource> resourceIn) throws StorageOutOfBoundsException,
+             IllegalInsertionException {
 
         if(destStorage < 1 || destStorage > 3) throw new StorageOutOfBoundsException();
 
-        if(resourceIn.size() > destStorage) throw new BadInputFormatException();
+        if(!resourceIn.isEmpty()) {
 
-        //checking that resourcesIn contains resources of the same type
-        Resource check = resourceIn.get(0);
-        for(Resource resource : resourceIn){
-            if(!resource.equals(check))
-                throw new BadInputFormatException();
-        }
+            if (resourceIn.size() > destStorage) throw new IllegalInsertionException();
 
-        //checking that resource type equal to resourcesIn is not contained in shelves other than destStorage
-        for(int i = 1; (i <= 3) && (i != destStorage); i++) {
-            if((warehouse.get(i)).size() != 0) {
-                if ((warehouse.get(i)).get(0).equals(check))
-                    throw new IllegalInsertionException();
-            }
-        }
-
-        //switch case: the shelf is full
-        if((warehouse.get(destStorage)).size() == destStorage)
-            throw new IllegalInsertionException();
-
-        //switch case: shelf is filled partially
-        if(warehouse.get(destStorage).size() != 0){
-
-            //checking that resource type in destStorage is the same of resourceIn
-            if (((warehouse.get(destStorage)).get(0) != check))
+            //checking that resourcesIn contains resources of the same type
+            if (!(resourceIn.stream().filter(x -> x.equals(resourceIn.get(0))).count() == resourceIn.size()))
                 throw new IllegalInsertionException();
 
-            //checking that there is enough capacity left to insert resourceIn
-            if((warehouse.get(destStorage).size() + resourceIn.size()) <= destStorage)
-                warehouse.get(destStorage).addAll(resourceIn);
-            else throw new IllegalInsertionException();
+            //checking that resource type equal to resourcesIn is not contained in shelves other than destStorage
+            for (Integer storage : warehouse.keySet()) {
+                if(storage != destStorage) {
+                    if (!(warehouse.get(storage).stream().filter(x -> x.equals(resourceIn.get(0))).count() == 0))
+                        throw new IllegalInsertionException();
+                }
+            }
 
-        } else warehouse.get(destStorage).addAll(resourceIn); //switch case: the chosen shelf is empty
+            //switch case: the shelf is full
+            if ((warehouse.get(destStorage)).size() == destStorage)
+                throw new IllegalInsertionException();
+
+            //switch case: shelf is filled partially
+            if (!warehouse.get(destStorage).isEmpty()) {
+
+                //checking that resource type in destStorage is the same of resourceIn
+            if (((warehouse.get(destStorage)).get(0) != resourceIn.get(0)))
+                throw new IllegalInsertionException();
 
 
+                //checking that there is enough capacity left to insert resourceIn
+                if ((warehouse.get(destStorage).size() + resourceIn.size()) <= destStorage)
+                    warehouse.get(destStorage).addAll(resourceIn);
+                else throw new IllegalInsertionException();
+
+            } else warehouse.get(destStorage).addAll(resourceIn); //switch case: the chosen shelf is empty
+
+        }
     }
 
+    /**
+     *
+     * @param sourceStorage integer between 1 and 3
+     * @param destStorage integer between 1 and 3
+     * @throws IllegalMoveException if the move doesn't satisfy warehouse's rules
+     * @throws StorageOutOfBoundsException if source or destination storage are not between 1 and 3
+     */
     public void moveResource(int sourceStorage, int destStorage) throws IllegalMoveException, StorageOutOfBoundsException {
 
         if(sourceStorage < 1 || sourceStorage > 3) throw new StorageOutOfBoundsException();
@@ -88,64 +99,75 @@ public class Warehouse implements Deposit{
         } else throw new IllegalMoveException();
     }
 
+    /**
+     * Takes resources from warehouse
+     * @param resourcesToTake
+     */
     @Override
-    public void pullResource(HashMap<Resource, Integer> cost){
+    public void pullResource(List<Resource> resourcesToTake){
 
-        if(this.checkAvailability(cost)) {
+        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
+        Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);
+        Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);
+        Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);
 
-            Set<Resource> resourcesToPull = cost.keySet();
-            Iterator iterator = resourcesToPull.iterator();
+        if(this.checkAvailability(resourcesToTake)) {
 
-            while (iterator.hasNext()) {
-                Resource resource = (Resource) iterator.next();
-                Integer resourceCost = cost.get(resource);
-                for(int i = 1; i <= 3; i++)
+            for(Integer storage : warehouse.keySet()){
 
-                    if(warehouse.get(i).size() != 0)
+                if(warehouse.get(storage).contains(Resource.COIN))
+                    for(int i = 0; i < coinOccurr; i++)
+                        warehouse.get(storage).remove(Resource.COIN);
 
-                        //checking that it is the right shelf
-                        if (warehouse.get(i).get(0).equals(resource))
+                if(warehouse.get(storage).contains(Resource.STONE))
+                    for(int i = 0; i < stoneOccurr; i++)
+                        warehouse.get(storage).remove(Resource.STONE);
 
-                            for(int j = 0; j < resourceCost; j++)
-                                warehouse.get(i).remove(resource);
+                if(warehouse.get(storage).contains(Resource.SHIELD))
+                    for(int i = 0; i < shieldOccurr; i++)
+                        warehouse.get(storage).remove(Resource.SHIELD);
+
+                if(warehouse.get(storage).contains(Resource.SERVANT))
+                    for(int i = 0; i < servantOccurr; i++)
+                        warehouse.get(storage).remove(Resource.SERVANT);
+
             }
-
-            System.out.println("Resources pulled");
         }
     }
 
+    /**
+     * @param resourcesToTake List of resources needed
+     * @return true if resources are present, false otherwise
+     */
     @Override
-    public boolean checkAvailability(HashMap<Resource, Integer> cost) {
+    public boolean checkAvailability(List<Resource> resourcesToTake) {
 
-        Set<Resource> resourcesToCheck = cost.keySet();
-        Iterator iterator = resourcesToCheck.iterator();
+        List<Resource> totalResources = new ArrayList<>();
 
-        while(iterator.hasNext()){
-
-            Resource resource = (Resource) iterator.next();
-            Integer resourceCost = cost.get(resource);
-
-            for(int i = 1; i <= 3; i++)
-                if(warehouse.get(i).size() != 0)
-                    if (warehouse.get(i).get(0).equals(resource) && warehouse.get(i).size() >= resourceCost)
-                        resourcesToCheck.remove(resource);
+        for(Integer storage : warehouse.keySet()){
+            totalResources.addAll(warehouse.get(storage));
         }
 
-        if(resourcesToCheck.size() == 0)
+        if(totalResources.containsAll(resourcesToTake) ||  totalResources.equals(resourcesToTake))
             return true;
         else return false;
     }
 
-    public HashMap<Resource, Integer> getTotalResources(){
-        HashMap<Resource, Integer> result = new HashMap();
-        for(int i = 0; i < 2; i++){
-            if(warehouse.get(i).size() != 0){
-                Integer count = warehouse.get(i).size();
-                Resource resource = warehouse.get(i).get(0);
-                result.put(resource, count);
-            }
+    /**
+     * @return total resources in the warehouse
+     */
+    public List<Resource> getTotalResources(){
+        List<Resource> totalResources = new ArrayList<>();
+
+        for(Integer storage : warehouse.keySet()){
+            totalResources.addAll(warehouse.get(storage));
         }
-        return result;
+
+        return totalResources;
+    }
+
+    public Integer occurrences(Resource resource, List<Resource> resources){
+        return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
 }
