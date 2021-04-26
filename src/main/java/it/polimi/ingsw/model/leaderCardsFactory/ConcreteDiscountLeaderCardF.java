@@ -29,6 +29,6 @@ public class ConcreteDiscountLeaderCardF extends LeaderCardFactory{
         HashMap<Resource, Integer> discountedResource = new HashMap<Resource, Integer>();
         discountedResource.put(dataIn.getResourceType(), 1);
 
-        return new DiscountLeaderCard(dataIn.getVp(), activationCost, discountedResource);
+        return null;
     }
 }

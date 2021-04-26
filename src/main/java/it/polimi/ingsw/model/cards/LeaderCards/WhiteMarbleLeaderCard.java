@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards.LeaderCards;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCard;
 
-import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
     private CardsCompositionMethods cardsCompositionMethods;
 
 
-    public WhiteMarbleLeaderCard(int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> productionOut) {
+    public WhiteMarbleLeaderCard(CardType cardType, int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> productionOut) {
         this.Vp = vp;
         this.isFlipped = false;
         this.activationCost = activationCost;
         this.productionOut = productionOut;
-
+        this.cardType=cardType;
         cardsCompositionMethods =new CardsCompositionMethods(activationCost);
     }
 

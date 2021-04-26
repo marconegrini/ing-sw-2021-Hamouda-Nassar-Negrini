@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards.LeaderCards;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
@@ -41,6 +42,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
      *                                 use this number to know how many resources should the user choose.
      */
     public ProdPowerLeaderCard(
+            CardType cardType,
             int vp,
             HashMap<LeaderCardCost,Integer> activationCost,
             HashMap <Resource, Integer> productionIn,
@@ -48,6 +50,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
             int outProductionFaithPoints)
 
     {
+        this.cardType=cardType;
         this.Vp = vp;
         this.isFlipped=false;
         this.activationCost = activationCost;
@@ -65,8 +68,8 @@ public class ProdPowerLeaderCard extends LeaderCard {
     public HashMap <Resource, Integer> getResourceInProduction()
     { return productionIn; }
 
-    public HashMap<CardColor, Level> getActivationCost() {
-        return null;
+    public HashMap<LeaderCardCost, Integer> getActivationCost() {
+        return activationCost;
     }
 
 

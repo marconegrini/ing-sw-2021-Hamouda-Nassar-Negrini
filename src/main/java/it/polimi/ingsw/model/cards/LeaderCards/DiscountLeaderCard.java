@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
@@ -19,7 +21,13 @@ public class DiscountLeaderCard extends LeaderCard {
     private final HashMap<LeaderCardCost,Integer> activationCost;
     private CardsCompositionMethods cardsCompositionMethods;
 
-    public DiscountLeaderCard(int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> discountedResource) {
+    public DiscountLeaderCard(
+            CardType cardType,
+            int vp,
+            HashMap<LeaderCardCost,Integer> activationCost,
+            HashMap <Resource, Integer> discountedResource)
+    {
+        this.cardType = cardType;
         this.Vp = vp;
         this.isFlipped = false;
 

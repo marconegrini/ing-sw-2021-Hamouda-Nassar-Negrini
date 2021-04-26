@@ -1,15 +1,15 @@
 package it.polimi.ingsw.model.cards;
-import it.polimi.ingsw.model.enumerations.LorenzoCardsTypes;
+import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
 public class LorenzoCard {
 
-    private final LorenzoCardsTypes cardType;
+    private final LorenzoCardType cardType;
 
 
-    public LorenzoCard(LorenzoCardsTypes cardType) {
+    public LorenzoCard(LorenzoCardType cardType) {
         this.cardType = cardType;
     }
 
-    public LorenzoCardsTypes getType(){return this.cardType;}
+    public LorenzoCardType getType(){return this.cardType;}
 }
 

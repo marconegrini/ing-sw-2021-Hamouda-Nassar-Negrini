@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-import java.util.HashMap;
+import it.polimi.ingsw.model.enumerations.CardType;
+
+import java.util.ArrayList;
 
 /**
  * The card is initially unflipped it means it's on its face at the begging, it can't be used, isFlipped=false;
@@ -8,7 +10,7 @@ import java.util.HashMap;
  */
 public abstract class LeaderCard extends Card{
     protected boolean isFlipped;
-
+    protected CardType cardType;
 
     //public abstract HashMap<Object, Integer> getActivationCost();
 
@@ -19,4 +21,11 @@ public abstract class LeaderCard extends Card{
     }
 
     public boolean isFlipped() {return this.isFlipped;}
+
+    public CardType getCardType() {
+        return this.cardType;
+    }
+
+    public abstract boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn);
+
 }

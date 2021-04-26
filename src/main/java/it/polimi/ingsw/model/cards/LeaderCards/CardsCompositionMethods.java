@@ -31,15 +31,26 @@ public CardsCompositionMethods(){}
         //Lambda expression
         Set<LeaderCardCost> actCardKeys = activationCost.keySet();
         Set<LeaderCardCost> inCardsOccurrencesKeys = inCardsOccurrences.keySet();
-        int v1;
-        int v2;
+        int v1=0;
+        int v2=0;
+        int counter=0;
 
         outerLoop:
         for (LeaderCardCost k1: actCardKeys ){
+
             for (LeaderCardCost k2: inCardsOccurrencesKeys){
+
                 v1=activationCost.get(k1);
                 v2=inCardsOccurrences.get(k2);
-                if ( k1.getColor() == k2.getColor() && k1.getLevel() == k2.getLevel() | k1.getLevel() == Level.ANY ) {
+                if ( k1.getColor() == k2.getColor() && ( k1.getLevel() == k2.getLevel() | k1.getLevel()==Level.ANY ) ) {
+                    if (k1.getLevel()==Level.ANY){
+
+                        v2 = inCardsOccurrences.entrySet().stream()
+                                .filter(x -> x.getKey().getColor().equals(k2.getColor()) )
+                                .mapToInt(Map.Entry::getValue)
+                                .sum();
+                    }
+
                     if (v1 > v2)
                         {result=false; break outerLoop; }
                     else result = true;
@@ -50,7 +61,6 @@ public CardsCompositionMethods(){}
 
         return result;
     }
-
 
     /**
      * This method convert the arrayList coming from the personal slots of a player into a hashMap to be able to make the confront and verification to activate.
@@ -84,7 +94,6 @@ public CardsCompositionMethods(){}
                 CardColor cardColor = cardActivationCost.getColor();
                 Level cardLevel = cardActivationCost.getLevel();
 
-
                 /*
                  *Lambda expression - Write into the temporary HashMap "cardsOccurrences" the occurrences of all the cardColor
                  *  of the cards and of a specific.
@@ -106,7 +115,6 @@ public CardsCompositionMethods(){}
 
             cardsOccurrences.forEach((k,v) -> cardsOccurrences.replace(k,0) );
         }
-
 
         return cardsOccurrencesReturn;
 
