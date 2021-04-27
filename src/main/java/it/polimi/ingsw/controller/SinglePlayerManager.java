@@ -13,11 +13,17 @@ public class SinglePlayerManager extends GameManager {
         this.player = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
+
+    @Override
+    public Integer getGameId() {
+        return this.game.getGameId();
+    }
+
     /**
      * Manage the game allowing players to do actions
      */
     @Override
-    public void turnManager() {
+    public void manageTurn() {
     }
 
     /**
@@ -25,14 +31,6 @@ public class SinglePlayerManager extends GameManager {
      */
     @Override
     public void endGame() {
-
-    }
-
-    /**
-     * Make the final round until the player on the right of the one with the Calamaio.
-     */
-    @Override
-    public void finalRound() {
 
     }
 

@@ -37,20 +37,20 @@ public class Game {
 
     public static void newGame(boolean multiplayer){
         synchronized (gameInstances){
-            if(multiplayer) {
-                MultiPlayerGameInstance newGameInstance;
-                MultiPlayerManager newMultiPlayerManager;
-                newGameInstance = new MultiPlayerGameInstance(gameId);
-                newMultiPlayerManager = new MultiPlayerManager(newGameInstance);
-                gameInstances.add(newGameInstance);
-            } else {
-                SinglePlayerGameInstance newGameInstance;
-                SinglePlayerManager newSinglePlayerManager;
-                newGameInstance = new SinglePlayerGameInstance(gameId);
-                newSinglePlayerManager = new SinglePlayerManager(newGameInstance);
-                gameInstances.add(newGameInstance);
+            synchronized (gameManagers) {
+                if (multiplayer) {
+                    MultiPlayerGameInstance newGameInstance = new MultiPlayerGameInstance(gameId);
+                    MultiPlayerManager newMultiPlayerManager = new MultiPlayerManager(newGameInstance);
+                    gameInstances.add(newGameInstance);
+                    gameManagers.add(newMultiPlayerManager);
+                } else {
+                    SinglePlayerGameInstance newGameInstance = new SinglePlayerGameInstance(gameId);
+                    SinglePlayerManager newSinglePlayerManager = new SinglePlayerManager(newGameInstance);
+                    gameInstances.add(newGameInstance);
+                    gameManagers.add(newSinglePlayerManager);
+                }
+                gameId++;
             }
-            gameId++;
         }
     }
 

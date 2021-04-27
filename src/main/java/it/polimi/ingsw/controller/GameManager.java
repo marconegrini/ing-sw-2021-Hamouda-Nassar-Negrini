@@ -4,11 +4,13 @@ public abstract class GameManager {
 
     protected TurnManager turnManager;
 
+    public abstract Integer getGameId();
+
     /**
      *
      * Manage the game allowing players to do actions
      */
-    public abstract void turnManager();
+    public abstract void manageTurn();
 
     /**
      *
@@ -16,11 +18,6 @@ public abstract class GameManager {
      */
     public abstract void endGame();
 
-    /**
-     *
-     * Make the final round until the player on the right of the one with the Calamaio.
-     */
-    public abstract void finalRound();
 
     /**
      *
