@@ -97,7 +97,8 @@ public class DevCardSlots {
     }
 
     public List<LeaderCardCost> peekCards(){
-        List<DevelopmentCard> peekCards = new ArrayList<DevelopmentCard>();
+        List<DevelopmentCard> peekCards = new ArrayList();
+
         for(Stack<DevelopmentCard> deck : cardSlot){
             peekCards.add(deck.peek());
         }

@@ -107,6 +107,16 @@ public class DevCardSlotsTest {
         assertEquals(prodOut, test.resourcesProductionOut(0));
     }
 
+    @Test
+    public void testGetVictoryPoints() throws IllegalInsertionException {
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
+        test.addCard(0, card1);
+        test.addCard(0, card2);
+        test.addCard(1, card1);
+        assertEquals(6, test.getVictoryPoints());
+    }
+
 
     @After
     public void clear(){
