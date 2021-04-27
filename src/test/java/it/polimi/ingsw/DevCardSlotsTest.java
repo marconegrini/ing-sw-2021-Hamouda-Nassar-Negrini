@@ -62,6 +62,24 @@ public class DevCardSlotsTest {
     }
 
     @Test
+    public void testInsertCard3() throws IllegalInsertionException, EmptySlotException {
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
+        test.addCard(0, card1);
+        test.addCard(0, card2);
+        assertEquals(prodIn, test.resourcesProductionIn(0));
+    }
+
+    @Test
+            (expected = IllegalInsertionException.class)
+    public void testInsertCard4() throws IllegalInsertionException, EmptySlotException {
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.BLUE, Level.THIRD, cardCost, prodIn, prodOut);
+        test.addCard(0, card1);
+        test.addCard(0, card2);
+    }
+
+    @Test
     public void testResourcesProductionIn() throws IllegalInsertionException, EmptySlotException {
         DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);
@@ -88,7 +106,6 @@ public class DevCardSlotsTest {
         test.addCard(1, card1);
         assertEquals(prodOut, test.resourcesProductionOut(0));
     }
-
 
 
     @After

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.parser.CardSlotParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,15 +19,29 @@ public class DevCardSlots {
     private ArrayList<Stack<DevelopmentCard>> cardSlot;
 
     public DevCardSlots(){
+
+        CardSlotParser parser = new CardSlotParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlots&Warehouse.json");
+        Integer cardSlotNumber = parser.getCardSlotsNumber();
+
         cardSlot = new ArrayList<>();
-        cardSlot.add(new Stack<>());
-        cardSlot.add(new Stack<>());
-        cardSlot.add(new Stack<>());
+
+        while(cardSlotNumber != 0){
+            cardSlot.add(new Stack<>());
+            cardSlotNumber--;
+        }
     }
 
-    public void addCard(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException{
+    /**
+     *
+     * @param slotNumber
+     * @param developmentCard card to insert
+     * @throws IllegalInsertionException if
+     * @throws IndexOutOfBoundsException if slot number doesn't exists
+     */
 
-        if(slotNumber < 0 || slotNumber > 2) throw new IndexOutOfBoundsException();
+    public void addCard(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
+
+        if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
 
         //if selected slot contains Cards
         if(!cardSlot.get(slotNumber).isEmpty()) {
@@ -50,14 +64,14 @@ public class DevCardSlots {
     }
 
     public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException {
-        if(slotNumber < 0 || slotNumber > 2) throw new IndexOutOfBoundsException();
+        if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(cardSlot.get(slotNumber).size() != 0){
             return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionIn().clone();
         } else throw new EmptySlotException();
     }
 
     public HashMap<Resource, Integer> resourcesProductionOut(int slotNumber) throws EmptySlotException {
-        if(slotNumber < 0 || slotNumber > 2) throw new IndexOutOfBoundsException();
+        if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(!cardSlot.get(slotNumber).isEmpty()){
             return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionOut().clone();
         } else throw new EmptySlotException();
@@ -66,12 +80,12 @@ public class DevCardSlots {
 
     public int getVictoryPoints(){
         int result = 0;
-        Stack serviceDeck = new Stack();
+        Stack<DevelopmentCard> serviceDeck = new Stack<DevelopmentCard>();
         DevelopmentCard developmentCard;
 
-        for(Stack deck : cardSlot) {
+        for(Stack<DevelopmentCard> deck : cardSlot) {
             while (!deck.isEmpty()) {
-                developmentCard = (DevelopmentCard) deck.pop();
+                developmentCard = deck.pop();
                 result += developmentCard.getVictoryPoints();
                 serviceDeck.push(developmentCard);
             }
@@ -84,8 +98,8 @@ public class DevCardSlots {
 
     public List<LeaderCardCost> peekCards(){
         List<DevelopmentCard> peekCards = new ArrayList<DevelopmentCard>();
-        for(Stack deck : cardSlot){
-            peekCards.add((DevelopmentCard) deck.peek());
+        for(Stack<DevelopmentCard> deck : cardSlot){
+            peekCards.add(deck.peek());
         }
 
         //List<DevelopmentCard> result = peekCards.stream().map(x -> new DevelopmentCard(x.getVictoryPoints(), x.getColor(), x.getLevel(), x.getCardCost(), x.getProductionIn(), x.getProductionOut())).collect(Collectors.toList());

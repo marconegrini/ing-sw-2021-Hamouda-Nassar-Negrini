@@ -22,6 +22,8 @@ public class Warehouse implements Deposit{
 
         storageNumAndCapacity = parser.getStorageNumAndCapacity();
 
+        parser.close();
+
         for(Integer storageNum : storageNumAndCapacity.keySet()){
 
             Integer storageCapacity = storageNumAndCapacity.get(storageNum);
