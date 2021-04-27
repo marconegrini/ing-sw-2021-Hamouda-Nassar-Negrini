@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class LeaderCardParser extends Parser{
 
@@ -22,10 +23,10 @@ public class LeaderCardParser extends Parser{
         super(filePath);
     }
 
-    public ArrayList<LeaderCard> getLeaderCardsDeck(){
+    public Stack<LeaderCard> getLeaderCardsDeck(){
 
 
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
+        Stack<LeaderCard> leaderCards = new Stack();
 
         while (parser.hasNext()) {
             JsonElement element = parser.next();
@@ -76,7 +77,7 @@ public class LeaderCardParser extends Parser{
 
                         DiscountLeaderCard leaderCard = new DiscountLeaderCard(cardType ,victoryPoints, activationCost, discountedResource);
 
-                        leaderCards.add(leaderCard);
+                        leaderCards.push(leaderCard);
                     }
 
                     if(jsonObject.get("type").getAsString().equals("storage")){
@@ -111,7 +112,7 @@ public class LeaderCardParser extends Parser{
 
                         StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, activationCost, storage);
 
-                        leaderCards.add(leaderCard);
+                        leaderCards.push(leaderCard);
 
                     }
 
@@ -149,7 +150,7 @@ public class LeaderCardParser extends Parser{
 
                         WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(cardType, victoryPoints, activationCost, productionOut);
 
-                        leaderCards.add(leaderCard);
+                        leaderCards.push(leaderCard);
 
                     }
 
@@ -186,7 +187,7 @@ public class LeaderCardParser extends Parser{
 
                         ProdPowerLeaderCard leaderCard = new ProdPowerLeaderCard(cardType, victoryPoints, activationCost, productionIn, outProductionResourceNum, outProductionFaithPoints);
 
-                        leaderCards.add(leaderCard);
+                        leaderCards.push(leaderCard);
 
                     }
                 }
@@ -197,7 +198,7 @@ public class LeaderCardParser extends Parser{
 
     public static void main(String[] args) {
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
-        ArrayList<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
     }
 }

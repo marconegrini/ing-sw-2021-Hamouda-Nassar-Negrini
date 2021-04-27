@@ -26,6 +26,11 @@ public class SinglePlayerManager extends GameManager {
     public void manageTurn() {
     }
 
+    @Override
+    public void setUp() {
+
+    }
+
     /**
      * Ends the game
      */

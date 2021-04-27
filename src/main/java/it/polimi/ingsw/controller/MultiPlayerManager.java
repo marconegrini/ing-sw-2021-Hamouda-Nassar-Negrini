@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GameInstance;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
-import java.util.List;
+import it.polimi.ingsw.model.parser.LeaderCardParser;
+
+import java.util.*;
 
 public class MultiPlayerManager extends GameManager {
 
@@ -18,7 +19,6 @@ public class MultiPlayerManager extends GameManager {
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
 
-
     @Override
     public Integer getGameId() {
         return this.game.getGameId();
@@ -30,6 +30,32 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void manageTurn() {
 
+        this.setUp();
+
+
+
+    }
+
+    @Override
+    public void setUp() {
+        Random rand = new Random();
+        Integer randomPlayer = rand.nextInt(players.size());
+        players.get(randomPlayer).setCalamaio();
+
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        parser.close();
+        Collections.shuffle(leaderCards);
+
+        List<LeaderCard> leaderCardsDeck = new ArrayList();
+
+        for(MultiPlayer player : players){
+            for(int i = 0; i < 4; i++)
+                if(!leaderCards.isEmpty())
+                    leaderCardsDeck.add(leaderCards.pop());
+
+            player.setLeaderCards(leaderCardsDeck);
+        }
     }
 
     /**
@@ -47,6 +73,4 @@ public class MultiPlayerManager extends GameManager {
     public void countVictoryPoints() {
 
     }
-
-
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +20,10 @@ public class MultiPlayerGameInstance extends GameInstance {
     }
 
     @Override
-    public void addPlayer(String nickname, Integer userId, boolean hasCalamaio) throws MaxPlayersException {
-        if(players.size() <= 4) {
-            FaithPath newUserFaithPath = new FaithPath();
-            players.add(new MultiPlayer(nickname, userId, hasCalamaio, newUserFaithPath));
-            //usersFaithPaths.add(newUserFaithPath);
+    public void addPlayer(String nickname, Integer userId, Socket socket) throws MaxPlayersException {
 
+        if(players.size() <= 4) {
+            players.add(new MultiPlayer(nickname, userId, socket));
         } else throw new MaxPlayersException();
     }
 

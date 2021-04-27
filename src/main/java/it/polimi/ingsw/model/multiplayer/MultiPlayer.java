@@ -5,13 +5,16 @@ import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
+import java.net.Socket;
+
 public class MultiPlayer extends Player {
 
-    public MultiPlayer(String nickname, Integer userId, boolean hasCalamaio, FaithPath userFaithPath){
-        this.hasCalamaio = hasCalamaio;
+    public MultiPlayer(String nickname, Integer userId, Socket socket){
         this.userId = userId;
         this.nickname = nickname;
-        this.userFaithPath = userFaithPath;
+        this.socket = socket;
+        this.userFaithPath = new FaithPath();
+        this.hasCalamaio = false;
     }
 
     @Override
@@ -43,5 +46,9 @@ public class MultiPlayer extends Player {
     @Override
     public void activateProduction() {
 
+    }
+
+    public void setCalamaio(){
+        this.hasCalamaio = true;
     }
 }

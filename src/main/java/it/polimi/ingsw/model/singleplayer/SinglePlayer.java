@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
+import java.net.Socket;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -17,10 +18,12 @@ public class SinglePlayer extends Player {
     private Integer croceNera;
 
     //TODO single player userFaithPath
-    public SinglePlayer(String nickname, Integer userId, FaithPath userFaithPath){
+
+    public SinglePlayer(String nickname, Integer userId, Socket socket){
         this.nickname = nickname;
         this.userId = userId;
-        this.userFaithPath = userFaithPath;
+        this.socket = socket;
+        this.userFaithPath = new FaithPath();
         this.hasCalamaio = true;
         lorenzoCardsDeck = new Stack();
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2GREENDVCARDS));
@@ -33,7 +36,6 @@ public class SinglePlayer extends Player {
         Collections.shuffle(lorenzoCardsDeck);
         temporaryDeck = new Stack<>();
         croceNera = 0;
-        //TODO initialize lorenzoCardsDeck from json file
     }
 
     @Override

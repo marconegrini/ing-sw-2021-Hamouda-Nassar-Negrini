@@ -13,6 +13,11 @@ public abstract class GameManager {
     public abstract void manageTurn();
 
     /**
+     * initializes players with calamaio and leaderCards
+     */
+    public abstract void setUp();
+
+    /**
      *
      * Ends the game
      */
