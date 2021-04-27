@@ -33,7 +33,7 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
+      "color":"PURPLE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -64,7 +64,7 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -95,7 +95,7 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"FIRST",
       "cardCost": [
         {
@@ -161,7 +161,7 @@
     },
     {
       "Vp":2,
-      "color":"GREEN",
+      "color":"PURPLE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -196,7 +196,7 @@
     },
     {
       "Vp":2,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -231,7 +231,7 @@
     },
     {
       "Vp":2,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"FIRST",
       "cardCost": [
         {
@@ -297,7 +297,7 @@
     },
     {
       "Vp":3,
-      "color":"GREEN",
+      "color":"PURPLE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -328,7 +328,7 @@
     },
     {
       "Vp":3,
-      "color":"VIOLET",
+      "color":"BLUE",
       "level":"FIRST",
       "cardCost": [
         {
@@ -362,6 +362,76 @@
       "color":"YELLOW",
       "level":"FIRST",
       "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"GREEN",
+      "level":"FIRST",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"PURPLE",
+      "level":"FIRST",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
         {
           "resource": "SHIELD",
           "cost": 1
@@ -425,535 +495,465 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
-      "level":"FIRST",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"GREEN",
-      "level":"FIRST",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"GREEN",
-      "level":"FIRST",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":1,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":1,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":1,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":1,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"VIOLET",
-      "level":"SECOND",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
       "color":"YELLOW",
+      "level":"FIRST",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":1,
+      "color":"GREEN",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":1,
+      "color":"PURPLE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":1,
+      "color":"BLUE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":1,
+      "color":"YELLOW",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"GREEN",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"PURPLE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"BLUE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"YELLOW",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"GREEN",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"PURPLE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"BLUE",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"YELLOW",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"GREEN",
+      "level":"SECOND",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"PURPLE",
       "level":"SECOND",
       "cardCost": [
         {
@@ -1023,7 +1023,7 @@
     },
     {
       "Vp":4,
-      "color":"GREEN",
+      "color":"YELLOW",
       "level":"SECOND",
       "cardCost": [
         {
@@ -1089,7 +1089,7 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
+      "color":"PURPLE",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1120,7 +1120,7 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
+      "color":"BLUE",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1151,372 +1151,337 @@
     },
     {
       "Vp":1,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":2,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":3,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"GREEN",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
-      "color":"VIOLET",
-      "level":"THIRD",
-      "cardCost": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionIn": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ],
-      "productionOut": [
-        {
-          "resource": "COIN",
-          "cost": 1
-        },
-        {
-          "resource": "SHIELD",
-          "cost": 1
-        }
-      ]
-    },
-    {
-      "Vp":4,
       "color":"YELLOW",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"GREEN",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"PURPLE",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"BLUE",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":2,
+      "color":"YELLOW",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"GREEN",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"PURPLE",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"BLUE",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":3,
+      "color":"YELLOW",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"GREEN",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
+    {
+      "Vp":4,
+      "color":"PURPLE",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1583,6 +1548,41 @@
           "cost": 1
         }
       ]
-    }
+    },
+    {
+      "Vp":4,
+      "color":"YELLOW",
+      "level":"THIRD",
+      "cardCost": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionIn": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ],
+      "productionOut": [
+        {
+          "resource": "COIN",
+          "cost": 1
+        },
+        {
+          "resource": "SHIELD",
+          "cost": 1
+        }
+      ]
+    },
   ]
 }
