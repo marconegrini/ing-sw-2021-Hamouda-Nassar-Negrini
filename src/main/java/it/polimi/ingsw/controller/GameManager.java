@@ -1,40 +1,32 @@
 package it.polimi.ingsw.controller;
 
-public class MultiPlayerTurnManagment extends TurnManagment{
+public abstract class GameManager {
 
-
+    protected TurnManager turnManager;
 
     /**
+     *
      * Manage the game allowing players to do actions
      */
-    @Override
-    public void turnManager() {
-
-    }
+    public abstract void turnManager();
 
     /**
+     *
      * Ends the game
      */
-    @Override
-    public void endGame() {
-
-    }
+    public abstract void endGame();
 
     /**
+     *
      * Make the final round until the player on the right of the one with the Calamaio.
      */
-    @Override
-    public void finalRound() {
-
-    }
+    public abstract void finalRound();
 
     /**
+     *
      * Count the victory points of all the players
      */
-    @Override
-    public void countVictoryPoints() {
-
-    }
+    public abstract void countVictoryPoints();
 
 
 }

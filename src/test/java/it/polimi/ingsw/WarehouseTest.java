@@ -1,25 +1,23 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.BadInputFormatException;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.exceptions.IllegalMoveException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class WarehouseTest{
 
     private Warehouse test;
-    private ArrayList<Resource> resourcesIn;
+    private List<Resource> resourcesIn;
     private HashMap<Resource, Integer> cost;
 
     @Before
@@ -141,7 +139,19 @@ public class WarehouseTest{
         assertEquals(true, test.checkAvailability(resourcesIn));
         resourcesIn.add(Resource.SHIELD);
         assertEquals(false, test.checkAvailability(resourcesIn));
+    }
 
+    @Test
+    public void testGetTotalResources() throws StorageOutOfBoundsException, IllegalInsertionException {
+        resourcesIn.add(Resource.STONE);
+        resourcesIn.add(Resource.STONE);
+        test.putResource(2, resourcesIn);
+        resourcesIn.clear();
+        resourcesIn.add(Resource.SHIELD);
+        test.putResource(1, resourcesIn);
+        resourcesIn.add(Resource.STONE);
+        resourcesIn.add(Resource.STONE);
+        assertEquals(resourcesIn, test.getTotalResources());
     }
 
 

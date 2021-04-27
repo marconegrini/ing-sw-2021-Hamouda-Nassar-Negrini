@@ -44,9 +44,7 @@ public class SinglePlayerGameInstance extends GameInstance {
         }
     }
 
-    @Override
-    public Player getPlayer(Integer playerId) {
-        if(player.getUserId().equals(playerId)) return player;
-        else throw new IllegalArgumentException();
+    public Player getPlayer() {
+       return this.player;
     }
 }

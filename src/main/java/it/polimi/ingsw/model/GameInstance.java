@@ -15,10 +15,11 @@ public abstract class GameInstance {
 
     public abstract void addPlayer(String nickname, Integer userId, boolean hasCalamaio) throws MaxPlayersException;
 
-    public abstract Player getPlayer(Integer playerId);
-    /*
-    public abstract void incrementFaithPathPos(Player player);
+    public MarketBoard getMarketBoard(){
+        return this.marketBoard;
+    }
 
-     */
-
+    public CardsDeck getCardsDeck(){
+        return this.cardsDeck;
+    }
 }

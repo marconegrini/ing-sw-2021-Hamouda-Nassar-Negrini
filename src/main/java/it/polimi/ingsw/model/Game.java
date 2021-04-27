@@ -1,16 +1,22 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameManager;
+import it.polimi.ingsw.controller.MultiPlayerManager;
+import it.polimi.ingsw.controller.SinglePlayerManager;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //classe singleton
 public class Game {
 
     private static Game instance;
 
-    private static ArrayList<GameInstance> gameInstances;
+    private static List<GameInstance> gameInstances;
+
+    private static List<GameManager> gameManagers;
 
     private static Integer gameId;
 
@@ -29,17 +35,22 @@ public class Game {
         return instance;
     }
 
-    public static GameInstance newGame(boolean multiplayer){
+    public static void newGame(boolean multiplayer){
         synchronized (gameInstances){
-            GameInstance newGameInstance;
             if(multiplayer) {
+                MultiPlayerGameInstance newGameInstance;
+                MultiPlayerManager newMultiPlayerManager;
                 newGameInstance = new MultiPlayerGameInstance(gameId);
+                newMultiPlayerManager = new MultiPlayerManager(newGameInstance);
+                gameInstances.add(newGameInstance);
             } else {
+                SinglePlayerGameInstance newGameInstance;
+                SinglePlayerManager newSinglePlayerManager;
                 newGameInstance = new SinglePlayerGameInstance(gameId);
+                newSinglePlayerManager = new SinglePlayerManager(newGameInstance);
+                gameInstances.add(newGameInstance);
             }
-            gameInstances.add(newGameInstance);
             gameId++;
-            return newGameInstance;
         }
     }
 

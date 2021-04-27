@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
@@ -81,20 +82,18 @@ public class DevCardSlots {
         return result;
     }
 
-    public List<DevelopmentCard> peekCards(){
+    public List<LeaderCardCost> peekCards(){
         List<DevelopmentCard> peekCards = new ArrayList<DevelopmentCard>();
         for(Stack deck : cardSlot){
             peekCards.add((DevelopmentCard) deck.peek());
         }
 
-        List<DevelopmentCard> result = peekCards.stream().map(x -> new DevelopmentCard(x.getVictoryPoints(), x.getColor(), x.getLevel(), x.getCardCost(), x.getProductionIn(), x.getProductionOut())).collect(Collectors.toList());
-        /*
-        oppure
-        List<LeaderCardCost> cardCosts = peekCards.stream().map(x -> new LeaderCardCost(x.getColor(), x.getLevel())).collect(Collectors.toList());
+        //List<DevelopmentCard> result = peekCards.stream().map(x -> new DevelopmentCard(x.getVictoryPoints(), x.getColor(), x.getLevel(), x.getCardCost(), x.getProductionIn(), x.getProductionOut())).collect(Collectors.toList());
 
-         */
 
-        return (ArrayList<DevelopmentCard>) result;
+        List<LeaderCardCost> result = peekCards.stream().map(x -> new LeaderCardCost(x.getColor(), x.getLevel())).collect(Collectors.toList());
+
+        return result;
     }
 
 
