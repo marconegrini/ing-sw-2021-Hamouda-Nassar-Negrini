@@ -13,7 +13,7 @@ public class SinglePlayer extends Player {
 
     private Stack<LorenzoCard> lorenzoCardsDeck;
 
-    private Stack<LorenzoCard> temporaryDeck;
+    //private Stack<LorenzoCard> temporaryDeck;
 
     private Integer croceNera;
 
@@ -34,7 +34,7 @@ public class SinglePlayer extends Player {
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.FAITHANDSHUFFLECARD));
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.TWOFAITHPOINTSCARD));
         Collections.shuffle(lorenzoCardsDeck);
-        temporaryDeck = new Stack<>();
+        //temporaryDeck = new Stack<>();
         croceNera = 0;
     }
 

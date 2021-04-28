@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.enumerations.CardType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The card is initially unflipped it means it's on its face at the begging, it can't be used, isFlipped=false;
@@ -26,6 +27,6 @@ public abstract class LeaderCard extends Card{
         return this.cardType;
     }
 
-    public abstract boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn);
+    public abstract boolean verifyToActivate(List<LeaderCardCost> cardsIn);
 
 }

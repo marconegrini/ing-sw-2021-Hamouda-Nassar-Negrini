@@ -45,4 +45,9 @@ public class PersonalBoard {
         return leaderCards;
     }
 
+    public Integer getVictoryPoints(){
+
+        return 0;
+    }
+
 }

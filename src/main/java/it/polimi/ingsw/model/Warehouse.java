@@ -2,11 +2,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.parser.WarehouseParser;
-import it.polimi.ingsw.model.singleplayer.Storage;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class Warehouse implements Deposit{
 
@@ -168,6 +165,7 @@ public class Warehouse implements Deposit{
     /**
      * @return total resources in the warehouse
      */
+    @Override
     public List<Resource> getTotalResources(){
         List<Resource> totalResources = new ArrayList<>();
 
@@ -178,6 +176,7 @@ public class Warehouse implements Deposit{
         return totalResources;
     }
 
+    @Override
     public Integer occurrences(Resource resource, List<Resource> resources){
         return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
