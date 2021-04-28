@@ -16,6 +16,10 @@ public class TemporaryPlayer {
         this.nickname= nickname;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public DataInputStream getDataInputStream() throws IOException {
         return new DataInputStream(socket.getInputStream());
     }

@@ -36,15 +36,17 @@ public class ClientHandler extends Thread{
 
             if(multiplayer.toUpperCase().equals("YES")){
 
-                toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname);
                 Server.add(temporaryPlayer);
+                System.out.println("Added to players list "+ nickname);
+                toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
                 Server.updateUsers();
             }
 
             while (true){
                 if (fromClient.readUTF().toUpperCase().equals("EXIT")){
                     Server.remove(this.temporaryPlayer);
+                    System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
                     Server.updateUsers();
                     break;
                 }

@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
 // Client class
-public class Client1{
+public class Client4{
 
     public static void main(String[] args) throws IOException
     {
