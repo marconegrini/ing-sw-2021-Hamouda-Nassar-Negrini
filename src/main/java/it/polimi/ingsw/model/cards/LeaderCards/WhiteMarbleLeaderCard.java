@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
@@ -48,7 +49,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
     }
 
 
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cards){
+    public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
     }
 

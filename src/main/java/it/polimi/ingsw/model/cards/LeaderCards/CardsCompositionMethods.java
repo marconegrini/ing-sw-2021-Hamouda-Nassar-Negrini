@@ -22,7 +22,7 @@ public class CardsCompositionMethods {
      * @param cardsIn they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
      */
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException {
+    public boolean verifyToActivate(List<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException {
 
         //the number of elements mustn't be greater than 3
         if ((cardsIn.size()) > 3) {
@@ -79,7 +79,7 @@ public class CardsCompositionMethods {
      * the two attributes CardColor and Level, and as a value of respective (Color,Level) the number of
      * occurrences of this card color&Level values.
      */
-    public HashMap<LeaderCardCost, Integer> cardsOccurrencesMethod(ArrayList<LeaderCardCost> cards) {
+    public HashMap<LeaderCardCost, Integer> cardsOccurrencesMethod(List<LeaderCardCost> cards) {
         /*
          *  cardsOccurrences: A hashMap that indicates the occurrences of each color of the cards of the activationCost.
          */

@@ -13,4 +13,6 @@ public interface Deposit {
     boolean checkAvailability(List<Resource> resourcesToTake);
 
     List<Resource> getTotalResources();
+
+    Integer occurrences(Resource resource, List<Resource> resources);
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.singleplayer;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.enumerations.Resource;
 

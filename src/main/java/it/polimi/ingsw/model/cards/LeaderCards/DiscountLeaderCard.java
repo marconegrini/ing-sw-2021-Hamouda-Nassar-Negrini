@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Discount Leader Card
@@ -48,7 +49,7 @@ public class DiscountLeaderCard extends LeaderCard {
         return discountedResource;
     }
 
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cards){
+    public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
     }
 

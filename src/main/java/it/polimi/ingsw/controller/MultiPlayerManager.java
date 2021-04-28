@@ -31,9 +31,6 @@ public class MultiPlayerManager extends GameManager {
     public void manageTurn() {
 
         this.setUp();
-
-
-
     }
 
     @Override

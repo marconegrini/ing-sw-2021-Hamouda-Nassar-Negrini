@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -99,7 +100,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         return outProductionResourceNum;
     }
 
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cards){
+    public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
     }
 

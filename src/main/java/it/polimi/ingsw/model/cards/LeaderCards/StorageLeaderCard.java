@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class StorageLeaderCard extends LeaderCard {
 
@@ -27,7 +28,7 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     @Override
-    public boolean verifyToActivate(ArrayList<LeaderCardCost> cardsIn) {
+    public boolean verifyToActivate(List<LeaderCardCost> cardsIn) {
         return false;
     }
 }
