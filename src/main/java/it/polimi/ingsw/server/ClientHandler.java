@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+import java.util.Locale;
 
 public class ClientHandler extends Thread{
 
@@ -12,7 +13,7 @@ public class ClientHandler extends Thread{
     private final DataInputStream fromClient;
     private final DataOutputStream toClient;
 
-    public ClientHandler(Socket clientSocket, DataInputStream fromClient, DataOutputStream toClient, List<DataOutputStream> temporaryPlayers) {
+    public ClientHandler(Socket clientSocket, DataInputStream fromClient, DataOutputStream toClient) {
         this.clientSocket = clientSocket;
         this.fromClient = fromClient;
         this.toClient = toClient;
@@ -21,39 +22,25 @@ public class ClientHandler extends Thread{
 
     public void run(){
 
-        String received;
+        String multiplayer;
 
-        while(true){
-
-            try {
-                toClient.writeUTF("Send me a message and I will get it to you back upper case");
-
-                received = fromClient.readUTF();
-
-
-                if (received.equals("Exit")){
-                    System.out.println();
-                    System.out.println("----------------");
-                    toClient.writeUTF("Closing the connection");
-                    System.out.println("Connection with:" + clientSocket + " Closed");
-                    System.out.println("----------------");
-                    System.out.println();
-                    break;
-                }
-
-                System.out.println("Received: '"+ received+ "' from client:" + clientSocket);
-
-                toClient.writeUTF(received.toUpperCase());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        String nickname;
 
         try {
-            this.fromClient.close();
-            Server.remove(toClient);
-            this.toClient.close();
+
+            toClient.writeUTF("Type your nickname: ");
+            nickname = fromClient.readUTF();
+
+            toClient.writeUTF("Start a multiplayer game? yes/no");
+            multiplayer = fromClient.readUTF();
+
+            if(multiplayer.toUpperCase().equals("YES")){
+
+                toClient.writeUTF("Added to players list");
+                Server.add(new TemporaryPlayer(this.clientSocket, nickname));
+                Server.updateUsers();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

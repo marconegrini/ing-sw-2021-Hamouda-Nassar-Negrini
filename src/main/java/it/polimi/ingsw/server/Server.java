@@ -5,15 +5,29 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
-    private static List<DataOutputStream> temporaryPlayers = new ArrayList<>();
+    private static List<TemporaryPlayer> temporaryPlayers = new ArrayList();
 
-    public static void remove(DataOutputStream dos){
-        temporaryPlayers.remove(dos);
+    public static void add(TemporaryPlayer tp) throws IOException {
+        temporaryPlayers.add(tp);
+    }
+
+    public static void remove(TemporaryPlayer tp){
+        temporaryPlayers.remove(tp);
+    }
+
+    public static void updateUsers() throws IOException {
+        for(TemporaryPlayer tp : temporaryPlayers){
+            if(temporaryPlayers.size() == 4){
+                tp.getDataOutputStream().writeUTF("GAME STARTED");
+            } else tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -37,13 +51,7 @@ public class Server {
                 System.out.println("Assigning a new thread to the host:" + clientSocket);
                 System.out.println("-------------");
 
-                Thread t = new ClientHandler(clientSocket, fromClient, toClient, temporaryPlayers);
-
-                temporaryPlayers.add(toClient);
-
-                for(DataOutputStream dos : temporaryPlayers){
-                    dos.writeUTF(temporaryPlayers.size() + " players waiting for the game to start");
-                }
+                Thread t = new ClientHandler(clientSocket, fromClient, toClient);
 
                 t.start();
 
@@ -51,10 +59,7 @@ public class Server {
                 clientSocket.close();
                 e.printStackTrace();
             }
-
-
         }
-
     }
 
 }
