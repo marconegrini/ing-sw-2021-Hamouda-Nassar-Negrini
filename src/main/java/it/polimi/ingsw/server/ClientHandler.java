@@ -4,19 +4,19 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.List;
-import java.util.Locale;
 
 public class ClientHandler extends Thread{
 
     private final Socket clientSocket;
     private final DataInputStream fromClient;
     private final DataOutputStream toClient;
+    private TemporaryPlayer temporaryPlayer;
 
     public ClientHandler(Socket clientSocket, DataInputStream fromClient, DataOutputStream toClient) {
         this.clientSocket = clientSocket;
         this.fromClient = fromClient;
         this.toClient = toClient;
+        this.temporaryPlayer = null;
     }
 
 
@@ -36,9 +36,17 @@ public class ClientHandler extends Thread{
 
             if(multiplayer.toUpperCase().equals("YES")){
 
-                toClient.writeUTF("Added to players list");
-                Server.add(new TemporaryPlayer(this.clientSocket, nickname));
+                toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
+                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname);
+                Server.add(temporaryPlayer);
                 Server.updateUsers();
+            }
+
+            while (true){
+                if (fromClient.readUTF().toUpperCase().equals("EXIT")){
+                    Server.remove(this.temporaryPlayer);
+                    break;
+                }
             }
 
         } catch (IOException e) {

@@ -34,15 +34,33 @@ public class Client1{
             String multiplayer = scn.nextLine();
             dos.writeUTF(multiplayer);
 
+            Runnable runnable = () -> {
+                try {
+                    String toExit;
+                    while (true) {
+                        toExit = scn.nextLine();
+                        dos.writeUTF(toExit);
+                        if (toExit.toUpperCase().equals("EXIT")){
+                            scn.close();
+                            dis.close();
+                            dos.close();
+                            s.close();
+                            return ;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            };
+
+            (new Thread(runnable)).start();
+
             while (true)
             {
                 String notification = dis.readUTF();
                 System.out.println(notification);
                 if(notification.toUpperCase().equals("GAME STARTED")) break;
             }
-
-            System.out.println("Partita iniziata");
-
 
             // closing resources
             scn.close();
