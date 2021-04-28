@@ -53,10 +53,11 @@ public class Client1{
                 }
             };
 
-            (new Thread(runnable)).start();
+            Thread exit = new Thread(runnable);
+            exit.setDaemon(true);
+            exit.start();
 
-            while (true)
-            {
+            while (true) {
                 String notification = dis.readUTF();
                 System.out.println(notification);
                 if(notification.toUpperCase().equals("GAME STARTED")) break;

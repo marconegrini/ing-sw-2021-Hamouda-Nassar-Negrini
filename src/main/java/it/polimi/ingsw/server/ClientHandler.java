@@ -45,6 +45,7 @@ public class ClientHandler extends Thread{
             while (true){
                 if (fromClient.readUTF().toUpperCase().equals("EXIT")){
                     Server.remove(this.temporaryPlayer);
+                    Server.updateUsers();
                     break;
                 }
             }
