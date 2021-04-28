@@ -39,18 +39,13 @@ public class Server {
 
                 Thread t = new ClientHandler(clientSocket, fromClient, toClient, temporaryPlayers);
 
-
                 temporaryPlayers.add(toClient);
-
 
                 for(DataOutputStream dos : temporaryPlayers){
                     dos.writeUTF(temporaryPlayers.size() + " players waiting for the game to start");
                 }
 
-
                 t.start();
-
-
 
             } catch(Exception e){
                 clientSocket.close();

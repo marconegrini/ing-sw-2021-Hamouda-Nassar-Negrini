@@ -26,7 +26,7 @@ public class ClientHandler extends Thread{
         while(true){
 
             try {
-                toClient.writeUTF("Send me a message and I will get it tou you back upper case");
+                toClient.writeUTF("Send me a message and I will get it to you back upper case");
 
                 received = fromClient.readUTF();
 
