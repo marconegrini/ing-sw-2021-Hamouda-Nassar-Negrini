@@ -5,15 +5,38 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Server {
 
-    private static List<DataOutputStream> temporaryPlayers = new ArrayList<>();
+    private static List<TemporaryPlayer> temporaryPlayers = new ArrayList();
 
-    public static void remove(DataOutputStream dos){
-        temporaryPlayers.remove(dos);
+    public static synchronized void add(TemporaryPlayer tp) throws IOException {
+        temporaryPlayers.add(tp);
+    }
+
+    public static synchronized void remove(TemporaryPlayer tp){
+        temporaryPlayers.remove(tp);
+    }
+
+    public static synchronized void startgame () throws IOException {
+        for (int i=3; i>=0; i--){
+            temporaryPlayers.get(i).getDataOutputStream().writeUTF("GAME STARTED");
+            System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
+            temporaryPlayers.remove(i);
+        }
+    }
+
+    public static synchronized void updateUsers() throws IOException {
+
+            if(temporaryPlayers.size() >= 4){
+                startgame();
+            } else{
+                for(TemporaryPlayer tp : temporaryPlayers){
+                //System.out.println("");
+                tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+                }
+            }
     }
 
     public static void main(String[] args) throws IOException {
@@ -26,6 +49,12 @@ public class Server {
         while (true){
 
             Socket clientSocket = null;
+            System.out.println("There are: "+ temporaryPlayers.size() + " players.");
+            for (TemporaryPlayer player: temporaryPlayers){
+                System.out.println(player.getNickname());
+
+            }
+
 
             try{
                 clientSocket = serverSocket.accept();
@@ -37,13 +66,7 @@ public class Server {
                 System.out.println("Assigning a new thread to the host:" + clientSocket);
                 System.out.println("-------------");
 
-                Thread t = new ClientHandler(clientSocket, fromClient, toClient, temporaryPlayers);
-
-                temporaryPlayers.add(toClient);
-
-                for(DataOutputStream dos : temporaryPlayers){
-                    dos.writeUTF(temporaryPlayers.size() + " players waiting for the game to start");
-                }
+                Thread t = new ClientHandler(clientSocket, fromClient, toClient);
 
                 t.start();
 
@@ -51,10 +74,7 @@ public class Server {
                 clientSocket.close();
                 e.printStackTrace();
             }
-
-
         }
-
     }
 
 }
