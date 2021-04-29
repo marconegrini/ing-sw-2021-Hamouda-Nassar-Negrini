@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-// Client class
 public class Client {
 
     public static void main(String[] args) throws IOException

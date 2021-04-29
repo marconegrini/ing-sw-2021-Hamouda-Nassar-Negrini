@@ -29,10 +29,10 @@ public class ClientHandler extends Thread{
         try {
 
             toClient.writeUTF("Type your nickname: ");
-            nickname = fromClient.readUTF();
+            while (!(fromClient.available() >0)); nickname = fromClient.readUTF();
 
-            toClient.writeUTF("Start a multiplayer game? yes/no");
-            multiplayer = fromClient.readUTF();
+            toClient.writeUTF("Start a multiplayer game? [yes/no]");
+            while (!(fromClient.available() >0)); multiplayer = fromClient.readUTF();
 
             if(multiplayer.toUpperCase().equals("YES")){
 
@@ -46,9 +46,9 @@ public class ClientHandler extends Thread{
             while (true){
                 if (fromClient.available() >0) {
                     if (fromClient.readUTF().toUpperCase().equals("EXIT")) {
-                        Server.remove(this.temporaryPlayer);
                         System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
                         toClient.writeUTF("EXIT");
+                        Server.remove(this.temporaryPlayer);
                         Server.updateUsers();
                         break;
                     }

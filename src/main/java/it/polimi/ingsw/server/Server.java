@@ -11,21 +11,32 @@ public class Server {
 
     private static List<TemporaryPlayer> temporaryPlayers = new ArrayList();
 
-    public static void add(TemporaryPlayer tp) throws IOException {
+    public static synchronized void add(TemporaryPlayer tp) throws IOException {
         temporaryPlayers.add(tp);
     }
 
-    public static void remove(TemporaryPlayer tp){
+    public static synchronized void remove(TemporaryPlayer tp){
         temporaryPlayers.remove(tp);
     }
 
-    public static void updateUsers() throws IOException {
-        for(TemporaryPlayer tp : temporaryPlayers){
-            if(temporaryPlayers.size() == 4){
-                tp.getDataOutputStream().writeUTF("GAME STARTED");
-                System.out.println("Starting game for: " + tp.getNickname());
-            } else tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+    public static synchronized void startgame () throws IOException {
+        for (int i=3; i>=0; i--){
+            temporaryPlayers.get(i).getDataOutputStream().writeUTF("GAME STARTED");
+            System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
+            temporaryPlayers.remove(i);
         }
+    }
+
+    public static synchronized void updateUsers() throws IOException {
+
+            if(temporaryPlayers.size() >= 4){
+                startgame();
+            } else{
+                for(TemporaryPlayer tp : temporaryPlayers){
+                //System.out.println("");
+                tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+                }
+            }
     }
 
     public static void main(String[] args) throws IOException {
@@ -38,6 +49,12 @@ public class Server {
         while (true){
 
             Socket clientSocket = null;
+            System.out.println("There are: "+ temporaryPlayers.size() + " players.");
+            for (TemporaryPlayer player: temporaryPlayers){
+                System.out.println(player.getNickname());
+
+            }
+
 
             try{
                 clientSocket = serverSocket.accept();
