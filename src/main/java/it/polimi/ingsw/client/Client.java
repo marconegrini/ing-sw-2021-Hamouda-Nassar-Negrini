@@ -1,20 +1,22 @@
 package it.polimi.ingsw.client;
-
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 // Client class
-public class Client3{
+public class Client {
 
     public static void main(String[] args) throws IOException
     {
         try
         {
+            AtomicBoolean endThread = new AtomicBoolean(true);
             Scanner scn = new Scanner(System.in);
-
             Socket s = new Socket("127.0.0.1", 5056);
+
+            BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 
             System.out.println("Connecting to: " + s);
 
@@ -35,14 +37,21 @@ public class Client3{
             Runnable runnable1 = () -> {
                 try {
                     String toExit;
-                    while (true) {
-                        toExit = (scn.nextLine());
-                        dos.writeUTF(toExit);
-                        if (toExit.toUpperCase().equals("EXIT")) break;
+                    while (endThread.get()) {
+                        if (br.ready()){
+                            toExit=br.readLine();
+                            dos.writeUTF(toExit);
+                            if (toExit.toUpperCase().equals("EXIT")){
+                                br.close();
+                                break;
+                            }
+                        }
+                        //if (endThread.get())    break;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //System.out.println("Thread finished with endThread: " + endThread.get());
             };
 
             Thread exit = new Thread(runnable1);
@@ -57,15 +66,22 @@ public class Client3{
                     e.printStackTrace();
                 }
                 System.out.println(notification);
-                if (notification.toUpperCase().equals("GAME STARTED")) break;
+                if (notification.toUpperCase().equals("GAME STARTED") || notification.toUpperCase().equals("EXIT")){
+                    endThread.set(false);
+                    //System.out.println("while true finished with endThread: " + endThread.get());
+                    exit.interrupt();
+                    break;
+                }
             }
 
-            exit.interrupt();
+            //exit.interrupt();
             scn.close();
             dis.close();
             dos.close();
             s.close();
-            return;
+            br.close();
+            System.out.println("Program ended");
+
 
         }catch(Exception e){
             e.printStackTrace();
@@ -74,3 +90,5 @@ public class Client3{
 
     }
 }
+
+
