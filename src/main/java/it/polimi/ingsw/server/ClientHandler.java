@@ -44,11 +44,14 @@ public class ClientHandler extends Thread{
             }
 
             while (true){
-                if (fromClient.readUTF().toUpperCase().equals("EXIT")){
-                    Server.remove(this.temporaryPlayer);
-                    System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
-                    Server.updateUsers();
-                    break;
+                if (fromClient.available() >0) {
+                    if (fromClient.readUTF().toUpperCase().equals("EXIT")) {
+                        Server.remove(this.temporaryPlayer);
+                        System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
+                        toClient.writeUTF("EXIT");
+                        Server.updateUsers();
+                        break;
+                    }
                 }
             }
 

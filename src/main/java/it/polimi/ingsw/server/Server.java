@@ -23,6 +23,7 @@ public class Server {
         for(TemporaryPlayer tp : temporaryPlayers){
             if(temporaryPlayers.size() == 4){
                 tp.getDataOutputStream().writeUTF("GAME STARTED");
+                System.out.println("Starting game for: " + tp.getNickname());
             } else tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
         }
     }
