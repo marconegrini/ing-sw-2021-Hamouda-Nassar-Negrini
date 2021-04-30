@@ -89,11 +89,11 @@ public class MarketBoard {
 
         if (row){
             pickedMarbles = new ArrayList<>(Arrays.asList(marbles[rowOrColNum])); //Create the arraylist with the entire row
-            temporaryMarble = marbles[rowOrColNum][3];
-            for (int i=3; i>0; i--){
-                marbles[rowOrColNum][i] = marbles[rowOrColNum][i-1];
+            temporaryMarble = marbles[rowOrColNum][0];
+            for (int i=0; i<3; i++){
+                marbles[rowOrColNum][i] = marbles[rowOrColNum][i+1];
             }
-            marbles[rowOrColNum][0] = externalMarble;
+            marbles[rowOrColNum][3] = externalMarble;
             externalMarble = temporaryMarble;
         } else {
             pickedMarbles = new ArrayList<>();
