@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 
 public class SinglePlayerGameInstance extends GameInstance {
@@ -39,9 +41,9 @@ public class SinglePlayerGameInstance extends GameInstance {
     }
 
     @Override
-    public void addPlayer(String nickname, Integer userId, Socket socket) throws MaxPlayersException {
+    public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis) throws MaxPlayersException {
         if(player==null) {
-            player = new SinglePlayer(nickname, userId, socket);
+            player = new SinglePlayer(nickname, userId, dos, dis);
         }
     }
 

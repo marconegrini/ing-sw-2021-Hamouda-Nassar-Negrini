@@ -5,14 +5,17 @@ import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 
 public class MultiPlayer extends Player {
 
-    public MultiPlayer(String nickname, Integer userId, Socket socket){
+    public MultiPlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer){
         this.userId = userId;
         this.nickname = nickname;
-        this.socket = socket;
+        this.toServer = toServer;
+        this.fromServer = fromServer;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = false;
     }

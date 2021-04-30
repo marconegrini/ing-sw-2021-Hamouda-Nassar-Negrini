@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.List;
 
@@ -12,7 +14,9 @@ public abstract class Player {
 
     protected String nickname;
 
-    protected Socket socket;
+    protected DataOutputStream toServer;
+
+    protected DataInputStream fromServer;
 
     protected boolean hasCalamaio;
 

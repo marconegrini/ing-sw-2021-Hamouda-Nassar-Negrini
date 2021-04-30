@@ -1,15 +1,24 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameInstance;
+import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server {
 
     private static LinkedList<TemporaryPlayer> temporaryPlayers = new LinkedList<>();
+
+    private static AtomicInteger userId = new AtomicInteger(0);
 
     public static synchronized void add(TemporaryPlayer tp) throws IOException {
         temporaryPlayers.add(tp);
@@ -19,22 +28,32 @@ public class Server {
         temporaryPlayers.remove(tp);
     }
 
-    public static synchronized void startgame (int size) throws IOException {
+    public static synchronized void startMultiplayerGame (int size) throws IOException, MaxPlayersException {
+        Game game = Game.getInstance();
+        Integer gameId = game.newGame(true);
+        GameInstance gameInstance = Game.getGameInstance(gameId);
         for (int i=0; i < size; i++){
-            temporaryPlayers.removeFirst().getDataOutputStream().writeUTF("GAME STARTED");
+            TemporaryPlayer tp = temporaryPlayers.removeFirst();
+            gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
+
+
+
+            //.getDataOutputStream().writeUTF("GAME STARTED");
             //System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
         }
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
+
+
     }
 
     public static synchronized int size(){
         return temporaryPlayers.size();
     }
 
-    public static synchronized void updateUsers() throws IOException {
+    public static synchronized void updateUsers() throws IOException, MaxPlayersException {
             if(temporaryPlayers.size() == 4){
-                startgame(4);
+                startMultiplayerGame(4);
             } else{
                 for(TemporaryPlayer tp : temporaryPlayers){
                 //System.out.println("");

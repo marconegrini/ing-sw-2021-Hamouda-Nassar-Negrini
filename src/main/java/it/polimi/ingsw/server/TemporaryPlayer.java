@@ -10,6 +10,7 @@ public class TemporaryPlayer {
 
     private Socket socket;
     private String nickname;
+    private Integer userId;
     private boolean firstPlayer;
 
     public TemporaryPlayer(Socket socket, String nickname, boolean firstPlayer){

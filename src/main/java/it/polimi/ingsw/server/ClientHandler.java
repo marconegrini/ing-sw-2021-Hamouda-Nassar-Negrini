@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -33,59 +35,65 @@ public class ClientHandler extends Thread{
 
             toClient.writeUTF("Type your nickname: ");
 
-            while(true) {
+            while (true) {
 
                 while (!(fromClient.available() > 0)) ;
                 nickname = fromClient.readUTF();
 
-                if(nickname==null || Server.nicknameAlreadyExist(nickname))
+                if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))
                     toClient.writeUTF("KO");
                 else {
                     toClient.writeUTF("OK");
                     break;
-                };
+                }
+                ;
             }
 
             toClient.writeUTF("Start a multiplayer game? [yes/no]");
 
-            while(true){
-                while (!(fromClient.available() > 0));
+            while (true) {
+                while (!(fromClient.available() > 0)) ;
                 multiplayer = fromClient.readUTF();
-                if(multiplayer==null || !multiplayer.toUpperCase().equals("YES") || !multiplayer.toUpperCase().equals("NO"))
+                if ((multiplayer.isEmpty() || !multiplayer.toUpperCase().equals("YES"))
+                        && (multiplayer.isEmpty() || !multiplayer.toUpperCase().equals("NO")))
                     toClient.writeUTF("KO");
                 else {
                     toClient.writeUTF("OK");
                     break;
-                };
+                }
+                ;
             }
 
-            if(multiplayer.toUpperCase().equals("YES")){
+            if (multiplayer.toUpperCase().equals("YES")) {
 
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
                 Server.add(temporaryPlayer);
-                System.out.println("Added to players list "+ nickname);
+                System.out.println("Added to players list " + nickname);
                 toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
                 Server.updateUsers();
-            }
 
-            while (true){
-                if (fromClient.available() >0) {
-                    String command = fromClient.readUTF().toUpperCase();
-                    if(command.equals("START") && Server.isLeader(this.temporaryPlayer) && (Server.size()>1)){
-                        Server.startgame(Server.size());
-                        break;
-                    }
-                    if (command.equals("EXIT")) {
-                        System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
-                        toClient.writeUTF("EXIT");
-                        Server.remove(this.temporaryPlayer);
-                        Server.updateUsers();
-                        break;
+
+                while (true) {
+                    if (fromClient.available() > 0) {
+                        String command = fromClient.readUTF().toUpperCase();
+                        if (command.equals("START") && Server.isLeader(this.temporaryPlayer) && (Server.size() > 1)) {
+                            Server.startMultiplayerGame(Server.size());
+                            break;
+                        }
+                        if (command.equals("EXIT")) {
+                            System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
+                            toClient.writeUTF("EXIT");
+                            Server.remove(this.temporaryPlayer);
+                            Server.updateUsers();
+                            break;
+                        }
                     }
                 }
+            } else {
+
             }
 
-        } catch (IOException e) {
+        } catch (IOException | MaxPlayersException e) {
             e.printStackTrace();
         }
     }

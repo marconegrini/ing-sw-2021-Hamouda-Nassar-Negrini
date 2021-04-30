@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.Stack;
@@ -19,10 +21,11 @@ public class SinglePlayer extends Player {
 
     //TODO single player userFaithPath
 
-    public SinglePlayer(String nickname, Integer userId, Socket socket){
+    public SinglePlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer){
         this.nickname = nickname;
         this.userId = userId;
-        this.socket = socket;
+        this.toServer = toServer;
+        this.fromServer = fromServer;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = true;
         lorenzoCardsDeck = new Stack();
