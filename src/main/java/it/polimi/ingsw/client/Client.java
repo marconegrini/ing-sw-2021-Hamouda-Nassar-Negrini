@@ -37,8 +37,9 @@ public class Client {
                 try {
                     String toExit;
                     while (endThread.get()) {
+
                         if (br.ready()){
-                            toExit=br.readLine();
+                            toExit = br.readLine();
                             dos.writeUTF(toExit);
                             if (toExit.toUpperCase().equals("EXIT")){
                                 br.close();
@@ -64,7 +65,10 @@ public class Client {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.println(notification);
+                if(notification.toUpperCase().equals("LEADER"))
+                    System.out.println("You are the game leader: type 'START' to start the game.");
+                else System.out.println(notification);
+
                 if (notification.toUpperCase().equals("GAME STARTED") || notification.toUpperCase().equals("EXIT")){
                     endThread.set(false);
                     //System.out.println("while true finished with endThread: " + endThread.get());

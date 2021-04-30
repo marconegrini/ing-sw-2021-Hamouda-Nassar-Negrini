@@ -29,14 +29,14 @@ public class ClientHandler extends Thread{
         try {
 
             toClient.writeUTF("Type your nickname: ");
-            while (!(fromClient.available() >0)); nickname = fromClient.readUTF();
+            while (!(fromClient.available() > 0)); nickname = fromClient.readUTF();
 
             toClient.writeUTF("Start a multiplayer game? [yes/no]");
-            while (!(fromClient.available() >0)); multiplayer = fromClient.readUTF();
+            while (!(fromClient.available() > 0)); multiplayer = fromClient.readUTF();
 
             if(multiplayer.toUpperCase().equals("YES")){
 
-                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname);
+                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
                 Server.add(temporaryPlayer);
                 System.out.println("Added to players list "+ nickname);
                 toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
@@ -45,7 +45,13 @@ public class ClientHandler extends Thread{
 
             while (true){
                 if (fromClient.available() >0) {
-                    if (fromClient.readUTF().toUpperCase().equals("EXIT")) {
+                    String command = fromClient.readUTF().toUpperCase();
+                    if(command.equals("START") &&
+                    Server.isLeader(this.temporaryPlayer)){
+                        Server.startgame(Server.size());
+                        break;
+                    }
+                    if (command.equals("EXIT")) {
                         System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
                         toClient.writeUTF("EXIT");
                         Server.remove(this.temporaryPlayer);
