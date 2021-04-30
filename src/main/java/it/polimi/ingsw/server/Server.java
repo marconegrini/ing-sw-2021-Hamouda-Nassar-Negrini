@@ -13,10 +13,6 @@ public class Server {
 
     public static synchronized void add(TemporaryPlayer tp) throws IOException {
         temporaryPlayers.add(tp);
-        if(isLeader(tp)){
-            tp.setFirstPlayer();
-            tp.getDataOutputStream().writeUTF("LEADER");
-        }
     }
 
     public static synchronized void remove(TemporaryPlayer tp){
@@ -26,7 +22,7 @@ public class Server {
     public static synchronized void startgame (int size) throws IOException {
         for (int i=0; i < size; i++){
             temporaryPlayers.removeFirst().getDataOutputStream().writeUTF("GAME STARTED");
-            System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
+            //System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
         }
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
@@ -42,7 +38,11 @@ public class Server {
             } else{
                 for(TemporaryPlayer tp : temporaryPlayers){
                 //System.out.println("");
-                tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+                    if(isLeader(tp)){
+                        tp.setFirstPlayer();
+                        tp.getDataOutputStream().writeUTF("LEADER");
+                    }
+                    tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
                 }
             }
     }
@@ -52,17 +52,25 @@ public class Server {
         else return false;
     }
 
+    public static synchronized boolean nicknameAlreadyExist(String nickname){
+        for(TemporaryPlayer tp : temporaryPlayers){
+            if(nickname.toUpperCase().equals(tp.getNickname().toUpperCase()))
+                return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) throws IOException {
 
         ServerSocket serverSocket = new ServerSocket(5056);
 
         System.out.println("Server On listening with port: " + serverSocket);
-        System.out.println("");
+        System.out.println("-------------");
 
         while (true){
 
             Socket clientSocket = null;
-            System.out.println("There are: "+ temporaryPlayers.size() + " players.");
+            System.out.println("");
             for (TemporaryPlayer player: temporaryPlayers){
                 System.out.println(player.getNickname());
 

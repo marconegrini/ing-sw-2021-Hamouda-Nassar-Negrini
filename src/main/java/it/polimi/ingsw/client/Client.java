@@ -25,13 +25,25 @@ public class Client {
 
             //asking and obtaining user's nickname
             System.out.println(dis.readUTF());
-            String nickname = scn.nextLine();
-            dos.writeUTF(nickname);
+
+            while(true) {
+                String nickname = scn.nextLine();
+                dos.writeUTF(nickname);
+                if(dis.readUTF().equals("OK"))
+                    break;
+                else System.out.println("Choose another nickname: ");
+            }
 
             //asking and obtaining boolean multiplayer
             System.out.println(dis.readUTF());
-            String multiplayer = scn.nextLine();
-            dos.writeUTF(multiplayer);
+
+            while(true) {
+                String multiplayer = scn.nextLine();
+                dos.writeUTF(multiplayer);
+                if(dis.readUTF().equals("OK"))
+                    break;
+                else System.out.println("Type again your choice: ");
+            }
 
             Runnable runnable1 = () -> {
                 try {

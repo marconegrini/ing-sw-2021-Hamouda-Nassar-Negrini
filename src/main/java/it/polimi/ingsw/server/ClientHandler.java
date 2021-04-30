@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Locale;
 
 public class ClientHandler extends Thread{
 
@@ -24,15 +25,39 @@ public class ClientHandler extends Thread{
 
         String multiplayer;
 
-        String nickname;
+        String nickname=null;
+
+        boolean nicknameAlreadyExists = true;
 
         try {
 
             toClient.writeUTF("Type your nickname: ");
-            while (!(fromClient.available() > 0)); nickname = fromClient.readUTF();
+
+            while(true) {
+
+                while (!(fromClient.available() > 0)) ;
+                nickname = fromClient.readUTF();
+
+                if(nickname==null || Server.nicknameAlreadyExist(nickname))
+                    toClient.writeUTF("KO");
+                else {
+                    toClient.writeUTF("OK");
+                    break;
+                };
+            }
 
             toClient.writeUTF("Start a multiplayer game? [yes/no]");
-            while (!(fromClient.available() > 0)); multiplayer = fromClient.readUTF();
+
+            while(true){
+                while (!(fromClient.available() > 0));
+                multiplayer = fromClient.readUTF();
+                if(multiplayer==null || !multiplayer.toUpperCase().equals("YES") || !multiplayer.toUpperCase().equals("NO"))
+                    toClient.writeUTF("KO");
+                else {
+                    toClient.writeUTF("OK");
+                    break;
+                };
+            }
 
             if(multiplayer.toUpperCase().equals("YES")){
 
@@ -46,8 +71,7 @@ public class ClientHandler extends Thread{
             while (true){
                 if (fromClient.available() >0) {
                     String command = fromClient.readUTF().toUpperCase();
-                    if(command.equals("START") &&
-                    Server.isLeader(this.temporaryPlayer)){
+                    if(command.equals("START") && Server.isLeader(this.temporaryPlayer) && (Server.size()>1)){
                         Server.startgame(Server.size());
                         break;
                     }
