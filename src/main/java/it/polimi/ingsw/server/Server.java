@@ -9,34 +9,47 @@ import java.util.*;
 
 public class Server {
 
-    private static List<TemporaryPlayer> temporaryPlayers = new ArrayList();
+    private static LinkedList<TemporaryPlayer> temporaryPlayers = new LinkedList<>();
 
     public static synchronized void add(TemporaryPlayer tp) throws IOException {
         temporaryPlayers.add(tp);
+        if(isLeader(tp)){
+            tp.setFirstPlayer();
+            tp.getDataOutputStream().writeUTF("LEADER");
+        }
     }
 
     public static synchronized void remove(TemporaryPlayer tp){
         temporaryPlayers.remove(tp);
     }
 
-    public static synchronized void startgame () throws IOException {
-        for (int i=3; i>=0; i--){
-            temporaryPlayers.get(i).getDataOutputStream().writeUTF("GAME STARTED");
+    public static synchronized void startgame (int size) throws IOException {
+        for (int i=0; i < size; i++){
+            temporaryPlayers.removeFirst().getDataOutputStream().writeUTF("GAME STARTED");
             System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
-            temporaryPlayers.remove(i);
         }
+        if(!temporaryPlayers.isEmpty())
+            temporaryPlayers.getFirst().setFirstPlayer();
+    }
+
+    public static synchronized int size(){
+        return temporaryPlayers.size();
     }
 
     public static synchronized void updateUsers() throws IOException {
-
-            if(temporaryPlayers.size() >= 4){
-                startgame();
+            if(temporaryPlayers.size() == 4){
+                startgame(4);
             } else{
                 for(TemporaryPlayer tp : temporaryPlayers){
                 //System.out.println("");
                 tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
                 }
             }
+    }
+
+    public static synchronized boolean isLeader(TemporaryPlayer tp){
+        if(temporaryPlayers.getFirst().equals(tp)) return true;
+        else return false;
     }
 
     public static void main(String[] args) throws IOException {

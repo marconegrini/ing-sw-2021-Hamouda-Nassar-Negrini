@@ -10,10 +10,12 @@ public class TemporaryPlayer {
 
     private Socket socket;
     private String nickname;
+    private boolean firstPlayer;
 
-    public TemporaryPlayer(Socket socket, String nickname){
+    public TemporaryPlayer(Socket socket, String nickname, boolean firstPlayer){
         this.socket = socket;
         this.nickname= nickname;
+        this.firstPlayer = firstPlayer;
     }
 
     public String getNickname() {
@@ -26,5 +28,9 @@ public class TemporaryPlayer {
 
     public DataOutputStream getDataOutputStream() throws IOException {
         return new DataOutputStream(socket.getOutputStream());
+    }
+
+    public void setFirstPlayer(){
+        this.firstPlayer = true;
     }
 }
