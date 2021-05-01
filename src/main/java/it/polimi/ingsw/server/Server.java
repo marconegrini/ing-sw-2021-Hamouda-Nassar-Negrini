@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.MultiPlayerManager;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameInstance;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 
@@ -32,23 +31,26 @@ public class Server {
         Game game = Game.getInstance();
         Integer gameId = game.newGame(true);
         MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) Game.getGameInstance(gameId);
-        MultiPlayerManager manager = (MultiPlayerManager) Game.getGameManager(gameId);
 
         for (int i=0; i < size; i++){
 
             TemporaryPlayer tp = temporaryPlayers.removeFirst();
+            tp.getDataOutputStream().writeUTF("GAME STARTED");
+            System.out.println("Starting game for: " + tp.getNickname());
             gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
-            //.getDataOutputStream().writeUTF("GAME STARTED");
-            //System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
         }
+
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
 
-        gameInstance.printGamePlayers();
+        MultiPlayerManager manager = (MultiPlayerManager) Game.getGameManager(gameId);
+
+        manager.manageTurn();
 
         MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
 
         gameHandler.start();
+
     }
 
     public static synchronized int size(){
@@ -96,9 +98,7 @@ public class Server {
             System.out.println("");
             for (TemporaryPlayer player: temporaryPlayers){
                 System.out.println(player.getNickname());
-
             }
-
 
             try{
                 clientSocket = serverSocket.accept();

@@ -30,6 +30,10 @@ public abstract class Player {
         return this.userId;
     }
 
+    public String getNickname(){
+        return this.nickname;
+    }
+
     public void setLeaderCards(List<LeaderCard> leaderCards){
         this.leaderCards = leaderCards;
     }
