@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.Stack;
@@ -17,12 +19,15 @@ public class SinglePlayer extends Player {
 
     private Integer croceNera;
 
+    private Stack<LorenzoCard> poppedLorenzosCard;
+
     //TODO single player userFaithPath
 
-    public SinglePlayer(String nickname, Integer userId, Socket socket){
+    public SinglePlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer){
         this.nickname = nickname;
         this.userId = userId;
-        this.socket = socket;
+        this.toClient = toServer;
+        this.fromClient = fromServer;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = true;
         lorenzoCardsDeck = new Stack();
@@ -34,7 +39,7 @@ public class SinglePlayer extends Player {
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.FAITHANDSHUFFLECARD));
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.TWOFAITHPOINTSCARD));
         Collections.shuffle(lorenzoCardsDeck);
-        //temporaryDeck = new Stack<>();
+        poppedLorenzosCard = new Stack<>();
         croceNera = 0;
     }
 
@@ -101,11 +106,15 @@ public class SinglePlayer extends Player {
                 this.updateFaithPath(this.getLorenzoPosition());
                 this.incrementLorenzoPosition();
                 this.updateFaithPath(this.getLorenzoPosition());
+                lorenzoCardsDeck.addAll(poppedLorenzosCard);
+                poppedLorenzosCard.clear();
                 Collections.shuffle(this.lorenzoCardsDeck);
                 System.out.println("Picked Up a "+ LorenzoCardType.FAITHANDSHUFFLECARD);
                 break;
 
         }
+
+        poppedLorenzosCard.push(lorenzoCard);
     }
 
     public Integer getLorenzoPosition(){
@@ -115,6 +124,17 @@ public class SinglePlayer extends Player {
     public boolean lorenzoWins(){
         if(croceNera.equals(this.userFaithPath.getEnd())) return true;
         return false;
+    }
+
+    public void printPlayer(){
+        System.out.println("calamaio: " + this.hasCalamaio);
+        System.out.println("leaderCards: " + this.leaderCards);
+        System.out.println("faithPath: " + this.userFaithPath);
+        System.out.println("personalBoard: " + this.personalBoard);
+        System.out.println("dis: " + this.fromClient);
+        System.out.println("dos: " + this.toClient);
+        System.out.println("Lorenzo Cards deck: " + this.lorenzoCardsDeck);
+        System.out.println("Croce nera Pos: " + croceNera);
     }
 
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import java.io.IOException;
+
 public abstract class GameManager {
 
     protected TurnManager turnManager;
@@ -10,7 +12,7 @@ public abstract class GameManager {
      *
      * Manage the game allowing players to do actions
      */
-    public abstract void manageTurn();
+    public abstract void manageTurn() throws IOException;
 
     /**
      * initializes players with calamaio and leaderCards

@@ -1,7 +1,16 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
 public class SinglePlayerManager extends GameManager {
 
@@ -10,7 +19,7 @@ public class SinglePlayerManager extends GameManager {
 
     public SinglePlayerManager(SinglePlayerGameInstance game){
         this.game = game;
-        this.player = game.getPlayer();
+        //this.player = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
 
@@ -24,11 +33,34 @@ public class SinglePlayerManager extends GameManager {
      */
     @Override
     public void manageTurn() {
+
+        this.setUp();
+
+        try{
+            player.getToClient().writeUTF("OK IN GAME");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void setUp() {
 
+        this.player = game.getPlayer();
+
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        parser.close();
+
+        Collections.shuffle(leaderCards);
+
+        List<LeaderCard> leaderCardsDeck = new ArrayList();
+        for (int i = 0; i < 4; i++) {
+            if (!leaderCards.isEmpty())
+                leaderCardsDeck.add(leaderCards.pop());
+        }
+
+        player.setLeaderCards(leaderCardsDeck);
     }
 
     /**

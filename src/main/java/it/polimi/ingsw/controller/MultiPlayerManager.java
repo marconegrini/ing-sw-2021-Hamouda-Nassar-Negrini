@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 
+import java.io.IOException;
 import java.util.*;
 
 public class MultiPlayerManager extends GameManager {
@@ -15,7 +17,7 @@ public class MultiPlayerManager extends GameManager {
 
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
-        this.players = game.getPlayers();
+        this.players = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
 
@@ -28,9 +30,20 @@ public class MultiPlayerManager extends GameManager {
      * Manage the game allowing players to do actions
      */
     @Override
-    public void manageTurn() {
+    public void manageTurn(){
 
         this.setUp();
+
+        try{
+            for (Player player: players){
+                player.getToClient().writeUTF("OK IN GAME");
+                if (player.hasCalamaio()){
+                    player.getToClient().writeUTF("HASCALAMAIO");
+                }
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -44,9 +57,9 @@ public class MultiPlayerManager extends GameManager {
         parser.close();
         Collections.shuffle(leaderCards);
 
-        List<LeaderCard> leaderCardsDeck = new ArrayList();
-
         for(MultiPlayer player : players){
+
+            List<LeaderCard> leaderCardsDeck = new ArrayList();
             for(int i = 0; i < 4; i++)
                 if(!leaderCards.isEmpty())
                     leaderCardsDeck.add(leaderCards.pop());

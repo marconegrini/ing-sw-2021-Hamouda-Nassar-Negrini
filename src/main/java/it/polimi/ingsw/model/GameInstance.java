@@ -3,7 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public abstract class GameInstance {
 
@@ -15,7 +18,7 @@ public abstract class GameInstance {
 
     public abstract Integer getGameId();
 
-    public abstract void addPlayer(String nickname, Integer userId, Socket socket) throws MaxPlayersException;
+    public abstract void addPlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer) throws MaxPlayersException;
 
     public MarketBoard getMarketBoard(){
         return this.marketBoard;
@@ -24,4 +27,5 @@ public abstract class GameInstance {
     public CardsDeck getCardsDeck(){
         return this.cardsDeck;
     }
+
 }

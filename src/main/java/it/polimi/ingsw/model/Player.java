@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.List;
 
@@ -12,7 +14,9 @@ public abstract class Player {
 
     protected String nickname;
 
-    protected Socket socket;
+    protected DataOutputStream toClient;
+
+    protected DataInputStream fromClient;
 
     protected boolean hasCalamaio;
 
@@ -24,6 +28,10 @@ public abstract class Player {
 
     public Integer getUserId(){
         return this.userId;
+    }
+
+    public String getNickname(){
+        return this.nickname;
     }
 
     public void setLeaderCards(List<LeaderCard> leaderCards){
@@ -41,4 +49,17 @@ public abstract class Player {
     public abstract void buyDevelopmentCard();
 
     public abstract void activateProduction();
+
+    public DataInputStream getFromClient(){
+        return this.fromClient;
+    }
+
+    public DataOutputStream getToClient() {
+        return this.toClient;
+    }
+
+    public boolean hasCalamaio (){
+        return hasCalamaio;
+    }
+
 }

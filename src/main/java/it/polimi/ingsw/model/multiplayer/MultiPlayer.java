@@ -2,19 +2,24 @@ package it.polimi.ingsw.model.multiplayer;
 
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
 
 public class MultiPlayer extends Player {
 
-    public MultiPlayer(String nickname, Integer userId, Socket socket){
+    public MultiPlayer(String nickname, Integer userId, DataOutputStream toClient, DataInputStream fromClient){
         this.userId = userId;
         this.nickname = nickname;
-        this.socket = socket;
+        this.toClient = toClient;
+        this.fromClient = fromClient;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = false;
+        this.personalBoard = new PersonalBoard();
     }
 
     @Override
@@ -50,5 +55,14 @@ public class MultiPlayer extends Player {
 
     public void setCalamaio(){
         this.hasCalamaio = true;
+    }
+
+    public void printPlayer(){
+        System.out.println("calamaio: " + this.hasCalamaio);
+        System.out.println("leaderCards: " + this.leaderCards);
+        System.out.println("faithPath: " + this.userFaithPath);
+        System.out.println("personalBoard: " + this.personalBoard);
+        System.out.println("dis: " + this.fromClient);
+        System.out.println("dos: " + this.toClient);
     }
 }

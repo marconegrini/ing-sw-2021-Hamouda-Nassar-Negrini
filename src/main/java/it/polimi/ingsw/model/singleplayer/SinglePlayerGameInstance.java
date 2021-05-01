@@ -8,7 +8,11 @@ import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinglePlayerGameInstance extends GameInstance {
 
@@ -16,6 +20,8 @@ public class SinglePlayerGameInstance extends GameInstance {
 
     public SinglePlayerGameInstance(Integer gameId){
         this.gameId = gameId;
+        this.cardsDeck = new CardsDeck();
+        this.marketBoard = new MarketBoard();
     }
 
     /*
@@ -39,13 +45,16 @@ public class SinglePlayerGameInstance extends GameInstance {
     }
 
     @Override
-    public void addPlayer(String nickname, Integer userId, Socket socket) throws MaxPlayersException {
-        if(player==null) {
-            player = new SinglePlayer(nickname, userId, socket);
-        }
+    public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis){
+            this.player = new SinglePlayer(nickname, userId, dos, dis);
     }
 
     public Player getPlayer() {
        return this.player;
+    }
+
+    public void printGamePlayer(){
+        System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
+        player.printPlayer();
     }
 }
