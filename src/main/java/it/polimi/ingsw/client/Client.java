@@ -130,29 +130,6 @@ public class Client {
                 }
 
             } else{
-                    Runnable runnable1 = () -> {
-                        try {
-                            String message;
-                            while (true) {
-                                if (br.ready()){
-                                    message = br.readLine();
-                                    dos.writeUTF(message);
-                                    if (message.toUpperCase().equals("OK IN GAME")){
-                                        System.out.println("You are inside the game");
-                                    }
-
-                                    if (message.toUpperCase().equals("EXIT")){
-                                        br.close();
-                                        break;
-                                    }
-                                }
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    };
-                    Thread clientComunication = new Thread(runnable1);
-                    clientComunication.start();
 
                 String notification = "";
 
@@ -164,14 +141,8 @@ public class Client {
                         e.printStackTrace();
                     }
 
-                    if (notification.toUpperCase().equals("EXIT")) {
-                        endThread.set(false);
-                        br.close();
-                        break;
-                    }
-
                     if (notification.toUpperCase().equals("GAME STARTED")) {
-                        endThread.set(false);
+                        System.out.println("The game is starting");
                         isStarted = true;
                         break;
                     }
@@ -190,7 +161,6 @@ public class Client {
                         if (notification.toUpperCase().equals("OK IN GAME")) {
                             System.out.println("You are inside a game with Lorenzo");
                         }
-
                     }
                 }
 
