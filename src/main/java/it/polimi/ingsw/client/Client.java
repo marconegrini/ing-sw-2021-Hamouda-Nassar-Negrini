@@ -130,8 +130,6 @@ public class Client {
                 }
 
             } else{
-                /*
-                while (true){
                     Runnable runnable1 = () -> {
                         try {
                             String message;
@@ -148,19 +146,56 @@ public class Client {
                                         break;
                                     }
                                 }
-                                //if (endThread.get())    break;
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        //System.out.println("Thread finished with endThread: " + endThread.get());
                     };
-
                     Thread clientComunication = new Thread(runnable1);
                     clientComunication.start();
+
+                String notification = "";
+
+                while (true) {
+
+                    try {
+                        notification = dis.readUTF();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (notification.toUpperCase().equals("EXIT")) {
+                        endThread.set(false);
+                        br.close();
+                        break;
+                    }
+
+                    if (notification.toUpperCase().equals("GAME STARTED")) {
+                        endThread.set(false);
+                        isStarted = true;
+                        break;
+                    }
                 }
 
-                 */
+                if (isStarted) {
+
+                    while (true) {
+
+                        try {
+                            notification = dis.readUTF();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (notification.toUpperCase().equals("OK IN GAME")) {
+                            System.out.println("You are inside the game");
+                        }
+
+                    }
+                }
+
+
+
             }
 
             //Inside game
