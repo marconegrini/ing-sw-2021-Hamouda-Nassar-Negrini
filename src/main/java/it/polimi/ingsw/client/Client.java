@@ -1,4 +1,5 @@
 package it.polimi.ingsw.client;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -6,17 +7,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Client {
 
-    public static void main(String[] args) throws IOException
-    {
-        try
-        {
+    public static void main(String[] args) throws IOException {
+        try {
             AtomicBoolean endThread = new AtomicBoolean(true);
             Scanner scn = new Scanner(System.in);
             Socket s = new Socket("192.168.43.91", 5056);
 
-            BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-            boolean isMultiplayer = false;
+            boolean isMultiplayer;
+            boolean isStarted = false;
 
             System.out.println("Connecting to: " + s);
 
@@ -27,10 +27,10 @@ public class Client {
             //asking and obtaining user's nickname
             System.out.println(dis.readUTF());
 
-            while(true) {
+            while (true) {
                 String nickname = scn.nextLine();
                 dos.writeUTF(nickname);
-                if(dis.readUTF().equals("OK"))
+                if (dis.readUTF().equals("OK"))
                     break;
                 else System.out.println("Choose another nickname: ");
             }
@@ -38,29 +38,35 @@ public class Client {
             //asking and obtaining boolean multiplayer
             System.out.println(dis.readUTF());
 
-            while(true) {
+            while (true) {
                 String multiplayer = scn.nextLine();
                 dos.writeUTF(multiplayer);
-                if(dis.readUTF().equals("OK")){
-                    if (multiplayer.equals("YES"))
+
+                if (dis.readUTF().equals("OK")) {
+
+                    if(multiplayer.toUpperCase().equals("YES")) {
                         isMultiplayer = true;
-                    else    isMultiplayer = false;
+                    } else {isMultiplayer = false;}
                     break;
-                }
-                else System.out.println("Type again your choice: ");
+
+                } else System.out.println("Type again your choice: ");
             }
 
-            if (isMultiplayer){
+            //System.out.println("isMultiplayer: " + isMultiplayer);
+
+            if (isMultiplayer) {
+
+                //System.out.println("Dentro");
 
                 Runnable runnable1 = () -> {
                     try {
                         String toExit;
                         while (endThread.get()) {
 
-                            if (br.ready()){
+                            if (br.ready()) {
                                 toExit = br.readLine();
                                 dos.writeUTF(toExit);
-                                if (toExit.toUpperCase().equals("EXIT")){
+                                if (toExit.toUpperCase().equals("EXIT")) {
                                     br.close();
                                     break;
                                 }
@@ -84,19 +90,47 @@ public class Client {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if(notification.toUpperCase().equals("LEADER"))
+                    if (notification.toUpperCase().equals("LEADER"))
                         System.out.println("You are the game leader: type 'START' to start the game.");
                     else System.out.println(notification);
 
-                    if (notification.toUpperCase().equals("GAME STARTED") || notification.toUpperCase().equals("EXIT")){
+                    if (notification.toUpperCase().equals("EXIT")) {
                         endThread.set(false);
-                        //System.out.println("while true finished with endThread: " + endThread.get());
-                        //exit.interrupt();
+                        br.close();
                         break;
                     }
 
+                    if (notification.toUpperCase().equals("GAME STARTED")) {
+                        endThread.set(false);
+                        isStarted = true;
+                        break;
+                        //System.out.println("while true finished with endThread: " + endThread.get());
+                        //exit.interrupt();
+                    }
                 }
+
+                if (isStarted) {
+
+                    while (true) {
+
+                        try {
+                            notification = dis.readUTF();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (notification.toUpperCase().equals("OK IN GAME")) {
+                            System.out.println("You are inside the game");
+                        }
+
+                        if (notification.toUpperCase().equals("HASCALAMAIO")) {
+                            System.out.println("You have the calamaio");
+                        }
+                    }
+                }
+
             } else{
+                /*
                 while (true){
                     Runnable runnable1 = () -> {
                         try {
@@ -113,11 +147,6 @@ public class Client {
                                         br.close();
                                         break;
                                     }
-
-                                    if (message.toUpperCase().equals("HASCALAMAIO")){
-                                        System.out.println("You have the calamaio");
-                                    }
-
                                 }
                                 //if (endThread.get())    break;
                             }
@@ -130,10 +159,11 @@ public class Client {
                     Thread clientComunication = new Thread(runnable1);
                     clientComunication.start();
                 }
+
+                 */
             }
 
             //Inside game
-
 
 
             //exit.interrupt();
@@ -145,7 +175,7 @@ public class Client {
             System.out.println("Program ended");
 
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
