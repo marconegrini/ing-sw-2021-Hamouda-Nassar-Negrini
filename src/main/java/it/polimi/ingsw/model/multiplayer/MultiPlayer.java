@@ -11,11 +11,11 @@ import java.net.Socket;
 
 public class MultiPlayer extends Player {
 
-    public MultiPlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer){
+    public MultiPlayer(String nickname, Integer userId, DataOutputStream toClient, DataInputStream fromClient){
         this.userId = userId;
         this.nickname = nickname;
-        this.toServer = toServer;
-        this.fromServer = fromServer;
+        this.toClient = toClient;
+        this.fromClient = fromClient;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = false;
     }
