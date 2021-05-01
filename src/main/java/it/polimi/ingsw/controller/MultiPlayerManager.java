@@ -44,9 +44,9 @@ public class MultiPlayerManager extends GameManager {
         parser.close();
         Collections.shuffle(leaderCards);
 
-        List<LeaderCard> leaderCardsDeck = new ArrayList();
-
         for(MultiPlayer player : players){
+
+            List<LeaderCard> leaderCardsDeck = new ArrayList();
             for(int i = 0; i < 4; i++)
                 if(!leaderCards.isEmpty())
                     leaderCardsDeck.add(leaderCards.pop());
