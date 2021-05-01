@@ -188,7 +188,7 @@ public class Client {
                         }
 
                         if (notification.toUpperCase().equals("OK IN GAME")) {
-                            System.out.println("You are inside the game");
+                            System.out.println("You are inside a game with Lorenzo");
                         }
 
                     }
