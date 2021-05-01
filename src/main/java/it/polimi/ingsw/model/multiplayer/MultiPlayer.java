@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.multiplayer;
 
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 
@@ -18,6 +19,7 @@ public class MultiPlayer extends Player {
         this.fromClient = fromClient;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = false;
+        this.personalBoard = new PersonalBoard();
     }
 
     @Override
@@ -56,12 +58,11 @@ public class MultiPlayer extends Player {
     }
 
     public void printPlayer(){
-        System.out.println(this.hasCalamaio);
-        System.out.println(this.leaderCards);
-        System.out.println(this.nickname);
-        System.out.println(this.userFaithPath);
-        System.out.println(this.personalBoard);
-        System.out.println(this.fromClient);
-        System.out.println(this.toClient);
+        System.out.println("calamaio: " + this.hasCalamaio);
+        System.out.println("leaderCards: " + this.leaderCards);
+        System.out.println("faithPath: " + this.userFaithPath);
+        System.out.println("personalBoard: " + this.personalBoard);
+        System.out.println("dis: " + this.fromClient);
+        System.out.println("dos: " + this.toClient);
     }
 }
