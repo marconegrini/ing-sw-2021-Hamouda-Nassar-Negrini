@@ -15,7 +15,7 @@ public class MultiPlayerManager extends GameManager {
 
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
-        this.players = game.getPlayers();
+        this.players = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
 

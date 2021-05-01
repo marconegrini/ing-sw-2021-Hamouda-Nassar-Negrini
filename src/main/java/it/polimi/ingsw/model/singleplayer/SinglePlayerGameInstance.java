@@ -11,6 +11,8 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinglePlayerGameInstance extends GameInstance {
 
@@ -18,6 +20,8 @@ public class SinglePlayerGameInstance extends GameInstance {
 
     public SinglePlayerGameInstance(Integer gameId){
         this.gameId = gameId;
+        this.cardsDeck = new CardsDeck();
+        this.marketBoard = new MarketBoard();
     }
 
     /*

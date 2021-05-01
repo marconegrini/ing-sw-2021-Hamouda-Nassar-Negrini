@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.multiplayer;
 
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.GameInstance;
+import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 
@@ -19,6 +21,8 @@ public class MultiPlayerGameInstance extends GameInstance {
     public MultiPlayerGameInstance(Integer gameId){
         this.gameId = gameId;
         players = new ArrayList<>();
+        this.cardsDeck = new CardsDeck();
+        this.marketBoard = new MarketBoard();
     }
 
     @Override
@@ -34,7 +38,7 @@ public class MultiPlayerGameInstance extends GameInstance {
         return this.gameId;
     }
 
-    public List<MultiPlayer> getPlayers(){
+    public List<MultiPlayer> getPlayer(){
         return this.players;
     }
 

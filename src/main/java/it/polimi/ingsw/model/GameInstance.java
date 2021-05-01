@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public abstract class GameInstance {
 
@@ -26,4 +27,5 @@ public abstract class GameInstance {
     public CardsDeck getCardsDeck(){
         return this.cardsDeck;
     }
+
 }

@@ -3,8 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInstance;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
-import it.polimi.ingsw.model.multiplayer.MultiPlayer;
-import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
