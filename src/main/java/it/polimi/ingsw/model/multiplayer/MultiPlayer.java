@@ -61,7 +61,7 @@ public class MultiPlayer extends Player {
         System.out.println(this.nickname);
         System.out.println(this.userFaithPath);
         System.out.println(this.personalBoard);
-        System.out.println(this.fromServer);
-        System.out.println(this.toServer);
+        System.out.println(this.fromClient);
+        System.out.println(this.toClient);
     }
 }
