@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.controller.MultiPlayerManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInstance;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -26,23 +28,27 @@ public class Server {
         temporaryPlayers.remove(tp);
     }
 
-    public static synchronized void startMultiplayerGame (int size) throws IOException, MaxPlayersException {
+    public static synchronized void startMultiplayerGame(int size) throws IOException, MaxPlayersException {
         Game game = Game.getInstance();
         Integer gameId = game.newGame(true);
-        GameInstance gameInstance = Game.getGameInstance(gameId);
+        MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) Game.getGameInstance(gameId);
+        MultiPlayerManager manager = (MultiPlayerManager) Game.getGameManager(gameId);
+
         for (int i=0; i < size; i++){
+
             TemporaryPlayer tp = temporaryPlayers.removeFirst();
             gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
-
-
-
             //.getDataOutputStream().writeUTF("GAME STARTED");
             //System.out.println("Starting game for: " + temporaryPlayers.get(i).getNickname());
         }
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
 
+        gameInstance.printGamePlayers();
 
+        MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
+
+        gameHandler.start();
     }
 
     public static synchronized int size(){

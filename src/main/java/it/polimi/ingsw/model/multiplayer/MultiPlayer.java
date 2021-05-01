@@ -54,4 +54,14 @@ public class MultiPlayer extends Player {
     public void setCalamaio(){
         this.hasCalamaio = true;
     }
+
+    public void printPlayer(){
+        System.out.println(this.hasCalamaio);
+        System.out.println(this.leaderCards);
+        System.out.println(this.nickname);
+        System.out.println(this.userFaithPath);
+        System.out.println(this.personalBoard);
+        System.out.println(this.fromServer);
+        System.out.println(this.toServer);
+    }
 }

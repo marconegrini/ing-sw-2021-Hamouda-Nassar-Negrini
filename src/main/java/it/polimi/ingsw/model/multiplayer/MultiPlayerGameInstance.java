@@ -42,4 +42,9 @@ public class MultiPlayerGameInstance extends GameInstance {
         return this.players;
     }
 
+    public void printGamePlayers(){
+        for(MultiPlayer player : players){
+            player.printPlayer();
+        }
+    }
 }
