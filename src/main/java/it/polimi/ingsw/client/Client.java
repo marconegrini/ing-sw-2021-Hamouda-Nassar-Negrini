@@ -12,7 +12,7 @@ public class Client {
         {
             AtomicBoolean endThread = new AtomicBoolean(true);
             Scanner scn = new Scanner(System.in);
-            Socket s = new Socket("127.0.0.1", 5056);
+            Socket s = new Socket("192.168.43.91", 5056);
 
             BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
 
