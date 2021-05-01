@@ -14,9 +14,9 @@ public abstract class Player {
 
     protected String nickname;
 
-    protected DataOutputStream toServer;
+    protected DataOutputStream toClient;
 
-    protected DataInputStream fromServer;
+    protected DataInputStream fromClient;
 
     protected boolean hasCalamaio;
 
@@ -45,4 +45,17 @@ public abstract class Player {
     public abstract void buyDevelopmentCard();
 
     public abstract void activateProduction();
+
+    public DataInputStream getFromClient(){
+        return this.fromClient;
+    }
+
+    public DataOutputStream getToClient() {
+        return this.toClient;
+    }
+
+    public boolean hasCalamaio (){
+        return hasCalamaio;
+    }
+
 }
