@@ -91,7 +91,9 @@ public class ClientHandler extends Thread{
                 }
 
             } else {
-
+                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
+                toClient.writeUTF("Starting a single player game...");
+                Server.startSinglePlayergame(temporaryPlayer);
             }
 
         } catch (IOException | MaxPlayersException e) {

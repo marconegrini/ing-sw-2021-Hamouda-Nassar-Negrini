@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.MultiPlayerManager;
+import it.polimi.ingsw.controller.SinglePlayerManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -45,9 +47,23 @@ public class Server {
 
         MultiPlayerManager manager = (MultiPlayerManager) Game.getGameManager(gameId);
 
-        manager.manageTurn();
-
         MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
+
+        gameHandler.start();
+
+    }
+
+    public static void startSinglePlayergame(TemporaryPlayer tp) throws IOException {
+        Game game = Game.getInstance();
+        Integer gameId = Game.newGame(false);
+        SinglePlayerGameInstance gameInstance = (SinglePlayerGameInstance) Game.getGameInstance(gameId);
+        gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(),tp.getDataOutputStream(), tp.getDataInputStream());
+        tp.getDataOutputStream().writeUTF("GAME STARTED");
+        SinglePlayerManager manager = (SinglePlayerManager) Game.getGameManager(gameId);
+
+
+
+        SinglePlayerGameHandler gameHandler = new SinglePlayerGameHandler(gameInstance, manager);
 
         gameHandler.start();
 

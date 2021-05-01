@@ -45,13 +45,16 @@ public class SinglePlayerGameInstance extends GameInstance {
     }
 
     @Override
-    public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis) throws MaxPlayersException {
-        if(player==null) {
-            player = new SinglePlayer(nickname, userId, dos, dis);
-        }
+    public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis){
+            this.player = new SinglePlayer(nickname, userId, dos, dis);
     }
 
     public Player getPlayer() {
        return this.player;
+    }
+
+    public void printGamePlayer(){
+        System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
+        player.printPlayer();
     }
 }
