@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server {
 
-    private static LinkedList<TemporaryPlayer> temporaryPlayers = new LinkedList<>();
+    private static final LinkedList<TemporaryPlayer> temporaryPlayers = new LinkedList<>();
 
     private static AtomicInteger userId = new AtomicInteger(0);
 
@@ -78,12 +78,11 @@ public class Server {
                 startMultiplayerGame(4);
             } else{
                 for(TemporaryPlayer tp : temporaryPlayers){
-                //System.out.println("");
                     if(isLeader(tp)){
                         tp.setFirstPlayer();
                         tp.getDataOutputStream().writeUTF("LEADER");
                     }
-                    tp.getDataOutputStream().writeUTF("Waiting with other " + (temporaryPlayers.size()-1) + " players");
+                    tp.getDataOutputStream().writeUTF((temporaryPlayers.size()-1) + "WAITING");
                 }
             }
     }
@@ -95,7 +94,7 @@ public class Server {
 
     public static synchronized boolean nicknameAlreadyExist(String nickname){
         for(TemporaryPlayer tp : temporaryPlayers){
-            if(nickname.toUpperCase().equals(tp.getNickname().toUpperCase()))
+            if(nickname.equalsIgnoreCase(tp.getNickname().toUpperCase()))
                 return true;
         }
         return false;
