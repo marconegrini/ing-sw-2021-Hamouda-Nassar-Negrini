@@ -65,6 +65,7 @@ public class CardsDeck {
         }
     }
 
+
     public DevelopmentCard peekCard(int row, int column){
         return cardsDeck[row][column].peekCard();
     }
@@ -77,6 +78,14 @@ public class CardsDeck {
         return cardsDeck[row][column].emptyDeck();
     }
 
+    public ArrayList<DevelopmentCard> peekRow(int row){
+        ArrayList<DevelopmentCard> dvCardRow = new ArrayList<>();
 
+        for (int column=0; column<4; column++)
+        {
+            dvCardRow.add(peekCard(row,column));
+        }
+        return dvCardRow;
+    }
 
 }

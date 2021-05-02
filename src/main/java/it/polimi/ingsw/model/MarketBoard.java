@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.enumerations.ASCII_Marbles;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 
@@ -126,4 +127,26 @@ public class MarketBoard {
     public Marble[][] getMarketBoardMarbles () {return marbles.clone();}
 
     public Color getExternalMarbleColor () {return externalMarble.getColor();}
+
+
+        //for testing purpose only
+        public static void main(String[] args) {
+            MarketBoard market = new MarketBoard();
+
+            market.printm(market);
+            System.out.println(market.getExternalMarbleColor());
+            market.insertMarble(false,1);
+            market.printm(market);
+            System.out.println(market.getExternalMarbleColor());
+        }
+
+        public void printm(MarketBoard market){
+            for (int i=0; i<3; i++){
+                for (int j=0; j<4; j++){
+                    System.out.print(ASCII_Marbles.getShape(market.getMarketBoardMarbles()[i][j].getColor().toString())+" ");
+                }
+                System.out.println("\n");
+            }
+        }
+
 }
