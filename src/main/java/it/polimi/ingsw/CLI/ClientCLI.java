@@ -1,5 +1,6 @@
 package it.polimi.ingsw.CLI;
 
+import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
@@ -72,6 +73,8 @@ return null;
 
     }
 
+
+    //ONLY FOR TESTING PURPOSE
     public static void main(String[] args) {
         ClientCLI clientCLI = new ClientCLI();
 
@@ -84,9 +87,27 @@ return null;
         DevelopmentCard dvCard = new DevelopmentCard(11,CardColor.GREEN,Level.SECOND,cardCost,productionIn,productionOut);
 
 
-        System.out.println("⬤ ⬤ ⬤ ⬤");
-        System.out.println("⬤ ⬤ ⬤ ⬤");
-        System.out.println("⬤ ⬤ ⬤ ⬤");
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+
+        MarketBoard market = new MarketBoard();
+        MarketTracer marketTracer = new MarketTracer();
+
+        marketTracer.marketTracer(market);
+        market.insertMarble(true,1);
+        marketTracer.marketTracer(market);
+        market.insertMarble(false,3);
+        marketTracer.marketTracer(market);
+
+
+//        System.out.println("    ◤ ⏫ —  ⏫ — ⏫ — ⏫ ◥        \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 1    \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 2    \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 3    \n" +
+//                           "    ◣ ——— ——— ——— ———◢         \n" +
+//                           "      ^    ^   ^   ^           \n" +
+//                           "      1    2   3   4          ");
 
 
     }

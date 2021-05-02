@@ -73,21 +73,28 @@ public class MarketBoard {
 
     /**
      *
-     * Returns an ArrayList of Marbles of the selected row or column,
-     * insert a marble in a row or a column, moves the other
+     * Returns an ArrayList of Marbles of the selected isRow or column,
+     * insert a marble in a isRow or a column, moves the other
      * marbles of one position and changes the external marbles.
      *
-     * @param row  the row indicate if the parameter rowOrColNum refers to a row or a column
+     * @param isRow  the isRow indicate if the parameter rowOrColNum refers to a row or a column
      * @param rowOrColNum  the rowOrColNum indicate the column or the row selected
      * @return  an ArrayList with the picked marbles
      */
-    public List<Marble> insertMarble(boolean row, int rowOrColNum){
+    public List<Marble> insertMarble(boolean isRow, int rowOrColNum){
 
         Marble temporaryMarble;
         List<Marble> pickedMarbles;
+
+        rowOrColNum= rowOrColNum>0 ? rowOrColNum-1 : rowOrColNum; //Convention Start from 1 instead of 0, if 0 leave it as it is
+
         //ArrayList<Resource> pickedResources;
 
-        if (row){
+        if (isRow){
+            if (rowOrColNum>2){
+                throw new IndexOutOfBoundsException("Number of rows inserted is greater than 3 !");
+            }
+
             pickedMarbles = new ArrayList<>(Arrays.asList(marbles[rowOrColNum])); //Create the arraylist with the entire row
             temporaryMarble = marbles[rowOrColNum][0];
             for (int i=0; i<3; i++){
@@ -96,6 +103,10 @@ public class MarketBoard {
             marbles[rowOrColNum][3] = externalMarble;
             externalMarble = temporaryMarble;
         } else {
+            if (rowOrColNum>3){
+                throw new IndexOutOfBoundsException("Number of columns inserted is greater than 4 !");
+            }
+
             pickedMarbles = new ArrayList<>();
             temporaryMarble = marbles[0][rowOrColNum];
             for (int i=0; i<2; i++){

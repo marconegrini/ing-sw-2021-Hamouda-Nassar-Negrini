@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
 import java.util.ArrayList;
 
-public class CliDvCardsTracer {
+public class DvCardsTracer {
     /**
      * Method that takes any dvCards ArrayList and gives bake a list of Strings to be printed consequently as every string is a dv Card for the CLI
      * @param dvCards ArrayList of development cards
@@ -160,7 +160,7 @@ public class CliDvCardsTracer {
 
 //        deck.forEach(System.out::println);
 
-        CliDvCardsTracer traceDvCards = new CliDvCardsTracer();
+        DvCardsTracer traceDvCards = new DvCardsTracer();
         traceDvCards.printDVCard(deck).forEach(System.out::println);
     }
 
