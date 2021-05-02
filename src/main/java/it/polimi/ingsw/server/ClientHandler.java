@@ -6,7 +6,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Locale;
 
 public class ClientHandler extends Thread{
 
@@ -27,17 +26,15 @@ public class ClientHandler extends Thread{
 
         String multiplayer;
 
-        String nickname=null;
+        String nickname;
 
-        boolean nicknameAlreadyExists = true;
 
         try {
 
-            toClient.writeUTF("Type your nickname: ");
 
             while (true) {
 
-                while (!(fromClient.available() > 0)) ;
+                while (!(fromClient.available() > 0));
                 nickname = fromClient.readUTF();
 
                 if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))
@@ -46,30 +43,16 @@ public class ClientHandler extends Thread{
                     toClient.writeUTF("OK");
                     break;
                 }
-                ;
             }
 
-            toClient.writeUTF("Start a multiplayer game? [yes/no]");
+            while (!(fromClient.available() > 0));
+            multiplayer = fromClient.readUTF();
 
-            while (true) {
-                while (!(fromClient.available() > 0)) ;
-                multiplayer = fromClient.readUTF();
-                if ((multiplayer.isEmpty() || !multiplayer.toUpperCase().equals("YES"))
-                        && (multiplayer.isEmpty() || !multiplayer.toUpperCase().equals("NO")))
-                    toClient.writeUTF("KO");
-                else {
-                    toClient.writeUTF("OK");
-                    break;
-                }
-                ;
-            }
-
-            if (multiplayer.toUpperCase().equals("YES")) {
+            if (multiplayer.equalsIgnoreCase("YES")) {
 
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
                 Server.add(temporaryPlayer);
                 System.out.println("Added to players list " + nickname);
-                toClient.writeUTF("Added to players list.\nType 'EXIT' to leave the game");
                 Server.updateUsers();
 
 
@@ -92,7 +75,6 @@ public class ClientHandler extends Thread{
 
             } else {
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
-                toClient.writeUTF("Starting a single player game...");
                 Server.startSinglePlayergame(temporaryPlayer);
             }
 
