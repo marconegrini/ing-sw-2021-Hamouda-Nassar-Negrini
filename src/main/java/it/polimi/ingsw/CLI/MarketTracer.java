@@ -64,7 +64,7 @@ public class MarketTracer {
                    "\t         1    2   3   4           \n");
 
 /*
- *       To Substitute?
+ *
  *
  *     ╔════════════════════════╗              ▀ ▀ ══➞══════▂▂▂▂▂▂➞══════╗
  *     ║                      ⬤║
@@ -81,6 +81,7 @@ public class MarketTracer {
 
 //TRACE
 result.forEach(System.out::print);
+
 row1.clear();
 row2.clear();
 row3.clear();
