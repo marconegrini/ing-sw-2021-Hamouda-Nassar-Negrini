@@ -4,11 +4,13 @@ import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public class SinglePlayer extends Player {

@@ -3,9 +3,15 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TurnManager {
 
@@ -39,12 +45,49 @@ public class TurnManager {
 
     }
 
-    public void buyDevelopmentCard (Player player, Integer row, Integer column){
-        //TODO add the development card to the player
+    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
+
+        List<Resource> playerResources = player.getTotalResource();
+        List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
+
+        if (playerResources.equals(devCardCost) || playerResources.containsAll(devCardCost)) {
+            List<Resource> toTakeFromCoffer = player.getWarehouseResource();
+            List<Resource> toTakeFromWarehouse = new ArrayList<>();
+
+            for (Resource resource : devCardCost)
+                if (toTakeFromCoffer.contains(resource)) {
+                    toTakeFromCoffer.remove(resource);
+                    toTakeFromWarehouse.add(resource);
+                }
+
+            player.pullWarehouseResources(toTakeFromWarehouse);
+            player.pullCofferResources(toTakeFromCoffer);
+
+            DevelopmentCard devCard = cardsDeck.popCard(row, column);
+
+            try{
+
+                player.addCardInDevCardSlot(devCardSlot, devCard);
+
+            } catch(IllegalInsertionException e1){
+
+                Message message = new Message("Slot insertion not allowed");
+                return message;
+
+            } catch (IndexOutOfBoundsException e2){
+
+                Message message = new Message("Invalid slot number");
+            }
+
+            return new Message("Bought development card and inserted in slot number " + devCardSlot);
+
+        } else return new Message("Insufficient resources to buy selected development card");
+
     }
 
     public void activateProduction (Player player, List<Integer> slots){
         //TODO activate the production of the player
+
     }
 
     public void activateLeaderCard (Player player, List<Integer> leaderCardNum){
@@ -56,7 +99,6 @@ public class TurnManager {
     }
 
 }
-
 
 
 

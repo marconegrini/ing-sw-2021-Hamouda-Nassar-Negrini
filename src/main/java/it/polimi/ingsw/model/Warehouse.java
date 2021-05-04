@@ -113,7 +113,7 @@ public class Warehouse implements Deposit{
      * @param resourcesToTake
      */
     @Override
-    public void pullResource(List<Resource> resourcesToTake){
+    public void pullResource(List<Resource> resourcesToTake) {
 
         Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
         Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);

@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,18 +29,6 @@ public abstract class Player {
     protected List<LeaderCard> leaderCards;
 
     protected FaithPath userFaithPath;
-
-    public Integer getUserId(){
-        return this.userId;
-    }
-
-    public String getNickname(){
-        return this.nickname;
-    }
-
-    public void setLeaderCards(List<LeaderCard> leaderCards){
-        this.leaderCards = leaderCards;
-    }
 
     public abstract void incrementFaithPathPosition();
 
@@ -62,4 +54,42 @@ public abstract class Player {
         return hasCalamaio;
     }
 
+    public Integer getUserId(){
+        return this.userId;
+    }
+
+    public String getNickname(){
+        return this.nickname;
+    }
+
+    public void setLeaderCards(List<LeaderCard> leaderCards){
+        this.leaderCards = leaderCards;
+    }
+
+    public List<Resource> getTotalResource() {
+        List<Resource> totalResource = personalBoard.getWarehouseResource();
+        totalResource.addAll(personalBoard.getCofferResource());
+
+        return totalResource;
+    }
+
+    public List<Resource> getWarehouseResource() {
+        return personalBoard.getWarehouseResource();
+    }
+
+    public List<Resource> getCofferResource() {
+        return personalBoard.getCofferResource();
+    }
+
+    public void pullWarehouseResources(List<Resource> toTake){
+        personalBoard.pullWarehouseResource(toTake);
+    }
+
+    public void pullCofferResources(List<Resource> toTake) {
+        personalBoard.pullCofferResource(toTake);
+    }
+
+    public void addCardInDevCardSlot(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
+        personalBoard.addCardInDevCardSlot(slotNumber, developmentCard);
+    }
 }
