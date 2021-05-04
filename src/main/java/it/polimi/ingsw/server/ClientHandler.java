@@ -35,6 +35,7 @@ public class ClientHandler extends Thread{
             while (true) {
 
                 while (!(fromClient.available() > 0));
+
                 nickname = fromClient.readUTF();
 
                 if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))

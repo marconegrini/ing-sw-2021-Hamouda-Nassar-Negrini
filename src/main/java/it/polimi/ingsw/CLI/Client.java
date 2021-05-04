@@ -12,7 +12,6 @@ public class Client {
         ConnectionToServer connection = new ConnectionToServer(socket);
 
         connection.closeConnection();
-
     }
 }
 

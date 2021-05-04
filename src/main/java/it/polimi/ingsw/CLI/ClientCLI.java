@@ -13,6 +13,7 @@ import java.util.*;
 public class ClientCLI {
 
     public String initialScreen(){
+
         String nickName= "";
         String serverIp= "";
         String serverPort= "";

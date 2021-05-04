@@ -25,7 +25,7 @@
     },
     {
       "Vp":1,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"FIRST",
       "cardCost": [
         {
@@ -125,7 +125,7 @@
     },
     {
       "Vp":2,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"FIRST",
       "cardCost": [
         {
@@ -249,7 +249,7 @@
     },
     {
       "Vp":3,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"FIRST",
       "cardCost": [
         {
@@ -377,7 +377,7 @@
     },
     {
       "Vp":4,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"FIRST",
       "cardCost": [
         {
@@ -505,7 +505,7 @@
     },
     {
       "Vp":5,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"SECOND",
       "cardCost": [
         {
@@ -605,7 +605,7 @@
     },
     {
       "Vp":6,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"SECOND",
       "cardCost": [
         {
@@ -725,7 +725,7 @@
     },
     {
       "Vp":7,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"SECOND",
       "cardCost": [
         {
@@ -837,7 +837,7 @@
     },
     {
       "Vp":8,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"SECOND",
       "cardCost": [
         {
@@ -957,7 +957,7 @@
     },
     {
       "Vp":9,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1077,7 +1077,7 @@
     },
     {
       "Vp":10,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1221,7 +1221,7 @@
     },
     {
       "Vp":11,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"THIRD",
       "cardCost": [
         {
@@ -1333,7 +1333,7 @@
     },
     {
       "Vp":12,
-      "color":"PURPLE",
+      "color":"VIOLET",
       "level":"THIRD",
       "cardCost": [
         {

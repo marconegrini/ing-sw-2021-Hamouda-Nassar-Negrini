@@ -34,7 +34,7 @@ public class Game {
         return instance;
     }
 
-    public static Integer newGame(boolean multiplayer){
+    public Integer newGame(boolean multiplayer){
         synchronized (gameInstances){
             synchronized (gameManagers) {
                 gameId++;
@@ -54,7 +54,7 @@ public class Game {
         }
     }
 
-    public static GameInstance getGameInstance(Integer gameId){
+    public GameInstance getGameInstance(Integer gameId){
         for(GameInstance gi : gameInstances){
             if(gi.gameId.equals(gameId))
                 return gi;
@@ -62,7 +62,7 @@ public class Game {
         return null;
     }
 
-    public static GameManager getGameManager(Integer gameId){
+    public GameManager getGameManager(Integer gameId){
         for(GameManager gm : gameManagers){
             if(gm.getGameId().equals(gameId))
                 return gm;

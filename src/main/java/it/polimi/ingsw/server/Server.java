@@ -32,7 +32,7 @@ public class Server {
     public static synchronized void startMultiplayerGame(int size) throws IOException, MaxPlayersException {
         Game game = Game.getInstance();
         Integer gameId = game.newGame(true);
-        MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) Game.getGameInstance(gameId);
+        MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) game.getGameInstance(gameId);
 
         for (int i=0; i < size; i++){
 
@@ -45,7 +45,7 @@ public class Server {
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
 
-        MultiPlayerManager manager = (MultiPlayerManager) Game.getGameManager(gameId);
+        MultiPlayerManager manager = (MultiPlayerManager) game.getGameManager(gameId);
 
         MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
 
@@ -55,11 +55,11 @@ public class Server {
 
     public static void startSinglePlayergame(TemporaryPlayer tp) throws IOException {
         Game game = Game.getInstance();
-        Integer gameId = Game.newGame(false);
-        SinglePlayerGameInstance gameInstance = (SinglePlayerGameInstance) Game.getGameInstance(gameId);
+        Integer gameId = game.newGame(false);
+        SinglePlayerGameInstance gameInstance = (SinglePlayerGameInstance) game.getGameInstance(gameId);
         gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(),tp.getDataOutputStream(), tp.getDataInputStream());
         tp.getDataOutputStream().writeUTF("GAME STARTED");
-        SinglePlayerManager manager = (SinglePlayerManager) Game.getGameManager(gameId);
+        SinglePlayerManager manager = (SinglePlayerManager) game.getGameManager(gameId);
 
 
 
@@ -104,6 +104,7 @@ public class Server {
 
         ServerSocket serverSocket = new ServerSocket(5056);
 
+
         System.out.println("Server On listening with port: " + serverSocket);
         System.out.println("-------------");
 
@@ -117,6 +118,7 @@ public class Server {
 
             try{
                 clientSocket = serverSocket.accept();
+                System.out.println("-------------");
                 System.out.println("New connection from: " + clientSocket);
 
                 DataInputStream fromClient = new DataInputStream(clientSocket.getInputStream());
