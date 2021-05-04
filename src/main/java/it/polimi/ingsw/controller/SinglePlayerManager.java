@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
@@ -34,7 +35,8 @@ public class SinglePlayerManager extends GameManager {
     @Override
     public void manageTurn() {
 
-        this.setUp();
+        this.setLeaderCards();
+        this.setCalamaio();
 
         try{
             player.getToClient().writeUTF("OK IN GAME");
@@ -46,7 +48,12 @@ public class SinglePlayerManager extends GameManager {
     }
 
     @Override
-    public void setUp() {
+    public void setCalamaio() {
+        this.player.hasCalamaio();
+    }
+
+    @Override
+    public void setLeaderCards() {
 
         this.player = game.getPlayer();
 
@@ -57,12 +64,24 @@ public class SinglePlayerManager extends GameManager {
         Collections.shuffle(leaderCards);
 
         List<LeaderCard> leaderCardsDeck = new ArrayList();
+
         for (int i = 0; i < 4; i++) {
             if (!leaderCards.isEmpty())
                 leaderCardsDeck.add(leaderCards.pop());
         }
 
-        player.setLeaderCards(leaderCardsDeck);
+        Gson gson = new Gson();
+        String stringJson = gson.toJson(leaderCardsDeck);
+
+        try {
+            player.getToClient().writeUTF(stringJson);
+        } catch(IOException e){
+            System.err.println("Exception occurred while sending json");
+            e.printStackTrace();
+        }
+
+        //TODO receiving the choosen leader cards
+
     }
 
     /**

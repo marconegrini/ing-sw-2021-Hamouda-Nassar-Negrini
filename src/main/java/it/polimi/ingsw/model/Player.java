@@ -51,20 +51,12 @@ public abstract class Player {
         return this.toClient;
     }
 
-    public boolean hasCalamaio (){
-        return hasCalamaio;
-    }
-
     public Integer getUserId(){
         return this.userId;
     }
 
     public String getNickname(){
         return this.nickname;
-    }
-
-    public void setLeaderCards(List<LeaderCard> leaderCards){
-        this.leaderCards = leaderCards;
     }
 
     public List<Resource> getTotalResource() {
@@ -80,6 +72,14 @@ public abstract class Player {
 
     public List<Resource> getCofferResource() {
         return personalBoard.getCofferResource();
+    }
+
+    public boolean hasCalamaio (){
+        return hasCalamaio;
+    }
+
+    public void setLeaderCards(List<LeaderCard> leaderCards){
+        this.leaderCards = leaderCards;
     }
 
     public void pullWarehouseResources(List<Resource> toTake){

@@ -17,7 +17,9 @@ public abstract class GameManager {
     /**
      * initializes players with calamaio and leaderCards
      */
-    public abstract void setUp();
+    public abstract void setCalamaio();
+
+    public abstract void setLeaderCards();
 
     /**
      *
