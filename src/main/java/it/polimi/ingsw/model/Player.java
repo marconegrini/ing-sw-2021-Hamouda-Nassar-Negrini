@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
@@ -91,5 +92,17 @@ public abstract class Player {
 
     public void addCardInDevCardSlot(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
         personalBoard.addCardInDevCardSlot(slotNumber, developmentCard);
+    }
+
+    public List<Resource> devCardSlotProductionIn(Integer devCardSlotNum) throws EmptySlotException, IndexOutOfBoundsException {
+        return personalBoard.devCardSlotProductionIn(devCardSlotNum);
+    }
+
+    public List<Resource> devCardSlotProductionOut(Integer devCardSlotNum) {
+        return personalBoard.devCardSlotProductionOut(devCardSlotNum);
+    }
+
+    public void putCofferResources(List<Resource> resourcesIn){
+        personalBoard.putCofferResource(resourcesIn);
     }
 }
