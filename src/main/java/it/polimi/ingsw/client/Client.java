@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CLI;
+package it.polimi.ingsw.client;
 
 import java.io.*;
 import java.net.*;
@@ -9,9 +9,10 @@ public class Client {
 
         Socket socket = new Socket("127.0.0.1", 5056);
 
-        ConnectionToServer connection = new ConnectionToServer(socket);
+        ServerConnection serverConnection = new ServerConnection(socket);
 
-        connection.closeConnection();
+        GameSetUpConnection gameSetUp = new GameSetUpConnection(socket);
+
     }
 }
 

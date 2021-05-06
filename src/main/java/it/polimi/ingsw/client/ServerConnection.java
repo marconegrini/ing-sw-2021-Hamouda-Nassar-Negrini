@@ -1,38 +1,23 @@
-package it.polimi.ingsw.CLI;
+package it.polimi.ingsw.client;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ConnectionToServer {
+public class ServerConnection extends Connection {
 
-    private final Socket socket;
-    private final Scanner scanner;
-    private final DataInputStream fromServer;
-    private final DataOutputStream toServer;
-    private final BufferedReader buffer;
-
-
-    public ConnectionToServer(Socket socket) throws IOException {
-        this.socket = socket;
-        this.scanner = new Scanner(System.in);
-        this.fromServer = new DataInputStream (socket.getInputStream());
-        this.toServer = new DataOutputStream (socket.getOutputStream());
-        this.buffer = new BufferedReader(new InputStreamReader(System.in));
+    public ServerConnection(Socket socket) throws IOException {
+        super(socket);
         this.executeLobby();
+        this.closeConnection();
     }
 
-
     public void executeLobby() {
-
         try {
-
             AtomicBoolean endThread = new AtomicBoolean(true);
             boolean isMultiplayer, isStarted = false;
-
             System.out.println("Connecting to: " + socket);
-
             //asking and obtaining user's nickname
             System.out.println("Type your nickname:");
 
@@ -45,14 +30,12 @@ public class ConnectionToServer {
             }
 
             System.out.println("Start a multiplayer game? [yes/no]");
-
             while (true) {
                 String multiplayer = scanner.nextLine();
-
                 if ((multiplayer.isEmpty() || !multiplayer.equalsIgnoreCase("YES"))
-                        && (multiplayer.isEmpty() || !multiplayer.equalsIgnoreCase("NO"))){
+                        && (multiplayer.isEmpty() || !multiplayer.equalsIgnoreCase("NO"))) {
                     System.out.println("Type again your choice: ");
-                }else {
+                } else {
                     isMultiplayer = multiplayer.equalsIgnoreCase("YES");
                     toServer.writeUTF(multiplayer);
                     break;
@@ -60,14 +43,11 @@ public class ConnectionToServer {
             }
 
             if (isMultiplayer) {
-
                 System.out.println("Added to players list.\nType 'EXIT' to leave the game");
-
                 Runnable runnable1 = () -> {
                     try {
                         String toExit;
                         while (endThread.get()) {
-
                             if (buffer.ready()) {
                                 toExit = buffer.readLine();
                                 if (toExit.equalsIgnoreCase("EXIT") || toExit.equalsIgnoreCase("START")) {
@@ -84,9 +64,7 @@ public class ConnectionToServer {
 
                 Thread exit = new Thread(runnable1);
                 exit.start();
-
                 String notification = "";
-
                 while (true) {
                     try {
                         //while (! (fromServer.available() >0) )
@@ -99,7 +77,6 @@ public class ConnectionToServer {
 
                     if (notification.toUpperCase().contains("WAITING"))
                         System.out.println("Waiting with other: " + notification.charAt(0) + " players");
-
 
                     if (notification.equalsIgnoreCase("EXIT")) {
                         System.out.println("Exiting the game...");
@@ -173,12 +150,6 @@ public class ConnectionToServer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void closeConnection() throws IOException {
-        fromServer.close();
-        toServer.close();
-        socket.close();
     }
 
 }

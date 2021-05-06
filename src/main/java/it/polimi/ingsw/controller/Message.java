@@ -29,9 +29,9 @@ public class Message {
         }
     }
 
-    public String fromJsonToMessage(String jsonMessage){
+    public String fromJsonToMessage(){
         Gson gson = new Gson();
-        Message received = gson.fromJson(jsonMessage, Message.class);
+        Message received = gson.fromJson(this.message, Message.class);
         return received.toString();
     }
 

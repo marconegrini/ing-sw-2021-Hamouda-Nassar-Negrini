@@ -1,23 +1,17 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
+import it.polimi.ingsw.model.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TurnManager {
 
@@ -25,9 +19,8 @@ public class TurnManager {
     private MarketBoard marketBoard;
 
     /**
-     *
      * This constructor will be used when a game is restored. It allows
-     * you to restore the turn class with the old decks and market.
+     * you to restore the turn class with old decks and market.
      *
      * @param cardsDeck  the decks is the old deck of a restored game
      * @param marketBoard  the market is the old market of a restored game
@@ -39,13 +32,12 @@ public class TurnManager {
     }
 
     /**
-     *
      * pick resources from the market and add them to the player
      * @param player  The player is who will receive the picked resources
      */
-    public void pickResources (Player player, boolean row, int rowOrColNum){
+    public void pickResources (Player player, boolean isRow, int rowOrColNum){
 
-        List<Marble> pickedMarbles = marketBoard.insertMarble(row, rowOrColNum);
+        List<Marble> pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
 
         Gson gson = new Gson();
 
