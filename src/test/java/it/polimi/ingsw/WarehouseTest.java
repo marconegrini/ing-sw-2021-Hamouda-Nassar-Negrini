@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.exceptions.IllegalMoveException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
@@ -126,7 +127,7 @@ public class WarehouseTest{
     }
 
     @Test
-    public void testPullResource1() throws StorageOutOfBoundsException, IllegalInsertionException {
+    public void testPullResource1() throws StorageOutOfBoundsException, IllegalInsertionException, UnsufficientResourcesException {
         resourcesIn.add(Resource.STONE);
         resourcesIn.add(Resource.STONE);
         test.putResource(3, resourcesIn);

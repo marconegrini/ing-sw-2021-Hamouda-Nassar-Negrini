@@ -38,7 +38,7 @@ public class Coffer implements Deposit{
     }
 
     @Override
-    public void pullResource(List<Resource> resourcesToTake) throws UnsufficientResourcesException{
+    public void pullResource(List<Resource> resourcesToTake){
 
         Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
         Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);
@@ -59,7 +59,7 @@ public class Coffer implements Deposit{
             shieldOccurr = coffer.get(Resource.SHIELD) - shieldOccurr;
             coffer.put(Resource.SHIELD, shieldOccurr);
 
-        } else throw new UnsufficientResourcesException();
+        }
     }
 
     @Override

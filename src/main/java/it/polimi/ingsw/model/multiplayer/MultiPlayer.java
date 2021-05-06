@@ -5,10 +5,12 @@ import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class MultiPlayer extends Player {
 
@@ -65,4 +67,6 @@ public class MultiPlayer extends Player {
         System.out.println("dis: " + this.fromClient);
         System.out.println("dos: " + this.toClient);
     }
+
+
 }

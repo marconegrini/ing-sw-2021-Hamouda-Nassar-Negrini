@@ -63,18 +63,15 @@ public class DevCardSlots {
 
     }
 
-    public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException {
+    public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException, IndexOutOfBoundsException {
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(cardSlot.get(slotNumber).size() != 0){
             return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionIn().clone();
         } else throw new EmptySlotException();
     }
 
-    public HashMap<Resource, Integer> resourcesProductionOut(int slotNumber) throws EmptySlotException {
-        if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
-        if(!cardSlot.get(slotNumber).isEmpty()){
-            return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionOut().clone();
-        } else throw new EmptySlotException();
+    public HashMap<Resource, Integer> resourcesProductionOut(int slotNumber){
+        return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionOut().clone();
     }
 
 

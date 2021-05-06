@@ -3,11 +3,10 @@ package it.polimi.ingsw.model.devCardsDecks;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class CardsDeck {
 
@@ -76,6 +75,21 @@ public class CardsDeck {
 
     public boolean emptyDeck(int row, int column){
         return cardsDeck[row][column].emptyDeck();
+    }
+
+    public List<Resource> developmentCardCost(int row, int column){
+        HashMap<Resource, Integer> cost = cardsDeck[row][column].getCardCost();
+        List<Resource> cardCost = new ArrayList<>();
+
+        for(Resource resource : cost.keySet()){
+            Integer value = cost.get(resource);
+            for(int i = 0; i < value; i++){
+                cardCost.add(resource);
+            }
+        }
+
+        return cardCost;
+
     }
 
     public ArrayList<DevelopmentCard> peekRow(int row){

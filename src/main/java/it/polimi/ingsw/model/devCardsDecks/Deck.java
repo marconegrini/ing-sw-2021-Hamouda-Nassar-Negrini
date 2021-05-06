@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.devCardsDecks;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class Deck {
@@ -35,5 +37,9 @@ public class Deck {
 
     public boolean emptyDeck(){
         return deck.isEmpty();
+    }
+
+    public HashMap<Resource, Integer> getCardCost(){
+        return (HashMap<Resource, Integer>) deck.peek().getCardCost().clone();
     }
 }
