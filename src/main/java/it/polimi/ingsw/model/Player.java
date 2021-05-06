@@ -62,4 +62,6 @@ public abstract class Player {
         return hasCalamaio;
     }
 
+    public PersonalBoard getPersonalBoard(){ return personalBoard;}
+
 }

@@ -45,6 +45,8 @@ public class PersonalBoard {
         return leaderCards;
     }
 
+    public Warehouse getWarehouse (){return warehouse;}
+
     public Integer getVictoryPoints(){
 
         return 0;

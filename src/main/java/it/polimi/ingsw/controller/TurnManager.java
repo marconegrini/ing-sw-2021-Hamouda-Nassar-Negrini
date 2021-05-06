@@ -1,16 +1,20 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.exceptions.IllegalMoveException;
+import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TurnManager {
 
-    private CardsDeck cardsDeck;
-    private MarketBoard marketBoard;
+    private final CardsDeck cardsDeck;
+    private final MarketBoard marketBoard;
 
     /**
      *
@@ -35,7 +39,61 @@ public class TurnManager {
 
         List<Marble> pickedMarbles = marketBoard.insertMarble(row, rowOrColNum);
 
-        //TODO put the pickedResources in the player's warehouse
+        Gson gson = new Gson();
+
+        //Sending to the client the picked marbles
+        try {
+            player.getToClient().writeUTF(gson.toJson(pickedMarbles));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String actionSelected = "";
+
+        try {
+
+            //Asking the client for the action. ORDER means that he wants to swap two shelfs.
+            //MARBLE means that he wants to put a marble in a shelf
+            player.getToClient().writeUTF(gson.toJson("SELECT ACTION"));
+
+            while (!(player.getFromClient().available() > 0));
+            actionSelected = gson.fromJson(player.getFromClient().readUTF() ,String.class);
+
+            if (actionSelected.equalsIgnoreCase("ORDER")){
+                player.getToClient().writeUTF(gson.toJson("SELECT ROWS"));
+
+                //Asking the user to insert a right data
+                boolean moveResourceError = true;
+                while (moveResourceError) {
+                    //Receiving the first shelf that the client wants to swap
+                    while (!(player.getFromClient().available() > 0)) ;
+                    int firstShelf = gson.fromJson(player.getFromClient().readUTF(), int.class);
+
+                    //Receiving the second shelf that the client wants to swap
+                    while (!(player.getFromClient().available() > 0)) ;
+                    int secondShelf = gson.fromJson(player.getFromClient().readUTF(), int.class);
+
+                    try {
+                        player.getPersonalBoard().getWarehouse().moveResource(firstShelf, secondShelf);
+                        moveResourceError = false;
+                    } catch (IllegalMoveException e) {
+                        //Communicate to the client that he can't make this move
+                        player.getToClient().writeUTF(gson.toJson("ILLEGALMOVE"));
+                        moveResourceError = true;
+                    } catch (StorageOutOfBoundsException e) {
+                        //Communicate to the client that he put a wrong nomber of the shelf
+                        player.getToClient().writeUTF(gson.toJson("OUTOFBOUNDS"));
+                        moveResourceError = true;
+                    }
+                }
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
 
     }
 
