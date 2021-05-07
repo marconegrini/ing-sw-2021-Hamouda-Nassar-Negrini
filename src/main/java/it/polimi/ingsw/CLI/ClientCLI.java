@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
 
 import java.util.*;

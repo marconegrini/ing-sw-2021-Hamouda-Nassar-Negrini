@@ -17,8 +17,8 @@ public class FaithPathTracer {
 
     ArrayList<String> result=new ArrayList<>();
 
-    String stringFormatOthers="%s is in position %s:";
-    String stringFormatPlayer="You are in position %d:";
+    String stringFormatOthers="%s is in position: %s";
+    String stringFormatPlayer="You are in position: %d";
     othersPositions.put("tempEntry",playerPosition);
 
         //result.add(String.format(stringFormatPlayer,playerPosition));

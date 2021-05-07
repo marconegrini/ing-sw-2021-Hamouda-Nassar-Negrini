@@ -27,6 +27,8 @@ public abstract class Player {
 
     protected PersonalBoard personalBoard;
 
+    protected List<LeaderCard> tempLeaderCards;
+
     protected List<LeaderCard> leaderCards;
 
     protected FaithPath userFaithPath;

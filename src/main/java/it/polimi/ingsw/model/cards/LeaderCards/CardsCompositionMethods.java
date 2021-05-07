@@ -24,7 +24,7 @@ public class CardsCompositionMethods {
      */
     public boolean verifyToActivate(List<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException {
 
-        //the number of elements mustn't be greater than 3
+        //the number of cards passed mustn't be greater than 3
         if ((cardsIn.size()) > 3) {
             throw new IndexOutOfBoundsException("Index " + (cardsIn.size() - 1) + " is out of bounds!");
         }

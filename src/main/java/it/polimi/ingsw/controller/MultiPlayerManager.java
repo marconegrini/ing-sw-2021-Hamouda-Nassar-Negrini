@@ -78,7 +78,7 @@ public class MultiPlayerManager extends GameManager {
         Collections.shuffle(leaderCards);
 
         for(MultiPlayer player : players){
-
+     //transferring the cards from the stack to the arrayList of 4 cards(the initial four cards to choose between them)
             List<LeaderCard> leaderCardsDeck = new ArrayList();
 
             for(int i = 0; i < 4; i++) {

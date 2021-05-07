@@ -27,8 +27,9 @@ public class StorageLeaderCard extends LeaderCard {
         this.storage = storage;
     }
 
-    @Override
-    public boolean verifyToActivate(List<LeaderCardCost> cardsIn) {
-        return false;
+//TODO complete this method
+    public boolean verifyToActivate( HashMap<Resource,Integer> resourceIn) {
+return true;
     }
+
 }

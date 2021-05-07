@@ -100,6 +100,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         return outProductionResourceNum;
     }
 
+
     public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
     }

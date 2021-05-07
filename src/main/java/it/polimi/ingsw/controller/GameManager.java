@@ -15,7 +15,7 @@ public abstract class GameManager {
     public abstract void manageTurn() throws IOException;
 
     /**
-     * initializes players with calamaio and leaderCards
+     * initializes players with Calamaio and leaderCards
      */
     public abstract void setCalamaio();
 
@@ -35,4 +35,11 @@ public abstract class GameManager {
     public abstract void countVictoryPoints();
 
 
+    /**
+     *
+     */
+
+    public void activateLeaderCard(){
+
+    }
 }

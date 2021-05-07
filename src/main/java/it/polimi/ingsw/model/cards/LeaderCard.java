@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.cards.LeaderCards.CardsCompositionMethods;
 import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,6 +15,8 @@ import java.util.List;
 public abstract class LeaderCard extends Card{
     protected boolean isFlipped;
     protected CardType cardType;
+    private CardsCompositionMethods cardsCompositionMethods;
+
 
     //public abstract HashMap<Object, Integer> getActivationCost();
 
@@ -27,6 +32,13 @@ public abstract class LeaderCard extends Card{
         return this.cardType;
     }
 
-    public abstract boolean verifyToActivate(List<LeaderCardCost> cardsIn);
+
+    public boolean verifyToActivate(HashMap<Resource,Integer> resourceIn){
+        return false;
+    }
+
+    public boolean verifyToActivate(List<LeaderCardCost> cards){
+        return cardsCompositionMethods.verifyToActivate(cards);
+    }
 
 }

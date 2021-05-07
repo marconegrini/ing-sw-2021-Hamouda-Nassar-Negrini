@@ -2,12 +2,17 @@ package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Marbles;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //A class that contains methods to trace the market board for the CLI
-public class MarketTracer {
+public class MarketTracer{
         Marble[][] marbles;
 
 
@@ -16,7 +21,7 @@ public class MarketTracer {
      * @param marketBoard A matrix [3][4] of Marble elements
      * @return
      */
-    public void marketTracer(MarketBoard marketBoard){
+    public ArrayList<String>  marketTracer(MarketBoard marketBoard){
         ArrayList<String> result = new ArrayList<>();
 
 
@@ -86,6 +91,47 @@ row1.clear();
 row2.clear();
 row3.clear();
 result.clear();
+return result;
 
     }
+
+    //ONLY FOR TESTING PURPOSE
+    public static void main(String[] args) {
+        ClientCLI clientCLI = new ClientCLI();
+
+        HashMap<Resource, Integer> productionIn = new HashMap<>();
+        productionIn.put(Resource.COIN,5);
+        HashMap<Resource, Integer> productionOut = new HashMap<>();
+        productionOut.put(Resource.COIN,5);
+        HashMap<Resource, Integer> cardCost = new HashMap<>();
+        cardCost.put(Resource.COIN,5);
+        DevelopmentCard dvCard = new DevelopmentCard(11, CardColor.GREEN, Level.SECOND,cardCost,productionIn,productionOut);
+
+
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+//        System.out.println("⬤ ⬤ ⬤ ⬤");
+
+        MarketBoard market = new MarketBoard();
+        MarketTracer marketTracer = new MarketTracer();
+
+        marketTracer.marketTracer(market);
+        market.insertMarble(true,1);
+        marketTracer.marketTracer(market);
+        market.insertMarble(false,3);
+        marketTracer.marketTracer(market);
+
+
+//        System.out.println("    ◤ ⏫ —  ⏫ — ⏫ — ⏫ ◥        \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 1    \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 2    \n" +
+//                           "   ⏪` ⬤ | ⬤ | ⬤ | ⬤ | < 3    \n" +
+//                           "    ◣ ——— ——— ——— ———◢         \n" +
+//                           "      ^    ^   ^   ^           \n" +
+//                           "      1    2   3   4          ");
+
+
+    }
+
+
 }
