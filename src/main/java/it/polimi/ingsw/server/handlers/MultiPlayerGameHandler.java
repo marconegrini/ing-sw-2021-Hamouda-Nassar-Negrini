@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.controller.MultiPlayerManager;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
@@ -14,9 +14,9 @@ public class MultiPlayerGameHandler extends Thread{
     }
 
     public void run(){
-        manager.manageTurn();
         System.out.println("\n\nGameInstance: " + gameInstance);
         System.out.println("Players in the game: " + gameInstance.getPlayer().size());
+        manager.manageTurn();
         gameInstance.printGamePlayers();
     }
 

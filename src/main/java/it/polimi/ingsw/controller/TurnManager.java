@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
@@ -9,9 +8,10 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
+import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ArrayList;

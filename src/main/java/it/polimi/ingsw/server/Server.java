@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.server.handlers.ClientHandler;
+import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,8 +20,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Server {
 
+    /**
+     * List containing connected temporary players waiting for the game to start
+     */
     private static final LinkedList<TemporaryPlayer> temporaryPlayers = new LinkedList<>();
 
+    /**
+     * Sets and increments a new user ID each time a user connect
+     */
     private static AtomicInteger userId = new AtomicInteger(0);
 
     public static synchronized void add(TemporaryPlayer tp) throws IOException {
@@ -29,42 +38,51 @@ public class Server {
         temporaryPlayers.remove(tp);
     }
 
-    public static synchronized void startMultiplayerGame(int size) throws IOException, MaxPlayersException {
+    /**
+     * initializes a new multiplayerGame containing temporary players in temporaryPlayers
+     * @param size temporaryPlayers when method was called
+     * @throws IOException
+     * @throws MaxPlayersException
+     */
+    public static synchronized void startMultiplayerGame(int size) {
         Game game = Game.getInstance();
         Integer gameId = game.newGame(true);
         MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) game.getGameInstance(gameId);
 
         for (int i=0; i < size; i++){
-
             TemporaryPlayer tp = temporaryPlayers.removeFirst();
-            tp.getDataOutputStream().writeUTF("GAME STARTED");
-            System.out.println("Starting game for: " + tp.getNickname());
-            gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
+            try {
+                tp.getDataOutputStream().writeUTF("GAME STARTED");
+                System.out.println("Starting game for: " + tp.getNickname());
+                gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
+            } catch(IOException e1){
+                System.out.println("Exception occurred while handling socket");
+            } catch(MaxPlayersException e2){
+                System.out.println("Maximum number of players reached");
+            }
         }
 
         if(!temporaryPlayers.isEmpty())
             temporaryPlayers.getFirst().setFirstPlayer();
 
         MultiPlayerManager manager = (MultiPlayerManager) game.getGameManager(gameId);
-
         MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
-
         gameHandler.start();
-
     }
 
-    public static void startSinglePlayergame(TemporaryPlayer tp) throws IOException {
+    public static void startSinglePlayergame(TemporaryPlayer tp) {
         Game game = Game.getInstance();
         Integer gameId = game.newGame(false);
         SinglePlayerGameInstance gameInstance = (SinglePlayerGameInstance) game.getGameInstance(gameId);
-        gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(),tp.getDataOutputStream(), tp.getDataInputStream());
-        tp.getDataOutputStream().writeUTF("GAME STARTED");
+        try {
+            gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
+            tp.getDataOutputStream().writeUTF("GAME STARTED");
+        } catch(IOException e){
+            System.out.println("Exception occurred while handling socket");
+        }
         SinglePlayerManager manager = (SinglePlayerManager) game.getGameManager(gameId);
 
-
-
         SinglePlayerGameHandler gameHandler = new SinglePlayerGameHandler(gameInstance, manager);
-
         gameHandler.start();
 
     }

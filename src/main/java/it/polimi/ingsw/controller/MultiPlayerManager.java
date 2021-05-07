@@ -16,6 +16,10 @@ public class MultiPlayerManager extends GameManager {
 
     private List<MultiPlayer> players;
 
+    /**
+     * Initializes game and players instances. Creates a new turnManager that will performs turns between players
+     * @param game the game instance
+     */
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
         this.players = game.getPlayer();
@@ -28,7 +32,7 @@ public class MultiPlayerManager extends GameManager {
     }
 
     /**
-     * Manage the game allowing players to do actions
+     * Manages the game allowing players to do actions
      */
     @Override
     public void manageTurn(){
@@ -36,8 +40,13 @@ public class MultiPlayerManager extends GameManager {
         this.setLeaderCards();
         this.setCalamaio();
 
+
+
     }
 
+    /**
+     * Assigns calamaio randomly
+     */
     @Override
     public void setCalamaio() {
         Random rand = new Random();
@@ -45,17 +54,21 @@ public class MultiPlayerManager extends GameManager {
         players.get(randomPlayer).setCalamaio();
 
         for (Player player: players){
-            Message okInGame = new Message("You are in the game");
-            okInGame.sendJson(player);
 
-            if (player.hasCalamaio()){
-                Message hasCalamaio = new Message("You have calamaio");
-                hasCalamaio.sendJson(player);
+            try {
+                if (player.hasCalamaio()) {
+                    player.getToClient().writeUTF("CALAMAIO");
+                }
+            } catch (IOException e){
+                System.err.println("Exception occurred while sending file");
             }
         }
         //TODO receive from players selected leader cards
     }
 
+    /**
+     * Sends arraylist of 4 leader cards to each playing player
+     */
     @Override
     public void setLeaderCards(){
 
@@ -68,16 +81,22 @@ public class MultiPlayerManager extends GameManager {
 
             List<LeaderCard> leaderCardsDeck = new ArrayList();
 
-            for(int i = 0; i < 4; i++)
-                if(!leaderCards.isEmpty())
-                    leaderCardsDeck.add(leaderCards.pop());
-
-            Gson gson = new Gson();
-            String stringJson = gson.toJson(leaderCardsDeck);
-
+            for(int i = 0; i < 4; i++) {
+                if (!leaderCards.isEmpty()) {
+                    Gson gson = new Gson();
+                    LeaderCard leaderCard = leaderCards.pop();
+                    String stringJson = gson.toJson(leaderCard);
+                    try {
+                        player.getToClient().writeUTF(stringJson);
+                    } catch (IOException e) {
+                        System.err.println("Exception occurred while sending json");
+                        e.printStackTrace();
+                    }
+                }
+            }
             try {
-                player.getToClient().writeUTF(stringJson);
-            } catch(IOException e){
+                player.getToClient().writeUTF("OK");
+            } catch (IOException e) {
                 System.err.println("Exception occurred while sending json");
                 e.printStackTrace();
             }
@@ -95,7 +114,7 @@ public class MultiPlayerManager extends GameManager {
     }
 
     /**
-     * Count the victory points of all the players
+     * Counts victory points of all players
      */
     @Override
     public void countVictoryPoints() {

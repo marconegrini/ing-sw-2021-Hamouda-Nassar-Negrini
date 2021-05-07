@@ -1,6 +1,8 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.TemporaryPlayer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,14 +32,10 @@ public class ClientHandler extends Thread{
 
 
         try {
-
-
             while (true) {
 
                 while (!(fromClient.available() > 0));
-
                 nickname = fromClient.readUTF();
-
                 if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))
                     toClient.writeUTF("KO");
                 else {
@@ -50,12 +48,10 @@ public class ClientHandler extends Thread{
             multiplayer = fromClient.readUTF();
 
             if (multiplayer.equalsIgnoreCase("YES")) {
-
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
                 Server.add(temporaryPlayer);
                 System.out.println("Added to players list " + nickname);
                 Server.updateUsers();
-
 
                 while (true) {
                     if (fromClient.available() > 0) {
@@ -73,12 +69,10 @@ public class ClientHandler extends Thread{
                         }
                     }
                 }
-
             } else {
                 temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
                 Server.startSinglePlayergame(temporaryPlayer);
             }
-
         } catch (IOException | MaxPlayersException e) {
             e.printStackTrace();
         }

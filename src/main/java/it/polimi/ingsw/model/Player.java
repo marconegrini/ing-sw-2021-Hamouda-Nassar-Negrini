@@ -66,6 +66,8 @@ public abstract class Player {
         return totalResource;
     }
 
+    public PersonalBoard getPersonalBoard(){return this.personalBoard;}
+
     public List<Resource> getWarehouseResource() {
         return personalBoard.getWarehouseResource();
     }

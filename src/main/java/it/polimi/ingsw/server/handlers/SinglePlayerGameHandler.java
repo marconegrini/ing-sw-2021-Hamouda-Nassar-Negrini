@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.controller.SinglePlayerManager;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
