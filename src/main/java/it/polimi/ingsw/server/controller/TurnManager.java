@@ -57,7 +57,7 @@ public class TurnManager {
 
         try {
 
-            //Asking the client for the action. ORDER means that he wants to swap two shelfs.
+            //Asking the client for the action. ORDER means that he wants to swap two shelves.
             //MARBLE means that he wants to put a marble in a shelf
             player.getToClient().writeUTF(gson.toJson("SELECT ACTION"));
 

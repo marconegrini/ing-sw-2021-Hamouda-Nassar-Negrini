@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.messages.Message;
+import it.polimi.ingsw.server.controller.messages.MessageFactory;
 import it.polimi.ingsw.server.controller.messages.PickResourcesMessage;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
@@ -28,12 +29,11 @@ public class MultiPlayerManager extends GameManager {
         this.players = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
     }
-//
-//    public MultiPlayerManager(){
-//        this.game = null;
-//        this.players = null;
-//        this.turnManager = null;
-//  }
+
+    public MultiPlayerManager() {
+
+    }
+
 
     @Override
     public Integer getGameId() {
@@ -60,27 +60,23 @@ public class MultiPlayerManager extends GameManager {
         this.setLeaderCards();
 
         /*
-
         Gson gson = new Gson();
-
-        Message message = gson.fromJson("{\"isRow\":true,\"rowOrColNum\":1,\"nickname\":\"Nome\",\"messageType\":\"PICKRESOURCES\"}", PickResourcesMessage.class);
+        MessageFactory messageFactory = new MessageFactory();
+        Message message = messageFactory.messageFactory("{\"isRow\":true,\"rowOrColNum\":1,\"nickname\":\"Nome\",\"messageType\":\"PICKRESOURCES\"}");
 
         message.process();
-
          */
 
     }
 
-//
-//    public static void main(String[] args) {
-//        MultiPlayerManager multi = new MultiPlayerManager();
-//        Gson gson = new Gson();
-//        PickResourcesMessage message = new PickResourcesMessage("Nome", true, 1);
-//
-//        System.out.println(gson.toJson(message));
-//        multi.manageTurn();
-//
-//    }
+
+    public static void main(String[] args) {
+        MultiPlayerManager multi = new MultiPlayerManager();
+        Gson gson = new Gson();
+
+        multi.manageTurn();
+
+    }
 
 ////    public static Player retrievePlayerFromNickname(String nickname){
 ////        return players.stream().findAny();
