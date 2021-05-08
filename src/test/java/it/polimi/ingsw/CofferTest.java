@@ -1,16 +1,14 @@
 package it.polimi.ingsw;
-import it.polimi.ingsw.model.Coffer;
+import it.polimi.ingsw.server.model.Coffer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
+import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.exceptions.UnsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Assert;
 
 import static org.junit.Assert.*;
 

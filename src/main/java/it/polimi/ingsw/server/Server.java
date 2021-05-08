@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.MultiPlayerManager;
-import it.polimi.ingsw.controller.SinglePlayerManager;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.exceptions.MaxPlayersException;
-import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
-import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.server.controller.MultiPlayerManager;
+import it.polimi.ingsw.server.controller.SinglePlayerManager;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.server.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.server.model.singleplayer.SinglePlayerGameInstance;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
 import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;

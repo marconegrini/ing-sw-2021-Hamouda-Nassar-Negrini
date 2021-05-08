@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
-import it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
-import it.polimi.ingsw.model.exceptions.UnsufficientResourcesException;
+import it.polimi.ingsw.server.model.Warehouse;
+import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.server.model.exceptions.IllegalMoveException;
+import it.polimi.ingsw.server.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.server.model.exceptions.UnsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
