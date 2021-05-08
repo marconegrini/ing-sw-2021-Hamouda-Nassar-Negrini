@@ -35,18 +35,18 @@ public abstract class Message {
 
 
     /*
-    public void sendJson(Player player){
-        Gson gson = new Gson();
-        String jsonMessage = gson.toJson(this);
-        try {
-            player.getToClient().writeUTF(jsonMessage);
-        } catch (IOException e){
-            System.err.println("Exception occurred while sending json");
-            e.printStackTrace();
-        }
-    }
-
-    public abstract String fromJsonToMessage();
+//    public void sendJson(Player player){
+//        Gson gson = new Gson();
+//        String jsonMessage = gson.toJson(this);
+//        try {
+//            player.getToClient().writeUTF(jsonMessage);
+//        } catch (IOException e){
+//            System.err.println("Exception occurred while sending json");
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public abstract String fromJsonToMessage();
 */
     //    {
 //        Gson gson = new Gson();

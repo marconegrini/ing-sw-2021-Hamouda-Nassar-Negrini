@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller.messages;
 
+import it.polimi.ingsw.server.model.enumerations.ASCII_Shapes;
+
 public enum MessageType {
 
     PICKRESOURCES,
@@ -9,5 +11,14 @@ public enum MessageType {
     //Scopiazzati
     MESSAGE_TYPEESSAGE,
     EXCEPTION,
-    LEADERCARD,
+    LEADERCARD;
+
+
+    public static MessageType getMessageType(String value) {
+        if (value.toUpperCase().equals("PICKRESOURCES"))
+            return MessageType.PICKRESOURCES;
+        else return MessageType.ERROR;
+
+
+    }
 }
