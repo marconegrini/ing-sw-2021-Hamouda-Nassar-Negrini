@@ -1,19 +1,16 @@
 package it.polimi.ingsw;
-import it.polimi.ingsw.model.DevCardSlots;
-import it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.server.model.DevCardSlots;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.enumerations.CardColor;
+import it.polimi.ingsw.server.model.enumerations.Level;
+import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.exceptions.EmptySlotException;
+import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Stack;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

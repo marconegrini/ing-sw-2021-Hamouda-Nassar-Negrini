@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.controller.MultiPlayerManager;
-import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.server.controller.MultiPlayerManager;
+import it.polimi.ingsw.server.model.multiplayer.MultiPlayerGameInstance;
 
 public class MultiPlayerGameHandler extends Thread{
 

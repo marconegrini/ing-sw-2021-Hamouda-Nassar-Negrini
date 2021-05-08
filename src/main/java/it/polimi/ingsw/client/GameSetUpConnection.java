@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.Message;
-import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.cards.LeaderCard;
 
 import java.io.IOException;
 import java.net.Socket;
