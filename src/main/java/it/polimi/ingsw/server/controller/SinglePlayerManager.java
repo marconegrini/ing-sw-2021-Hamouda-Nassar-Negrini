@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.parser.LeaderCardParser;
 import it.polimi.ingsw.server.model.singleplayer.SinglePlayerGameInstance;
 
@@ -19,8 +20,12 @@ public class SinglePlayerManager extends GameManager {
 
     public SinglePlayerManager(SinglePlayerGameInstance game){
         this.game = game;
-        //this.player = game.getPlayer();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
+        this.player = null; //since when instantiating new game manager the player inside gameInstance is null
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
     @Override
@@ -34,52 +39,86 @@ public class SinglePlayerManager extends GameManager {
     @Override
     public void manageTurn() {
 
-        this.setLeaderCards();
-        this.setCalamaio();
-
         try{
             player.getToClient().writeUTF("OK IN GAME");
         } catch (IOException e){
             e.printStackTrace();
         }
 
+        this.setLeaderCards();
+        //this.setCalamaio();
 
     }
 
     @Override
     public void setCalamaio() {
         this.player.hasCalamaio();
+        try{
+            this.player.getToClient().writeUTF("HASCALAMAIO");
+        }catch(IOException e){
+            System.out.println("Error occurred while sending file");
+        }
     }
 
     @Override
     public void setLeaderCards() {
-
         this.player = game.getPlayer();
 
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
 
         Collections.shuffle(leaderCards);
 
-        List<LeaderCard> leaderCardsDeck = new ArrayList();
+        for(int i = 0; i < 4; i++) {
+            if (!leaderCards.isEmpty()) {
+                LeaderCard lc = leaderCards.pop();
+                Gson gson = new Gson();
+                String stringJson = gson.toJson(lc);
+                if(lc.getCardType().equals(CardType.DISCOUNT)){
+                    try {
+                        player.getToClient().writeUTF("DISCOUNT");
+                        player.getToClient().writeUTF(stringJson);
+                    } catch(IOException e){
+                        System.err.println("Exception occurred while sending json");
+                    }
+                }
+                if(lc.getCardType().equals(CardType.MARBLE)){
+                    try {
+                        player.getToClient().writeUTF("MARBLE");
+                        player.getToClient().writeUTF(stringJson);
+                    } catch(IOException e){
+                        System.err.println("Exception occurred while sending json");
+                    }
+                }
+                if(lc.getCardType().equals(CardType.PRODUCTION)){
+                    try {
+                        player.getToClient().writeUTF("PRODUCTION");
 
-        for (int i = 0; i < 4; i++) {
-            if (!leaderCards.isEmpty())
-                leaderCardsDeck.add(leaderCards.pop());
+                        player.getToClient().writeUTF(stringJson);
+                    } catch(IOException e){
+                        System.err.println("Exception occurred while sending json");
+                    }
+                }
+                if(lc.getCardType().equals(CardType.STORAGE)){
+                    try {
+                        player.getToClient().writeUTF("STORAGE");
+                        player.getToClient().writeUTF(stringJson);
+                    } catch(IOException e){
+                        System.err.println("Exception occurred while sending json");
+                    }
+                }
+
+
+            }
         }
-
-        Gson gson = new Gson();
-        String stringJson = gson.toJson(leaderCardsDeck);
-
         try {
-            player.getToClient().writeUTF(stringJson);
+            player.getToClient().writeUTF("OK");
         } catch(IOException e){
-            System.err.println("Exception occurred while sending json");
+            System.err.println("Exception occurred while sending message");
             e.printStackTrace();
         }
 
-        //TODO receiving the choosen leader cards
 
     }
 

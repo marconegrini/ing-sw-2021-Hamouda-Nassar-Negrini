@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.PickResourcesMessage;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.server.model.parser.LeaderCardParser;
@@ -48,11 +49,25 @@ public class MultiPlayerManager extends GameManager {
         //this.setLeaderCards();
         //this.setCalamaio();
 
+        for(Player player : players){
+            try {
+                player.getToClient().writeUTF("OK IN GAME");
+            } catch(IOException e){
+                System.err.println("Exception occurred while sending file");
+            }
+        }
+
+        this.setLeaderCards();
+
+        /*
+
         Gson gson = new Gson();
 
         Message message = gson.fromJson("{\"isRow\":true,\"rowOrColNum\":1,\"nickname\":\"Nome\",\"messageType\":\"PICKRESOURCES\"}", PickResourcesMessage.class);
 
         message.process();
+
+         */
 
     }
 
@@ -81,13 +96,12 @@ public class MultiPlayerManager extends GameManager {
         players.get(randomPlayer).setCalamaio();
 
         for (Player player: players){
-
-            try {
-                if (player.hasCalamaio()) {
-                    player.getToClient().writeUTF("CALAMAIO");
+            if(player.hasCalamaio()) {
+                try {
+                    player.getToClient().writeUTF("HASCALAMAIO");
+                } catch (IOException e) {
+                    System.err.println("Exception occurred while sending file");
                 }
-            } catch (IOException e){
-                System.err.println("Exception occurred while sending file");
             }
         }
         //TODO receive from players selected leader cards
@@ -99,37 +113,101 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void setLeaderCards(){
 
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
         Collections.shuffle(leaderCards);
 
+        //TODO update leader cards in order to work with json file
         for(MultiPlayer player : players){
-     //transferring the cards from the stack to the arrayList of 4 cards(the initial four cards to choose between them)
-            List<LeaderCard> leaderCardsDeck = new ArrayList();
-
             for(int i = 0; i < 4; i++) {
                 if (!leaderCards.isEmpty()) {
+                    LeaderCard lc = leaderCards.pop();
                     Gson gson = new Gson();
-                    LeaderCard leaderCard = leaderCards.pop();
-                    String stringJson = gson.toJson(leaderCard);
-                    try {
-                        player.getToClient().writeUTF(stringJson);
-                    } catch (IOException e) {
-                        System.err.println("Exception occurred while sending json");
-                        e.printStackTrace();
+                    String stringJson = gson.toJson(lc);
+                    if(lc.getCardType().equals(CardType.DISCOUNT)){
+                        try {
+                            player.getToClient().writeUTF("DISCOUNT");
+                            player.getToClient().writeUTF(stringJson);
+                        } catch(IOException e){
+                            System.err.println("Exception occurred while sending json");
+                        }
                     }
+                    if(lc.getCardType().equals(CardType.MARBLE)){
+                        try {
+                            player.getToClient().writeUTF("MARBLE");
+                            player.getToClient().writeUTF(stringJson);
+                        } catch(IOException e){
+                            System.err.println("Exception occurred while sending json");
+                        }
+                    }
+                    if(lc.getCardType().equals(CardType.PRODUCTION)){
+                        try {
+                            player.getToClient().writeUTF("PRODUCTION");
+
+                            player.getToClient().writeUTF(stringJson);
+                        } catch(IOException e){
+                            System.err.println("Exception occurred while sending json");
+                        }
+                    }
+                    if(lc.getCardType().equals(CardType.STORAGE)){
+                        try {
+                            player.getToClient().writeUTF("STORAGE");
+                            player.getToClient().writeUTF(stringJson);
+                        } catch(IOException e){
+                            System.err.println("Exception occurred while sending json");
+                        }
+                    }
+
+
                 }
             }
             try {
                 player.getToClient().writeUTF("OK");
-            } catch (IOException e) {
-                System.err.println("Exception occurred while sending json");
+            } catch(IOException e){
+                System.err.println("Exception occurred while sending message");
                 e.printStackTrace();
             }
         }
 
-        //TODO receive choosen leader cards from players
+        //receiving from clients selected leader cards
+        /*
+        for(Player player : players){
+            try {
+                for(int i = 0; i < players.size(); i++){
+                    if(!players.get(i).equals(player)){
+                        players.get(i).getToClient().writeUTF("WAIT");
+                        players.get(i).getToClient().writeUTF("Wait while other clients choose leaderCards: think what to pick!");
+                    }
+                }
+                player.getToClient().writeUTF("LEADERCARD");
+                player.getToClient().writeUTF("Select 2 leader cards (with index between 1 and 4): ");
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+
+            List<Integer> chosenIndexes = new ArrayList<>();
+            int cardsSelected = 0;
+            while(cardsSelected != 2) {
+                String message;
+                Integer index = null;
+                try {
+                    message = player.getFromClient().readUTF();
+                    index = Integer.valueOf(message);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (NumberFormatException e2){
+                    e2.printStackTrace();
+                }
+                chosenIndexes.add(index);
+                cardsSelected++;
+            }
+
+            List<LeaderCard> selected = leaderCards.stream().filter(x -> (x.equals(leaderCards.get(chosenIndexes.get(0))) || x.equals(leaderCards.get(chosenIndexes.get(1))))).collect(Collectors.toList());
+
+
+        }
+         */
     }
 
     /**

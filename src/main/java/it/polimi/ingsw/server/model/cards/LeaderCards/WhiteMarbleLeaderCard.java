@@ -11,12 +11,9 @@ import java.util.List;
 
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
-
     private final HashMap <Resource, Integer> productionOut;
-//    private final HashMap <Resource, Integer> outProductionResource;
+    //    private final HashMap <Resource, Integer> outProductionResource;
     private final HashMap<LeaderCardCost,Integer> activationCost;
-
-    private CardsCompositionMethods cardsCompositionMethods;
 
 
     public WhiteMarbleLeaderCard(CardType cardType, int vp, HashMap<LeaderCardCost,Integer> activationCost, HashMap <Resource, Integer> productionOut) {
@@ -25,7 +22,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         this.activationCost = activationCost;
         this.productionOut = productionOut;
         this.cardType=cardType;
-        cardsCompositionMethods =new CardsCompositionMethods(activationCost);
+        this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
     }
 
     /**
@@ -52,6 +49,11 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         return cardsCompositionMethods.verifyToActivate(cards);
     }
 
-
-
+    @Override
+    public String toString() {
+        return  "\nCard type: " + this.cardType +
+                "\nVictory points: " + this.Vp +
+                "\nProduction out: " + productionOut.toString() +
+                "\nActivation cost: " + activationCost.toString();
+    }
 }

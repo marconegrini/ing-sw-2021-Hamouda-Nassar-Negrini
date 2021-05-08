@@ -27,7 +27,6 @@ public class ProdPowerLeaderCard extends LeaderCard {
     private final int outProductionFaithPoints ;
     private final HashMap<LeaderCardCost,Integer> activationCost;
 
-    private CardsCompositionMethods cardsCompositionMethods;
     /**
      *
      * @param vp Victory points
@@ -57,7 +56,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         this.outProductionFaithPoints = outProductionFaithPoints;
         this.outProductionResourceNum = outProductionResourceNum;
 
-        cardsCompositionMethods =new CardsCompositionMethods(activationCost);
+        this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
 
     }
 
@@ -75,7 +74,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
 
     public HashMap <Resource, Integer> useCard(HashMap<Resource, Integer> resourceIn) throws UnsufficientResourcesException {
-    //TODO call the verification method from the coffer&Warehouse and if true return the resources..
+        //TODO call the verification method from the coffer&Warehouse and if true return the resources..
         // TODO give the player the possibility to choose one (or more) Resource as a given output as well as the faithPoint
 
         Integer faithPoints = faithPointsNum();
@@ -97,10 +96,18 @@ public class ProdPowerLeaderCard extends LeaderCard {
         return outProductionResourceNum;
     }
 
-
     public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
     }
+
+    @Override
+    public String toString() {
+        return  "\nCard type: " + this.cardType +
+                "\nVictory points: " + this.Vp +
+                "\nProduction in: " + productionIn.toString() +
+                "\nActivation cost: " + activationCost.toString();
+    }
+
 
 
 

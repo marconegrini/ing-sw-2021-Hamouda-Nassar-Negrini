@@ -17,7 +17,6 @@ import java.util.List;
 public class DiscountLeaderCard extends LeaderCard {
     private final HashMap <Resource, Integer> discountedResource;
     private final HashMap<LeaderCardCost,Integer> activationCost;
-    private CardsCompositionMethods cardsCompositionMethods;
 
     public DiscountLeaderCard(
             CardType cardType,
@@ -32,7 +31,7 @@ public class DiscountLeaderCard extends LeaderCard {
         this.activationCost=activationCost;
         this.discountedResource=discountedResource;
 
-        cardsCompositionMethods =new CardsCompositionMethods(activationCost);
+        this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
 
     }
 
@@ -48,6 +47,14 @@ public class DiscountLeaderCard extends LeaderCard {
 
     public boolean verifyToActivate(List<LeaderCardCost> cards){
         return cardsCompositionMethods.verifyToActivate(cards);
+    }
+
+    @Override
+    public String toString() {
+        return  "\nCard type: " + this.cardType +
+                "\nVictory points: " + this.Vp +
+                "\nDiscounted resources: " + discountedResource.toString() +
+                "\nActivation cost: " + activationCost.toString();
     }
 
 }

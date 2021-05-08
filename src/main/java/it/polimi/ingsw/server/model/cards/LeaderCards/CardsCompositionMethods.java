@@ -15,9 +15,6 @@ public class CardsCompositionMethods {
         this.activationCost = activationCost;
     }
 
-    public CardsCompositionMethods() {
-    }
-
     /**
      * @param cardsIn they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.

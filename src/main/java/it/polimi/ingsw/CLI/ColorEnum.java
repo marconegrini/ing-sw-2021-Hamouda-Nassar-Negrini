@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.CLI;
+package it.polimi.ingsw.CLI;
 
 
 

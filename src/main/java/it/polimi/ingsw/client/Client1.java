@@ -3,7 +3,7 @@ package it.polimi.ingsw.client;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Client {
+public class Client1 {
 
     public static void main(String[] args) throws IOException {
 
@@ -12,7 +12,6 @@ public class Client {
         ClientSocket clientSocket = new ClientSocket(socket);
 
         GameConnection gameConnection = new GameConnection();
-
         boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
                 clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
 

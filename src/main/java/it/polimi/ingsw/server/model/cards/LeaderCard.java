@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class LeaderCard extends Card{
     protected boolean isFlipped;
     protected CardType cardType;
-    private CardsCompositionMethods cardsCompositionMethods;
+    protected CardsCompositionMethods cardsCompositionMethods;
 
 
     //public abstract HashMap<Object, Integer> getActivationCost();
@@ -40,4 +40,5 @@ public abstract class LeaderCard extends Card{
         return cardsCompositionMethods.verifyToActivate(cards);
     }
 
+    public abstract String toString();
 }

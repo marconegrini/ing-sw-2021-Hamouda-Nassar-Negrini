@@ -14,8 +14,8 @@ public class SinglePlayerGameHandler extends Thread{
     }
 
     public void run(){
-        manager.manageTurn();
         System.out.println("\n\nGameInstance: " + gameInstance);
+        manager.manageTurn();
         gameInstance.printGamePlayer();
     }
 }

@@ -1,23 +1,25 @@
 package it.polimi.ingsw.client;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ServerConnection extends Connection {
+public class GameConnection {
 
-    public ServerConnection(Socket socket) throws IOException {
-        super(socket);
-        this.executeLobby();
-        this.closeConnection();
-    }
+    public boolean executeLobby(Socket socket, Scanner scanner, DataInputStream fromServer, DataOutputStream toServer, BufferedReader buffer) {
 
-    public void executeLobby() {
+        boolean isStarted = false;
         try {
+
             AtomicBoolean endThread = new AtomicBoolean(true);
-            boolean isMultiplayer, isStarted = false;
+            boolean isMultiplayer;
+
             System.out.println("Connecting to: " + socket);
+
             //asking and obtaining user's nickname
             System.out.println("Type your nickname:");
 
@@ -30,8 +32,10 @@ public class ServerConnection extends Connection {
             }
 
             System.out.println("Start a multiplayer game? [yes/no]");
+
             while (true) {
                 String multiplayer = scanner.nextLine();
+
                 if ((multiplayer.isEmpty() || !multiplayer.equalsIgnoreCase("YES"))
                         && (multiplayer.isEmpty() || !multiplayer.equalsIgnoreCase("NO"))) {
                     System.out.println("Type again your choice: ");
@@ -43,11 +47,14 @@ public class ServerConnection extends Connection {
             }
 
             if (isMultiplayer) {
+
                 System.out.println("Added to players list.\nType 'EXIT' to leave the game");
+
                 Runnable runnable1 = () -> {
                     try {
                         String toExit;
                         while (endThread.get()) {
+
                             if (buffer.ready()) {
                                 toExit = buffer.readLine();
                                 if (toExit.equalsIgnoreCase("EXIT") || toExit.equalsIgnoreCase("START")) {
@@ -64,10 +71,12 @@ public class ServerConnection extends Connection {
 
                 Thread exit = new Thread(runnable1);
                 exit.start();
+
                 String notification = "";
+
                 while (true) {
                     try {
-                        //while (! (fromServer.available() >0) )
+                        while (!(fromServer.available() > 0)) ;
                         notification = fromServer.readUTF();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -78,9 +87,11 @@ public class ServerConnection extends Connection {
                     if (notification.toUpperCase().contains("WAITING"))
                         System.out.println("Waiting with other: " + notification.charAt(0) + " players");
 
+
                     if (notification.equalsIgnoreCase("EXIT")) {
                         System.out.println("Exiting the game...");
                         buffer.close();
+                        isStarted = false;
                         break;
                     }
 
@@ -94,19 +105,15 @@ public class ServerConnection extends Connection {
                 if (isStarted) {
 
                     while (true) {
-
+                        while (!(fromServer.available() > 0)) ;
                         try {
                             notification = fromServer.readUTF();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
                         if (notification.equalsIgnoreCase("OK IN GAME")) {
                             System.out.println("You are inside the game");
-                        }
-
-                        if (notification.equalsIgnoreCase("HASCALAMAIO")) {
-                            System.out.println("You have the calamaio");
+                            break;
                         }
                     }
                 }
@@ -121,14 +128,11 @@ public class ServerConnection extends Connection {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     if (notification.equalsIgnoreCase("GAME STARTED")) {
                         System.out.println("The game is starting...");
-                        isStarted = true;
                         break;
                     }
                 }
-
                 if (isStarted) {
 
                     while (true) {
@@ -137,9 +141,9 @@ public class ServerConnection extends Connection {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
                         if (notification.equalsIgnoreCase("OK IN GAME")) {
-                            System.out.println("You are inside a game with Lorenzo");
+                            System.out.println("You are inside the game with Lorenzo");
+                            break;
                         }
                     }
                 }
@@ -150,6 +154,6 @@ public class ServerConnection extends Connection {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return isStarted;
     }
-
 }

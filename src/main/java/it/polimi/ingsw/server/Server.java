@@ -50,12 +50,13 @@ public class Server {
         MultiPlayerGameInstance gameInstance = (MultiPlayerGameInstance) game.getGameInstance(gameId);
 
         for (int i=0; i < size; i++){
+
             TemporaryPlayer tp = temporaryPlayers.removeFirst();
             try {
                 tp.getDataOutputStream().writeUTF("GAME STARTED");
                 System.out.println("Starting game for: " + tp.getNickname());
                 gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
-            } catch(IOException e1){
+            }catch(IOException e1){
                 System.out.println("Exception occurred while handling socket");
             } catch(MaxPlayersException e2){
                 System.out.println("Maximum number of players reached");
@@ -66,7 +67,9 @@ public class Server {
             temporaryPlayers.getFirst().setFirstPlayer();
 
         MultiPlayerManager manager = (MultiPlayerManager) game.getGameManager(gameId);
+
         MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(gameInstance, manager);
+
         gameHandler.start();
     }
 
@@ -77,12 +80,14 @@ public class Server {
         try {
             gameInstance.addPlayer(tp.getNickname(), userId.getAndIncrement(), tp.getDataOutputStream(), tp.getDataInputStream());
             tp.getDataOutputStream().writeUTF("GAME STARTED");
-        } catch(IOException e){
+        } catch (IOException e){
             System.out.println("Exception occurred while handling socket");
         }
         SinglePlayerManager manager = (SinglePlayerManager) game.getGameManager(gameId);
+        manager.setPlayer(gameInstance.getPlayer());
 
         SinglePlayerGameHandler gameHandler = new SinglePlayerGameHandler(gameInstance, manager);
+
         gameHandler.start();
 
     }

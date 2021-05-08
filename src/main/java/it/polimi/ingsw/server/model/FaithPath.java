@@ -23,7 +23,7 @@ public class FaithPath {
         Integer spazioPapa = 0;
         Integer victoryPoints = 0;
 
-        FaithPathParser parser = new FaithPathParser("src/main/java/it/polimi/ingsw/model/jsonFiles/faithPathInfoJson.json");
+        FaithPathParser parser = new FaithPathParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/faithPathInfoJson.json");
 
         this.vaticanSections.addAll(parser.getVaticanSections());
 

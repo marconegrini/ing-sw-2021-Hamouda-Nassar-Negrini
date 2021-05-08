@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.CLI;
+package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.enumerations.ASCII_Shapes;
