@@ -20,7 +20,7 @@ public class MessageFactory {
         System.out.println(messageType);
 
         if (messageType.equals(MessageType.PICKRESOURCES) ){
-            returnMessage = new PickResourcesMessage("nome",true,2);
+            returnMessage = gson.fromJson(recievedMessage, PickResourcesMessage.class) ;
         }
     return returnMessage;
     }
