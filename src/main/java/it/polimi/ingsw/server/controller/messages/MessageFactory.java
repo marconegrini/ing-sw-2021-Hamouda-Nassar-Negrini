@@ -13,11 +13,13 @@ public class MessageFactory {
     MessageFactory(){
         gson = new Gson();
     }
+
     /**
      * Method that takes every message (as String) received, and converts it into the its respect message type from the enumeration.
      * @param receivedMessage message received in format of String
      * @return instantiate and return a message of the type send by the sender (client or server)
      */
+
     public Message messageFactory(String receivedMessage)
     {
 

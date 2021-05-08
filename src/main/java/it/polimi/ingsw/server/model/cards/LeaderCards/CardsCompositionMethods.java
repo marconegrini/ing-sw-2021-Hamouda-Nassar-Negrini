@@ -15,8 +15,10 @@ public class CardsCompositionMethods {
         this.activationCost = activationCost;
     }
 
+
+
     /**
-     * @param cardsIn they are cards passed by the user to activate the leader card
+     * @param cardsIn ((Player's cards)) they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
      */
     public boolean verifyToActivate(List<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException {

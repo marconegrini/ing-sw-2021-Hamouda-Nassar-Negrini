@@ -40,7 +40,7 @@ public class CardsCompositionMethodsTest {
 
     @Test
     public void verifyToActivate() {
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
 
@@ -62,7 +62,7 @@ public class CardsCompositionMethodsTest {
 
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
-        assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
+        assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.FIRST));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(1).verifyToActivate(cardsIn));

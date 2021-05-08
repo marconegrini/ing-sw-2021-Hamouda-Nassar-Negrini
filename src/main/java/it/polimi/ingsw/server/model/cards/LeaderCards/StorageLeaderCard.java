@@ -1,9 +1,12 @@
 package it.polimi.ingsw.server.model.cards.LeaderCards;
 
+import it.polimi.ingsw.server.controller.MultiPlayerManager;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCardCost;
 import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +30,9 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     @Override
-    public boolean verifyToActivate(List<LeaderCardCost> cardsIn) {
-        return false;
+    public boolean verifyToActivate(Player player,HashMap<Resource, Integer> activationCost) {
+        return MultiPlayerManager.verifyToActivateLeaderCard(player,activationCost);
+
     }
 
     @Override

@@ -66,7 +66,7 @@ public class MultiPlayer extends Player {
     }
 
     public void printPlayer(){
-        System.out.println("calamaio: " + this.hasCalamaio);
+        System.out.println("Calamaio: " + this.hasCalamaio);
         System.out.println("leaderCards: " + this.leaderCards);
         System.out.println("faithPath: " + this.userFaithPath);
         System.out.println("personalBoard: " + this.personalBoard);

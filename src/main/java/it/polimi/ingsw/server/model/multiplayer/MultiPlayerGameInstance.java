@@ -24,7 +24,7 @@ public class MultiPlayerGameInstance extends GameInstance {
     @Override
     public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis) throws MaxPlayersException {
 
-        if(players.size() <= 4) {
+        if(players.size() < 4) {
             players.add(new MultiPlayer(nickname, userId, dos, dis));
         } else throw new MaxPlayersException();
     }

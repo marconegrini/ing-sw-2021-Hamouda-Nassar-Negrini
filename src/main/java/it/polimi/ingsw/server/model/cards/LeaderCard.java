@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards;
 
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCards.CardsCompositionMethods;
 import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Resource;
@@ -32,7 +33,7 @@ public abstract class LeaderCard extends Card{
     }
 
 
-    public boolean verifyToActivate(HashMap<Resource,Integer> resourceIn){
+    public boolean verifyToActivate(Player player, HashMap<Resource,Integer> resourceIn){
         return false;
     }
 

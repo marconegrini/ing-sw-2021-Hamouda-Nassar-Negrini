@@ -6,7 +6,9 @@ import it.polimi.ingsw.server.controller.messages.MessageFactory;
 import it.polimi.ingsw.server.controller.messages.PickResourcesMessage;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.cards.LeaderCards.CardsCompositionMethods;
 import it.polimi.ingsw.server.model.enumerations.CardType;
+import it.polimi.ingsw.server.model.enumerations.Resource;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.server.model.parser.LeaderCardParser;
@@ -31,7 +33,6 @@ public class MultiPlayerManager extends GameManager {
     }
 
     public MultiPlayerManager() {
-
     }
 
 
@@ -221,4 +222,42 @@ public class MultiPlayerManager extends GameManager {
     public void countVictoryPoints() {
 
     }
+
+
+    /**
+     *
+     * @param player the player that wants to activate a Leader card of type STORAGE
+     * @param HashMapResources the activation cost of the leader card
+     * @return true if the player has sufficient resources to activate a leader card of type STORAGE
+     */
+    public static boolean verifyToActivateLeaderCard(Player player, HashMap<Resource, Integer> HashMapResources){
+
+        List<Resource> playerResources = player.getTotalResource();
+        ArrayList<Resource> resourcesList = resourcesFromHashMapToList(HashMapResources);
+
+        if(playerResources.containsAll(resourcesList)){
+            return true;
+        }
+        else return false;
+    }
+
+    /**
+     * Ausiliar method of the method verifyToActivateLeaderCard, converts a hashMap of resources into a list of
+     * resources converting the value number of each resource into a real resource objects in the List
+     * @param HashMapResources a hashMap of resources
+     * @return a List of resources
+     */
+    public static ArrayList<Resource> resourcesFromHashMapToList(HashMap<Resource, Integer> HashMapResources){
+        ArrayList<Resource> returnList = new ArrayList<>();
+        for (Resource resource : HashMapResources.keySet()){
+            for (int i=0 ; i<HashMapResources.get(resource) ; i++){
+                returnList.add(resource);
+            }
+
+        }
+        return returnList;
+    }
+
+
+
 }

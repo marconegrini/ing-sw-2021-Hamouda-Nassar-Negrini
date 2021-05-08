@@ -18,7 +18,7 @@ public class GameSetUp {
     public void initialSetUp(Socket socket, Scanner scanner, DataInputStream fromServer, DataOutputStream toServer, BufferedReader buffer) {
         try {
             List<String> cards = new ArrayList<>();
-            List<LeaderCard> leaderCards = new ArrayList();
+            List<LeaderCard> leaderCards = new ArrayList<>();
 
             //TODO update leader cards in order to work with json files
             System.out.println("Your Leader Cards: ");
