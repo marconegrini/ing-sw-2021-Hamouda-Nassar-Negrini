@@ -1,6 +1,6 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.messages;
 
-public class ErrorMessage extends Message{
+public class ErrorMessage extends Message {
     private final String error;
 
     public ErrorMessage(String nickname, String error) {

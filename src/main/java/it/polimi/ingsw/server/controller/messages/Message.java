@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller;
+package it.polimi.ingsw.server.controller.messages;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.Player;
