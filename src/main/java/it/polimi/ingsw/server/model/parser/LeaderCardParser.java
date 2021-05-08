@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCardCost;
-import it.polimi.ingsw.model.cards.LeaderCards.*;
 import it.polimi.ingsw.server.model.enumerations.CardColor;
 import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Level;

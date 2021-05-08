@@ -21,7 +21,8 @@ public class ErrorMessage extends Message {
     }
 
     @Override
-    public String fromJsonToMessage() {
-        return null;
+    public void process() {
+
     }
+
 }
