@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.cards;
 
-import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.server.model.enumerations.CardColor;
 import it.polimi.ingsw.server.model.enumerations.Level;
 import it.polimi.ingsw.server.model.enumerations.Resource;

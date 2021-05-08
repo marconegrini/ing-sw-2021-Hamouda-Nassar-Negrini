@@ -144,17 +144,20 @@ public class TurnManager {
                 Message message = new ErrorMessage(player.getNickname(),"Invalid slot number");
             }
 
-            return new Message("Bought development card and inserted in slot number " + devCardSlot);
+            return null;
+            //return new Message("Bought development card and inserted in slot number " + devCardSlot);
 
-        } else return new Message("Insufficient resources to buy selected development card");
+        } else return null;
+        // return new Message("Insufficient resources to buy selected development card");
 
     }
 
     /**
      * @param player playing player
-     * @param slots List of integers between 0 and 2
+     * //@param slots List of integers between 0 and 2
      * @return outcome message encoded as Message Object
      */
+    /*
     public Message activateProduction (Player player, List<Integer> slots) {
 
         if (slots.size() > 3) return new Message("Selected more than 3 slots");
@@ -198,7 +201,7 @@ public class TurnManager {
         } else return new Message("Insufficient resources to activate production on selected slots");
 
     }
-
+*/
     public void activateLeaderCard (Player player, List<Integer> leaderCardNum){
         //TODO activate leader card of the player
     }

@@ -30,7 +30,11 @@ public abstract class Message {
         return nickname;
     }
 
+    public abstract void process();
 
+
+
+    /*
     public void sendJson(Player player){
         Gson gson = new Gson();
         String jsonMessage = gson.toJson(this);
@@ -43,7 +47,7 @@ public abstract class Message {
     }
 
     public abstract String fromJsonToMessage();
-
+*/
     //    {
 //        Gson gson = new Gson();
 //        Message received = gson.fromJson(this.message, Message.class);

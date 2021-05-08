@@ -19,6 +19,17 @@ public class MultiPlayer extends Player {
         this.personalBoard = new PersonalBoard();
     }
 
+    //Added only for testing
+    public MultiPlayer() {
+        this.userId = null;
+        this.nickname = null;
+        this.toClient = null;
+        this.fromClient = null;
+        this.userFaithPath = null;
+        this.hasCalamaio = false;
+        this.personalBoard = null;
+    }
+
     @Override
     public void incrementFaithPathPosition(){
         this.userFaithPath.incrementUserPosition();
