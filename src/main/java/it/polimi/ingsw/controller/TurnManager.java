@@ -131,12 +131,12 @@ public class TurnManager {
 
             } catch(IllegalInsertionException e1){
 
-                Message message = new Message("Slot insertion not allowed");
+                Message message = new ErrorMessage(player.getNickname(), "Slot insertion not allowed");
                 return message;
 
             } catch (IndexOutOfBoundsException e2){
 
-                Message message = new Message("Invalid slot number");
+                Message message = new ErrorMessage(player.getNickname(),"Invalid slot number");
             }
 
             return new Message("Bought development card and inserted in slot number " + devCardSlot);

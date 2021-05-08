@@ -61,6 +61,7 @@ public abstract class Player {
         return this.nickname;
     }
 
+
     public List<Resource> getTotalResource() {
         List<Resource> totalResource = personalBoard.getWarehouseResource();
         totalResource.addAll(personalBoard.getCofferResource());

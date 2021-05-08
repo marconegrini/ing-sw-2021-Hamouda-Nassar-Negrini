@@ -40,9 +40,11 @@ public class MultiPlayerManager extends GameManager {
         this.setLeaderCards();
         this.setCalamaio();
 
-
-
     }
+
+////    public static Player retrievePlayerFromNickname(String nickname){
+////        return players.stream().findAny();
+//    }
 
     /**
      * Assigns calamaio randomly

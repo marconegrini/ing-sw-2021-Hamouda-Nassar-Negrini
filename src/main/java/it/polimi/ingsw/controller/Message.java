@@ -6,17 +6,31 @@ import it.polimi.ingsw.model.Player;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class Message {
+public abstract class Message {
 
-    private final String message;
+    private final String nickname;
+    private final MessageType messageType;
 
-    public Message(String message){
-        this.message = message;
+    public Message(String nickname, MessageType messageType){
+        this.nickname = nickname;
+        this.messageType = messageType;
     }
 
-    public String toString(){
-        return this.message;
+        public String toString() {
+            return "Message{" +
+                    "nickname=" + nickname +
+                    ", messageType=" + messageType +
+                    '}';
+        }
+
+    public MessageType getMessageType() {
+        return messageType;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
 
     public void sendJson(Player player){
         Gson gson = new Gson();
@@ -29,10 +43,12 @@ public class Message {
         }
     }
 
-    public String fromJsonToMessage(){
-        Gson gson = new Gson();
-        Message received = gson.fromJson(this.message, Message.class);
-        return received.toString();
-    }
+    public abstract String fromJsonToMessage();
+
+    //    {
+//        Gson gson = new Gson();
+//        Message received = gson.fromJson(this.message, Message.class);
+//        return received.toString();
+//    }
 
 }
