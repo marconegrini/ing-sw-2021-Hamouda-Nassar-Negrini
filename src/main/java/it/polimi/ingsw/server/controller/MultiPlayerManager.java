@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCards.CardsCompositionMethods;
 import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.exceptions.PlayerNotExistsException;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.server.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.server.model.parser.LeaderCardParser;
@@ -256,6 +257,14 @@ public class MultiPlayerManager extends GameManager {
 
         }
         return returnList;
+    }
+
+
+    public Player getPlayerFromNickname(String nickname) throws PlayerNotExistsException {
+        for (Player player: players){
+            if (player.getNickname().equals(nickname))  return player;
+        }
+        throw new PlayerNotExistsException();
     }
 
 
