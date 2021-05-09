@@ -32,9 +32,30 @@ public class MessageFactory {
 
         //*to be converted into a switch*
         //verifies the type of the sent message to instantiate the correct message.
+
+        switch (messageType){
+
+            case PICKRESOURCES:
+                returnMessage = gson.fromJson(receivedMessage, PickResourcesMessage.class);
+                break;
+            case ERROR:
+                break;
+            case PING:
+                break;
+            case MESSAGE_TYPEESSAGE:
+                break;
+            case EXCEPTION:
+                break;
+            case LEADERCARD:
+                break;
+        }
+
+        /*
         if (messageType.equals(MessageType.PICKRESOURCES) ){
             returnMessage = gson.fromJson(receivedMessage, PickResourcesMessage.class) ;
         }
+
+         */
     return returnMessage;
     }
 }
