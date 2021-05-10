@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller.messages;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
@@ -15,22 +16,22 @@ public abstract class Message {
         this.messageType = messageType;
     }
 
-        public String toString() {
-            return "Message{" +
-                    "nickname=" + nickname +
-                    ", messageType=" + messageType +
-                    '}';
-        }
+    public String toString() {
+        return "Message{" +
+                "nickname=" + nickname +
+                ", messageType=" + messageType +
+                '}';
+    }
 
     public MessageType getMessageType() {
-        return messageType;
+        return this.messageType;
     }
 
     public String getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
-    public abstract void process();
+    public abstract void process(Player player, TurnManager turnManager);
 
 
 

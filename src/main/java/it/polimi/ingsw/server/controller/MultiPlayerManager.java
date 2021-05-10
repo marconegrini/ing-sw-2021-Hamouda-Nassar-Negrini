@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.controller.messages.Message;
-import it.polimi.ingsw.server.controller.messages.MessageFactory;
-import it.polimi.ingsw.server.controller.messages.PickResourcesMessage;
+import it.polimi.ingsw.server.controller.messages.*;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCards.CardsCompositionMethods;
@@ -61,6 +59,29 @@ public class MultiPlayerManager extends GameManager {
 
         this.setLeaderCards();
 
+        for(Player player : players) {
+
+            String clientRequest = "";
+            try {
+                clientRequest = player.getFromClient().readUTF();
+            } catch (IOException e) {
+                System.err.println("Exception occurred while sending file");
+            }
+            if (clientRequest.isEmpty()) {
+                Message toSend = new ErrorMessage(player.getNickname(), "Exception occurred while receiving json");
+                toSend.process(player, this.turnManager);
+            }
+
+            MessageFactory messageFactory = new MessageFactory();
+            Message receivedMessage = messageFactory.returnMessage(clientRequest);
+
+            if (player.getNickname().equals(receivedMessage.getNickname()))
+                receivedMessage.process(player, this.turnManager);
+            else {
+                Message outcome = new ErrorMessage(player.getNickname(), "It is not you turn");
+                outcome.process(player, this.turnManager);
+            }
+        }
         /*
         Gson gson = new Gson();
         MessageFactory messageFactory = new MessageFactory();
@@ -68,6 +89,11 @@ public class MultiPlayerManager extends GameManager {
 
         message.process();
          */
+
+    }
+
+    @Override
+    public void manageSetUp() {
 
     }
 

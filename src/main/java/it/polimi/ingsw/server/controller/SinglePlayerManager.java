@@ -51,6 +51,11 @@ public class SinglePlayerManager extends GameManager {
     }
 
     @Override
+    public void manageSetUp() {
+
+    }
+
+    @Override
     public void setCalamaio() {
         this.player.hasCalamaio();
         try{

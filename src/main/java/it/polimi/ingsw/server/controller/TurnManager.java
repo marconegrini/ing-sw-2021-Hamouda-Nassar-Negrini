@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.messages.ErrorMessage;
 import it.polimi.ingsw.server.controller.messages.Message;
+import it.polimi.ingsw.server.controller.messages.OkMessage;
 import it.polimi.ingsw.server.model.Marble;
 import it.polimi.ingsw.server.model.MarketBoard;
 import it.polimi.ingsw.server.model.Player;
@@ -124,31 +125,19 @@ public class TurnManager {
                     toTakeFromCoffer.remove(resource);
                     toTakeFromWarehouse.add(resource);
                 }
-
             player.pullWarehouseResources(toTakeFromWarehouse);
             player.pullCofferResources(toTakeFromCoffer);
-
             DevelopmentCard devCard = cardsDeck.popCard(row, column);
 
             try{
-
                 player.addCardInDevCardSlot(devCardSlot, devCard);
-
             } catch(IllegalInsertionException e1){
-
-                Message message = new ErrorMessage(player.getNickname(), "Slot insertion not allowed");
-                return message;
-
+                return new ErrorMessage(player.getNickname(), "Slot insertion not allowed");
             } catch (IndexOutOfBoundsException e2){
-
-                Message message = new ErrorMessage(player.getNickname(),"Invalid slot number");
+                return new ErrorMessage(player.getNickname(),"Invalid slot number");
             }
-
-            return null;
-            //return new Message("Bought development card and inserted in slot number " + devCardSlot);
-
-        } else return null;
-        // return new Message("Insufficient resources to buy selected development card");
+            return new OkMessage(player.getNickname(), "Bought development card and inserted in slot number " + devCardSlot);
+        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to buy selected development card");
 
     }
 

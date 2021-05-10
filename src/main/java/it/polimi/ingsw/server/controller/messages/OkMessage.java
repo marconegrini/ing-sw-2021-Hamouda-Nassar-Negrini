@@ -6,28 +6,24 @@ import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 
-public class ErrorMessage extends Message {
-    private final String error;
+public class OkMessage extends Message{
+    String outcome;
 
-    public ErrorMessage(String nickname, String error) {
-        super(nickname, MessageType.ERROR);
-        this.error = error;
-    }
-
-    public String getError() {
-        return error;
+    public OkMessage(String nickname, String outcome){
+        super(nickname, MessageType.OK);
+        this.outcome = outcome;
     }
 
     @Override
-    public String toString() {
-        return "ErrorMessage{" +
-                "nickname=" + getNickname() +
-                ", error=" + error +
+    public String toString(){
+        return "OkMessage{" +
+                "nickname = " + getNickname() +
+                ", outcome = " + this.outcome +
                 '}';
     }
 
     @Override
-    public void process(Player player, TurnManager turnManager){
+    public void process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         String messageToSend = gson.toJson(this);
         try {
@@ -36,5 +32,4 @@ public class ErrorMessage extends Message {
             System.err.println("Exception occurred while sending json");
         }
     }
-
 }

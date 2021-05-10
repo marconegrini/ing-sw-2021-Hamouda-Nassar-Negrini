@@ -17,11 +17,12 @@ public class PickResourcesMessage extends Message{
     }
 
     @Override
-    public void process() {
+    public void process(Player player, TurnManager turnManager) {
         //TODO Chiamare il metodo che mi ritorna l'istanza di player dal nickname
 
-        Player player = new MultiPlayer();
+        //Player player = new MultiPlayer();
         //turnManager.pickResources (player,  this.isRow, this.rowOrColNum);
         System.out.println("Dentro process");
     }
+
 }

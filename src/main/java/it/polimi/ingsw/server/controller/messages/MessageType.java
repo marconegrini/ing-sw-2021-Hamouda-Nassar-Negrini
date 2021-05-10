@@ -2,10 +2,19 @@ package it.polimi.ingsw.server.controller.messages;
 
 import it.polimi.ingsw.server.model.enumerations.ASCII_Shapes;
 
+import java.util.Locale;
+
 public enum MessageType {
 
+    //actions
     PICKRESOURCES,
+    BUYDEVELOPMENTCARD,
+
+    //outcomes
     ERROR,
+    OK,
+
+    //testing
     PING,
 
     //Scopiazzati
@@ -15,10 +24,6 @@ public enum MessageType {
 
 
     public static MessageType getMessageType(String value) {
-        if (value.toUpperCase().equals("PICKRESOURCES"))
-            return MessageType.PICKRESOURCES;
-        else return MessageType.ERROR;
-
-
+        return Enum.valueOf(MessageType.class, value.toUpperCase());
     }
 }
