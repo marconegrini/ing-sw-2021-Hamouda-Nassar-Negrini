@@ -75,9 +75,9 @@ public class MultiPlayerManager extends GameManager {
             MessageFactory messageFactory = new MessageFactory();
             Message receivedMessage = messageFactory.returnMessage(clientRequest);
 
-            if (player.getNickname().equals(receivedMessage.getNickname()))
+            if (player.getNickname().equals(receivedMessage.getNickname())) {
                 receivedMessage.process(player, this.turnManager);
-            else {
+            } else {
                 Message outcome = new ErrorMessage(player.getNickname(), "It is not you turn");
                 outcome.process(player, this.turnManager);
             }

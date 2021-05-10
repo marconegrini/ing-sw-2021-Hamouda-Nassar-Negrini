@@ -143,32 +143,28 @@ public class TurnManager {
 
     /**
      * @param player playing player
-     * //@param slots List of integers between 0 and 2
+     * @param slots List of integers between 0 and 2
      * @return outcome message encoded as Message Object
      */
-    /*
     public Message activateProduction (Player player, List<Integer> slots) {
 
-        if (slots.size() > 3) return new Message("Selected more than 3 slots");
-
+        if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
 
         for (Integer slotNum : slots) {
             try {
                 productionInCost.addAll(player.devCardSlotProductionIn(slotNum));
             } catch (EmptySlotException e1) {
-                return new Message("Selected an empty slot");
+                return new ErrorMessage(player.getNickname(), "Selected an empty slot");
             } catch (IndexOutOfBoundsException e2) {
-                return new Message("Invalid slot number");
+                return new ErrorMessage(player.getNickname(), "Invalid slot number");
             }
         }
-
         List<Resource> playerResources = player.getTotalResource();
 
         if (playerResources.equals(productionInCost) || playerResources.containsAll(productionInCost)) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
             List<Resource> toTakeFromWarehouse = new ArrayList<>();
-
             for (Resource resource : productionInCost)
                 if (toTakeFromCoffer.contains(resource)) {
                     toTakeFromCoffer.remove(resource);
@@ -177,20 +173,18 @@ public class TurnManager {
 
             player.pullWarehouseResources(toTakeFromWarehouse);
             player.pullCofferResources(toTakeFromCoffer);
-
             List<Resource> resourcesProductionOut = new ArrayList<>();
 
             for (Integer slotNum : slots)
                 resourcesProductionOut.addAll(player.devCardSlotProductionOut(slotNum));
 
             player.putCofferResources(resourcesProductionOut);
+            return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer");
 
-            return new Message("Activated production and resources inserted in coffer");
-
-        } else return new Message("Insufficient resources to activate production on selected slots");
+        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to activate production on selected slots");
 
     }
-*/
+
     public void activateLeaderCard (Player player, List<Integer> leaderCardNum){
         //TODO activate leader card of the player
     }

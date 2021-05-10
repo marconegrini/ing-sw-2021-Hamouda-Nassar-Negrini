@@ -41,6 +41,8 @@ public class MessageFactory {
                 returnMessage = gson.fromJson(receivedMessage, BuyDevelopmentCardMessage.class);
             case OK:
                 returnMessage = gson.fromJson(receivedMessage, OkMessage.class);
+            case ACTIVATEPRODUCTION:
+                returnMessage = gson.fromJson(receivedMessage, ActivateProductionMessage.class);
             case ERROR:
                 break;
             case PING:

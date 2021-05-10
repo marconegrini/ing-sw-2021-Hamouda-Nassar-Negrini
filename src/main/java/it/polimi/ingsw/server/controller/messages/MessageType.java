@@ -9,6 +9,7 @@ public enum MessageType {
     //actions
     PICKRESOURCES,
     BUYDEVELOPMENTCARD,
+    ACTIVATEPRODUCTION,
 
     //outcomes
     ERROR,
