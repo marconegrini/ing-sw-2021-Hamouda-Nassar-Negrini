@@ -15,7 +15,6 @@ public class InsertResourcesInWarehouseMessage extends Message{
         super(nickname, MessageType.INSERTRESOURCESINWAREHOUSE);
         this.resources = resources;
         this.shelf = shelf;
-,
     }
 
 
