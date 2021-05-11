@@ -21,7 +21,7 @@ public class MarketTracer{
      * @param marketBoard A matrix [3][4] of Marble elements
      * @return
      */
-    public ArrayList<String>  marketTracer(MarketBoard marketBoard){
+    public ArrayList<String> marketTracer(MarketBoard marketBoard){
         ArrayList<String> result = new ArrayList<>();
 
 

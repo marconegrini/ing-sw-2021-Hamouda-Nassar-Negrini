@@ -1,14 +1,16 @@
-package it.polimi.ingsw.server.controller.messages;
+package it.polimi.ingsw.server.controller.messages.fromClient;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
+import it.polimi.ingsw.server.controller.messages.Message;
+import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 
 import java.io.IOException;
 import java.util.List;
 
-public class InsertResourcesInWarehouseMessage extends Message{
+public class InsertResourcesInWarehouseMessage extends Message {
 
     List<Resource> resources;
     Integer shelf;
@@ -18,6 +20,8 @@ public class InsertResourcesInWarehouseMessage extends Message{
         this.resources = resources;
         this.shelf = shelf;
     }
+
+
 
 
     @Override

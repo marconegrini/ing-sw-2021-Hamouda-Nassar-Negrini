@@ -1,6 +1,9 @@
 package it.polimi.ingsw.CLI;
 
 
+import it.polimi.ingsw.client.ClientModel.Coffer;
+import it.polimi.ingsw.client.ClientModel.Warehouse;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  */
 public class DepositsTracer {
 
-    public ArrayList<String> depositsTracer() {
+    public ArrayList<String> depositsTracer(Warehouse warehouse, Coffer coffer) {
 
 
 

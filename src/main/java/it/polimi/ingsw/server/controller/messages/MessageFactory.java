@@ -1,9 +1,13 @@
 package it.polimi.ingsw.server.controller.messages;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.server.controller.messages.fromClient.ActivateProductionMessage;
+import it.polimi.ingsw.server.controller.messages.fromClient.BuyDevelopmentCardMessage;
+import it.polimi.ingsw.server.controller.messages.fromClient.InsertResourcesInWarehouseMessage;
+import it.polimi.ingsw.server.controller.messages.fromClient.MoveWarehouseResources;
+import it.polimi.ingsw.server.controller.messages.fromServer.OkMessage;
 
 public class MessageFactory {
 
@@ -29,7 +33,6 @@ public class MessageFactory {
         String messageTypeString = messageObject.get("messageType").getAsString();
         MessageType messageType = MessageType.getMessageType(messageTypeString);
 
-        //*to be converted into a switch*
         //verifies the type of the sent message to instantiate the correct message.
 
         switch (messageType){

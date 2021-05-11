@@ -1,12 +1,14 @@
-package it.polimi.ingsw.server.controller.messages;
+package it.polimi.ingsw.server.controller.messages.fromClient;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
+import it.polimi.ingsw.server.controller.messages.Message;
+import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 
-public class MoveWarehouseResources extends Message{
+public class MoveWarehouseResources extends Message {
     Integer sourceStorage;
     Integer destStorage;
 

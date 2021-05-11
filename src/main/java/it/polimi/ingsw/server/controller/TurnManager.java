@@ -32,6 +32,7 @@ public class TurnManager {
      * @param cardsDeck  the decks is the old deck of a restored game
      * @param marketBoard  the market is the old market of a restored game
      */
+
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
