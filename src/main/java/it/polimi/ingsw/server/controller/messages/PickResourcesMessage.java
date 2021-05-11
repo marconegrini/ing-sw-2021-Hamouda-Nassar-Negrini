@@ -15,10 +15,12 @@ public class PickResourcesMessage extends Message{
         this.rowOrColNum = rowOrColNum;
     }
 
+
     @Override
     public boolean process(Player player, TurnManager turnManager) {
 
         //Message outcome = turnManager.pickResources (player,  this.isRow, this.rowOrColNum);
+
 
         return true;
     }
