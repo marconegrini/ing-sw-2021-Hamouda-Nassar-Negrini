@@ -17,14 +17,16 @@ public class ActivateProductionMessage extends Message{
     }
 
     @Override
-    public void process(Player player, TurnManager turnManager) {
+    public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.activateProduction(player, this.slots);
+        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);
         } catch (IOException e){
             System.err.println("Exception occurred while sending json");
         }
+        return true;
     }
 }

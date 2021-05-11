@@ -39,14 +39,7 @@ public class SinglePlayerManager extends GameManager {
     @Override
     public void manageTurn() {
 
-        try{
-            player.getToClient().writeUTF("OK IN GAME");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        this.setLeaderCards();
-        //this.setCalamaio();
+        this.welcome();
 
     }
 
@@ -74,57 +67,6 @@ public class SinglePlayerManager extends GameManager {
         parser.close();
 
         Collections.shuffle(leaderCards);
-
-        for(int i = 0; i < 4; i++) {
-            if (!leaderCards.isEmpty()) {
-                LeaderCard lc = leaderCards.pop();
-                Gson gson = new Gson();
-                String stringJson = gson.toJson(lc);
-                if(lc.getCardType().equals(CardType.DISCOUNT)){
-                    try {
-                        player.getToClient().writeUTF("DISCOUNT");
-                        player.getToClient().writeUTF(stringJson);
-                    } catch(IOException e){
-                        System.err.println("Exception occurred while sending json");
-                    }
-                }
-                if(lc.getCardType().equals(CardType.MARBLE)){
-                    try {
-                        player.getToClient().writeUTF("MARBLE");
-                        player.getToClient().writeUTF(stringJson);
-                    } catch(IOException e){
-                        System.err.println("Exception occurred while sending json");
-                    }
-                }
-                if(lc.getCardType().equals(CardType.PRODUCTION)){
-                    try {
-                        player.getToClient().writeUTF("PRODUCTION");
-
-                        player.getToClient().writeUTF(stringJson);
-                    } catch(IOException e){
-                        System.err.println("Exception occurred while sending json");
-                    }
-                }
-                if(lc.getCardType().equals(CardType.STORAGE)){
-                    try {
-                        player.getToClient().writeUTF("STORAGE");
-                        player.getToClient().writeUTF(stringJson);
-                    } catch(IOException e){
-                        System.err.println("Exception occurred while sending json");
-                    }
-                }
-
-
-            }
-        }
-        try {
-            player.getToClient().writeUTF("OK");
-        } catch(IOException e){
-            System.err.println("Exception occurred while sending message");
-            e.printStackTrace();
-        }
-
-
     }
 
     /**
@@ -141,5 +83,14 @@ public class SinglePlayerManager extends GameManager {
     @Override
     public void countVictoryPoints() {
 
+    }
+
+    @Override
+    public void welcome() {
+        try{
+            player.getToClient().writeUTF("OK IN GAME");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

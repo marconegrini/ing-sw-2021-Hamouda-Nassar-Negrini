@@ -36,6 +36,10 @@ public abstract class GameManager {
      */
     public abstract void countVictoryPoints();
 
+    /**
+     * Notifies players that they are inside the game
+     */
+    public abstract void welcome();
 
     /**
      *

@@ -103,13 +103,41 @@ public class TurnManager {
 
     }
 
+    /**
+     *
+     * @param player player who performed pickresources choice
+     * @param destStorage destination storage in warehouse
+     * @param resourcesIn List of resources to insert
+     * @return OkMessage if everything worked fine, ErrorMessage instead
+     */
+    public Message insertResourcesInWarehouse(Player player, Integer destStorage, List<Resource> resourcesIn){
+        try {
+            player.putWarehouseResources(destStorage, resourcesIn);
+        } catch (StorageOutOfBoundsException e1){
+            return new ErrorMessage(player.getNickname(), "Selected storage doesn't exists");
+        } catch (IllegalInsertionException e2){
+            return new ErrorMessage(player.getNickname(), "Insertion not permitted");
+        }
+        return new OkMessage(player.getNickname(), "Resources correctly inserted");
+    }
+
+    public Message moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){
+        try{
+            player.moveWarehouseResources(sourceStorage, destStorage);
+        } catch (IllegalMoveException e1){
+            return new ErrorMessage(player.getNickname(), "Warehouse move not permitted");
+        } catch (StorageOutOfBoundsException e2){
+            return new ErrorMessage(player.getNickname(), "Selected storage doesn't exists");
+        }
+        return new OkMessage(player.getNickname(), "Warehouse resources moved");
+    }
 
     /**
      * @param player playing player
      * @param row row inddex of development cards deck
      * @param column column index of development cards deck
      * @param devCardSlot slot index of development cards slots
-     * @return outcome message encoded as Message Object
+     * @return OkMessage if everything worked fine, ErrorMessage instead
      */
     public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
 
@@ -138,7 +166,6 @@ public class TurnManager {
             }
             return new OkMessage(player.getNickname(), "Bought development card and inserted in slot number " + devCardSlot);
         } else return new ErrorMessage(player.getNickname(), "Insufficient resources to buy selected development card");
-
     }
 
     /**

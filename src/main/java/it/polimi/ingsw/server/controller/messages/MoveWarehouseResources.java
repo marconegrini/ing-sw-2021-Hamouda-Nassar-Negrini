@@ -6,22 +6,20 @@ import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 
-public class BuyDevelopmentCardMessage extends Message{
-    int row;
-    int column;
-    int devCardSlot;
+public class MoveWarehouseResources extends Message{
+    Integer sourceStorage;
+    Integer destStorage;
 
-    public BuyDevelopmentCardMessage(String nickname, int row, int column, int devCardSlot){
-        super(nickname, MessageType.BUYDEVELOPMENTCARD);
-        this.row = row;
-        this.column = column;
-        this.devCardSlot = devCardSlot;
+    public MoveWarehouseResources(String nickname, Integer sourceStorage, Integer destStorage){
+        super(nickname, MessageType.MOVEWAREHOUSERESOURCES);
+        this.sourceStorage = sourceStorage;
+        this.destStorage = destStorage;
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.buyDevelopmentCard(player, this.row, this.column, this.devCardSlot);
+        Message outcome = turnManager.moveResourcesInWarehouse(player, this.sourceStorage, this.destStorage);
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         String messageToSend = gson.toJson(outcome);
         try {

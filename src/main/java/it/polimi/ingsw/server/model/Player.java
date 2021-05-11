@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 import it.polimi.ingsw.server.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.server.model.exceptions.IllegalMoveException;
+import it.polimi.ingsw.server.model.exceptions.StorageOutOfBoundsException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -106,5 +108,14 @@ public abstract class Player {
 
     public void putCofferResources(List<Resource> resourcesIn){
         personalBoard.putCofferResource(resourcesIn);
+    }
+
+    public void putWarehouseResources(Integer destStorage, List<Resource> resourceIn) throws StorageOutOfBoundsException,
+            IllegalInsertionException{
+        personalBoard.putWarehouseResource(destStorage, resourceIn);
+    }
+
+    public void moveWarehouseResources(Integer sourceStorage, Integer destStorage) throws IllegalMoveException, StorageOutOfBoundsException{
+        personalBoard.moveWarehouseResource(sourceStorage, destStorage);
     }
 }

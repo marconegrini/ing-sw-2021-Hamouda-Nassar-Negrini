@@ -12,6 +12,7 @@ public class OkMessage extends Message{
     public OkMessage(String nickname, String outcome){
         super(nickname, MessageType.OK);
         this.outcome = outcome;
+        System.out.println(this.toString());
     }
 
     @Override
@@ -23,7 +24,7 @@ public class OkMessage extends Message{
     }
 
     @Override
-    public void process(Player player, TurnManager turnManager) {
+    public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         String messageToSend = gson.toJson(this);
         try {
@@ -31,5 +32,6 @@ public class OkMessage extends Message{
         } catch (IOException e){
             System.err.println("Exception occurred while sending json");
         }
+        return true;
     }
 }

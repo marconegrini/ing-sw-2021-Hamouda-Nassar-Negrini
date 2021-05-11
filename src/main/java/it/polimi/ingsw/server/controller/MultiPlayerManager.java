@@ -35,6 +35,7 @@ public class MultiPlayerManager extends GameManager {
     }
 
 
+
     @Override
     public Integer getGameId() {
         return this.game.getGameId();
@@ -46,50 +47,36 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void manageTurn(){
 
-        //this.setLeaderCards();
-        //this.setCalamaio();
-
-        for(Player player : players){
-            try {
-                player.getToClient().writeUTF("OK IN GAME");
-            } catch(IOException e){
-                System.err.println("Exception occurred while sending file");
-            }
-        }
-
-        this.setLeaderCards();
+        this.welcome();
 
         for(Player player : players) {
+            boolean turnEnded = false;
 
-            String clientRequest = "";
-            try {
-                clientRequest = player.getFromClient().readUTF();
-            } catch (IOException e) {
-                System.err.println("Exception occurred while sending file");
-            }
-            if (clientRequest.isEmpty()) {
-                Message toSend = new ErrorMessage(player.getNickname(), "Exception occurred while receiving json");
-                toSend.process(player, this.turnManager);
-            }
+            while(!turnEnded) {
 
-            MessageFactory messageFactory = new MessageFactory();
-            Message receivedMessage = messageFactory.returnMessage(clientRequest);
+                String clientRequest = "";
+                try {
+                    if ((player.getFromClient().available() > 0)) ;
+                    clientRequest = player.getFromClient().readUTF();
+                } catch (IOException e) {
+                    System.err.println("Exception occurred while sending file");
+                }
+                if (clientRequest.isEmpty()) {
+                    Message toSend = new ErrorMessage(player.getNickname(), "Exception occurred while receiving json");
+                    toSend.process(player, this.turnManager);
+                }
 
-            if (player.getNickname().equals(receivedMessage.getNickname())) {
-                receivedMessage.process(player, this.turnManager);
-            } else {
-                Message outcome = new ErrorMessage(player.getNickname(), "It is not you turn");
-                outcome.process(player, this.turnManager);
+                MessageFactory messageFactory = new MessageFactory();
+                Message receivedMessage = messageFactory.returnMessage(clientRequest);
+
+                if (player.getNickname().equals(receivedMessage.getNickname())) {
+                    turnEnded = receivedMessage.process(player, this.turnManager);
+                } else {
+                    Message outcome = new ErrorMessage(player.getNickname(), "Wait: it is not you turn");
+                    outcome.process(player, this.turnManager);
+                }
             }
         }
-        /*
-        Gson gson = new Gson();
-        MessageFactory messageFactory = new MessageFactory();
-        Message message = messageFactory.messageFactory("{\"isRow\":true,\"rowOrColNum\":1,\"nickname\":\"Nome\",\"messageType\":\"PICKRESOURCES\"}");
-
-        message.process();
-         */
-
     }
 
     @Override
@@ -105,10 +92,6 @@ public class MultiPlayerManager extends GameManager {
         multi.manageTurn();
 
     }
-
-////    public static Player retrievePlayerFromNickname(String nickname){
-////        return players.stream().findAny();
-//    }
 
     /**
      * Assigns calamaio randomly
@@ -143,96 +126,8 @@ public class MultiPlayerManager extends GameManager {
         Collections.shuffle(leaderCards);
 
         //TODO update leader cards in order to work with json file
-        for(MultiPlayer player : players){
-            for(int i = 0; i < 4; i++) {
-                if (!leaderCards.isEmpty()) {
-                    LeaderCard lc = leaderCards.pop();
-                    Gson gson = new Gson();
-                    String stringJson = gson.toJson(lc);
-                    if(lc.getCardType().equals(CardType.DISCOUNT)){
-                        try {
-                            player.getToClient().writeUTF("DISCOUNT");
-                            player.getToClient().writeUTF(stringJson);
-                        } catch(IOException e){
-                            System.err.println("Exception occurred while sending json");
-                        }
-                    }
-                    if(lc.getCardType().equals(CardType.MARBLE)){
-                        try {
-                            player.getToClient().writeUTF("MARBLE");
-                            player.getToClient().writeUTF(stringJson);
-                        } catch(IOException e){
-                            System.err.println("Exception occurred while sending json");
-                        }
-                    }
-                    if(lc.getCardType().equals(CardType.PRODUCTION)){
-                        try {
-                            player.getToClient().writeUTF("PRODUCTION");
-
-                            player.getToClient().writeUTF(stringJson);
-                        } catch(IOException e){
-                            System.err.println("Exception occurred while sending json");
-                        }
-                    }
-                    if(lc.getCardType().equals(CardType.STORAGE)){
-                        try {
-                            player.getToClient().writeUTF("STORAGE");
-                            player.getToClient().writeUTF(stringJson);
-                        } catch(IOException e){
-                            System.err.println("Exception occurred while sending json");
-                        }
-                    }
-
-
-                }
-            }
-            try {
-                player.getToClient().writeUTF("OK");
-            } catch(IOException e){
-                System.err.println("Exception occurred while sending message");
-                e.printStackTrace();
-            }
-        }
-
-        //receiving from clients selected leader cards
-        /*
-        for(Player player : players){
-            try {
-                for(int i = 0; i < players.size(); i++){
-                    if(!players.get(i).equals(player)){
-                        players.get(i).getToClient().writeUTF("WAIT");
-                        players.get(i).getToClient().writeUTF("Wait while other clients choose leaderCards: think what to pick!");
-                    }
-                }
-                player.getToClient().writeUTF("LEADERCARD");
-                player.getToClient().writeUTF("Select 2 leader cards (with index between 1 and 4): ");
-            } catch(IOException e){
-                e.printStackTrace();
-            }
-
-            List<Integer> chosenIndexes = new ArrayList<>();
-            int cardsSelected = 0;
-            while(cardsSelected != 2) {
-                String message;
-                Integer index = null;
-                try {
-                    message = player.getFromClient().readUTF();
-                    index = Integer.valueOf(message);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (NumberFormatException e2){
-                    e2.printStackTrace();
-                }
-                chosenIndexes.add(index);
-                cardsSelected++;
-            }
-
-            List<LeaderCard> selected = leaderCards.stream().filter(x -> (x.equals(leaderCards.get(chosenIndexes.get(0))) || x.equals(leaderCards.get(chosenIndexes.get(1))))).collect(Collectors.toList());
-
-
-        }
-         */
     }
+
 
     /**
      * Ends the game
@@ -248,6 +143,17 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void countVictoryPoints() {
 
+    }
+
+    @Override
+    public void welcome() {
+        for(Player player : players){
+            try {
+                player.getToClient().writeUTF("OK IN GAME");
+            } catch(IOException e){
+                System.err.println("Exception occurred while sending file");
+            }
+        }
     }
 
 

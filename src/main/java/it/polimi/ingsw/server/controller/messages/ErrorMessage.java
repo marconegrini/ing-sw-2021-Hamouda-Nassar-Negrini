@@ -12,6 +12,7 @@ public class ErrorMessage extends Message {
     public ErrorMessage(String nickname, String error) {
         super(nickname, MessageType.ERROR);
         this.error = error;
+        System.out.println(this.toString());
     }
 
     public String getError() {
@@ -27,7 +28,7 @@ public class ErrorMessage extends Message {
     }
 
     @Override
-    public void process(Player player, TurnManager turnManager){
+    public boolean process(Player player, TurnManager turnManager){
         Gson gson = new Gson();
         String messageToSend = gson.toJson(this);
         try {
@@ -35,6 +36,7 @@ public class ErrorMessage extends Message {
         } catch (IOException e){
             System.err.println("Exception occurred while sending json");
         }
+        return true;
     }
 
 }

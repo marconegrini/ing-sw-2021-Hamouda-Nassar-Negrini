@@ -16,11 +16,11 @@ public class PickResourcesMessage extends Message{
     }
 
     @Override
-    public void process(Player player, TurnManager turnManager) {
+    public boolean process(Player player, TurnManager turnManager) {
 
-        Message outcome = turnManager.pickResources (player,  this.isRow, this.rowOrColNum);
+        //Message outcome = turnManager.pickResources (player,  this.isRow, this.rowOrColNum);
 
-
+        return true;
     }
 
 }

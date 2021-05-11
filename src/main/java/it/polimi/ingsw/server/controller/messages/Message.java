@@ -31,7 +31,7 @@ public abstract class Message {
         return this.nickname;
     }
 
-    public abstract void process(Player player, TurnManager turnManager);
+    public abstract boolean process(Player player, TurnManager turnManager);
 
 
 

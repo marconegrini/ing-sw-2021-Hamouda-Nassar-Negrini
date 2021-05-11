@@ -43,6 +43,10 @@ public class MessageFactory {
                 returnMessage = gson.fromJson(receivedMessage, OkMessage.class);
             case ACTIVATEPRODUCTION:
                 returnMessage = gson.fromJson(receivedMessage, ActivateProductionMessage.class);
+            case INSERTRESOURCESINWAREHOUSE:
+                returnMessage = gson.fromJson(receivedMessage, InsertResourcesInWarehouseMessage.class);
+            case MOVEWAREHOUSERESOURCES:
+                returnMessage = gson.fromJson(receivedMessage, MoveWarehouseResources.class);
             case ERROR:
                 break;
             case PING:

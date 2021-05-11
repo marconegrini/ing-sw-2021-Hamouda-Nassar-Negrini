@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.controller.messages;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 
+import java.io.IOException;
 import java.util.List;
 
 public class InsertResourcesInWarehouseMessage extends Message{
@@ -19,7 +21,16 @@ public class InsertResourcesInWarehouseMessage extends Message{
 
 
     @Override
-    public void process(Player player, TurnManager turnManager) {
-
+    public boolean process(Player player, TurnManager turnManager) {
+        Gson gson = new Gson();
+        Message outcome = turnManager.insertResourcesInWarehouse(player, shelf, resources);
+        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
+        String messageToSend = gson.toJson(outcome);
+        try {
+            player.getToClient().writeUTF(messageToSend);
+        } catch (IOException e){
+            System.err.println("Exception occurred while sending json");
+        }
+        return true;
     }
 }
