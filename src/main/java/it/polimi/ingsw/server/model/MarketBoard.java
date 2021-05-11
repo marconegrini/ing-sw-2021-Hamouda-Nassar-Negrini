@@ -81,7 +81,7 @@ public class MarketBoard {
      * @param rowOrColNum  the rowOrColNum indicate the column or the row selected
      * @return  an ArrayList with the picked marbles
      */
-    public List<Marble> insertMarble(boolean isRow, int rowOrColNum){
+    public List<Marble> insertMarble(boolean isRow, int rowOrColNum) throws IndexOutOfBoundsException{
 
         Marble temporaryMarble;
         List<Marble> pickedMarbles;
