@@ -13,33 +13,21 @@ import java.util.List;
  * when a card isFlipped it can be used.
  */
 public abstract class LeaderCard extends Card{
-    protected boolean isFlipped;
+    protected boolean isActivated;
     protected CardType cardType;
-    protected CardsCompositionMethods cardsCompositionMethods;
-
-
-    //public abstract HashMap<Object, Integer> getActivationCost();
 
     public int discardAndReceiveVPointsIfNotActivated() {
         //TODO add a method that discards the card or manage the discard from the controller.
-        this.isFlipped=false;
+        this.isActivated=false;
         return getVictoryPoints();
     }
 
-    public boolean isFlipped() {return this.isFlipped;}
+    public boolean isActivated() {return this.isActivated;}
 
     public CardType getCardType() {
         return this.cardType;
     }
 
-
-    public boolean verifyToActivate(Player player, HashMap<Resource,Integer> resourceIn){
-        return false;
-    }
-
-    public boolean verifyToActivate(List<LeaderCardCost> cards){
-        return cardsCompositionMethods.verifyToActivate(cards);
-    }
-
     public abstract String toString();
+
 }

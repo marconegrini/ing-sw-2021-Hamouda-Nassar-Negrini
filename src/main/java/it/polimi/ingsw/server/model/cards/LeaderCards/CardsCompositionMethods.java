@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.LeaderCards;
 
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.LeaderCardCost;
 import it.polimi.ingsw.server.model.enumerations.CardColor;
 import it.polimi.ingsw.server.model.enumerations.Level;
@@ -15,15 +16,13 @@ public class CardsCompositionMethods {
         this.activationCost = activationCost;
     }
 
-
-
     /**
      * @param cardsIn ((Player's cards)) they are cards passed by the user to activate the leader card
      * @return true if the player have all the necessary DV cards to activate the leader cards otherwise returns false.
      */
     public boolean verifyToActivate(List<LeaderCardCost> cardsIn) throws NullPointerException, IndexOutOfBoundsException {
 
-        //the number of cards passed mustn't be greater than 3
+        //the number of cards passed must not be greater than 3
         if ((cardsIn.size()) > 3) {
             throw new IndexOutOfBoundsException("Index " + (cardsIn.size() - 1) + " is out of bounds!");
         }
@@ -130,6 +129,17 @@ public class CardsCompositionMethods {
 
         return cardsOccurrencesReturn;
 
+    }
+
+    public static void main(String[] args) {
+        Gson gson = new Gson();
+        LeaderCardCost lcc1 = new LeaderCardCost(CardColor.BLUE, Level.FIRST);
+        LeaderCardCost lcc2 = new LeaderCardCost(CardColor.GREEN, Level.SECOND);
+        List<LeaderCardCost> lcc = new ArrayList<>();
+        lcc.add(lcc1);
+        lcc.add(lcc2);
+        String jsonString = gson.toJson(lcc);
+        System.out.println(jsonString);
     }
 
 

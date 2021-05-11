@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server.model.cards.LeaderCards;
 
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCardCost;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.enumerations.CardColor;
 import it.polimi.ingsw.server.model.enumerations.CardType;
+import it.polimi.ingsw.server.model.enumerations.Level;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 
 import java.util.HashMap;
@@ -15,29 +18,28 @@ import java.util.List;
  * */
 
 public class DiscountLeaderCard extends LeaderCard {
-    private final HashMap <Resource, Integer> discountedResource;
-    private final HashMap<LeaderCardCost,Integer> activationCost;
+    private final HashMap<Resource, Integer> discountedResource;
+    private final List<LeaderCardCost> activationCost;
 
     public DiscountLeaderCard(
             CardType cardType,
             int vp,
-            HashMap<LeaderCardCost,Integer> activationCost,
-            HashMap <Resource, Integer> discountedResource)
-    {
+            List<LeaderCardCost> activationCost,
+            HashMap<Resource, Integer> discountedResource) {
         this.cardType = cardType;
         this.Vp = vp;
-        this.isFlipped = false;
+        this.isActivated = false;
 
-        this.activationCost=activationCost;
-        this.discountedResource=discountedResource;
+        this.activationCost = activationCost;
+        this.discountedResource = discountedResource;
 
-        this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
+        //this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
 
     }
 
 
     //getters
-    public HashMap<LeaderCardCost,Integer> getActivationCost() {
+    public List<LeaderCardCost> getActivationCost() {
         return activationCost;
     }
 
@@ -45,8 +47,37 @@ public class DiscountLeaderCard extends LeaderCard {
         return discountedResource;
     }
 
-    public boolean verifyToActivate(List<LeaderCardCost> cards){
-        return cardsCompositionMethods.verifyToActivate(cards);
+    public boolean isActivatable(List<DevelopmentCard> developmentCards) {
+
+        boolean activatable = true;
+
+        for (int i = 0; i < this.activationCost.size(); i++) {
+            Integer equalCards = 1;
+            Integer satisfied = 0;
+            CardColor cardColor = this.activationCost.get(i).getColor();
+            Level cardLevel = this.activationCost.get(i).getLevel();
+            for (int j = 0; j < this.activationCost.size() && j != i; j++) {
+                if (this.activationCost.get(j).equals(this.activationCost.get(i)))
+                    equalCards++;
+            }
+            if (cardLevel.equals(Level.ANY))
+                for (DevelopmentCard dv : developmentCards)
+                    if (dv.getColor().equals(cardColor))
+                        satisfied++;
+
+            if (cardLevel.equals(Level.FIRST))
+                for (DevelopmentCard dv : developmentCards)
+                    if (dv.getLevel().equals(Level.FIRST) && dv.getColor().equals(cardColor))
+                        satisfied++;
+
+            if (cardLevel.equals(Level.SECOND))
+                for (DevelopmentCard dv : developmentCards)
+                    if (dv.getLevel().equals(Level.SECOND) && dv.getColor().equals(cardColor))
+                        satisfied++;
+
+            if (satisfied < equalCards) activatable = false;
+        }
+        return activatable;
     }
 
     @Override

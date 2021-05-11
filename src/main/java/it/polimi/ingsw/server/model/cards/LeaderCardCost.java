@@ -14,8 +14,6 @@ private CardsCompositionMethods cardMethodClass;
 public LeaderCardCost(CardColor color, Level level){
     this.color=color;
     this.level=level;
-
-
 }
 
     public CardColor getColor() {

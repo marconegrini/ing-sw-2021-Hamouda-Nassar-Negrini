@@ -14,7 +14,9 @@ import it.polimi.ingsw.server.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.server.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class LeaderCardParser extends Parser{
@@ -33,7 +35,6 @@ public class LeaderCardParser extends Parser{
             JsonElement element = parser.next();
 
             if (element.isJsonObject()) {
-
                 JsonObject fileObject = element.getAsJsonObject();
                 JsonArray jsonLeaderCards = fileObject.get("leaderCards").getAsJsonArray();
 
@@ -50,7 +51,7 @@ public class LeaderCardParser extends Parser{
 
                         String tempcardType = jsonObject.get("type").getAsString();
                         CardType cardType = CardType.getEnum(tempcardType);
-                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
+                        List<LeaderCardCost> activationCost = new ArrayList<>();
 
                         for(JsonElement elem  : jsonArray1){
                             JsonObject object = elem.getAsJsonObject();
@@ -59,7 +60,8 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(new LeaderCardCost(cardColor, Level.ANY), cost);
+                            for(int i = 0; i < cost; i++)
+                                activationCost.add(new LeaderCardCost(cardColor, Level.ANY));
                         }
 
                         HashMap<Resource, Integer> discountedResource = new HashMap<>();
@@ -123,7 +125,7 @@ public class LeaderCardParser extends Parser{
                         String tempcardType = jsonObject.get("type").getAsString();
                         CardType cardType = CardType.getEnum(tempcardType);
 
-                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
+                        List<LeaderCardCost> activationCost = new ArrayList();
 
                         for(JsonElement elem  : jsonArray1){
                             JsonObject object = elem.getAsJsonObject();
@@ -132,7 +134,8 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(new LeaderCardCost(cardColor, Level.ANY), cost);
+                            for(int i = 0; i < cost; i++)
+                                activationCost.add(new LeaderCardCost(cardColor, Level.ANY));
                         }
 
                         HashMap<Resource, Integer> productionOut = new HashMap<>();
@@ -159,7 +162,7 @@ public class LeaderCardParser extends Parser{
 
                         String tempcardType = jsonObject.get("type").getAsString();
                         CardType cardType = CardType.getEnum(tempcardType);
-                        HashMap<LeaderCardCost, Integer> activationCost = new HashMap<>();
+                        List<LeaderCardCost> activationCost = new ArrayList();
 
                         for(JsonElement elem  : jsonArray1){
 
@@ -169,7 +172,8 @@ public class LeaderCardParser extends Parser{
                             CardColor cardColor = CardColor.getEnum(tempCardColor);
                             Integer cost = object.get("cost").getAsInt();
 
-                            activationCost.put(new LeaderCardCost(cardColor, Level.SECOND), cost);
+                            for(int i = 0; i < cost; i++)
+                                activationCost.add(new LeaderCardCost(cardColor, Level.SECOND));
                         }
 
                         HashMap<Resource, Integer> productionIn = new HashMap<>();
@@ -198,7 +202,7 @@ public class LeaderCardParser extends Parser{
     }
 
     public static void main(String[] args) {
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
     }

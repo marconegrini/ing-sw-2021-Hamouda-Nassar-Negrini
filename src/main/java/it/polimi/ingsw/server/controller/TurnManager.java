@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.messages.ErrorMessage;
 import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.OkMessage;
@@ -24,6 +23,8 @@ public class TurnManager {
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
 
+    private List<Resource> pickedResources;
+
     /**
      * This constructor will be used when a game is restored. It allows
      * you to restore the turn class with old decks and market.
@@ -31,10 +32,10 @@ public class TurnManager {
      * @param cardsDeck  the decks is the old deck of a restored game
      * @param marketBoard  the market is the old market of a restored game
      */
-
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
+        pickedResources = new ArrayList<>();
     }
 
     /**
@@ -162,8 +163,8 @@ public class TurnManager {
 
     }
 
-    public void activateLeaderCard (Player player, List<Integer> leaderCardNum){
-        //TODO activate leader card of the player
+    public void activateLeaderCard (Player player, Integer leaderCardSlotNum){
+
     }
 
     public void discardLeaderCard (Player player, List<Integer> leaderCardNum){

@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class StorageLeaderCard extends LeaderCard {
 
@@ -24,15 +25,37 @@ public class StorageLeaderCard extends LeaderCard {
     {
         this.cardType = cardType;
         this.Vp = victoryPoints;
-        this.isFlipped = false;
+        this.isActivated = false;
         this.activationCost = activationCost;
         this.storage = storage;
     }
 
-    @Override
-    public boolean verifyToActivate(Player player,HashMap<Resource, Integer> activationCost) {
-        return MultiPlayerManager.verifyToActivateLeaderCard(player,activationCost);
+    public boolean isActivatable(List<Resource> resources) {
+        boolean activatable = true;
+        Integer coinOccurr = occurrences(Resource.COIN, resources);
+        Integer stoneOccurr = occurrences(Resource.STONE, resources);
+        Integer servantOccurr = occurrences(Resource.SERVANT, resources);
+        Integer shieldOccurr = occurrences(Resource.SHIELD, resources);
+        Set<Resource> resourceCost = activationCost.keySet();
+        for(Resource resource : resourceCost){
+            if(resource.equals(Resource.COIN))
+                if(coinOccurr >= activationCost.get(resource))
+                    activatable = false;
+            if(resource.equals(Resource.STONE))
+                if(stoneOccurr >= activationCost.get(resource))
+                    activatable = false;
+            if(resource.equals(Resource.SERVANT))
+                if(servantOccurr >= activationCost.get(resource))
+                    activatable = false;
+            if(resource.equals(Resource.SHIELD))
+                if(shieldOccurr >= activationCost.get(resource))
+                    activatable = false;
+        }
+        return activatable;
+    }
 
+    public Integer occurrences(Resource resource, List<Resource> resources){
+        return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
     @Override
