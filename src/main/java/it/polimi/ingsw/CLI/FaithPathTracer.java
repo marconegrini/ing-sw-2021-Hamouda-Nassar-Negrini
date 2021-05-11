@@ -1,9 +1,6 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.FaithPath;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class FaithPathTracer {
@@ -17,8 +14,8 @@ public class FaithPathTracer {
 
     ArrayList<String> result=new ArrayList<>();
 
-    String stringFormatOthers="%s is in position %s:";
-    String stringFormatPlayer="You are in position %d:";
+    String stringFormatOthers="%s is in position: %s";
+    String stringFormatPlayer="You are in position: %d";
     othersPositions.put("tempEntry",playerPosition);
 
         //result.add(String.format(stringFormatPlayer,playerPosition));

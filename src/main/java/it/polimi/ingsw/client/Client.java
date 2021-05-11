@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Client {
 
@@ -9,10 +9,20 @@ public class Client {
 
         Socket socket = new Socket("127.0.0.1", 5056);
 
-        ServerConnection serverConnection = new ServerConnection(socket);
+        ClientSocket clientSocket = new ClientSocket(socket);
 
-        GameSetUpConnection gameSetUp = new GameSetUpConnection(socket);
+        GameConnection gameConnection = new GameConnection();
 
+        boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
+                clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
+
+        if(isStarted) {
+            GameSetUp gameSetUp = new GameSetUp();
+            gameSetUp.initialSetUp(clientSocket.getSocket(), clientSocket.getScanner(),
+                    clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
+        }
+
+        clientSocket.closeConnection();
     }
 }
 

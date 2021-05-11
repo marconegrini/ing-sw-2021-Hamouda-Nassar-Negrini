@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
-import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.cards.LeaderCardCost;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.server.model.cards.LeaderCard;
+import it.polimi.ingsw.server.model.cards.LeaderCardCost;
+import it.polimi.ingsw.server.model.cards.LeaderCards.WhiteMarbleLeaderCard;
+import it.polimi.ingsw.server.model.enumerations.CardColor;
+import it.polimi.ingsw.server.model.enumerations.CardType;
+import it.polimi.ingsw.server.model.enumerations.Level;
+import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.parser.LeaderCardParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class CardsCompositionMethodsTest {
 
     @Test
     public void verifyToActivate() {
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
 
@@ -61,7 +62,7 @@ public class CardsCompositionMethodsTest {
 
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.YELLOW, Level.FIRST));
-        assertFalse("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
+        assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         cardsIn.add(new LeaderCardCost(CardColor.GREEN, Level.FIRST));
         assertTrue("wrong return verifyToActivate method", leaderCards1.get(0).verifyToActivate(cardsIn));
         assertFalse("wrong return verifyToActivate method", leaderCards1.get(1).verifyToActivate(cardsIn));

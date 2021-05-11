@@ -1,9 +1,9 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.ASCII_Shapes;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.parser.DevelopmentCardParser;
+import it.polimi.ingsw.server.model.cards.DevelopmentCard;
+import it.polimi.ingsw.server.model.enumerations.ASCII_Shapes;
+import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.server.model.parser.DevelopmentCardParser;
 
 import java.util.ArrayList;
 
