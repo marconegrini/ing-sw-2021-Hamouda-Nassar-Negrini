@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model;
 
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.cards.LeaderCards.LeaderCardState;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 import it.polimi.ingsw.server.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
@@ -118,12 +117,4 @@ public abstract class Player {
         personalBoard.moveWarehouseResource(sourceStorage, destStorage);
     }
 
-    public void setLeaderCard(LeaderCardState lcn) throws IllegalArgumentException{
-
-    }
-
-    public void activateLeaderCard(LeaderCardState lcn) throws IllegalArgumentException{
-        if(lcn.equals(LeaderCardState.FIRST) && !firstLeaderCard.isActivated());
-
-    }
 }

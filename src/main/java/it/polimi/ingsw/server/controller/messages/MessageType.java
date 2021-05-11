@@ -6,13 +6,19 @@ import java.util.Locale;
 
 public enum MessageType {
 
-    //actions
+    //request messages
     PICKRESOURCES,
     BUYDEVELOPMENTCARD,
     ACTIVATEPRODUCTION,
     INSERTRESOURCESINWAREHOUSE,
     MOVEWAREHOUSERESOURCES,
     INSERTMARBLEMESSAGE,
+    ACTIVATELEADERCARD,
+    DISCARDLEADERCARD,
+
+    //update messages
+    UPDATEMARKETBOARD,
+    UPDATEDEVCARDSDECK,
 
     //outcomes
     ERROR,

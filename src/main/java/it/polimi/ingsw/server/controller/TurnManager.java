@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.controller.messages.ErrorMessage;
 import it.polimi.ingsw.server.controller.messages.Message;
-import it.polimi.ingsw.server.controller.messages.OkMessage;
+import it.polimi.ingsw.server.controller.messages.updateFromServer.OkMessage;
+import it.polimi.ingsw.server.controller.messages.updateFromServer.ErrorMessage;
 import it.polimi.ingsw.server.model.Marble;
 import it.polimi.ingsw.server.model.MarketBoard;
 import it.polimi.ingsw.server.model.Player;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.server.model.exceptions.IllegalMoveException;
 import it.polimi.ingsw.server.model.exceptions.StorageOutOfBoundsException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

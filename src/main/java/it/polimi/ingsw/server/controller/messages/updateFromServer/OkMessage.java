@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.messages.fromServer;
+package it.polimi.ingsw.server.controller.messages.updateFromServer;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;

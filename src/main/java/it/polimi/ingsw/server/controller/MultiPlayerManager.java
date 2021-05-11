@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.messages.*;
-import it.polimi.ingsw.server.controller.messages.fromServer.ErrorMessage;
+import it.polimi.ingsw.server.controller.messages.updateFromServer.ErrorMessage;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.LeaderCard;
 import it.polimi.ingsw.server.model.enumerations.Resource;
@@ -55,8 +55,8 @@ public class MultiPlayerManager extends GameManager {
 
                 String clientRequest = "";
                 try {
-                    if ((player.getFromClient().available() > 0)) ;
-                    clientRequest = player.getFromClient().readUTF();
+                    if(player.getFromClient().available() > 0)
+                        clientRequest = player.getFromClient().readUTF();
                 } catch (IOException e) {
                     System.err.println("Exception occurred while sending file");
                 }
@@ -98,7 +98,7 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void setCalamaio() {
         Random rand = new Random();
-        Integer randomPlayer = rand.nextInt(players.size());
+        int randomPlayer = rand.nextInt(players.size());
         players.get(randomPlayer).setCalamaio();
 
         for (Player player: players){
@@ -167,10 +167,7 @@ public class MultiPlayerManager extends GameManager {
         List<Resource> playerResources = player.getTotalResource();
         ArrayList<Resource> resourcesList = resourcesFromHashMapToList(HashMapResources);
 
-        if(playerResources.containsAll(resourcesList)){
-            return true;
-        }
-        else return false;
+        return playerResources.containsAll(resourcesList);
     }
 
     /**
