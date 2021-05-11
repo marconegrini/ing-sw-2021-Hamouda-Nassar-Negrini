@@ -10,6 +10,7 @@ public enum MessageType {
     PICKRESOURCES,
     BUYDEVELOPMENTCARD,
     ACTIVATEPRODUCTION,
+    INSERTRESOURCESINWAREHOUSE,
 
     //outcomes
     ERROR,
