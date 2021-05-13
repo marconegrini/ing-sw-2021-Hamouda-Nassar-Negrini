@@ -46,6 +46,8 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void manageTurn(){
 
+        //TODO switch case to handle methods that increment faith path
+
         this.welcome();
 
         for(Player player : players) {
@@ -80,7 +82,19 @@ public class MultiPlayerManager extends GameManager {
 
     @Override
     public void manageSetUp() {
+    }
 
+    /**
+     * if there is a Message request from a client that, if successfully handled, requires incrementing the user faith path. The method is called to
+     * update the other users about the new user faith path position.
+     * CAUTION: the methods needs to be called for each increment of the user's faith path in order to
+     * correctly update the other player's faith paths.
+     * @param player the player incrementing his position
+     */
+    public void updateUsersFaithPath(Player player){
+        Integer newPlayingUserFaithPathPosition = player.getFaithPathPosition();
+        for(Player p : players)
+            p.updateFaithPath(newPlayingUserFaithPathPosition);
     }
 
 
@@ -155,9 +169,7 @@ public class MultiPlayerManager extends GameManager {
         }
     }
 
-
     /**
-     *
      * @param player the player that wants to activate a Leader card of type STORAGE
      * @param HashMapResources the activation cost of the leader card
      * @return true if the player has sufficient resources to activate a leader card of type STORAGE

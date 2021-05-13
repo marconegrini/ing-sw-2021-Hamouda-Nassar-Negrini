@@ -28,13 +28,12 @@ public class InsertResourcesInWarehouseMessage extends Message {
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.insertResourcesInWarehouse(player, shelf, resources);
-        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);
         } catch (IOException e){
             System.err.println("Exception occurred while sending json");
         }
-        return true;
-    }
+        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
+        return true;    }
 }

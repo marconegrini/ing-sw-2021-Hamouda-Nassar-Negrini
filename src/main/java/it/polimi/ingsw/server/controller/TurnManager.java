@@ -9,10 +9,7 @@ import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.server.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.server.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.server.model.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +132,7 @@ public class TurnManager {
             } catch (EmptySlotException e1) {
                 return new ErrorMessage(player.getNickname(), "Selected an empty slot");
             } catch (IndexOutOfBoundsException e2) {
-                return new ErrorMessage(player.getNickname(), "Invalid slot number");
+                return new ErrorMessage(player.getNickname(), "Selected invalid slot number");
             }
         }
         List<Resource> playerResources = player.getTotalResource();
@@ -163,14 +160,62 @@ public class TurnManager {
 
     }
 
-    public void activateLeaderCard (Player player, Integer leaderCardSlotNum){
-
+    /**
+     * activates leader card of specified index
+     * @param player playing player
+     * @param indexNumber leader card's index number in arraylist
+     * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
+     */
+    public Message activateLeaderCard (Player player, Integer indexNumber){
+        try{
+            player.activateLeaderCard(indexNumber);
+        } catch(IndexOutOfBoundsException e1){
+            return new ErrorMessage(player.getNickname(), "Selected index for leader card is out of bounds");
+        } catch(AlreadyActivatedLeaderCardException e2){
+            return new ErrorMessage(player.getNickname(), "Selected leader card already activated");
+        } catch(InsufficientResourcesException e3){
+            return new ErrorMessage(player.getNickname(), "Insufficient resources to activate selected leader card");
+        } catch(AlreadyDiscardedLeaderCardException e4){
+            return new ErrorMessage(player.getNickname(), "Selected leader card was discarded");
+        }
+        return new OkMessage(player.getNickname(), "Selected leader card activated");
     }
 
-    public void discardLeaderCard (Player player, List<Integer> leaderCardNum){
-        //TODO discard leader card of the player
+    /**
+     * Discards selected leader card from leadecards arraylist. OkMessage is returned ad everything worked fine, it also increments user's faith path position.
+     * @param player
+     * @param indexNum
+     * @return
+     */
+    public Message discardLeaderCard (Player player, Integer indexNum){
+        try{
+            player.discardLeaderCard(indexNum);
+        } catch (IndexOutOfBoundsException e1){
+            return new ErrorMessage(player.getNickname(), "Selected leader card index is out of bounds");
+        } catch (AlreadyActivatedLeaderCardException e2){
+            return new ErrorMessage(player.getNickname(), "Selected leader card is activated:you cannot discard it");
+        } catch (AlreadyDiscardedLeaderCardException e3){
+            return new ErrorMessage(player.getNickname(), "Selected leader card was already discarded");
+        }
+        player.incrementFaithPathPosition();
+        return new OkMessage(player.getNickname(), "Leader card correctly discarded: received 1 faith point");
     }
 
+    /**
+     * method called to select 2 leader cards out of the 4 given while setting up the game
+     * @param player playing player
+     * @param index1 first leader card index in arraylist
+     * @param index2 second leader card index in arraylist
+     * @return ErrorMessage if specified indexes are out of bounds, OkMessage instead.
+     */
+    public Message chooseLeaderCard(Player player, Integer index1, Integer index2){
+        try{
+            player.chooseLeaderCard(index1, index2);
+        } catch(IndexOutOfBoundsException e){
+            return new ErrorMessage(player.getNickname(),"Selected indexes for leader cards are out of bounds");
+        }
+        return new OkMessage(player.getNickname(), "Leader cards correctly chose");
+    }
 }
 
 

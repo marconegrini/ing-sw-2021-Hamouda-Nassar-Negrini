@@ -7,21 +7,20 @@ import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
+import java.util.Set;
 
-public class MoveWarehouseResources extends Message {
-    Integer sourceStorage;
-    Integer destStorage;
+public class ActivateLeaderCardMessage extends Message {
+    private Integer indexNumber;
 
-    public MoveWarehouseResources(String nickname, Integer sourceStorage, Integer destStorage){
-        super(nickname, MessageType.MOVEWAREHOUSERESOURCES);
-        this.sourceStorage = sourceStorage;
-        this.destStorage = destStorage;
+    public ActivateLeaderCardMessage(String nickname, Integer indexNumber){
+        super(nickname, MessageType.ACTIVATELEADERCARD);
+        this.indexNumber = indexNumber;
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.moveResourcesInWarehouse(player, this.sourceStorage, this.destStorage);
+        Message outcome = turnManager.activateLeaderCard(player, indexNumber);
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);

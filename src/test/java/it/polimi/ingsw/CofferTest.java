@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.UnsufficientResourcesException;
+import it.polimi.ingsw.server.model.exceptions.InsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class CofferTest {
     }
 
     @Test
-    public void pullResources() throws UnsufficientResourcesException {
+    public void pullResources() throws InsufficientResourcesException {
         resourceIn.add(Resource.SHIELD);
         resourceIn.add(Resource.STONE);
         resourceIn.add(Resource.COIN);

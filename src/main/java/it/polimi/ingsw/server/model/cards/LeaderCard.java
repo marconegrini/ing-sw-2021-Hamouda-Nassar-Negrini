@@ -16,19 +16,20 @@ public abstract class LeaderCard extends Card{
 
     public boolean isDiscarded() {return this.isDiscarded;}
 
-    public void activate() throws AlreadyActivatedLeaderCardException{
-        if(!this.isActivated)
-            this.isActivated = true;
-        else throw new AlreadyActivatedLeaderCardException();
+    public void activate() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException{
+        if(!this.isActivated) {
+            if(!this.isDiscarded) {
+                this.isActivated = true;
+            } else throw new AlreadyDiscardedLeaderCardException();
+        }else throw new AlreadyActivatedLeaderCardException();
     }
 
-    public Integer discard() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException{
+    public void discard() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException{
         if(!this.isActivated){
             if(!this.isDiscarded){
                 this.isDiscarded = true;
             } else throw new AlreadyDiscardedLeaderCardException();
         } else throw new AlreadyActivatedLeaderCardException();
-        return this.getVictoryPoints();
     }
 
     public CardType getCardType() {

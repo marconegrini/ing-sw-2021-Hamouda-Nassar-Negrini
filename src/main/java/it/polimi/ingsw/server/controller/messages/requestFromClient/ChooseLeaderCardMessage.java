@@ -8,20 +8,21 @@ import it.polimi.ingsw.server.model.Player;
 
 import java.io.IOException;
 
-public class MoveWarehouseResources extends Message {
-    Integer sourceStorage;
-    Integer destStorage;
+public class ChooseLeaderCardMessage extends Message {
 
-    public MoveWarehouseResources(String nickname, Integer sourceStorage, Integer destStorage){
-        super(nickname, MessageType.MOVEWAREHOUSERESOURCES);
-        this.sourceStorage = sourceStorage;
-        this.destStorage = destStorage;
+    private Integer index1;
+    private Integer index2;
+
+    public ChooseLeaderCardMessage(String nickname, Integer index1, Integer index2){
+        super(nickname, MessageType.CHOOSELEADERCARD);
+        this.index1 = index1;
+        this.index2 = index2;
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.moveResourcesInWarehouse(player, this.sourceStorage, this.destStorage);
+        Message outcome = turnManager.chooseLeaderCard(player, this.index1, this.index2);
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);
@@ -29,6 +30,7 @@ public class MoveWarehouseResources extends Message {
             System.err.println("Exception occurred while sending json");
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
-        return true;
-    }
+        return true;    }
+
+
 }

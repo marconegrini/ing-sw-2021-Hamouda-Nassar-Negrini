@@ -3,10 +3,7 @@ package it.polimi.ingsw.server.controller.messages;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.server.controller.messages.requestFromClient.ActivateProductionMessage;
-import it.polimi.ingsw.server.controller.messages.requestFromClient.BuyDevelopmentCardMessage;
-import it.polimi.ingsw.server.controller.messages.requestFromClient.InsertResourcesInWarehouseMessage;
-import it.polimi.ingsw.server.controller.messages.requestFromClient.MoveWarehouseResources;
+import it.polimi.ingsw.server.controller.messages.requestFromClient.*;
 import it.polimi.ingsw.server.controller.messages.updateFromServer.OkMessage;
 
 public class MessageFactory {
@@ -50,6 +47,10 @@ public class MessageFactory {
                 returnMessage = gson.fromJson(receivedMessage, InsertResourcesInWarehouseMessage.class);
             case MOVEWAREHOUSERESOURCES:
                 returnMessage = gson.fromJson(receivedMessage, MoveWarehouseResources.class);
+            case ACTIVATELEADERCARD:
+                returnMessage = gson.fromJson(receivedMessage, ActivateLeaderCardMessage.class);
+            case CHOOSELEADERCARD:
+                returnMessage = gson.fromJson(receivedMessage, ChooseLeaderCardMessage.class);
             case ERROR:
                 break;
             case PING:

@@ -1,33 +1,31 @@
-package it.polimi.ingsw.server.controller.messages.requestFromClient;
+package it.polimi.ingsw.server.controller.messages.updateFromServer;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.cards.LeaderCard;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ActivateProductionMessage extends Message {
+public class UpdateLeaderCardMessage extends Message {
 
-    List<Integer> slots;
-
-    public ActivateProductionMessage(String nickname, List<Integer> slots){
-        super(nickname, MessageType.ACTIVATEPRODUCTION);
-        this.slots = slots;
+    public UpdateLeaderCardMessage(String nickname){
+        super(nickname, MessageType.UPDATELEADERCARD);
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.activateProduction(player, this.slots);
-        String messageToSend = gson.toJson(outcome);
+        List<LeaderCard> leaderCards = player.getPersonalBoard().getLeaderCards();
+        String messageToSend = gson.toJson(leaderCards);
         try {
             player.getToClient().writeUTF(messageToSend);
         } catch (IOException e){
             System.err.println("Exception occurred while sending json");
         }
-        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
-        return true;    }
+        return true;
+    }
 }

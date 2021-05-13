@@ -108,6 +108,21 @@ public class DevCardSlots {
         return result;
     }
 
+    public List<DevelopmentCard> getCardsInSlots(){
+        Stack<DevelopmentCard> temporaryDeck = new Stack();
+        List<DevelopmentCard> cardsToReturn = new ArrayList();
+        for(Stack stack : cardSlot){
+            while(!stack.isEmpty()){
+                DevelopmentCard dv = (DevelopmentCard) stack.pop();
+                cardsToReturn.add(dv.clone());
+                temporaryDeck.push(dv);
+            }
+            while(!temporaryDeck.isEmpty())
+                stack.push(temporaryDeck.pop());
+        }
+        return cardsToReturn;
+    }
+
 
 
 }

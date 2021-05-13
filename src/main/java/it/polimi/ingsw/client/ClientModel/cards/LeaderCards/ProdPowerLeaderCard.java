@@ -4,7 +4,7 @@ import it.polimi.ingsw.client.ClientModel.cards.LeaderCard;
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCardCost;
 import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.UnsufficientResourcesException;
+import it.polimi.ingsw.server.model.exceptions.InsufficientResourcesException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +72,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
     //public boolean activateLeaderCard(HashMap<CardColor, Level> cardsIn){} //in the super class
 
 
-    public HashMap <Resource, Integer> useCard(HashMap<Resource, Integer> resourceIn) throws UnsufficientResourcesException {
+    public HashMap <Resource, Integer> useCard(HashMap<Resource, Integer> resourceIn) throws InsufficientResourcesException {
         //TODO call the verification method from the coffer&Warehouse and if true return the resources..
         // TODO give the player the possibility to choose one (or more) Resource as a given output as well as the faithPoint
 

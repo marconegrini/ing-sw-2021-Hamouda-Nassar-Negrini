@@ -50,4 +50,12 @@ public class DevelopmentCard extends Card{
     public HashMap<Resource, Integer> getProductionOut() {
         return (HashMap<Resource, Integer>) productionOut.clone();
     }
+
+    public DevelopmentCard clone(){
+        HashMap<Resource, Integer> cost = this.getCardCost();
+        HashMap<Resource, Integer> prodIn = this.getProductionIn();
+        HashMap<Resource, Integer> prodOut = this.getProductionOut();
+        DevelopmentCard dv = new DevelopmentCard(this.getVictoryPoints(), this.getColor(), this.getLevel(), cost, prodIn, prodOut);
+        return dv;
+    }
 }

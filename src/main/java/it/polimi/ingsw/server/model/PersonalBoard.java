@@ -97,14 +97,18 @@ public class PersonalBoard {
     }
 
     public ArrayList<LeaderCard> getLeaderCards() {
-        return leaderCards;
+        return (ArrayList<LeaderCard>) leaderCards.clone();
     }
 
     public Warehouse getWarehouse (){return warehouse;}
 
     public Integer getVictoryPoints(){
-
+        //TODO to return total victory points
         return 0;
+    }
+
+    public List<DevelopmentCard> getCardsInDevCardSlots(){
+        return devCardSlots.getCardsInSlots();
     }
 
 }
