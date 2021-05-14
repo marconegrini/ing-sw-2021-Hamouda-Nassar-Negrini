@@ -56,9 +56,12 @@ public class ClientHandler extends Thread{
                 while (true) {
                     if (fromClient.available() > 0) {
                         String command = fromClient.readUTF().toUpperCase();
-                        if (command.equals("START") && Server.isLeader(this.temporaryPlayer) && (Server.size() > 1)) {
-                            Server.startMultiplayerGame(Server.size());
-                            break;
+
+                        if (command.equals("START") && Server.isLeader(this.temporaryPlayer)) {
+                            if(Server.size() > 1) {
+                                Server.startMultiplayerGame(Server.size());
+                                break;
+                            }
                         }
                         if (command.equals("EXIT")) {
                             System.out.println(this.temporaryPlayer.getNickname() + " exit from game");

@@ -21,7 +21,6 @@ public class Client {
             gameSetUp.initialSetUp(clientSocket.getSocket(), clientSocket.getScanner(),
                     clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
         }
-
         clientSocket.closeConnection();
     }
 }

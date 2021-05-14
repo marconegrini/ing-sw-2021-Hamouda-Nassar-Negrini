@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model.MarketBoard;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.server.model.enumerations.Color;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 import it.polimi.ingsw.server.model.exceptions.*;
 
@@ -40,14 +41,37 @@ public class TurnManager {
      * @param player  The player is who will receive the picked resources
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
-    public Message pickResources (Player player, boolean isRow, int rowOrColNum) {
-
+    public Message pickResources(Player player, boolean isRow, int rowOrColNum) {
+        List<Marble> pickedMarbles;
         try {
-            List<Marble> pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
+            pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
         } catch (IndexOutOfBoundsException e){
             return new ErrorMessage(player.getNickname(), "Selected row or column doesn't exists");
         }
+        List<Resource> resourcesToStore = new ArrayList<>();
+        for(Marble marble : pickedMarbles){
+            Color marbleColor = marble.getColor();
+            switch(marbleColor){
+                case YELLOW:
+                    resourcesToStore.add(Resource.COIN);
+                    break;
+                case RED:
+                    break;
+                case VIOLET:
+                    resourcesToStore.add(Resource.SERVANT);
+                    break;
+                case WHITE:
+                    break;
+                case GREY:
+                    resourcesToStore.add(Resource.STONE);
+                    break;
+                case BLUE:
+                    resourcesToStore.add(Resource.SHIELD);
+                    break;
+            }
+        }
         return new OkMessage(player.getNickname(), "Marble inserted");
+
     }
 
 
