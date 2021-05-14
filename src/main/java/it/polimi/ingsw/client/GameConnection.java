@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -151,6 +152,8 @@ public class GameConnection {
 
             buffer.close();
             scanner.close();
+        } catch (SocketException e) {
+            System.out.println("Connection lost");
         } catch (Exception e) {
             e.printStackTrace();
         }
