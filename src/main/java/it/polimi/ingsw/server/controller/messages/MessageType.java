@@ -30,7 +30,7 @@ public enum MessageType {
     PING,
 
     //Scopiazzati
-    MESSAGE_TYPEESSAGE,
+    MESSAGE_TYPEMESSAGE,
     EXCEPTION,
     LEADERCARD;
 

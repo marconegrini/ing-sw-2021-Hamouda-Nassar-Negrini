@@ -55,7 +55,7 @@ public class MessageFactory {
                 break;
             case PING:
                 break;
-            case MESSAGE_TYPEESSAGE:
+            case MESSAGE_TYPEMESSAGE:
                 break;
             case EXCEPTION:
                 break;

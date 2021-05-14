@@ -18,8 +18,8 @@ import java.util.List;
  * */
 
 public class DiscountLeaderCard extends LeaderCard {
-    private final HashMap<Resource, Integer> discountedResource;
     private final List<LeaderCardCost> activationCost;
+    private final HashMap<Resource, Integer> discountedResource;
 
     public DiscountLeaderCard(
             CardType cardType,
@@ -32,9 +32,7 @@ public class DiscountLeaderCard extends LeaderCard {
 
         this.activationCost = activationCost;
         this.discountedResource = discountedResource;
-
         //this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
-
     }
 
 
