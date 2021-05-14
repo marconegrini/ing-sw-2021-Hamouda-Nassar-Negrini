@@ -18,7 +18,6 @@ public class TemporaryPlayer {
         this.socket = socket;
         this.nickname= nickname;
         this.firstPlayer = firstPlayer;
-        socket.setSoTimeout(5 * 1000);
     }
 
     public String getNickname() {
