@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
-import it.polimi.ingsw.server.controller.messages.updateFromServer.ResourcesFromMarketMessage;
+import it.polimi.ingsw.messages.updateFromServer.ResourcesFromMarketMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

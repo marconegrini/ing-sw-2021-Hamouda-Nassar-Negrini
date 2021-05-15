@@ -137,7 +137,7 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void setLeaderCards(){
 
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
         Collections.shuffle(leaderCards);

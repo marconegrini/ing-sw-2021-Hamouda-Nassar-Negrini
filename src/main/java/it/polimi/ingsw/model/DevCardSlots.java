@@ -20,7 +20,7 @@ public class DevCardSlots {
 
     public DevCardSlots(){
 
-        CardSlotParser parser = new CardSlotParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/CardSlotsWarehouse.json");
+        CardSlotParser parser = new CardSlotParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlotsWarehouse.json");
         Integer cardSlotNumber = parser.getCardSlotsNumber();
 
         cardSlot = new ArrayList<>();

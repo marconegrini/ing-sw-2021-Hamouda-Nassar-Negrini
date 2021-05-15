@@ -35,7 +35,7 @@ public class CardsCompositionMethodsTest {
 
     @Test
     public void verifyToActivate() {
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
 

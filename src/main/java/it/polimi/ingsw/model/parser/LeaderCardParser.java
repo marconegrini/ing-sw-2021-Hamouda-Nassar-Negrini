@@ -202,7 +202,7 @@ public class LeaderCardParser extends Parser{
     }
 
     public static void main(String[] args) {
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/server/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
     }
