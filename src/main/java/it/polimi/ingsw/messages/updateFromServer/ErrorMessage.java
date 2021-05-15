@@ -1,9 +1,9 @@
-package it.polimi.ingsw.server.controller.messages.updateFromServer;
+package it.polimi.ingsw.messages.updateFromServer;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.controller.TurnManager;
-import it.polimi.ingsw.server.controller.messages.Message;
-import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;

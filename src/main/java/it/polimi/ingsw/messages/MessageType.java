@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.messages;
+package it.polimi.ingsw.messages;
 
 public enum MessageType {
 
