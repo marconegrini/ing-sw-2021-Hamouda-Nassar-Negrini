@@ -13,6 +13,8 @@ import it.polimi.ingsw.server.model.exceptions.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class Player {
@@ -253,5 +255,67 @@ public abstract class Player {
                 vp += lc.getVictoryPoints();
 
             return vp;
+    }
+
+    public boolean isLeaderCardActivated(CardType lcType){
+        boolean activated = false;
+        for(LeaderCard lc : leaderCards){
+            if(lc.getCardType().equals(lcType) && lc.isActivated() && !lc.isDiscarded())
+                activated = true;
+        }
+        return activated;
+    }
+
+    /**
+     * @param lcType the leader card type
+     * @param selectedLeaderCard is the index of one of the two leader card slot if are both of the same type.
+     *                           In this case, the user has to choose just one card to perform an action
+     * @return the resources given or discounted by the leader card power
+     */
+    public HashMap<Resource, Integer> getLeaderCardsPower(CardType lcType, Integer selectedLeaderCard){
+        HashMap<Resource, Integer> resourcesToReturn = new HashMap<>();
+        if(this.isLeaderCardActivated(lcType)){
+            for(int i = 0; i < leaderCards.size(); i++){
+                LeaderCard lc = leaderCards.get(i);
+                if(lc.getCardType().equals(lcType)){
+
+                    switch(lcType){
+
+                        case MARBLE:
+                            WhiteMarbleLeaderCard wlc = (WhiteMarbleLeaderCard) lc;
+                            if(selectedLeaderCard >= 0){
+                                if(selectedLeaderCard == i)
+                                    resourcesToReturn = wlc.getOutProductionResource();
+                            } else resourcesToReturn = wlc.getOutProductionResource();
+                            break;
+
+                        case STORAGE:
+                            StorageLeaderCard slc = (StorageLeaderCard) lc;
+                            if(selectedLeaderCard >= 0){
+                                if(selectedLeaderCard == i)
+                                    resourcesToReturn = slc.getStorage();
+                            } else resourcesToReturn = slc.getStorage();
+                            break;
+                        case DISCOUNT:
+                            DiscountLeaderCard dlc = (DiscountLeaderCard) lc;
+                            if(selectedLeaderCard >= 0){
+                                if(selectedLeaderCard == i)
+                                    resourcesToReturn = dlc.getDiscountedResource();
+                            } else resourcesToReturn = dlc.getDiscountedResource();
+                            break;
+                        case PRODUCTION:
+                            ProdPowerLeaderCard pplc = (ProdPowerLeaderCard) lc;
+                            if(selectedLeaderCard >= 0){
+                                if(selectedLeaderCard == i)
+                                    resourcesToReturn = pplc.getResourceProductionIn();
+                            } else resourcesToReturn = pplc.getResourceProductionIn();
+                            break;
+                    }
+
+                }
+
+            }
+        }
+        return resourcesToReturn;
     }
 }

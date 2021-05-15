@@ -58,6 +58,10 @@ public class StorageLeaderCard extends LeaderCard {
         return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
+    public HashMap<Resource, Integer> getStorage(){
+        return (HashMap<Resource, Integer>) this.storage;
+    }
+
     @Override
     public String toString() {
         return  "\nCard type: " + this.cardType +

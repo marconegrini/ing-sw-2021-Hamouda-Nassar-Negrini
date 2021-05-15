@@ -8,14 +8,22 @@ import it.polimi.ingsw.server.model.MarketBoard;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.server.model.enumerations.CardType;
 import it.polimi.ingsw.server.model.enumerations.Color;
 import it.polimi.ingsw.server.model.enumerations.Resource;
 import it.polimi.ingsw.server.model.exceptions.*;
+import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class TurnManager {
+
+    private boolean multiplayer;
+
+    private List<MultiPlayer> players;
 
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
@@ -29,11 +37,19 @@ public class TurnManager {
      * @param cardsDeck  the decks is the old deck of a restored game
      * @param marketBoard  the market is the old market of a restored game
      */
-
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
         pickedResources = new ArrayList<>();
+    }
+
+    public void setMultiplayer(boolean isMultiplayer){
+        this.multiplayer = isMultiplayer;
+    }
+
+    public void setPlayers(List<MultiPlayer> players){
+        if(this.multiplayer)
+            this.players = players;
     }
 
     /**
@@ -41,7 +57,7 @@ public class TurnManager {
      * @param player  The player is who will receive the picked resources
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
-    public Message pickResources(Player player, boolean isRow, int rowOrColNum) {
+    public Message pickResources(Player player, boolean isRow, int rowOrColNum, Integer leaderCardSlot) {
         List<Marble> pickedMarbles;
         try {
             pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
@@ -56,11 +72,26 @@ public class TurnManager {
                     resourcesToStore.add(Resource.COIN);
                     break;
                 case RED:
+                    player.incrementFaithPathPosition();
+                    if(multiplayer){
+                        Integer newUserPos = player.getFaithPathPosition();
+                        for(Player p : players)
+                            p.updateFaithPath(newUserPos);
+                    }
                     break;
                 case VIOLET:
                     resourcesToStore.add(Resource.SERVANT);
                     break;
                 case WHITE:
+                    if(player.isLeaderCardActivated(CardType.MARBLE)){
+                        HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE, leaderCardSlot);
+                        Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
+                        for(Resource resource : resourcesFromHashMap){
+                            for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
+                                resourcesToStore.add(resource);
+                            }
+                        }
+                    }
                     break;
                 case GREY:
                     resourcesToStore.add(Resource.STONE);
@@ -70,13 +101,22 @@ public class TurnManager {
                     break;
             }
         }
-        return new OkMessage(player.getNickname(), "Marble inserted");
+        this.pickedResources = resourcesToStore;
+        return new OkMessage(player.getNickname(), "Marble inserted and resources obtained: insert them in warehouse");
+    }
 
+    //TODO method that returns the new row or column modified in marketBoard
+    public Message updateMarketMarbles(boolean isRow, int rowOrColNum){
+        return null;
+    }
+
+    //TODO method that returns resources taken from market
+    public Message getResourcesTakenFromMarket(){
+        return null;
     }
 
 
     /**
-     *
      * @param player player who performed pickresources choice
      * @param destStorage destination storage in warehouse
      * @param resourcesIn List of resources to insert
@@ -111,7 +151,9 @@ public class TurnManager {
      * @param devCardSlot slot index of development cards slots
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
+    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot, Integer leaderCardSlot) {
+
+        //TODO insert power effects of leader card
 
         List<Resource> playerResources = player.getTotalResource();
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
@@ -145,7 +187,9 @@ public class TurnManager {
      * @param slots List of integers between 0 and 2
      * @return outcome message encoded as Message Object
      */
-    public Message activateProduction (Player player, List<Integer> slots) {
+    public Message activateProduction (Player player, List<Integer> slots, Integer leaderCardSlot) {
+
+        //TODO insert power effects of leader card
 
         if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();

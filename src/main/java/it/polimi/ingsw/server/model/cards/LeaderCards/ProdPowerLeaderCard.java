@@ -65,8 +65,8 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
 
     //getters
-    public HashMap <Resource, Integer> getResourceInProduction()
-    { return productionIn; }
+    public HashMap <Resource, Integer> getResourceProductionIn()
+    { return (HashMap <Resource, Integer>)productionIn.clone(); }
 
     public List<LeaderCardCost> getActivationCost() {
         return activationCost;

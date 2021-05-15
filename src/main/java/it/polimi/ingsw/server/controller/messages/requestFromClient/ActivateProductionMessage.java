@@ -12,16 +12,18 @@ import java.util.List;
 public class ActivateProductionMessage extends Message {
 
     List<Integer> slots;
+    Integer selectedLeaderCard;
 
-    public ActivateProductionMessage(String nickname, List<Integer> slots){
+    public ActivateProductionMessage(String nickname, List<Integer> slots, Integer selectedLeaderCard){
         super(nickname, MessageType.ACTIVATEPRODUCTION);
         this.slots = slots;
+        this.selectedLeaderCard = selectedLeaderCard;
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.activateProduction(player, this.slots);
+        Message outcome = turnManager.activateProduction(player, this.slots,this.selectedLeaderCard);
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);

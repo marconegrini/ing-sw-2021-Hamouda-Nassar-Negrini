@@ -41,8 +41,8 @@ public class DiscountLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getDiscountedResourceInfo() {
-        return discountedResource;
+    public HashMap<Resource, Integer> getDiscountedResource() {
+        return (HashMap<Resource, Integer>) discountedResource.clone();
     }
 
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {

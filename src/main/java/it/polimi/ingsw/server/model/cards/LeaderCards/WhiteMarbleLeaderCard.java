@@ -44,7 +44,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
     }
 
     public HashMap<Resource, Integer> getOutProductionResource() {
-        return productionOut;
+        return (HashMap<Resource, Integer>) productionOut.clone();
     }
 
 
