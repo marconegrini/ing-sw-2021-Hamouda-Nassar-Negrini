@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.ClientModel;
 
-import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.server.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.server.model.exceptions.StorageOutOfBoundsException;
-import it.polimi.ingsw.server.model.parser.WarehouseParser;
+
+
+import it.polimi.ingsw.client.ClientModel.enumerations.Resource;
+import it.polimi.ingsw.client.ClientModel.parser.WarehouseParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Warehouse implements Deposit {
+
 
     private Map<Integer, Storage> warehouse;
 
@@ -40,11 +40,8 @@ public class Warehouse implements Deposit {
      *
      *  @param destStorage: requires an integer between 1 and 3
      *  @param resourceIn: requires an ArrayList of the same type of resources
-     * @throws StorageOutOfBoundsException if destStorage is not between 1 and 3
-     * @throws IllegalInsertionException if the insertion doesn't satisfy warehouse's rules
      */
-    public void putResource(int destStorage, List<Resource> resourceIn) throws StorageOutOfBoundsException,
-             IllegalInsertionException {
+    public void putResource(int destStorage, List<Resource> resourceIn) {
 
         warehouse.get(destStorage).insert(resourceIn);
 
@@ -54,10 +51,8 @@ public class Warehouse implements Deposit {
      *
      * @param sourceStorage integer between 1 and 3
      * @param destStorage integer between 1 and 3
-     * @throws IllegalMoveException if the move doesn't satisfy warehouse's rules
-     * @throws StorageOutOfBoundsException if source or destination storage are not between 1 and 3
      */
-    public void moveResource(int sourceStorage, int destStorage) throws IllegalMoveException, StorageOutOfBoundsException {
+    public void moveResource(int sourceStorage, int destStorage) {
 
         ArrayList<Resource> temp1 = new ArrayList<>(warehouse.get(destStorage).getResources());
         ArrayList<Resource> temp2 = new ArrayList<>(warehouse.get(sourceStorage).getResources());
@@ -76,7 +71,7 @@ public class Warehouse implements Deposit {
      * Takes resources from warehouse
      * @param resourcesToTake
      */
-    @Override
+
     public void pullResource(List<Resource> resourcesToTake) {
 
 //        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
@@ -115,7 +110,7 @@ public class Warehouse implements Deposit {
      * @param resourcesToTake List of resources needed
      * @return true if resources are present, false otherwise
      */
-    @Override
+
     public boolean checkAvailability(List<Resource> resourcesToTake) {
 
         List<Resource> totalResources = new ArrayList<>();
@@ -142,6 +137,11 @@ public class Warehouse implements Deposit {
 
         return totalResources;
     }
+
+    public List<it.polimi.ingsw.client.ClientModel.enumerations.Resource> getWarehouseStorage(Integer storageNum) {
+        return warehouse.get(storageNum).getResources();
+    }
+
 
     @Override
     public Integer occurrences(Resource resource, List<Resource> resources){

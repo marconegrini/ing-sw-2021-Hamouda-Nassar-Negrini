@@ -64,7 +64,7 @@ return null;
         StringBuilder str1 = new StringBuilder();
         StringBuilder str2 = new StringBuilder();
         str1.append(" .1 .2 .3 .4 .5 .6 .7 .8 .9 .10 .11 .12 .13 .14 .15 .16 .17 .18 .19 .20 .21 .22 .23 .24");
-        str1.append(" .1 .2 ^ADEL^  .4 .5 .6 .7 .8 .9 .10 .11 .12 .13 .14 .15 .16 .17 .18 .19 .20 .21 .22 .23 .24");
+        str1.append(" .1 .2 ^ADEL  .4 .5 .6 .7 .8 .9 .10 .11 .12 .13 .14 .15 .16 .17 .18 .19 .20 .21 .22 .23 .24");
 
         str2.append("                                                                                         ");
 

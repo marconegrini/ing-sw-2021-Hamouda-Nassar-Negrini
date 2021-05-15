@@ -88,4 +88,5 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
                 "\nProduction out: " + productionOut.toString() +
                 "\nActivation cost: " + activationCost.toString();
     }
+
 }

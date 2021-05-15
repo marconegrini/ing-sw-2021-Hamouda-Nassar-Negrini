@@ -178,6 +178,10 @@ public class Warehouse implements Deposit{
         return totalResources;
     }
 
+    public List<Resource> getWarehouseStorage(Integer storageNum) {
+        return warehouse.get(storageNum).getResources();
+    }
+
     @Override
     public Integer occurrences(Resource resource, List<Resource> resources){
         return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());

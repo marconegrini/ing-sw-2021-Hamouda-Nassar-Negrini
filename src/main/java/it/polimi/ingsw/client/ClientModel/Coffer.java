@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.ClientModel;
 
-import it.polimi.ingsw.server.model.enumerations.Resource;
+
+import it.polimi.ingsw.client.ClientModel.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,6 @@ public class Coffer implements Deposit {
 
     }
 
-    @Override
     public void pullResource(List<Resource> resourcesToTake){
 
         Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
@@ -64,7 +64,7 @@ public class Coffer implements Deposit {
         }
     }
 
-    @Override
+
     public boolean checkAvailability(List<Resource> resourcesToTake) {
 
         Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);
