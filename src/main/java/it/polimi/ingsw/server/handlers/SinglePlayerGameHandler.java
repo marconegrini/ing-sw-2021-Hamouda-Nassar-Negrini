@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.server.controller.SinglePlayerManager;
-import it.polimi.ingsw.server.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 
 public class SinglePlayerGameHandler extends Thread{
 

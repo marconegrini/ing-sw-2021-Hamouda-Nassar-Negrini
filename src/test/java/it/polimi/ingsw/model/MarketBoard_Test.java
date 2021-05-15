@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.server.model.Marble;
-import it.polimi.ingsw.server.model.MarketBoard;
-import it.polimi.ingsw.server.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.Color;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,9 +1,5 @@
 package it.polimi.ingsw.server.controller.messages;
 
-import it.polimi.ingsw.server.model.enumerations.ASCII_Shapes;
-
-import java.util.Locale;
-
 public enum MessageType {
 
     //request messages

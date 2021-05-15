@@ -1,10 +1,10 @@
 package it.polimi.ingsw.CLI;
 
 
-import it.polimi.ingsw.client.ClientModel.Coffer;
-import it.polimi.ingsw.client.ClientModel.Storage;
-import it.polimi.ingsw.client.ClientModel.Warehouse;
-import it.polimi.ingsw.client.ClientModel.enumerations.Resource;
+import  it.polimi.ingsw.model.Coffer;
+import  it.polimi.ingsw.model.Storage;
+import  it.polimi.ingsw.model.Warehouse;
+import  it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,8 @@ public class DepositsTracer {
     List<Resource> storage1;
     List<Resource> storage2;
     List<Resource> storage3;
+
+
 
     public ArrayList<String> depositsTracer(Warehouse warehouse, Coffer coffer) {
 
@@ -38,6 +40,13 @@ public class DepositsTracer {
                 " ║           %s %s %s                                      SERVANTS:% d                                ║ \n" +
                 " ║        --------------                                                                               ║ \n" +
                 " ╚═════════════════════════════════════════════════════════════════════════════════════════════════════╝ \n",
+                storage1.get(0),
+
+                storage2.get(0),
+                storage2.get(1),
+                storage3.get(0),
+                storage3.get(1),
+                storage3.get(2),
 
                 ));
 

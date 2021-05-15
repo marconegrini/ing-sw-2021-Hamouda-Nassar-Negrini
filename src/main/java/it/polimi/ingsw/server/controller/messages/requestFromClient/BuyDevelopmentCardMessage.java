@@ -4,10 +4,9 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.MessageType;
-import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;
-import java.util.List;
 
 public class BuyDevelopmentCardMessage extends Message {
     int row;

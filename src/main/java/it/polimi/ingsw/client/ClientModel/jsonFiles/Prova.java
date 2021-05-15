@@ -1,10 +1,10 @@
 package it.polimi.ingsw.client.ClientModel.jsonFiles;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.enumerations.CardColor;
-import it.polimi.ingsw.server.model.enumerations.Level;
-import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.HashMap;
 

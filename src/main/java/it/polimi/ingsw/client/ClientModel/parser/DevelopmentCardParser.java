@@ -3,10 +3,10 @@ package it.polimi.ingsw.client.ClientModel.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.enumerations.CardColor;
-import it.polimi.ingsw.server.model.enumerations.Level;
-import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

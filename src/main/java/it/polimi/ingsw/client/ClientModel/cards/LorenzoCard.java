@@ -1,5 +1,5 @@
 package it.polimi.ingsw.client.ClientModel.cards;
-import it.polimi.ingsw.server.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
 public class LorenzoCard {
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.server.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.TemporaryPlayer;
 
@@ -11,7 +11,6 @@ import java.io.InterruptedIOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler extends Thread{
 

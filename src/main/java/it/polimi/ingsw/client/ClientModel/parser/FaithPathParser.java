@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.ClientModel.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.server.model.VaticanSection;
+import it.polimi.ingsw.model.VaticanSection;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.ClientModel.cards;
 
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCards.CardsCompositionMethods;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.HashMap;
 import java.util.List;

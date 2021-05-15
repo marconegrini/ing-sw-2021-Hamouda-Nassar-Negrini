@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.ClientModel.cards.LeaderCards;
 
 
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCardCost;
-import it.polimi.ingsw.server.model.enumerations.CardColor;
-import it.polimi.ingsw.server.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
 
 import java.util.HashMap;
 import java.util.List;

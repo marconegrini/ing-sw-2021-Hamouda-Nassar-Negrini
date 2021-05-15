@@ -1,20 +1,16 @@
 package it.polimi.ingsw.server.model.cards.LeaderCards;
 
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
-import it.polimi.ingsw.server.model.parser.LeaderCardParser;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.parser.LeaderCardParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
 
 public class StorageLeaderCardTest {
 

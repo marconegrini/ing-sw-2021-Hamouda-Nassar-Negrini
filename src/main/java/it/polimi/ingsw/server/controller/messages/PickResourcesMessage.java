@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server.controller.messages;
 
 import it.polimi.ingsw.server.controller.TurnManager;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.Player;
 
 public class PickResourcesMessage extends Message{
 
