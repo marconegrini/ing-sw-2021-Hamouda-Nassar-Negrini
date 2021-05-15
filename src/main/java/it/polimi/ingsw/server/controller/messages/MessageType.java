@@ -20,6 +20,7 @@ public enum MessageType {
     UPDATEMARKETBOARD,
     UPDATEDEVCARDSDECK,
     UPDATELEADERCARD,
+    RESOURCESFROMMARKET,
 
     //outcomes
     ERROR,

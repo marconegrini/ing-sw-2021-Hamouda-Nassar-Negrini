@@ -51,6 +51,7 @@ public class MessageFactory {
                 returnMessage = gson.fromJson(receivedMessage, ActivateLeaderCardMessage.class);
             case CHOOSELEADERCARD:
                 returnMessage = gson.fromJson(receivedMessage, ChooseLeaderCardMessage.class);
+
             case ERROR:
                 break;
             case PING:

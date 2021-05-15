@@ -22,6 +22,7 @@ public class SinglePlayerManager extends GameManager {
         this.game = game;
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         this.player = null; //since when instantiating new game manager the player inside gameInstance is null
+        this.turnManager.setMultiplayer(false);
     }
 
     public void setPlayer(Player player){
