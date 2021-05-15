@@ -1,11 +1,12 @@
 package it.polimi.ingsw.server.controller.messages.updateFromServer;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.ClientModel.enumerations.Resource;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.MessageType;
-import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,9 @@ public class ResourcesFromMarketMessage extends Message {
         this.resourcesToStore = resourcesToStore;
 
     }
+
     @Override
     public boolean process(Player player, TurnManager turnManager) {
-        Gson gson = new Gson();
-
-
         return false;
     }
 }

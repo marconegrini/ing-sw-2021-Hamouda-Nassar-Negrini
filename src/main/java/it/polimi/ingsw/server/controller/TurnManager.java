@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.server.controller.messages.updateFromServer.ResourcesFromMarketMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +99,7 @@ public class TurnManager {
                     break;
             }
         }
-        return new OkMessage(player.getNickname(), "Marble inserted and resources obtained: insert them in warehouse");
+        return new ResourcesFromMarketMessage(player.getNickname(), resourcesToStore);
     }
 
     //TODO method that returns the new row or column modified in marketBoard
