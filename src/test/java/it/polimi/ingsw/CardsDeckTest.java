@@ -1,10 +1,10 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.server.model.enumerations.CardColor;
-import it.polimi.ingsw.server.model.enumerations.Level;
-import it.polimi.ingsw.server.model.parser.DevelopmentCardParser;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import org.junit.Before;
 import org.junit.Test;
 

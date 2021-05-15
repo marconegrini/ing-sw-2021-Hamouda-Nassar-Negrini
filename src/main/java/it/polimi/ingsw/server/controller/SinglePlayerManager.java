@@ -1,16 +1,12 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.parser.LeaderCardParser;
-import it.polimi.ingsw.server.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
 
 public class SinglePlayerManager extends GameManager {

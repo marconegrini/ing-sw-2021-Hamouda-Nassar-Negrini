@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.ClientModel.cards;
 
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCards.CardsCompositionMethods;
-import it.polimi.ingsw.server.model.enumerations.CardColor;
-import it.polimi.ingsw.server.model.enumerations.Level;
+import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.enumerations.Level;
 
 public class LeaderCardCost {
 private final CardColor color;

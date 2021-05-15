@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server.controller.messages;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.TurnManager;
-import it.polimi.ingsw.server.model.Player;
-
-import java.io.IOException;
+import it.polimi.ingsw.model.Player;
 
 public abstract class Message {
 

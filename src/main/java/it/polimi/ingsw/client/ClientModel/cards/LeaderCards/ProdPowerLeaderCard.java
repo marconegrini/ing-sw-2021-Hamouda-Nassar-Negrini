@@ -2,9 +2,9 @@ package it.polimi.ingsw.client.ClientModel.cards.LeaderCards;
 
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCard;
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCardCost;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.InsufficientResourcesException;
+import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.InsufficientResourcesException;
 
 import java.util.HashMap;
 import java.util.List;

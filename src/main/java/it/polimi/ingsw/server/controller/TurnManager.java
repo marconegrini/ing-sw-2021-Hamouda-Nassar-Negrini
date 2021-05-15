@@ -1,18 +1,18 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.server.controller.messages.Message;
 import it.polimi.ingsw.server.controller.messages.updateFromServer.OkMessage;
 import it.polimi.ingsw.server.controller.messages.updateFromServer.ErrorMessage;
-import it.polimi.ingsw.server.model.Marble;
-import it.polimi.ingsw.server.model.MarketBoard;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.enumerations.Color;
-import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.*;
-import it.polimi.ingsw.server.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.Marble;
+import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

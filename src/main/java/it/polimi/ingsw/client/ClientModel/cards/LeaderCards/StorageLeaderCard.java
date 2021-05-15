@@ -2,9 +2,9 @@ package it.polimi.ingsw.client.ClientModel.cards.LeaderCards;
 
 import it.polimi.ingsw.client.ClientModel.cards.LeaderCard;
 import it.polimi.ingsw.server.controller.MultiPlayerManager;
-import it.polimi.ingsw.server.model.Player;
-import it.polimi.ingsw.server.model.enumerations.CardType;
-import it.polimi.ingsw.server.model.enumerations.Resource;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.HashMap;
 

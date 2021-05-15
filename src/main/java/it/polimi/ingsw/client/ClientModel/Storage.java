@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.ClientModel;
 
-import it.polimi.ingsw.server.model.enumerations.Resource;
+
+import it.polimi.ingsw.client.ClientModel.enumerations.Resource;
 
 import java.util.List;
 

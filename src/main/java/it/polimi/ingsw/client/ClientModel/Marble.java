@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.ClientModel;
 
-import it.polimi.ingsw.server.model.enumerations.Color;
+import it.polimi.ingsw.model.enumerations.Color;
 
 public class Marble {
 

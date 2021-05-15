@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.ClientModel;
 
-import it.polimi.ingsw.server.model.DevCardSlots;
-import it.polimi.ingsw.server.model.cards.DevelopmentCard;
-import it.polimi.ingsw.server.model.cards.LeaderCard;
-import it.polimi.ingsw.server.model.enumerations.Resource;
-import it.polimi.ingsw.server.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.server.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.DevCardSlots;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
+import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 
 import java.util.ArrayList;
 import java.util.List;
