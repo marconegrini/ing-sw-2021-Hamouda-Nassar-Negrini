@@ -1,25 +1,24 @@
-package it.polimi.ingsw.server.controller.messages.requestFromClient;
+package it.polimi.ingsw.messages.requestFromClient;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.controller.TurnManager;
-import it.polimi.ingsw.server.controller.messages.Message;
-import it.polimi.ingsw.server.controller.messages.MessageType;
 import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;
 
-public class ActivateLeaderCardMessage extends Message {
+public class DiscardLeaderCard extends Message {
     private Integer indexNumber;
 
-    public ActivateLeaderCardMessage(String nickname, Integer indexNumber){
-        super(nickname, MessageType.ACTIVATELEADERCARD);
+    public DiscardLeaderCard(String nickname, Integer indexNumber){
+        super(nickname, MessageType.DISCARDLEADERCARD);
         this.indexNumber = indexNumber;
     }
-
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.activateLeaderCard(player, indexNumber);
+        Message outcome = turnManager.discardLeaderCard(player, indexNumber);
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);

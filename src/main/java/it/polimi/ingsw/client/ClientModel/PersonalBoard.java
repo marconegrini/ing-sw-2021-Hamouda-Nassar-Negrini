@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.ClientModel;
 
+import it.polimi.ingsw.model.Coffer;
 import it.polimi.ingsw.model.DevCardSlots;
+import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;

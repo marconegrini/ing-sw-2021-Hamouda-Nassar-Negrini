@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.server.model.exceptions.*;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

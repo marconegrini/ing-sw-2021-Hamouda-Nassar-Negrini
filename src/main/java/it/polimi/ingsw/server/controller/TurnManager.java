@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.server.controller.messages.Message;
-import it.polimi.ingsw.server.controller.messages.updateFromServer.OkMessage;
-import it.polimi.ingsw.server.controller.messages.updateFromServer.ErrorMessage;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.updateFromServer.OkMessage;
+import it.polimi.ingsw.messages.updateFromServer.ErrorMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;

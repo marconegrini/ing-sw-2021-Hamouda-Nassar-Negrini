@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.controller.messages;
+package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
