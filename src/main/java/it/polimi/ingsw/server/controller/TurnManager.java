@@ -28,8 +28,6 @@ public class TurnManager {
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
 
-    private List<Resource> pickedResources;
-
     /**
      * This constructor will be used when a game is restored. It allows
      * you to restore the turn class with old decks and market.
@@ -40,7 +38,6 @@ public class TurnManager {
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
-        pickedResources = new ArrayList<>();
     }
 
     public void setMultiplayer(boolean isMultiplayer){
@@ -101,7 +98,6 @@ public class TurnManager {
                     break;
             }
         }
-        this.pickedResources = resourcesToStore;
         return new OkMessage(player.getNickname(), "Marble inserted and resources obtained: insert them in warehouse");
     }
 
