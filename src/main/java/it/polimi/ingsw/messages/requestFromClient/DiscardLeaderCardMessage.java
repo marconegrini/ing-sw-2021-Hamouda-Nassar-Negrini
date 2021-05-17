@@ -8,10 +8,10 @@ import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;
 
-public class DiscardLeaderCard extends Message {
+public class DiscardLeaderCardMessage extends Message {
     private Integer indexNumber;
 
-    public DiscardLeaderCard(String nickname, Integer indexNumber){
+    public DiscardLeaderCardMessage(String nickname, Integer indexNumber){
         super(nickname, MessageType.DISCARDLEADERCARD);
         this.indexNumber = indexNumber;
     }

@@ -21,9 +21,6 @@ public class InsertResourcesInWarehouseMessage extends Message {
         this.shelf = shelf;
     }
 
-
-
-
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();

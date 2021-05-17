@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Player;
 import java.io.IOException;
 
 public class ActivateLeaderCardMessage extends Message {
+
     private Integer indexNumber;
 
     public ActivateLeaderCardMessage(String nickname, Integer indexNumber){

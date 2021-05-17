@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
 import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
+
+import java.util.HashMap;
 
 /**
  * The card is initially unflipped it means it's on its face at the begging, it can't be used, isFlipped=false;
@@ -35,6 +38,8 @@ public abstract class LeaderCard extends Card{
     public CardType getCardType() {
         return this.cardType;
     }
+
+    public abstract HashMap<Resource, Integer> getLeaderCardPower();
 
     public abstract String toString();
 

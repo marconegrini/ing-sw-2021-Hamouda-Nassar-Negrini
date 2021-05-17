@@ -12,15 +12,17 @@ import java.util.List;
 
 public class UpdateLeaderCardMessage extends Message {
 
-    public UpdateLeaderCardMessage(String nickname){
+    List<LeaderCard> leaderCards;
+
+    public UpdateLeaderCardMessage(String nickname, List<LeaderCard> leaderCards){
         super(nickname, MessageType.UPDATELEADERCARD);
+        this.leaderCards = leaderCards;
     }
 
     @Override
     public boolean process(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        List<LeaderCard> leaderCards = player.getPersonalBoard().getLeaderCards();
-        String messageToSend = gson.toJson(leaderCards);
+        String messageToSend = gson.toJson(this);
         try {
             player.getToClient().writeUTF(messageToSend);
         } catch (IOException e){

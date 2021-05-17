@@ -1,5 +1,5 @@
 package it.polimi.ingsw.server.controller;
-
+import it.polimi.ingsw.messages.updateFromServer.UpdateMarketboardMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.updateFromServer.OkMessage;
@@ -13,8 +13,6 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
-import it.polimi.ingsw.messages.updateFromServer.ResourcesFromMarketMessage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +27,8 @@ public class TurnManager {
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
 
+    private List<Resource> resorucesToStore;
+
     /**
      * This constructor will be used when a game is restored. It allows
      * you to restore the turn class with old decks and market.
@@ -39,6 +39,7 @@ public class TurnManager {
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
+        this.resorucesToStore = new ArrayList<>();
     }
 
     public void setMultiplayer(boolean isMultiplayer){
@@ -55,7 +56,7 @@ public class TurnManager {
      * @param player  The player is who will receive the picked resources
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
-    public Message pickResources(Player player, boolean isRow, int rowOrColNum, Integer leaderCardSlot) {
+    public Message pickResources(Player player, boolean isRow, int rowOrColNum) {
         List<Marble> pickedMarbles;
         try {
             pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
@@ -82,7 +83,7 @@ public class TurnManager {
                     break;
                 case WHITE:
                     if(player.isLeaderCardActivated(CardType.MARBLE)){
-                        HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE, leaderCardSlot);
+                        HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
                         Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
                         for(Resource resource : resourcesFromHashMap){
                             for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
@@ -99,17 +100,13 @@ public class TurnManager {
                     break;
             }
         }
-        return new ResourcesFromMarketMessage(player.getNickname(), resourcesToStore);
-    }
-
-    //TODO method that returns the new row or column modified in marketBoard
-    public Message updateMarketMarbles(boolean isRow, int rowOrColNum){
-        return null;
+        this.resorucesToStore = resourcesToStore;
+        return new UpdateMarketboardMessage(player.getNickname(), marketBoard.getRowOrColumnMarbles(isRow, rowOrColNum), marketBoard.getExternalMarbleColor());
     }
 
     //TODO method that returns resources taken from market
-    public Message getResourcesTakenFromMarket(){
-        return null;
+    public List<Resource> getResourcesTakenFromMarket(){
+        return this.resorucesToStore;
     }
 
 
@@ -148,12 +145,20 @@ public class TurnManager {
      * @param devCardSlot slot index of development cards slots
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot, Integer leaderCardSlot) {
-
-        //TODO insert power effects of leader card
+    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
 
         List<Resource> playerResources = player.getTotalResource();
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
+
+        if(player.isLeaderCardActivated(CardType.DISCOUNT)){
+            HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
+            Set<Resource> discountedResource = resourcesFromLeaderCard.keySet();
+            for(Resource resource : discountedResource){
+                if(devCardCost.contains(resource))
+                    for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++)
+                        discountedResource.remove(resource);
+            }
+        }
 
         if (playerResources.equals(devCardCost) || playerResources.containsAll(devCardCost)) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
@@ -181,16 +186,16 @@ public class TurnManager {
 
     /**
      * @param player playing player
-     * @param slots List of integers between 0 and 2
+     * @param slots List of integers between 0 and 2: they are the indexes of development card slots
+     * @param leaderResource is chosen by the user as a result of the activation of the production power leader card.
+     *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as Message Object
      */
-    public Message activateProduction (Player player, List<Integer> slots, Integer leaderCardSlot) {
-
-        //TODO insert power effects of leader card
+    public Message activateProduction (Player player, List<Integer> slots, Resource leaderResource) {
 
         if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
-
+        //collects the resources needed to activate production in selected slots/slots
         for (Integer slotNum : slots) {
             try {
                 productionInCost.addAll(player.devCardSlotProductionIn(slotNum));
@@ -201,7 +206,7 @@ public class TurnManager {
             }
         }
         List<Resource> playerResources = player.getTotalResource();
-
+        //checks if resources needed for production are satisfied by warehouse and/or coffer
         if (playerResources.equals(productionInCost) || playerResources.containsAll(productionInCost)) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
             List<Resource> toTakeFromWarehouse = new ArrayList<>();
@@ -210,25 +215,112 @@ public class TurnManager {
                     toTakeFromCoffer.remove(resource);
                     toTakeFromWarehouse.add(resource);
                 }
-
+            //takes resources from warehouse, then from coffer
             player.pullWarehouseResources(toTakeFromWarehouse);
             player.pullCofferResources(toTakeFromCoffer);
             List<Resource> resourcesProductionOut = new ArrayList<>();
-
             for (Integer slotNum : slots)
                 resourcesProductionOut.addAll(player.devCardSlotProductionOut(slotNum));
-
+            //increment user's faith path position and updates other users (if multiplayer) if Resource.FAITH is/are present
+            for(Resource resource : resourcesProductionOut){
+                if(resource.equals(Resource.FAITH)){
+                    player.incrementFaithPathPosition();
+                    if(multiplayer) {
+                        for (Player p : players)
+                            p.updateFaithPath(player.getFaithPathPosition());
+                    }
+                }
+            }
+            //removes faith resources
+            while(!resourcesProductionOut.contains(Resource.FAITH))
+                resourcesProductionOut.remove(Resource.FAITH);
+            //adds production out resources in coffer
             player.putCofferResources(resourcesProductionOut);
-            return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer");
+            //checks if production power leader card is activated
+            boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
 
+            if(usedLC) return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer. Leader card power used.");
+            else return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer");
         } else return new ErrorMessage(player.getNickname(), "Insufficient resources to activate production on selected slots");
+    }
 
+    /**
+     * @param player the playing player that chose to activate the basic personal board's production
+     * @param prodIn1 the first resource needed to activate production
+     * @param prodIn2 the second resource needed to activate production
+     * @param prodOut production result
+     * @param leaderResource resource selected if a production power leader card is activated
+     * @return
+     */
+    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, Resource leaderResource){
+        List<Resource> productionCost = new ArrayList();
+        productionCost.add(prodIn1);
+        productionCost.add(prodIn2);
+        if (player.getTotalResource().equals(productionCost) || player.getTotalResource().containsAll(productionCost)) {
+            List<Resource> fromCoffer = player.getWarehouseResource();
+            List<Resource> fromWarehouse = new ArrayList<>();
+            for (Resource r : productionCost)
+                if (fromCoffer.contains(r)) {
+                    fromCoffer.remove(r);
+                    fromWarehouse.add(r);
+                }
+            //takes resources from warehouse, then from coffer
+            player.pullWarehouseResources(fromWarehouse);
+            player.pullCofferResources(fromCoffer);
+
+            boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
+            if(usedLC) return new OkMessage(player.getNickname(), "Activated personal production and resources inserted in coffer. Leader card power used.");
+            else return new OkMessage(player.getNickname(), "Activated personal production and resources inserted in coffer");
+        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to activate personal production");
+    }
+
+    /**
+     * @param player the playing player
+     * @param leaderResource is != null if a leader card is activated and the user selected the resource to activate production
+     * @return The following method returns true if at least 1 production power leader card is activated and inside warehouse
+     *      * or coffer there are sufficient resources to activate leader card production. In this case, the production is
+     *      * activated, inserting the selected leaderResource inside warehouse, incrementing user's faith path and updating
+     *      * other users' faith paths. Else, it returns false.
+     */
+    public boolean activateLeaderCardProduction(Player player, Resource leaderResource){
+        if(player.isLeaderCardActivated(CardType.PRODUCTION)){
+            HashMap<Resource, Integer> prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
+            List<Resource> pic = new ArrayList();
+            for(Resource r : prodInCost.keySet()){
+                for(int i = 0; i < prodInCost.get(r); i++){
+                    pic.add(r);
+                }
+            }
+            //checks if there are enough resources in warehouse and/or coffer to activate leader card production
+            if (player.getTotalResource().equals(pic) || player.getTotalResource().containsAll(pic)) {
+                List<Resource> fromCoffer = player.getWarehouseResource();
+                List<Resource> fromWarehouse = new ArrayList<>();
+                for (Resource r : pic)
+                    if (fromCoffer.contains(r)) {
+                        fromCoffer.remove(r);
+                        fromWarehouse.add(r);
+                    }
+                //takes resources from warehouse, then from coffer
+                player.pullWarehouseResources(fromWarehouse);
+                player.pullCofferResources(fromCoffer);
+                List<Resource> clientChoice = new ArrayList<>();
+                clientChoice.add(leaderResource);
+                //inserts in coffer chosen resource
+                player.putCofferResources(clientChoice);
+                //increments user faith position and updates other user's faith paths
+                player.incrementFaithPathPosition();
+                for(Player p : players)
+                    p.updateFaithPath(player.getFaithPathPosition());
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * activates leader card of specified index
      * @param player playing player
-     * @param indexNumber leader card's index number in arraylist
+     * @param indexNumber leader card's index number in player's arraylist leaderCards
      * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
      */
     public Message activateLeaderCard (Player player, Integer indexNumber){
