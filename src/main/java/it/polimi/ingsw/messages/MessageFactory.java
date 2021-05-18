@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.messages.requestFromClient.*;
-import it.polimi.ingsw.server.controller.messages.requestFromClient.*;
 import it.polimi.ingsw.messages.updateFromServer.OkMessage;
 
 public class MessageFactory {

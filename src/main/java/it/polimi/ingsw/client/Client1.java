@@ -11,7 +11,7 @@ public class Client1 {
 
         ClientSocket clientSocket = new ClientSocket(socket);
 
-        GameConnection gameConnection = new GameConnection();
+        GameConnection1 gameConnection = new GameConnection1();
         boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
                 clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
 

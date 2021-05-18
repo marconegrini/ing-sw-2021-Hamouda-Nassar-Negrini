@@ -33,13 +33,17 @@ public class ClientHandler extends Thread{
         String nickname;
         //AtomicBoolean stillAlive = new AtomicBoolean(true);
 
+
         Runnable runnable = () -> {
             long oldTimeMillis = System.currentTimeMillis();
+            String pingMessage = "";
             while (true) {
                 try {
-                    if ((System.currentTimeMillis() - oldTimeMillis) >= (2 * 1000)) {
+                    if ((System.currentTimeMillis() - oldTimeMillis) >= (10 * 1000)) {
                         toClient.writeUTF("PING");
-                        fromClient.readUTF().toUpperCase();
+                        System.out.println("Pingato");
+                        pingMessage = fromClient.readUTF().toUpperCase();
+                        //if (!pingMessage.equalsIgnoreCase("PING"))  throw new SocketTimeoutException();
                         oldTimeMillis = System.currentTimeMillis();
                         //throw new InterruptedIOException();
                     }
@@ -76,8 +80,9 @@ public class ClientHandler extends Thread{
         ping.start();
 
         try {
-            while (true) {
+            toClient.writeUTF("NICKNAME");
 
+            while (true) {
                 while (!(fromClient.available() > 0)) ;
                 nickname = fromClient.readUTF();
                 if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))
@@ -88,6 +93,7 @@ public class ClientHandler extends Thread{
                 }
             }
 
+            toClient.writeUTF("MULTIPLAYER");
             while (!(fromClient.available() > 0)) ;
             multiplayer = fromClient.readUTF();
 
