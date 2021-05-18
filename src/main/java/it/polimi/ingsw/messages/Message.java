@@ -3,6 +3,8 @@ package it.polimi.ingsw.messages;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
+
 public abstract class Message {
 
     private final String nickname;
@@ -28,28 +30,8 @@ public abstract class Message {
         return this.nickname;
     }
 
-    public abstract boolean process(Player player, TurnManager turnManager);
+    public abstract boolean serverProcess(Player player, TurnManager turnManager);
 
-
-
-    /*
-//    public void sendJson(Player player){
-//        Gson gson = new Gson();
-//        String jsonMessage = gson.toJson(this);
-//        try {
-//            player.getToClient().writeUTF(jsonMessage);
-//        } catch (IOException e){
-//            System.err.println("Exception occurred while sending json");
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public abstract String fromJsonToMessage();
-*/
-    //    {
-//        Gson gson = new Gson();
-//        Message received = gson.fromJson(this.message, Message.class);
-//        return received.toString();
-//    }
+    public abstract boolean clientProcess(DataOutputStream dos);
 
 }

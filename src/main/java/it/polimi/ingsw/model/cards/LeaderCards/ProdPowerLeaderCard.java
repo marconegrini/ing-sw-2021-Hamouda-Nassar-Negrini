@@ -65,7 +65,8 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
 
     //getters
-    public HashMap <Resource, Integer> getResourceProductionIn()
+    @Override
+    public HashMap <Resource, Integer> getLeaderCardPower()
     { return (HashMap <Resource, Integer>)productionIn.clone(); }
 
     public List<LeaderCardCost> getActivationCost() {
@@ -90,13 +91,6 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
     public Integer faithPointsNum(){
         return outProductionFaithPoints;
-    }
-
-    /**
-     *  the controller or the class that manage the production will use this attribute to know how many resources should the user choose
-     */
-    public Integer getOutProductionResourceNum(){
-        return outProductionResourceNum;
     }
 
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {

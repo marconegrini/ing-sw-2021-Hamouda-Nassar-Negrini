@@ -41,7 +41,8 @@ public class DiscountLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getDiscountedResource() {
+    @Override
+    public HashMap<Resource, Integer> getLeaderCardPower() {
         return (HashMap<Resource, Integer>) discountedResource.clone();
     }
 

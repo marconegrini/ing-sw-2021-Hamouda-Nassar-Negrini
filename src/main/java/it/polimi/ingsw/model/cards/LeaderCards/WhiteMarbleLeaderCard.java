@@ -43,7 +43,8 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getOutProductionResource() {
+    @Override
+    public HashMap<Resource, Integer> getLeaderCardPower() {
         return (HashMap<Resource, Integer>) productionOut.clone();
     }
 

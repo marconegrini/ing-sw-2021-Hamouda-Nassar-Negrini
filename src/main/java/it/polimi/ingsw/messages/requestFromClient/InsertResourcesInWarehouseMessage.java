@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.Resource;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,11 +22,8 @@ public class InsertResourcesInWarehouseMessage extends Message {
         this.shelf = shelf;
     }
 
-
-
-
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.insertResourcesInWarehouse(player, shelf, resources);
         String messageToSend = gson.toJson(outcome);
@@ -35,5 +33,11 @@ public class InsertResourcesInWarehouseMessage extends Message {
             System.err.println("Exception occurred while sending json");
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
-        return true;    }
+        return true;
+    }
+
+    @Override
+    public boolean clientProcess(DataOutputStream dos){
+        return false;
+    }
 }

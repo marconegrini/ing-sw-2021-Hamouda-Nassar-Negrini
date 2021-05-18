@@ -6,17 +6,18 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class DiscardLeaderCard extends Message {
+public class DiscardLeaderCardMessage extends Message {
     private Integer indexNumber;
 
-    public DiscardLeaderCard(String nickname, Integer indexNumber){
+    public DiscardLeaderCardMessage(String nickname, Integer indexNumber){
         super(nickname, MessageType.DISCARDLEADERCARD);
         this.indexNumber = indexNumber;
     }
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.discardLeaderCard(player, indexNumber);
         String messageToSend = gson.toJson(outcome);
@@ -28,4 +29,9 @@ public class DiscardLeaderCard extends Message {
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
     }
+    @Override
+    public boolean clientProcess(DataOutputStream dos){
+        return false;
+    }
+
 }

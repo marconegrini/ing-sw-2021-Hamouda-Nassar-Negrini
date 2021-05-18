@@ -41,6 +41,7 @@ public abstract class GameManager {
      */
     public abstract void welcome();
 
+    public abstract void firstPing();
     /**
      *
      */

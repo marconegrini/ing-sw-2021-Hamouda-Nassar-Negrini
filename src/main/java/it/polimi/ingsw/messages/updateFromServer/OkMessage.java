@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class OkMessage extends Message {
@@ -26,7 +27,7 @@ public class OkMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         String messageToSend = gson.toJson(this);
         try {
@@ -35,5 +36,10 @@ public class OkMessage extends Message {
             System.err.println("Exception occurred while sending json");
         }
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(DataOutputStream dos){
+        return false;
     }
 }
