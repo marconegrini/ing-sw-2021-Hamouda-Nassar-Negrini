@@ -19,7 +19,7 @@ public class MoveWarehouseResources extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.moveResourcesInWarehouse(player, this.sourceStorage, this.destStorage);
         String messageToSend = gson.toJson(outcome);
@@ -30,5 +30,10 @@ public class MoveWarehouseResources extends Message {
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
     }
 }

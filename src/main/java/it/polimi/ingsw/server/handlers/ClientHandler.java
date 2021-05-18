@@ -72,8 +72,10 @@ public class ClientHandler extends Thread{
             }
         };
 
+
         Thread ping = new Thread(runnable);
         ping.start();
+
 
         try {
             while (true) {

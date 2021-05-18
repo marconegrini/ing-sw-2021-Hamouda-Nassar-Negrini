@@ -14,12 +14,13 @@ import it.polimi.ingsw.model.parser.LeaderCardParser;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MultiPlayerManager extends GameManager {
 
     private MultiPlayerGameInstance game;
-
     private List<MultiPlayer> players;
+    private Queue<Message> messageBuffer;
 
     /**
      * Initializes game and players instances. Creates a new turnManager that will performs turns between players
@@ -28,20 +29,34 @@ public class MultiPlayerManager extends GameManager {
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
         this.players = game.getPlayer();
+        messageBuffer = new ConcurrentLinkedQueue();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         this.turnManager.setMultiplayer(true);
         this.turnManager.setPlayers(this.players);
     }
 
-    public MultiPlayerManager() {
-    }
-
-
-
     @Override
     public Integer getGameId() {
         return this.game.getGameId();
     }
+
+    /*
+    @Override
+    public void firstPing(){
+        for(Player p : players){
+            ClientTimeOut timeOut = new ClientTimeOut(.getClientId());
+            timers.add(timeOut);
+            Message ping = new Message(ch.getClientId(), MessageType.PING);
+            try{
+                ch.getDos().writeUTF(ping.getJsonString());
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+            timeOut.setTime();
+        }
+
+    }
+     */
 
     /**
      * Manages the game allowing players to do actions
@@ -49,10 +64,13 @@ public class MultiPlayerManager extends GameManager {
     @Override
     public void manageTurn(){
 
+
+
         //TODO switch case to handle methods that increment faith path
 
         this.welcome();
 
+        /*
         for(Player player : players) {
             boolean turnEnded = false;
 
@@ -81,6 +99,8 @@ public class MultiPlayerManager extends GameManager {
                 }
             }
         }
+
+         */
     }
 
     @Override
@@ -98,15 +118,6 @@ public class MultiPlayerManager extends GameManager {
         Integer newPlayingUserFaithPathPosition = player.getFaithPathPosition();
         for(Player p : players)
             p.updateFaithPath(newPlayingUserFaithPathPosition);
-    }
-
-
-    public static void main(String[] args) {
-        MultiPlayerManager multi = new MultiPlayerManager();
-        Gson gson = new Gson();
-
-        multi.manageTurn();
-
     }
 
     /**

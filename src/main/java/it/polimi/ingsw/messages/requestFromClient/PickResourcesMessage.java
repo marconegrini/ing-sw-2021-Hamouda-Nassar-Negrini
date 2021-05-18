@@ -25,7 +25,7 @@ public class PickResourcesMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.pickResources(player, this.isRow, this.rowOrColNum);
         String messageToSend = gson.toJson(outcome);
@@ -36,8 +36,13 @@ public class PickResourcesMessage extends Message {
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         else {
-            outcome.process(player, turnManager);
+            outcome.serverProcess(player, turnManager);
         }
+        return false;
+    }
+
+    @Override
+    public boolean clientProcess(){
         return false;
     }
 }

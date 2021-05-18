@@ -22,7 +22,7 @@ public class InsertResourcesInWarehouseMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.insertResourcesInWarehouse(player, shelf, resources);
         String messageToSend = gson.toJson(outcome);
@@ -32,5 +32,11 @@ public class InsertResourcesInWarehouseMessage extends Message {
             System.err.println("Exception occurred while sending json");
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
-        return true;    }
+        return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
+    }
 }

@@ -16,7 +16,7 @@ public class DiscardLeaderCardMessage extends Message {
         this.indexNumber = indexNumber;
     }
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.discardLeaderCard(player, indexNumber);
         String messageToSend = gson.toJson(outcome);
@@ -28,4 +28,9 @@ public class DiscardLeaderCardMessage extends Message {
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
     }
+    @Override
+    public boolean clientProcess(){
+        return false;
+    }
+
 }

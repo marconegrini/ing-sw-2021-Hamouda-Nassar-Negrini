@@ -26,7 +26,7 @@ public class OkMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         String messageToSend = gson.toJson(this);
         try {
@@ -35,5 +35,10 @@ public class OkMessage extends Message {
             System.err.println("Exception occurred while sending json");
         }
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
     }
 }

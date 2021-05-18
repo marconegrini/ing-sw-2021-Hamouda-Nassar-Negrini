@@ -24,7 +24,7 @@ public class ActivatePersonalProductionMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager){
+    public boolean serverProcess(Player player, TurnManager turnManager){
         Gson gson = new Gson();
         Message toSend = turnManager.activatePersonalProduction(player, prodIn1, prodIn2, prodOut, leaderResource);
         String messageToSend = gson.toJson(toSend);
@@ -35,5 +35,10 @@ public class ActivatePersonalProductionMessage extends Message {
         }
         if(toSend.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
     }
 }

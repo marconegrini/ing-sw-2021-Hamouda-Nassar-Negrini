@@ -34,11 +34,16 @@ public class UpdateMarketboardMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager){
+    public boolean serverProcess(Player player, TurnManager turnManager){
 
         ResourcesFromMarketMessage rfmm = new ResourcesFromMarketMessage(player.getNickname(), turnManager.getResourcesTakenFromMarket());
-        rfmm.process(player, turnManager);
+        rfmm.serverProcess(player, turnManager);
 
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
     }
 }

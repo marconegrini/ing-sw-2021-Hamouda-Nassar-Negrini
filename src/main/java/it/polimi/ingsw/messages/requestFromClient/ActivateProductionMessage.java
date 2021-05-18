@@ -22,7 +22,7 @@ public class ActivateProductionMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
+    public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.activateProduction(player, this.slots,this.leaderResource);
         String messageToSend = gson.toJson(outcome);
@@ -33,5 +33,10 @@ public class ActivateProductionMessage extends Message {
         }
         if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
+    }
+
+    @Override
+    public boolean clientProcess(){
+        return false;
     }
 }

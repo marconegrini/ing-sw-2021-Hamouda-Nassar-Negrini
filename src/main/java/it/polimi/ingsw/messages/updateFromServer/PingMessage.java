@@ -19,7 +19,10 @@ public class PingMessage extends Message {
     }
 
     @Override
-    public boolean process(Player player, TurnManager turnManager) {
-        return true;
+    public boolean serverProcess(Player player, TurnManager turnManager) {
+        return false;
     }
+
+    @Override
+    public boolean clientProcess(){ return false; }
 }
