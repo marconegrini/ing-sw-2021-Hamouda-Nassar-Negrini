@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ResourcesFromMarketMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(){
+    public boolean clientProcess(DataOutputStream dos){
         return false;
     }
 }

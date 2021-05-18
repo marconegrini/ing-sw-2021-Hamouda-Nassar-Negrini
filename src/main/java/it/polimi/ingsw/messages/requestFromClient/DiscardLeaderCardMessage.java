@@ -6,6 +6,7 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class DiscardLeaderCardMessage extends Message {
@@ -29,7 +30,7 @@ public class DiscardLeaderCardMessage extends Message {
         return true;
     }
     @Override
-    public boolean clientProcess(){
+    public boolean clientProcess(DataOutputStream dos){
         return false;
     }
 

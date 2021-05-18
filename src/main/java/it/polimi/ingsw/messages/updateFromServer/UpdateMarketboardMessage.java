@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.server.controller.TurnManager;
 
+import java.io.DataOutputStream;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class UpdateMarketboardMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(){
+    public boolean clientProcess(DataOutputStream dos){
         return false;
     }
 }

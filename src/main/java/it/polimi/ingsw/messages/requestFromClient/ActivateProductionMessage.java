@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class ActivateProductionMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(){
+    public boolean clientProcess(DataOutputStream dos){
         return false;
     }
 }

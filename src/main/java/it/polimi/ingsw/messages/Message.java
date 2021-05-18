@@ -3,6 +3,8 @@ package it.polimi.ingsw.messages;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
+
 public abstract class Message {
 
     private final String nickname;
@@ -30,6 +32,6 @@ public abstract class Message {
 
     public abstract boolean serverProcess(Player player, TurnManager turnManager);
 
-    public abstract boolean clientProcess();
+    public abstract boolean clientProcess(DataOutputStream dos);
 
 }
