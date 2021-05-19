@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class UpdateLeaderCardMessage extends Message {
 
@@ -34,6 +35,34 @@ public class UpdateLeaderCardMessage extends Message {
 
     @Override
     public boolean clientProcess(DataOutputStream dos){
+        System.out.println("\nchoose a leader card (index from 1 to 4):");
+        int i = 1;
+        for(LeaderCard leaderCard : leaderCards){
+            System.out.println(i + ")\n" + leaderCard.toString());
+        }
+        Scanner scanner = new Scanner(System.in);
+        boolean again = true;
+        while(again) {
+            System.out.println("Choose first leader card index: ");
+            String index1 = scanner.nextLine();
+            Integer firstIndex;
+            System.out.println("Choose second leader card index: ");
+            String index2 = scanner.nextLine();
+            Integer secondIndex;
+            try {
+                firstIndex = Integer.parseInt(index1);
+                secondIndex = Integer.parseInt(index2);
+                if((firstIndex < 1 || firstIndex > 4) || (secondIndex < 1 || secondIndex > 4)){
+                    System.out.println("One ore both indexes are out of bounds. Type again your choice:");
+                    again = true;
+                } else {
+                    again = false;
+                }
+            } catch (NumberFormatException e) {
+                again = true;
+                System.out.println("The input format is not valid. Type again your choice: ");
+            }
+        }
         return false;
     }
 }

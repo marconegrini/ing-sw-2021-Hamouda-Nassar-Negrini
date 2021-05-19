@@ -4,6 +4,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageFactory;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.updateFromServer.UpdateLeaderCardMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
@@ -47,6 +48,7 @@ public class MultiPlayerManager extends GameManager {
     public void manageTurn(){
         MessageFactory factory = new MessageFactory();
         this.welcome();
+        /*
         this.firstPing();
 
         Runnable dequeue = new Runnable() {
@@ -108,6 +110,8 @@ public class MultiPlayerManager extends GameManager {
         t1.start();
         t2.start();
 
+         */
+
     }
 
     @Override
@@ -165,13 +169,22 @@ public class MultiPlayerManager extends GameManager {
      */
     @Override
     public void setLeaderCards(){
-
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
-        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        Stack<LeaderCard> leaderCardsStack = parser.getLeaderCardsDeck();
         parser.close();
-        Collections.shuffle(leaderCards);
+        Collections.shuffle(leaderCardsStack);
+        //setting up player's leader card in model
+        for(Player player : players){
+            List<LeaderCard> leaderCardList = new ArrayList<>();
+            for(int i = 0; i < 4; i++){
+                if(!leaderCardsStack.isEmpty())
+                    leaderCardList.add(leaderCardsStack.pop());
+            }
+            player.setLeaderCards(leaderCardList);
+            UpdateLeaderCardMessage sendCards = new UpdateLeaderCardMessage(player.getNickname(), leaderCardList);
+            sendCards.serverProcess(player, turnManager);
+        }
 
-        //TODO update leader cards in order to work with json file
     }
 
 

@@ -50,7 +50,6 @@ public class GameConnection1 {
                 Runnable runnable = () -> {
                     try {
                         toServer.writeUTF("PING");
-                        System.out.println("Ricevuto e ripingato");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -197,6 +196,11 @@ public class GameConnection1 {
 
             if (message.toUpperCase().contains("GAME STARTED")) {
 
+                try {
+                    toServer.writeUTF("PINGKO");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Runnable runnable = () -> {
                     endThread.set(false);
                     isStarted.set(true);
@@ -213,54 +217,6 @@ public class GameConnection1 {
             }
 
         }
-
-
-        /*
-        if (isMultiplayer.get()){
-
-            while (true) {
-
-                try {
-                    while (!(fromServer.available() > 0)) ;
-                    message = fromServer.readUTF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (message.equalsIgnoreCase("OK IN GAME")) {
-                    System.out.println("You are inside the game");
-                    break;
-                }
-                if (message.toUpperCase().contains("PING")){
-                    try {
-                        toServer.writeUTF("PING");
-                        System.out.println("Ricevuto e ripingato");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } else {
-            while (true) {
-                try {
-                    message = fromServer.readUTF();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (message.equalsIgnoreCase("OK IN GAME")) {
-                    System.out.println("You are inside the game with Lorenzo");
-                    break;
-                }
-                if (message.equalsIgnoreCase("PING")){
-                    try {
-                        toServer.writeUTF("PING");
-                        System.out.println("Ricevuto e ripingato");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-         */
 
         try {
             buffer.close();
