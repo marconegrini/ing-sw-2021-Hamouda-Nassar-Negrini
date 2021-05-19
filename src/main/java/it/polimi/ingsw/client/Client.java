@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageFactory;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -15,7 +14,7 @@ public class Client {
         Socket socket = new Socket("127.0.0.1", 5056);
         ClientSocket clientSocket = new ClientSocket(socket);
 
-        GameConnection1 gameConnection = new GameConnection1();
+        GameConnection gameConnection = new GameConnection();
 
         boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
                 clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
