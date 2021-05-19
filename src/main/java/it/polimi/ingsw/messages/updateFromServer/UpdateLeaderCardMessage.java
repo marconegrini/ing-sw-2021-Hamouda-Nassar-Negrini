@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class UpdateLeaderCardMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(){
+    public boolean clientProcess(DataOutputStream getToServer) {
         return false;
     }
+
 }

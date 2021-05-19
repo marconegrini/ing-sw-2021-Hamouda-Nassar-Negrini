@@ -14,8 +14,7 @@ import java.util.List;
 /**
  * Discount Leader Card
  * A Leader Card that ,when activated and, gives a discount on one (or more) resources when the player wants to buy a Development card.
- *
- * */
+ */
 
 public class DiscountLeaderCard extends LeaderCard {
     private final List<LeaderCardCost> activationCost;
@@ -81,7 +80,7 @@ public class DiscountLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return  "\nCard type: " + this.cardType +
+        return "\nCard type: " + this.cardType +
                 "\nVictory points: " + this.Vp +
                 "\nDiscounted resources: " + discountedResource.toString() +
                 "\nActivation cost: " + activationCost.toString();

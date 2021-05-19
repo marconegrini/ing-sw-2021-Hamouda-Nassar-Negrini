@@ -179,6 +179,7 @@ public class Warehouse implements Deposit{
     }
 
     public List<Resource> getWarehouseStorage(Integer storageNum) {
+        if(!warehouse.containsKey(storageNum)) throw new IndexOutOfBoundsException();
         return warehouse.get(storageNum).getResources();
     }
 

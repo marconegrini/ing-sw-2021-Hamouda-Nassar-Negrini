@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.enumerations;
 
 
-public enum ASCII_Shapes {
+public enum ASCII_Resources {
 
     COIN("\u001B[33m" + "⛂" +  "\u001B[0m"),
     SHIELD("\u001b[34;1m" + "\uD83D\uDEE1️" + "\u001B[0m"),
@@ -12,18 +12,18 @@ public enum ASCII_Shapes {
 
 private final String shape;
 
-    public static ASCII_Shapes getShape(String value) {
+    public static ASCII_Resources getShape(String value) {
         if (value.toUpperCase().equals("COIN"))
-            return ASCII_Shapes.COIN;
+            return ASCII_Resources.COIN;
         else if (value.toUpperCase().equals("SHIELD"))
-            return ASCII_Shapes.SHIELD;
+            return ASCII_Resources.SHIELD;
         else if (value.toUpperCase().equals("STONE"))
-            return ASCII_Shapes.STONE;
-        else return ASCII_Shapes.SERVANT;
+            return ASCII_Resources.STONE;
+        else return ASCII_Resources.SERVANT;
 
     }
 
-    ASCII_Shapes(String shape){this.shape=shape;}
+    ASCII_Resources(String shape){this.shape=shape;}
     public String toString(){
         return shape;
     }

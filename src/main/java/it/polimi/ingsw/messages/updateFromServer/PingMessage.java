@@ -5,6 +5,8 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.model.Player;
 
+import java.io.DataOutputStream;
+
 public class PingMessage extends Message {
 
     public PingMessage(String nickname){
@@ -24,5 +26,8 @@ public class PingMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(){ return false; }
+    public boolean clientProcess(DataOutputStream getToServer) {
+        return false;
+    }
+
 }
