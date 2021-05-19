@@ -90,4 +90,9 @@ public class SinglePlayerManager extends GameManager {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void firstPing() {
+
+    }
 }

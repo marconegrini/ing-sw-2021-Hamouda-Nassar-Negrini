@@ -15,36 +15,34 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GameSetUp {
 
-    public void initialSetUp(Socket socket, Scanner scanner, DataInputStream fromServer, DataOutputStream toServer, BufferedReader buffer, Queue<Message> messageQueue) {
+    public void initialSetUp(Socket socket, Scanner scanner, DataInputStream fromServer, DataOutputStream toServer, BufferedReader buffer, Queue<Message> clientQueue) {
 
         MessageFactory factory = new MessageFactory();
 
         Runnable dequeue = new Runnable() {
-
             @Override
             public void run() {
-                Message fromQueue;
+                Message dequeueMessage;
                 while(true){
-                    if(!messageQueue.isEmpty()) {
-                        fromQueue = messageQueue.poll();
-                        System.out.println(fromQueue.toString());
-                        fromQueue.clientProcess(toServer);
+                    if(!clientQueue.isEmpty()) {
+                        dequeueMessage = clientQueue.poll();
+                        System.out.println(dequeueMessage.toString());
+                        dequeueMessage.clientProcess(toServer);
                     }
                 }
             }
         };
 
         Runnable enqueue = new Runnable() {
-
             @Override
             public void run() {
-                String receivedFromServer;
+                String received;
                 while (true) {
                     try {
                         if(buffer.ready()) {
-                            receivedFromServer = fromServer.readUTF();
-                            Message message = factory.returnMessage(receivedFromServer);
-                            messageQueue.add(message);
+                            received = fromServer.readUTF();
+                            Message message = factory.returnMessage(received);
+                            clientQueue.add(message);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
