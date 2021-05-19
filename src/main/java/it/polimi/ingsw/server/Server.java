@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 import it.polimi.ingsw.server.handlers.ClientHandler;
-import it.polimi.ingsw.server.handlers.ClientHandler1;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
 import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
@@ -153,9 +152,7 @@ public class Server {
                 System.out.println("Assigning a new thread to the host:" + clientSocket);
                 System.out.println("-------------");
 
-                //clientSocket.setSoTimeout(15 * 1000);
-
-                Thread t = new ClientHandler1(clientSocket, fromClient, toClient);
+                Thread t = new ClientHandler(clientSocket, fromClient, toClient);
 
                 t.start();
 
