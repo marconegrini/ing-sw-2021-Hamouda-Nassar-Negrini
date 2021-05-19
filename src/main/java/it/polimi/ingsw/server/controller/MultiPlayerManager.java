@@ -1,15 +1,12 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageFactory;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.updateFromServer.ErrorMessage;
-import it.polimi.ingsw.messages.updateFromServer.PingMessage;
+import it.polimi.ingsw.messages.PingMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.PlayerNotExistsException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
