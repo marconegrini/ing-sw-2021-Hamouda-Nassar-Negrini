@@ -7,12 +7,12 @@ import it.polimi.ingsw.server.TemporaryPlayer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class ClientHandler extends Thread{
+public class ClientHandler extends Thread {
 
     private final Socket clientSocket;
     private final DataInputStream fromClient;
@@ -26,115 +26,196 @@ public class ClientHandler extends Thread{
         this.temporaryPlayer = null;
     }
 
-
     public void run(){
 
-        String multiplayer;
-        String nickname;
-        //AtomicBoolean stillAlive = new AtomicBoolean(true);
+        AtomicLong pingTime = new AtomicLong();
+        AtomicLong receivedPingTime = new AtomicLong();
+        String message = "";
+        String nickname = "";
+        AtomicBoolean stillAlive = new AtomicBoolean(true);
+        AtomicBoolean continueHandling = new AtomicBoolean(true);
+        AtomicBoolean pingReceived = new AtomicBoolean(true);
+
+        boolean obtainedNickname = false;
+        boolean obtainedMultiplayer = false;
 
 
-        Runnable runnable = () -> {
-            long oldTimeMillis = System.currentTimeMillis();
-            String pingMessage = "";
-            while (true) {
-                try {
-                    if ((System.currentTimeMillis() - oldTimeMillis) >= (10 * 1000)) {
+        pingTime.set(System.currentTimeMillis());
+        receivedPingTime.set(System.currentTimeMillis());
+
+        //System.out.println("Long ping time: " + pingTime + " System Time: " + System.currentTimeMillis());
+
+        Runnable runnablePing = () -> {
+
+            while (stillAlive.get()){
+                try{
+
+                    //System.out.println("oldTime: "+ (pingTime/1000) + " Current time: " + (System.currentTimeMillis()/1000));
+                    if (pingReceived.get() && ((System.currentTimeMillis() - pingTime.get()) >= 5*1000)){
                         toClient.writeUTF("PING");
-                        System.out.println("Pingato");
-                        pingMessage = fromClient.readUTF().toUpperCase();
-                        //if (!pingMessage.equalsIgnoreCase("PING"))  throw new SocketTimeoutException();
-                        oldTimeMillis = System.currentTimeMillis();
-                        //throw new InterruptedIOException();
+                        System.out.println("Pinged");
+                        pingReceived.set(false);
+                        //System.out.println("Ping sent with oldTime: "+ pingTime + " Current time: " + System.currentTimeMillis() + " Difference: " + (System.currentTimeMillis() - pingTime) );
+                        pingTime.set(System.currentTimeMillis());
                     }
-                } catch (SocketTimeoutException e){
-                    //e.printStackTrace();
-                    System.out.println("Inside SocketTimeoutException");
-                    if (this.temporaryPlayer != null) {
-                        Server.remove(this.temporaryPlayer);
-                        System.out.println("Removed: " + this.temporaryPlayer.getNickname());
+
+                    if ( (System.currentTimeMillis() - pingTime.get()) > 10*1000){
+                        pingReceived.set(false);
+                        stillAlive.set(false);
+                        System.out.println("Connection with the client lost");
+
+                        if (this.temporaryPlayer != null) {
+                            Server.remove(this.temporaryPlayer);
+                            System.out.println("Removed: " + this.temporaryPlayer.getNickname());
+                        }
+                        try {
+                            clientSocket.close();
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                            continueHandling.set(false);
+                            stillAlive.set(false);
+                        }
+
                     }
-                    //stillAlive.set(false);
+
+                } catch (IOException e){
+                    e.printStackTrace();
+                    continueHandling.set(false);
+                    stillAlive.set(false);
                     try {
                         clientSocket.close();
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
+                        System.out.println("Socket closed");
+                        continueHandling.set(false);
                     }
-                    break;
-                } catch (SocketException e){
-                    e.printStackTrace();
-                } catch (InterruptedIOException e){
-                    e.printStackTrace();
-                    System.out.println("Inside InterruptedException");
-                    if (this.temporaryPlayer != null) {
-                        Server.remove(this.temporaryPlayer);
-                        System.out.println("Removed: " + this.temporaryPlayer.getNickname());
-                    }
-                } catch (IOException e){
-                    e.printStackTrace();
                 }
             }
         };
 
-
-        Thread ping = new Thread(runnable);
+        Thread ping = new Thread(runnablePing);
         ping.start();
 
 
+        //Message to start the communication with the server
         try {
             toClient.writeUTF("NICKNAME");
+        } catch (IOException e) {
+            e.printStackTrace();
+            continueHandling.set(false);
+        }
+
+        while (continueHandling.get()){
 
             while (true) {
-                while (!(fromClient.available() > 0)) ;
-                nickname = fromClient.readUTF();
-                if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname))
-                    toClient.writeUTF("KO");
-                else {
-                    toClient.writeUTF("OK");
+                try {
+                    if (fromClient.available() > 0) break;
+                } catch (IOException e) {
+                    System.out.println("Cant reach the host");
+                    //e.printStackTrace();
+                    continueHandling.set(false);
                     break;
                 }
             }
 
-            toClient.writeUTF("MULTIPLAYER");
-            while (!(fromClient.available() > 0)) ;
-            multiplayer = fromClient.readUTF();
-
-            if (multiplayer.equalsIgnoreCase("YES")) {
-                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
-                Server.add(temporaryPlayer);
-                System.out.println("Added to players list " + nickname);
-                Server.updateUsers();
-
-                while (true) {
-                    if (fromClient.available() > 0) {
-                        String command = fromClient.readUTF().toUpperCase();
-
-                        if (command.equals("START") && Server.isLeader(this.temporaryPlayer)) {
-                            if (Server.size() > 1) {
-                                Server.startMultiplayerGame(Server.size());
-                                break;
-                            }
-                        }
-                        if (command.equals("EXIT")) {
-                            System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
-                            toClient.writeUTF("EXIT");
-                            Server.remove(this.temporaryPlayer);
-                            Server.updateUsers();
-                            break;
-                        }
-                    }
-                }
-            } else {
-                temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
-                Server.startSinglePlayergame(temporaryPlayer);
+            //obtaining the message from the server
+            try {
+                message = fromClient.readUTF();
+                //System.out.println("Message received from the client: "+ message);
+            } catch (IOException e) {
+                System.out.println("Can't receive messages from the host");
+                continueHandling.set(false);
+                //e.printStackTrace();
             }
-        } catch (SocketException e){
-            System.out.println("Socket closed");
-        } catch (InterruptedIOException e){
-            e.printStackTrace();
-            //Server.remove(this.temporaryPlayer);
-        } catch (IOException | MaxPlayersException e) {
-            e.printStackTrace();
+
+            //Handle the ping message received from the client
+            if (message.toUpperCase().contains("PING")){
+                pingTime.set(System.currentTimeMillis());
+                pingReceived.set(true);
+                if (!nickname.equals(""))   System.out.println("Received ping from " + nickname);
+                else System.out.println("Received ping");
+                if (message.toUpperCase().contains("KO"))   stillAlive.set(false);
+
+                //System.out.println("Time of receiving ping: " + receivedPingTime.get());
+                //System.out.println("Ping received from the client after: " + (pingTime.get() - receivedPingTime.get()));
+            }
+
+            if (message.toUpperCase().contains("NICKNAME")){
+                //nickname = message.substring(message.toUpperCase().lastIndexOf("NICKNAME"));
+                nickname = message.substring(8);
+                //System.out.println("last index: "+ message.toUpperCase().lastIndexOf("NICKNAME") +"Nickname: " + nickname);
+                try {
+                    if (nickname.isEmpty() || Server.nicknameAlreadyExist(nickname)) {
+                        //System.out.println("IsEmpty: " + nickname.isEmpty() + "AlreadyExist: "+ Server.nicknameAlreadyExist(nickname));
+                        //System.out.println("KO");
+                        toClient.writeUTF("NICKNAMEKO");
+                    }else {
+                        toClient.writeUTF("NICKNAMEOK");
+                        //System.out.println("OK");
+                        obtainedNickname = true;
+                        toClient.writeUTF("MULTIPLAYER");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    continueHandling.set(false);
+                }
+            }
+
+            if (message.toUpperCase().contains("MULTIPLAYER") && obtainedNickname) {
+
+                //System.out.println("Inside multiplayer "+ message.substring(10));
+
+                if (message.substring(11).equalsIgnoreCase("YES")) {
+                    try {
+                        if (Server.nicknameAlreadyExist(nickname)){
+                            toClient.writeUTF("NICKNAMEKO");
+                        } else {
+                            toClient.writeUTF("MULTIPLAYEROK");
+                            temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
+                            Server.add(temporaryPlayer);
+                            System.out.println("Added to players list " + nickname);
+                            Server.updateUsers();
+                            obtainedMultiplayer = true;
+                        }
+                    } catch (MaxPlayersException | IOException e) {
+                        e.printStackTrace();
+                        continueHandling.set(false);
+                    }
+                } else {
+                    try {
+                        toClient.writeUTF("MULTIPLAYEROK");
+                        temporaryPlayer = new TemporaryPlayer(this.clientSocket, nickname, false);
+                        Server.startSinglePlayergame(temporaryPlayer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        continueHandling.set(false);
+                    }
+                    continueHandling.set(false);
+                }
+            }
+
+            if (message.equalsIgnoreCase("EXIT")){
+                System.out.println(this.temporaryPlayer.getNickname() + " exit from game");
+                try {
+                    toClient.writeUTF("EXIT");
+                    stillAlive.set(false);
+                    Server.remove(this.temporaryPlayer);
+                    Server.updateUsers();
+                } catch (IOException | MaxPlayersException e){
+                    e.printStackTrace();
+                    continueHandling.set(false);
+                }
+                continueHandling.set(false);
+            }
+
+            if (message.equalsIgnoreCase("START") && Server.isLeader(this.temporaryPlayer) && obtainedMultiplayer) {
+                if (Server.size() > 1) {
+                    stillAlive.set(false);
+                    Server.startMultiplayerGame(Server.size());
+                    continueHandling.set(false);
+                }
+            }
         }
+        stillAlive.set(false);
     }
 }
