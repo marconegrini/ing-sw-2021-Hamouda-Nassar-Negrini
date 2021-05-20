@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class GameConnection {
 
@@ -21,6 +22,8 @@ public class GameConnection {
         AtomicBoolean nicknameOk = new AtomicBoolean(false);
         AtomicBoolean alreadyExecuted = new AtomicBoolean(false);
         AtomicBoolean nicknameInserted = new AtomicBoolean(false);
+
+        AtomicLong pingTime = new AtomicLong(System.currentTimeMillis());
 
 
         String message = "";
@@ -50,6 +53,7 @@ public class GameConnection {
                     try {
                         toServer.writeUTF("PING");
                         System.out.println("Ricevuto e ripingato");
+                        pingTime.set(System.currentTimeMillis());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -180,6 +184,7 @@ public class GameConnection {
 
                 System.out.println("Exiting the game...");
                 endLobby.set(false);
+                isStarted.set(false);
             }
 
             if (message.toUpperCase().contains("GAME STARTED")) {
@@ -203,6 +208,12 @@ public class GameConnection {
                     System.out.println("You are inside the game with Lorenzo");
                 }
                 endLobby.set(false);
+            }
+
+            if ((System.currentTimeMillis() - pingTime.get()) > 6*1000){
+                isStarted.set(false);
+                endLobby.set(false);
+                endThread.set(false);
             }
         }
         try {
