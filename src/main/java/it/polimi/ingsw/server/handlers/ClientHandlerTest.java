@@ -38,10 +38,7 @@ public class ClientHandler extends Thread {
         System.out.println("Connected to " + clientSocket);
 
         try{
-            processServerMessage();
-        } catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Connection lost");
+
         }
 
     }

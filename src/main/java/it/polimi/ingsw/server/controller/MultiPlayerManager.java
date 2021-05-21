@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageFactory;
 import it.polimi.ingsw.messages.MessageType;
@@ -30,10 +32,11 @@ public class MultiPlayerManager extends GameManager {
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
         this.players = game.getPlayer();
-        this.serverBuffer = new ConcurrentLinkedQueue();
+        this.serverBuffer = new LinkedList<>();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         this.turnManager.setMultiplayer(true);
         this.turnManager.setPlayers(this.players);
+        this.timers = new ArrayList<>();
     }
 
     @Override
@@ -46,38 +49,28 @@ public class MultiPlayerManager extends GameManager {
      */
     @Override
     public void manageTurn(){
+
         MessageFactory factory = new MessageFactory();
-        this.welcome();
-        /*
+        //this.welcome();
+
         this.firstPing();
 
         Runnable dequeue = new Runnable() {
-
             @Override
             public void run() {
                 Message fromClient;
                 while(true) {
-                    if(!serverBuffer.isEmpty()) {
-                        fromClient = serverBuffer.poll();
-                        System.out.println(fromClient.toString());
-                        MessageType mt = fromClient.getMessageType();
-                        if(mt.equals(MessageType.PING)){
-                            Player player = getPlayerByNickname(fromClient.getNickname());
-                            Message ping = new PingMessage(player.getNickname());
-                            ping.serverProcess(player, turnManager);
-                            resetClientTimeOut(player.getNickname());
-                        }
-                    }
-
-                    //checks if there are clientTimeOut ended
-                    for (ClientTimeOut cto : timers) {
-                        if (!cto.isValid()) {
-                            for (Message message : serverBuffer)
-                                if (message.getNickname() == cto.getNickname())
-                                    serverBuffer.remove(message);
-                            Player player = getPlayerByNickname(cto.getNickname());
-                            players.remove(player);
-                            System.out.println("Connection lost with player " + cto.getNickname());
+                    synchronized (serverBuffer){
+                        if (!serverBuffer.isEmpty()) {
+                            fromClient = serverBuffer.poll();
+                            System.out.println("extracting from queue" + fromClient.toString());
+                            MessageType mt = fromClient.getMessageType();
+                            if (mt.equals(MessageType.PING)) {
+                                Player player = getPlayerByNickname(fromClient.getNickname());
+                                Message ping = new PingMessage(player.getNickname());
+                                ping.serverProcess(player, turnManager);
+                                resetClientTimeOut(player.getNickname());
+                            }
                         }
                     }
                 }
@@ -90,13 +83,24 @@ public class MultiPlayerManager extends GameManager {
             public void run() {
                 String clientMessage = null;
                 while (true) {
-                    for(Player player : players) {
+                    for (Player player : players) {
                         try {
-                            if(player.getFromClient().available() > 0) {
+                            if (player.getFromClient().available() > 0) {
                                 clientMessage = player.getFromClient().readUTF();
-                                Message message = factory.returnMessage(clientMessage);
-                                serverBuffer.add(message);
+                                Message message;
+                                try {
+                                    message = factory.returnMessage(clientMessage);
+                                } catch (JsonSyntaxException e) {
+                                    message = null;
+                                }
+                                if (message != null) {
+                                    System.out.println("inserting in queue" + message.toString());
+                                    synchronized (serverBuffer) {
+                                        serverBuffer.add(message);
+                                    }
+                                }
                             }
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -110,19 +114,62 @@ public class MultiPlayerManager extends GameManager {
         t1.start();
         t2.start();
 
-         */
 
     }
 
     @Override
     public void firstPing(){
-        for(Player p : players){
-            ClientTimeOut timeOut = new ClientTimeOut(p.getNickname());
-            timers.add(timeOut);
-            Message ping = new PingMessage(p.getNickname());
-            ping.serverProcess(p, turnManager);
-            timeOut.resetTime();
-        }
+         for (Player p : players) {
+             try {
+                 p.getToClient().flush();
+             } catch(IOException e){
+                 e.printStackTrace();
+             }
+             ClientTimeOut timeOut = new ClientTimeOut(p.getNickname());
+             timers.add(timeOut);
+             Message ping = new PingMessage(p.getNickname());
+             ping.serverProcess(p, turnManager);
+             timeOut.resetTime();
+         }
+        //starting thread that checks timers validity each 2 seconds
+        /*
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                long startingWhile = System.currentTimeMillis();
+                while(true) {
+                    List<ClientTimeOut> removeTimeOut = new ArrayList<>();
+                    List<Player> removePlayer = new ArrayList<>();
+                    while (System.currentTimeMillis() - startingWhile < 2 * 1000) ;
+                        for (ClientTimeOut cto : timers) {
+                            if (!cto.isValid()) {
+                                /*
+                                for (Message message : serverBuffer)
+                                    if (message.getNickname() == cto.getNickname())
+                                        serverBuffer.remove(message);
+
+                                 */
+        /*
+                                Player player = getPlayerByNickname(cto.getNickname());
+                                removeTimeOut.add(cto);
+                                removePlayer.add(player);
+                            }
+                        }
+                        for(ClientTimeOut cto : removeTimeOut){
+                            timers.remove(cto);
+                            for(Player p : removePlayer)
+                                if(p.getNickname().equals(cto.getNickname())){
+                                    players.remove(p);
+                                    System.out.println("Connection lost with player " + p.getNickname());
+                                }
+                        }
+                    startingWhile = System.currentTimeMillis();
+                }
+            }
+        };
+        Thread t = new Thread(r);
+        t.start();
+        */
     }
 
     @Override
@@ -248,16 +295,16 @@ public class MultiPlayerManager extends GameManager {
 
     public Player getPlayerByNickname(String nickname){
         Player p = null;
-        for (Player player: players){
-            if (player.getNickname().equals(nickname))  p = player;
+        for (Player player : players) {
+            if (player.getNickname().equals(nickname)) p = player;
         }
         return p;
     }
 
     public void resetClientTimeOut(String nickname){
         ClientTimeOut cto = null;
-        for(ClientTimeOut c : timers){
-            if(c.getNickname().equals(nickname)) {
+        for (ClientTimeOut c : timers) {
+            if (c.getNickname().equals(nickname)) {
                 c.resetTime();
             }
         }

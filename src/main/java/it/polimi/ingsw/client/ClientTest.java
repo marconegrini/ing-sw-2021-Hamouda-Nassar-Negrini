@@ -1,19 +1,8 @@
 package it.polimi.ingsw.client;
-import it.polimi.ingsw.messages.Message;
-
-
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageFactory;
-
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Client {
+public class ClientTest {
 
     public static void main(String[] args) throws IOException {
 
@@ -35,6 +24,7 @@ public class Client {
 
         clientSocket.closeConnection();
     }
+
 }
 
 

@@ -25,6 +25,7 @@ public class BuyDevelopmentCardMessage extends Message {
     public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = turnManager.buyDevelopmentCard(player, this.row, this.column, this.devCardSlot);
+
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);

@@ -17,6 +17,6 @@ public class MultiPlayerGameHandler extends Thread{
         manager.manageTurn();
         System.out.println("\n\nGameInstance: " + gameInstance);
         System.out.println("Players in the game: " + gameInstance.getPlayer().size());
-        gameInstance.printGamePlayers();
+        //gameInstance.printGamePlayers();
     }
 }

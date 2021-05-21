@@ -152,9 +152,9 @@ public class Server {
                 System.out.println("Assigning a new thread to the host:" + clientSocket);
                 System.out.println("-------------");
 
-                Thread t = new ClientHandler(clientSocket, fromClient, toClient);
+                //Thread t = new ClientHandler(clientSocket, fromClient, toClient);
 
-                t.start();
+                //t.start();
 
             } catch(Exception e){
                 clientSocket.close();
