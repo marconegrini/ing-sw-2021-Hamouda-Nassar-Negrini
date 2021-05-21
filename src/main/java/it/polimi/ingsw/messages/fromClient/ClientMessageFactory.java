@@ -31,10 +31,10 @@ public class ClientMessageFactory {
         switch (messageType) {
 
             case LOGIN:
-                returnMessage = gson.fromJson(receivedMessage, (Type) LoginMessage.class);
+                returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
                 break;
             case BUYDEVCARD:
-                returnMessage = gson.fromJson(receivedMessage, (Type) BuyDevCardMessage.class);
+                returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
                 break;
         }
 
