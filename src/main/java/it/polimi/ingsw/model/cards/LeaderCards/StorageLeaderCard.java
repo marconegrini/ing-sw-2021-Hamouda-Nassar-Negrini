@@ -56,7 +56,7 @@ public class StorageLeaderCard extends LeaderCard {
 
     @Override
     public HashMap<Resource, Integer> getLeaderCardPower(){
-        return (HashMap<Resource, Integer>) this.storage;
+        return (HashMap<Resource, Integer>) this.storage.clone();
     }
 
     @Override
