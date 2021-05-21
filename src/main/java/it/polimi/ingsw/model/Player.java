@@ -249,6 +249,10 @@ public abstract class Player {
         }
     }
 
+    public void setLeaderCards(List<LeaderCard> leaderCards){
+        this.leaderCards = leaderCards;
+    }
+
     public Integer getLeaderCardsVictoryPoint(){
         Integer vp = 0;
         for(LeaderCard lc : leaderCards)

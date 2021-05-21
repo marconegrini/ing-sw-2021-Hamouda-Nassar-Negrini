@@ -152,8 +152,6 @@ public class Server {
                 System.out.println("Assigning a new thread to the host:" + clientSocket);
                 System.out.println("-------------");
 
-                clientSocket.setSoTimeout(5 * 1000);
-
                 Thread t = new ClientHandler(clientSocket, fromClient, toClient);
 
                 t.start();

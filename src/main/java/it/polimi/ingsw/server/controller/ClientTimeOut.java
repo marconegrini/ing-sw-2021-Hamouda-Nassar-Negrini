@@ -2,18 +2,18 @@ package it.polimi.ingsw.server.controller;
 
 public class ClientTimeOut {
     private long initializationTime;
-    private Integer clientId;
+    private String nickname;
     boolean valid;
 
-    public ClientTimeOut(Integer clientId){
-        this.clientId = clientId;
+    public ClientTimeOut(String nickname){
+        this.nickname = nickname;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setTime(){
+    public void resetTime(){
         initializationTime = System.currentTimeMillis();
     }
 

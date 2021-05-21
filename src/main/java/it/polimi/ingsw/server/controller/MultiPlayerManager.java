@@ -1,13 +1,13 @@
 package it.polimi.ingsw.server.controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageFactory;
-import it.polimi.ingsw.messages.updateFromServer.ErrorMessage;
+import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.PingMessage;
+import it.polimi.ingsw.messages.updateFromServer.UpdateLeaderCardMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.PlayerNotExistsException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
@@ -20,7 +20,8 @@ public class MultiPlayerManager extends GameManager {
 
     private MultiPlayerGameInstance game;
     private List<MultiPlayer> players;
-    private Queue<Message> messageBuffer;
+    private Queue<Message> serverBuffer;
+    private List<ClientTimeOut> timers;
 
     /**
      * Initializes game and players instances. Creates a new turnManager that will performs turns between players
@@ -29,7 +30,7 @@ public class MultiPlayerManager extends GameManager {
     public MultiPlayerManager(MultiPlayerGameInstance game){
         this.game = game;
         this.players = game.getPlayer();
-        messageBuffer = new ConcurrentLinkedQueue();
+        this.serverBuffer = new ConcurrentLinkedQueue();
         this.turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         this.turnManager.setMultiplayer(true);
         this.turnManager.setPlayers(this.players);
@@ -40,71 +41,93 @@ public class MultiPlayerManager extends GameManager {
         return this.game.getGameId();
     }
 
-    /*
-    @Override
-    public void firstPing(){
-        for(Player p : players){
-            ClientTimeOut timeOut = new ClientTimeOut(.getClientId());
-            timers.add(timeOut);
-            Message ping = new Message(ch.getClientId(), MessageType.PING);
-            try{
-                ch.getDos().writeUTF(ping.getJsonString());
-            } catch(IOException e){
-                e.printStackTrace();
-            }
-            timeOut.setTime();
-        }
-
-    }
-     */
-
     /**
      * Manages the game allowing players to do actions
      */
     @Override
     public void manageTurn(){
-
-
-
-        //TODO switch case to handle methods that increment faith path
-
+        MessageFactory factory = new MessageFactory();
         this.welcome();
-
         /*
-        for(Player player : players) {
-            boolean turnEnded = false;
+        this.firstPing();
 
-            while(!turnEnded) {
+        Runnable dequeue = new Runnable() {
 
-                String clientRequest = "";
-                try {
-                    if(player.getFromClient().available() > 0)
-                        clientRequest = player.getFromClient().readUTF();
-                } catch (IOException e) {
-                    System.err.println("Exception occurred while sending file");
-                }
-                if (clientRequest.isEmpty()) {
-                    Message toSend = new ErrorMessage(player.getNickname(), "Exception occurred while receiving json");
-                    toSend.process(player, this.turnManager);
-                }
+            @Override
+            public void run() {
+                Message fromClient;
+                while(true) {
+                    if(!serverBuffer.isEmpty()) {
+                        fromClient = serverBuffer.poll();
+                        System.out.println(fromClient.toString());
+                        MessageType mt = fromClient.getMessageType();
+                        if(mt.equals(MessageType.PING)){
+                            Player player = getPlayerByNickname(fromClient.getNickname());
+                            Message ping = new PingMessage(player.getNickname());
+                            ping.serverProcess(player, turnManager);
+                            resetClientTimeOut(player.getNickname());
+                        }
+                    }
 
-                MessageFactory messageFactory = new MessageFactory();
-                Message receivedMessage = messageFactory.returnMessage(clientRequest);
-
-                if (player.getNickname().equals(receivedMessage.getNickname())) {
-                    turnEnded = receivedMessage.process(player, this.turnManager);
-                } else {
-                    Message outcome = new ErrorMessage(player.getNickname(), "Wait: it is not you turn");
-                    outcome.process(player, this.turnManager);
+                    //checks if there are clientTimeOut ended
+                    for (ClientTimeOut cto : timers) {
+                        if (!cto.isValid()) {
+                            for (Message message : serverBuffer)
+                                if (message.getNickname() == cto.getNickname())
+                                    serverBuffer.remove(message);
+                            Player player = getPlayerByNickname(cto.getNickname());
+                            players.remove(player);
+                            System.out.println("Connection lost with player " + cto.getNickname());
+                        }
+                    }
                 }
             }
-        }
+        };
+
+        Runnable enqueue = new Runnable() {
+
+            @Override
+            public void run() {
+                String clientMessage = null;
+                while (true) {
+                    for(Player player : players) {
+                        try {
+                            if(player.getFromClient().available() > 0) {
+                                clientMessage = player.getFromClient().readUTF();
+                                Message message = factory.returnMessage(clientMessage);
+                                serverBuffer.add(message);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        };
+
+        Thread t1 = new Thread(dequeue);
+        Thread t2 = new Thread(enqueue);
+        t1.start();
+        t2.start();
 
          */
+
+    }
+
+    @Override
+    public void firstPing(){
+        for(Player p : players){
+            ClientTimeOut timeOut = new ClientTimeOut(p.getNickname());
+            timers.add(timeOut);
+            Message ping = new PingMessage(p.getNickname());
+            ping.serverProcess(p, turnManager);
+            timeOut.resetTime();
+        }
     }
 
     @Override
     public void manageSetUp() {
+
     }
 
     /**
@@ -146,13 +169,22 @@ public class MultiPlayerManager extends GameManager {
      */
     @Override
     public void setLeaderCards(){
-
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
-        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
+        Stack<LeaderCard> leaderCardsStack = parser.getLeaderCardsDeck();
         parser.close();
-        Collections.shuffle(leaderCards);
+        Collections.shuffle(leaderCardsStack);
+        //setting up player's leader card in model
+        for(Player player : players){
+            List<LeaderCard> leaderCardList = new ArrayList<>();
+            for(int i = 0; i < 4; i++){
+                if(!leaderCardsStack.isEmpty())
+                    leaderCardList.add(leaderCardsStack.pop());
+            }
+            player.setLeaderCards(leaderCardList);
+            UpdateLeaderCardMessage sendCards = new UpdateLeaderCardMessage(player.getNickname(), leaderCardList);
+            sendCards.serverProcess(player, turnManager);
+        }
 
-        //TODO update leader cards in order to work with json file
     }
 
 
@@ -214,11 +246,21 @@ public class MultiPlayerManager extends GameManager {
     }
 
 
-    public Player getPlayerFromNickname(String nickname) throws PlayerNotExistsException {
+    public Player getPlayerByNickname(String nickname){
+        Player p = null;
         for (Player player: players){
-            if (player.getNickname().equals(nickname))  return player;
+            if (player.getNickname().equals(nickname))  p = player;
         }
-        throw new PlayerNotExistsException();
+        return p;
+    }
+
+    public void resetClientTimeOut(String nickname){
+        ClientTimeOut cto = null;
+        for(ClientTimeOut c : timers){
+            if(c.getNickname().equals(nickname)) {
+                c.resetTime();
+            }
+        }
     }
 
 
