@@ -2,5 +2,11 @@ package it.polimi.ingsw.messages.fromClient;
 
 public enum ClientMessageType {
     LOGIN,
-    BUYDEVCARD
+    BUYDEVCARD;
+
+
+    public static ClientMessageType getMessageType(String value) {
+        return Enum.valueOf(ClientMessageType.class, value.toUpperCase());
+    }
+
 }
