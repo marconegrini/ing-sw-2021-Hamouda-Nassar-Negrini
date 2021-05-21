@@ -13,28 +13,29 @@ import java.util.Queue;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Client {
+public class Client implements Runnable{
+
+    private ServerHandler serverHandler;
 
     public static void main(String[] args) throws IOException {
 
-        Socket socket = new Socket("127.0.0.1", 5056);
-        ClientSocket clientSocket = new ClientSocket(socket);
+        Client client = new Client();
+        client.run();
+    }
 
-        GameConnection gameConnection = new GameConnection();
-
-        boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
-                clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
-
-        clientSocket.getToServer().flush();
-
-        if (isStarted) {
-            GameSetUp gameSetUp = new GameSetUp();
-            gameSetUp.initialSetUp(clientSocket.getSocket(), clientSocket.getScanner(),
-                    clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
+    public void run(){
+        Socket server;
+        try {
+            server = new Socket("127.0.0.1", 5056);
+        } catch (IOException e){
+            System.out.println("Server unreachable");
+            return;
         }
 
-        clientSocket.closeConnection();
+        serverHandler = new ServerHandler(server, this);
+        serverHandler.start();
     }
+
 }
 
 

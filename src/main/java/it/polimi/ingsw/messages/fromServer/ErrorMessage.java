@@ -8,7 +8,6 @@ public class ErrorMessage extends ServerMessage{
     private String errorMessage;
 
     public ErrorMessage(String errorMessage){
-
         this.errorMessage = errorMessage;
     }
 
