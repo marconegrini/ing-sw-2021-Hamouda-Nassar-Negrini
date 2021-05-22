@@ -10,6 +10,6 @@ public class StartMultiplayerGameTest {
 
     @Test
     public void testStartMultiplayer() throws IOException, MaxPlayersException {
-        Server.startMultiplayerGame(4);
+        Server.startMultiplayerGame();
     }
 }

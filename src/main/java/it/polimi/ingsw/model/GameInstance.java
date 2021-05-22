@@ -8,15 +8,11 @@ import java.io.DataOutputStream;
 
 public abstract class GameInstance {
 
-    protected Integer gameId;
-
     protected CardsDeck cardsDeck;
 
     protected MarketBoard marketBoard;
 
-    public abstract Integer getGameId();
-
-    public abstract void addPlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer) throws MaxPlayersException;
+    public abstract void addPlayer(Player player) throws MaxPlayersException;
 
     public MarketBoard getMarketBoard(){
         return this.marketBoard;
@@ -25,7 +21,4 @@ public abstract class GameInstance {
     public CardsDeck getCardsDeck(){
         return this.cardsDeck;
     }
-
-
-
 }

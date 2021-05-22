@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.multiplayer;
 
 import it.polimi.ingsw.model.GameInstance;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
@@ -14,24 +15,17 @@ public class MultiPlayerGameInstance extends GameInstance {
 
     private List<MultiPlayer> players;
 
-    public MultiPlayerGameInstance(Integer gameId){
-        this.gameId = gameId;
+    public MultiPlayerGameInstance(){
         players = new ArrayList<>();
         this.cardsDeck = new CardsDeck();
         this.marketBoard = new MarketBoard();
     }
 
     @Override
-    public void addPlayer(String nickname, Integer userId, DataOutputStream dos, DataInputStream dis) throws MaxPlayersException {
-
+    public void addPlayer(Player player) throws MaxPlayersException {
         if(players.size() < 4) {
-            players.add(new MultiPlayer(nickname, userId, dos, dis));
+            players.add((MultiPlayer) player);
         } else throw new MaxPlayersException();
-    }
-
-    @Override
-    public Integer getGameId() {
-        return this.gameId;
     }
 
     public List<MultiPlayer> getPlayer(){
