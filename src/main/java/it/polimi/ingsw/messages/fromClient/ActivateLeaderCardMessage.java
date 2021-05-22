@@ -7,7 +7,7 @@ public class ActivateLeaderCardMessage extends ClientMessage{
     private Integer slot;
 
     public ActivateLeaderCardMessage(Integer slot) {
-        super(ClientMessageType.ACTIVATE_LEADERCARD);
+        super(ClientMessageType.ACTIVATELEADERCARD);
         this.slot = slot;
     }
 

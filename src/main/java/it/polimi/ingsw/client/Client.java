@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Client implements Runnable{
 
     private ServerHandler serverHandler;
+    private boolean shallTerminate;
 
     public static void main(String[] args) throws IOException {
 
@@ -23,6 +24,7 @@ public class Client implements Runnable{
         client.run();
     }
 
+    @Override
     public void run(){
         Socket server;
         try {
@@ -31,9 +33,18 @@ public class Client implements Runnable{
             System.out.println("Server unreachable");
             return;
         }
-
         serverHandler = new ServerHandler(server, this);
-        serverHandler.start();
+        Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+        serverHandlerThread.start();
+
+        //serverHandler.stop();
+    }
+
+    public synchronized void terminate(){
+        //shallTerminate is the signal to the view handler loop that it should exit
+        if(!shallTerminate){
+            shallTerminate = true;
+        }
     }
 
 }

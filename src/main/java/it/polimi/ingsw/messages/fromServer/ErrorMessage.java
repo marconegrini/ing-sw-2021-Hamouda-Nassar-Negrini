@@ -8,11 +8,18 @@ public class ErrorMessage extends ServerMessage{
     private String errorMessage;
 
     public ErrorMessage(String errorMessage){
+        super(ServerMessageType.ERROR);
         this.errorMessage = errorMessage;
     }
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         System.out.println(errorMessage);
+    }
+
+    @Override
+    public String toString(){
+        return (" Received " + type.toString() + " message\n" +
+                "Error: " + errorMessage);
     }
 }

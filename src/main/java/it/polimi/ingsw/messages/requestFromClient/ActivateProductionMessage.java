@@ -14,9 +14,9 @@ import java.util.List;
 public class ActivateProductionMessage extends Message {
 
     private List<Integer> slots;
-    private Resource leaderResource;
+    private List<Resource> leaderResource;
 
-    public ActivateProductionMessage(String nickname, List<Integer> slots, Resource leaderResource){
+    public ActivateProductionMessage(String nickname, List<Integer> slots, List<Resource> leaderResource){
         super(nickname, MessageType.ACTIVATEPRODUCTION);
         this.slots = slots;
         this.leaderResource = leaderResource;

@@ -33,8 +33,11 @@ public class ClientMessageFactory {
             case LOGIN:
                 returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
                 break;
-            case BUYDEVCARD:
+            case BUYDEVELOPMENTCARD:
                 returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
+                break;
+            case PING:
+                returnMessage = gson.fromJson(receivedMessage, ClientPing.class);
                 break;
         }
 

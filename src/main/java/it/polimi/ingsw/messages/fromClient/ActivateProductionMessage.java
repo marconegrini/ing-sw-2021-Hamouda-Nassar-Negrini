@@ -18,7 +18,7 @@ public class ActivateProductionMessage extends ClientMessage{
      * @param activatePersonalProduction  activatePersonalProduction indicate if the player wants to activate the basic power of the personal board
      */
     public ActivateProductionMessage(List<Integer> slots, Resource leaderResource, boolean activatePersonalProduction) {
-        super(ClientMessageType.ACTIVATE_PRODUCTION);
+        super(ClientMessageType.ACTIVATEPRODUCTION);
         this.slots = slots;
         this.leaderResource = leaderResource;
         this.activatePersonalProduction = activatePersonalProduction;

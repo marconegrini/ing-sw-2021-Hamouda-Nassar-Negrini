@@ -4,7 +4,7 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
 
 public abstract class ClientMessage {
 
-    private ClientMessageType type;
+    protected ClientMessageType type;
 
     public ClientMessage(ClientMessageType type){
         this.type = type;
@@ -12,4 +12,7 @@ public abstract class ClientMessage {
 
     public abstract void serverProcess(ClientHandler clientHandler);
 
+    public String toString(){
+        return (" Received " + type.toString() + " message");
+    }
 }

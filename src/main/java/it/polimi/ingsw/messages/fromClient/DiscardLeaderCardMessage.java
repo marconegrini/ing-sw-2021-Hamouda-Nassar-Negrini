@@ -11,7 +11,7 @@ public class DiscardLeaderCardMessage extends ClientMessage{
      * @param slot  slot is the position of the leader card that the player wants to discard
      */
     public DiscardLeaderCardMessage(Integer slot) {
-        super(ClientMessageType.DISCARD_LEADERCARD);
+        super(ClientMessageType.DISCARDLEADERCARD);
         this.slot = slot;
     }
 

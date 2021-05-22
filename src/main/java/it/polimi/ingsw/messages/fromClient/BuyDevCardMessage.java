@@ -11,7 +11,7 @@ public class BuyDevCardMessage extends ClientMessage{
     private int devCardSlot;
 
     public BuyDevCardMessage(int row, int column, int devCardSlot ) {
-        super(ClientMessageType.BUYDEVCARD);
+        super(ClientMessageType.BUYDEVELOPMENTCARD);
         this.row = row;
         this.column = column;
         this.devCardSlot = devCardSlot;
