@@ -13,7 +13,7 @@ public class LoginMessage extends ClientMessage{
     }
 
     @Override
-    public void serverProcess(ClientHandler clientHandler) {
+    public void serverProcess(ClientHandler clientHandler){
 
     }
 }

@@ -38,8 +38,11 @@ public class ClientHandler extends Thread {
             System.out.println("Could not open connection to " + client.getInetAddress());
         }
 
-        System.out.println("Connected to " + client);
+        System.out.println("-------------");
+        System.out.println("Connected to: " + client);
+        System.out.println("-------------");
         pingClient();
+
         try{
             processServerMessages();
         } catch (IOException e){

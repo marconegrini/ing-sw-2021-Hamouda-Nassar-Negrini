@@ -86,12 +86,7 @@ public class ServerHandler implements Runnable{
     public void sendJson(ClientMessage message){
         Gson gson = new Gson();
         String toSend = gson.toJson(message);
-        //try{
         out.println(toSend);
-        //} catch(IOException e){
-        //    System.out.println("Communication error");
-        //    owner.terminate();
-        //}
     }
 
     public void stop()

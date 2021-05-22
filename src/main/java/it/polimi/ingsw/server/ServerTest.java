@@ -36,8 +36,7 @@ public class ServerTest {
                 clientSocket = serverSocket.accept();
                 System.out.println("-------------");
                 System.out.println("New connection from: " + clientSocket);
-
-                System.out.println("Assigning a new thread to the host:" + clientSocket);
+                System.out.println("Assigning a new thread to the host: " + clientSocket);
                 System.out.println("-------------");
 
                 ClientHandler client  = new ClientHandler(clientSocket);
