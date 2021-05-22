@@ -21,6 +21,7 @@ public class ClientHandler extends Thread {
     private PrintWriter out;
     private Player player;
     private TurnManager turnManager;
+    private String nickname;
 
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
@@ -41,7 +42,6 @@ public class ClientHandler extends Thread {
         System.out.println("-------------");
         System.out.println("Connected to: " + client);
         System.out.println("-------------");
-        pingClient();
 
         try{
             processServerMessages();
@@ -75,12 +75,21 @@ public class ClientHandler extends Thread {
         out.println(toSend);
     }
 
-    public void pingClient(){
-        ServerMessage ping = new ServerPing();
-        this.sendJson(ping);
-    }
-
     private TurnManager getTurnManager(){
         return this.turnManager;
     }
+
+    public String getNickname(){
+        return nickname;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
+    public void setTurnManager(TurnManager turnManager){
+        this.turnManager = turnManager;
+    }
+
+
 }

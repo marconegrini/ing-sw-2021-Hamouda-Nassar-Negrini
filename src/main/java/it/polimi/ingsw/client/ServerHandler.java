@@ -1,11 +1,9 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.MalformedJsonException;
-import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.CLI.CLIinteractions;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
-import it.polimi.ingsw.messages.fromClient.ClientMessageFactory;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
 
@@ -22,11 +20,14 @@ public class ServerHandler implements Runnable{
     private BufferedReader reader;
     private BufferedWriter writer;
     private PrintWriter out;
+    private CLIinteractions cli;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private boolean isCli = true;
 
     public ServerHandler(Socket server, Client owner){
         this.server = server;
         this.owner = owner;
+        this.cli = new CLIinteractions();
     }
 
     @Override
@@ -66,7 +67,6 @@ public class ServerHandler implements Runnable{
                     String jsonMessage = reader.readLine();
                     ServerMessage message = factory.returnMessage(jsonMessage);
                     message.clientProcess(this);
-
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {
@@ -89,12 +89,19 @@ public class ServerHandler implements Runnable{
         out.println(toSend);
     }
 
-    public void stop()
-    {
+    public void stop(){
         shouldStop.set(true);
         try {
             server.shutdownInput();
-        } catch (IOException e) { }
+        } catch (IOException e) {}
+    }
+
+    public void updateMessage(String message){
+        if(isCli){
+            cli.updateMessage(message);
+        } else {
+
+        }
     }
 
 }
