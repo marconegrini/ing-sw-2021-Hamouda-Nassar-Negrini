@@ -49,8 +49,15 @@ public class ServerMessageFactory {
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ServerPing.class);
                     break;
+                case LOGIN:
+                    returnMessage = gson.fromJson(receivedMessage, ServerLoginMessage.class);
+                    break;
+                case LOGIN_ERROR:
+                    returnMessage = gson.fromJson(receivedMessage, ServerLoginErrorMessage.class);
+                    break;
                 case PARTICIPANTS:
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
+                    break;
             }
 
         return returnMessage;

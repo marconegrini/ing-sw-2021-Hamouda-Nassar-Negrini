@@ -43,7 +43,7 @@ public class SinglePlayerGameInstance extends GameInstance {
     }
 
     public void printGamePlayer(){
-        System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
+        //System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
         player.printPlayer();
     }
 }

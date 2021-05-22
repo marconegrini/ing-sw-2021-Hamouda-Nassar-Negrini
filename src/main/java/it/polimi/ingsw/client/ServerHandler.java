@@ -63,9 +63,12 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
+                System.out.println("Waiting for json message...");
                 try {
                     String jsonMessage = reader.readLine();
+                    //System.out.println(jsonMessage);
                     ServerMessage message = factory.returnMessage(jsonMessage);
+                    //System.out.println(message.toString());
                     message.clientProcess(this);
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */

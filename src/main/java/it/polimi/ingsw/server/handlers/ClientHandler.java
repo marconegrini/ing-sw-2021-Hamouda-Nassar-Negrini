@@ -3,9 +3,11 @@ import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessageFactory;
+import it.polimi.ingsw.messages.fromServer.ServerLoginMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerPing;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.TurnManager;
 import java.io.*;
 import java.net.Socket;
@@ -42,11 +44,13 @@ public class ClientHandler extends Thread {
         System.out.println("-------------");
         System.out.println("Connected to: " + client);
         System.out.println("-------------");
-
+        //pingClient();
+        startLogin();
         try{
             processServerMessages();
         } catch (IOException e){
             System.out.println("Client " + client.getInetAddress() + " connection drop");
+            Server.removeClientHandler(this);
         }
 
         try {
@@ -75,6 +79,15 @@ public class ClientHandler extends Thread {
         out.println(toSend);
     }
 
+    public void startLogin(){
+        ServerMessage login = new ServerLoginMessage();
+        this.sendJson(login);
+    }
+    public void pingClient(){
+        ServerMessage ping = new ServerPing();
+        this.sendJson(ping);
+    }
+
     private TurnManager getTurnManager(){
         return this.turnManager;
     }
@@ -91,5 +104,9 @@ public class ClientHandler extends Thread {
         this.turnManager = turnManager;
     }
 
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
 
 }

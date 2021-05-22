@@ -25,7 +25,6 @@ public class Server {
                 System.out.println("Assigning a new thread to the host: " + clientSocket);
                 System.out.println("-------------");
                 ClientHandler client  = new ClientHandler(clientSocket);
-                clientHandlers.add(client);
                 client.start();
             } catch(IOException e){
                 System.out.println("Connection dropped");
@@ -56,6 +55,33 @@ public class Server {
         SinglePlayerGameHandler gameHandler = new SinglePlayerGameHandler(clientHandler);
         gameHandler.start();
     }
+
+    public static synchronized void add(ClientHandler clientHandler){
+        clientHandlers.add(clientHandler);
+        printCurrentPlayers();
+    }
+
+    public static synchronized void printCurrentPlayers(){
+        System.out.println("Players:");
+        for (ClientHandler clientHandler: clientHandlers){
+            System.out.println(clientHandler.getNickname());
+        }
+        System.out.println("");
+        System.out.println("--------");
+    }
+
+    public static synchronized boolean nicknameAlreadyExist(String nickname){
+        for (ClientHandler clientHandler : clientHandlers){
+            if (nickname.equalsIgnoreCase(clientHandler.getNickname())) return true;
+        }
+        return false;
+    }
+
+    public static synchronized void removeClientHandler (ClientHandler clientHandler){
+        clientHandlers.remove(clientHandler);
+        System.out.println("Removed " + clientHandler.getNickname());
+    }
+
 
 
 }

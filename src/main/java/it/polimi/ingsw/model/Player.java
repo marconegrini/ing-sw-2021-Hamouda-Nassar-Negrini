@@ -20,8 +20,6 @@ import java.util.Set;
 
 public abstract class Player {
 
-    protected Integer userId;
-
     protected String nickname;
 
     protected DataOutputStream toClient;
@@ -54,10 +52,6 @@ public abstract class Player {
 
     public DataOutputStream getToClient() {
         return this.toClient;
-    }
-
-    public Integer getUserId(){
-        return this.userId;
     }
 
     public String getNickname(){

@@ -18,7 +18,7 @@ public class MultiPlayer extends Player {
 
     //Added only for testing
     public MultiPlayer() {
-        this.userId = null;
+        //this.userId = null;
         this.nickname = null;
         this.toClient = null;
         this.fromClient = null;
