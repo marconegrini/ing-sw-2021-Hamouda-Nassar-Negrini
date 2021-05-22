@@ -35,7 +35,7 @@ public class ServerMessageFactory {
        JsonElement json = gson.fromJson(receivedMessage, JsonElement.class);
        JsonObject messageObject = json.getAsJsonObject();
        String messageTypeString = messageObject.get("type").getAsString();
-       MessageType messageType = MessageType.getMessageType(messageTypeString);
+       ServerMessageType messageType = ServerMessageType.getMessageType(messageTypeString);
 
             //verifies the type of the sent message to instantiate the correct message.
             switch (messageType) {
@@ -49,6 +49,8 @@ public class ServerMessageFactory {
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ServerPing.class);
                     break;
+                case PARTICIPANTS:
+                    returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
             }
 
         return returnMessage;
