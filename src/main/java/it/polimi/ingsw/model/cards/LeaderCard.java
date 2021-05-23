@@ -81,7 +81,7 @@ public abstract class LeaderCard extends Card {
     }
 
 
-    public abstract HashMap<Resource, Integer> getLeaderCardPower() throws EmptySlotException;
+    public abstract HashMap<Resource, Integer> getLeaderCardPower();
 
     public abstract String toString();
 

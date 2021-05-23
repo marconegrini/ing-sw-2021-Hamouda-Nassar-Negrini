@@ -84,12 +84,7 @@ public class TurnManager {
                 case WHITE:
                     if(player.isLeaderCardActivated(CardType.MARBLE)){
                         HashMap<Resource, Integer> resourcesFromLeaderCard = null;
-                        try {
-                            resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
-                        } catch (EmptySlotException e) {
-                            e.printStackTrace();
-                            System.exit(-2);
-                        }
+                        resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
                         Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
                         for(Resource resource : resourcesFromHashMap){
                             for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
@@ -158,12 +153,7 @@ public class TurnManager {
 
         if(player.isLeaderCardActivated(CardType.DISCOUNT)){
             HashMap<Resource, Integer> resourcesFromLeaderCard = null;
-            try {
-                resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
-            } catch (EmptySlotException e) {
-                e.printStackTrace();
-                System.exit(-2);
-            }
+            resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
             Set<Resource> discountedResource = resourcesFromLeaderCard.keySet();
             for(Resource resource : discountedResource){
                 if(devCardCost.contains(resource))
@@ -297,12 +287,7 @@ public class TurnManager {
     public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource){
         if(player.isLeaderCardActivated(CardType.PRODUCTION)){
             HashMap<Resource, Integer> prodInCost = null;
-            try {
-                prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
-            } catch (EmptySlotException e) {
-                e.printStackTrace();
-                System.exit(-2);
-            }
+            prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
             List<Resource> pic = new ArrayList();
             for(Resource r : prodInCost.keySet()){
                 for(int i = 0; i < prodInCost.get(r); i++){

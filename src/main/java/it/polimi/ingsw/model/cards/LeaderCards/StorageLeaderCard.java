@@ -172,15 +172,19 @@ public class StorageLeaderCard extends LeaderCard {
      * @throws EmptySlotException when all the slots are empty
      */
     @Override
-    public HashMap<Resource, Integer> getLeaderCardPower() throws EmptySlotException {
+    public HashMap<Resource, Integer> getLeaderCardPower() {
         int presentResources = (int) storage.stream().filter(Optional::isPresent).count();
+        HashMap<Resource, Integer> tempHash = new HashMap<>();
         if (presentResources > 0) {
-            HashMap<Resource, Integer> tempHash = new HashMap<>();
             tempHash.put(storage.stream().findAny().get().get(), presentResources);
-            return tempHash;
         } else {
-            throw new EmptySlotException();
+            try {
+                throw new EmptySlotException();
+            } catch (EmptySlotException e) {
+                e.printStackTrace();
+            }
         }
+        return tempHash;
     }
 
     public int getOccupiedSlots() {
