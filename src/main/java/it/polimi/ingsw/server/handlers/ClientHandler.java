@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
         //pingClient();
         startLogin();
         try{
-            processServerMessages();
+            processClientMessages();
         } catch (IOException e){
             System.out.println("Client " + client.getInetAddress() + " connection drop");
             Server.removeClientHandler(this);
@@ -63,7 +63,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void processServerMessages() throws IOException {
+    private void processClientMessages() throws IOException {
         ClientMessageFactory factory = new ClientMessageFactory();
         boolean stop = false;
         while (!stop) {

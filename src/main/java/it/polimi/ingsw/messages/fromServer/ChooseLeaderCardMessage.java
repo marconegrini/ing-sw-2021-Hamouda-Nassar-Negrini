@@ -8,9 +8,10 @@ import java.util.List;
 public class ChooseLeaderCardMessage extends ServerMessage{
 
     List<LeaderCard> leaderCards;
-    public ChooseLeaderCardMessage() {
-        super(ServerMessageType.CHOOSELEADERCARDS);
 
+    public ChooseLeaderCardMessage(List<LeaderCard> leaderCards) {
+        super(ServerMessageType.CHOOSELEADERCARDS);
+        this.leaderCards = leaderCards;
     }
 
     @Override

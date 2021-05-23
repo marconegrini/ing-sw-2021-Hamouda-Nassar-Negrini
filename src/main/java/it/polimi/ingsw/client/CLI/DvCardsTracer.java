@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CLI;
+package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.enumerations;
 
-import it.polimi.ingsw.CLI.ColorEnum;
-
 public enum ASCII_DV_Cards {
 
     GREEN("\u001B[32m" + "⛊" + "\u001B[0m"),
