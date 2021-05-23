@@ -22,24 +22,24 @@ public class ClientMessageFactory {
 
     public ClientMessage returnMessage(String receivedMessage) {
 
-        JsonElement json = gson.fromJson(receivedMessage, JsonElement.class);
-        JsonObject messageObject = json.getAsJsonObject();
-        String messageTypeString = messageObject.get("type").getAsString();
-        ClientMessageType messageType = ClientMessageType.getMessageType(messageTypeString);
+            JsonElement json = gson.fromJson(receivedMessage, JsonElement.class);
+            JsonObject messageObject = json.getAsJsonObject();
+            String messageTypeString = messageObject.get("type").getAsString();
+            ClientMessageType messageType = ClientMessageType.getMessageType(messageTypeString);
 
-        //verifies the type of the sent message to instantiate the correct message.
-        switch (messageType) {
+            //verifies the type of the sent message to instantiate the correct message.
+            switch (messageType) {
 
-            case LOGIN:
-                returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
-                break;
-            case BUYDEVELOPMENTCARD:
-                returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
-                break;
-            case PING:
-                returnMessage = gson.fromJson(receivedMessage, ClientPing.class);
-                break;
-        }
+                case LOGIN:
+                    returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
+                    break;
+                case BUYDEVELOPMENTCARD:
+                    returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
+                    break;
+                case PING:
+                    returnMessage = gson.fromJson(receivedMessage, ClientPing.class);
+                    break;
+            }
 
         return returnMessage;
     }

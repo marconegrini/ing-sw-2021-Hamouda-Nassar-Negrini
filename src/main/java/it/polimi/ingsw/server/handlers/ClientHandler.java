@@ -12,6 +12,7 @@ import it.polimi.ingsw.server.controller.TurnManager;
 import java.io.*;
 import java.net.Socket;
 import java.nio.CharBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler extends Thread {
 
@@ -24,6 +25,8 @@ public class ClientHandler extends Thread {
     private Player player;
     private TurnManager turnManager;
     private String nickname;
+    private AtomicBoolean shouldStop = new AtomicBoolean(false);
+
 
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
@@ -62,14 +65,19 @@ public class ClientHandler extends Thread {
 
     private void processServerMessages() throws IOException {
         ClientMessageFactory factory = new ClientMessageFactory();
-        while (true) {
+        boolean stop = false;
+        while (!stop) {
             try {
-                String jsonMessage = reader.readLine();
-                ClientMessage message = factory.returnMessage(jsonMessage);
-                message.serverProcess(this);
+                    String jsonMessage = reader.readLine();
+                    if(jsonMessage != null) {
+                        ClientMessage message = factory.returnMessage(jsonMessage);
+                        message.serverProcess(this);
+                    }
             } catch (MalformedJsonException e) {
                 System.out.println("Invalid json object from client");
             }
+            if (shouldStop.get())
+                stop = true;
         }
     }
 
@@ -83,6 +91,14 @@ public class ClientHandler extends Thread {
         ServerMessage login = new ServerLoginMessage();
         this.sendJson(login);
     }
+
+    public void setShouldStop(){
+        shouldStop.set(true);
+        try {
+            client.shutdownInput();
+        } catch (IOException e) {}
+    }
+
     public void pingClient(){
         ServerMessage ping = new ServerPing();
         this.sendJson(ping);
@@ -100,10 +116,13 @@ public class ClientHandler extends Thread {
         this.player = player;
     }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+
     public void setTurnManager(TurnManager turnManager){
         this.turnManager = turnManager;
     }
-
 
     public void setNickname(String nickname){
         this.nickname = nickname;

@@ -33,17 +33,17 @@ public class Server {
         }
     }
 
-    public void checkStart(){
+    public synchronized void checkStart(){
         if(clientHandlers.size() == 4){
             //start the game
         }
     }
 
-    public static Integer getParticipants(){
+    public static Integer getPlayersNumber(){
         return clientHandlers.size();
     }
 
-    public static void startMultiplayerGame(){
+    public static synchronized void startMultiplayerGame(){
             List<ClientHandler> handlers = new ArrayList<>();
             handlers.addAll(clientHandlers);
             MultiPlayerGameHandler gameHandler = new MultiPlayerGameHandler(handlers);
@@ -80,6 +80,10 @@ public class Server {
     public static synchronized void removeClientHandler (ClientHandler clientHandler){
         clientHandlers.remove(clientHandler);
         System.out.println("Removed " + clientHandler.getNickname());
+    }
+
+    public static synchronized void clearParticipants(){
+        clientHandlers.clear();
     }
 
 

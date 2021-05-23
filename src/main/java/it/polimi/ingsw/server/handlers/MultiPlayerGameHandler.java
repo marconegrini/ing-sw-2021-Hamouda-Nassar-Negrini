@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.handlers;
 
+import it.polimi.ingsw.messages.fromServer.EndMessage;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.server.controller.TurnManager;
 
 import java.util.List;
@@ -22,8 +24,7 @@ public class MultiPlayerGameHandler extends Thread {
             ch.setTurnManager(turnManager);
             try {
                 game.addPlayer(player);
-            } catch (MaxPlayersException e) {
-            }
+            } catch (MaxPlayersException e) {}
         }
         turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         turnManager.setMultiplayer(true);
@@ -31,5 +32,16 @@ public class MultiPlayerGameHandler extends Thread {
     }
 
     @Override
-    public void run() {}
+    public void run() {
+        System.out.println("Multiplayer game started");
+        for(ClientHandler ch : clientHandlers){
+            System.out.println("\nPlayer " + ch.getNickname());
+            MultiPlayer player = (MultiPlayer) ch.getPlayer();
+            player.printPlayer();
+        }
+        for(ClientHandler ch : clientHandlers)
+            ch.sendJson(new EndMessage());
+    }
+
+
 }

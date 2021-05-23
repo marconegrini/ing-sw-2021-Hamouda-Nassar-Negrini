@@ -8,7 +8,9 @@ public enum ServerMessageType {
     PING,
     LOGIN,
     LOGIN_ERROR,
-    PARTICIPANTS;
+    PARTICIPANTS,
+    CHOOSELEADERCARDS,
+    END;
 
     public static ServerMessageType getMessageType(String value) {
         return Enum.valueOf(ServerMessageType.class, value.toUpperCase());

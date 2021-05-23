@@ -65,11 +65,13 @@ public class ServerHandler implements Runnable{
             while(!stop) {
                 System.out.println("Waiting for json message...");
                 try {
-                    String jsonMessage = reader.readLine();
-                    //System.out.println(jsonMessage);
-                    ServerMessage message = factory.returnMessage(jsonMessage);
-                    //System.out.println(message.toString());
-                    message.clientProcess(this);
+                        String jsonMessage = reader.readLine();
+                        System.out.println(jsonMessage);
+                        if(jsonMessage != null) {
+                            ServerMessage message = factory.returnMessage(jsonMessage);
+                            System.out.println(message.toString());
+                            message.clientProcess(this);
+                        }
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {
@@ -80,10 +82,13 @@ public class ServerHandler implements Runnable{
                         throw e;
                     }
                 }
+                if (shouldStop.get())
+                    stop = true;
             }
         } catch (MalformedJsonException e){
             System.out.println("Invalid json object from server");
         }
+        System.out.println("Game ended");
     }
 
     public void sendJson(ClientMessage message){
@@ -103,7 +108,6 @@ public class ServerHandler implements Runnable{
         if(isCli){
             cli.updateMessage(message);
         } else {
-
         }
     }
 

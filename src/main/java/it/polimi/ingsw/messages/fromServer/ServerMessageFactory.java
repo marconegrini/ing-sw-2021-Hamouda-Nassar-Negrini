@@ -58,6 +58,11 @@ public class ServerMessageFactory {
                 case PARTICIPANTS:
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
                     break;
+                case CHOOSELEADERCARDS:
+                    returnMessage = gson.fromJson(receivedMessage, ChooseLeaderCardMessage.class);
+                    break;
+                case END:
+                    returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
             }
 
         return returnMessage;

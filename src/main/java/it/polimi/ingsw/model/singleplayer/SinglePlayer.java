@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.singleplayer;
 
 import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
@@ -26,6 +27,7 @@ public class SinglePlayer extends Player {
         this.nickname = nickname;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = true;
+        this.personalBoard = new PersonalBoard();
         lorenzoCardsDeck = new Stack();
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2GREENDVCARDS));
         lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2YELLOWDVCARDS));
@@ -124,11 +126,9 @@ public class SinglePlayer extends Player {
 
     public void printPlayer(){
         System.out.println("calamaio: " + this.hasCalamaio);
-        System.out.println("leader cards: " + this.leaderCards.toString());
+        //System.out.println("leader cards: " + this.leaderCards.toString());
         System.out.println("faithPath: " + this.userFaithPath);
         System.out.println("personalBoard: " + this.personalBoard);
-        System.out.println("dis: " + this.fromClient);
-        System.out.println("dos: " + this.toClient);
         System.out.println("Lorenzo Cards deck: " + this.lorenzoCardsDeck);
         System.out.println("Croce nera Pos: " + croceNera);
     }
