@@ -32,6 +32,10 @@ public class MultiPlayerGameInstance extends GameInstance {
         return this.players;
     }
 
+    public Player getPlayer(Integer playerIndex){
+        return players.get(playerIndex);
+    }
+
     public void printGamePlayers(){
         for(MultiPlayer player : players){
             //System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
