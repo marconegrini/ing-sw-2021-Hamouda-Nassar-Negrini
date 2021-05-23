@@ -36,7 +36,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
      *                                 * An important supposition: FOR ALL THE LEADER CARDS THE ACTIVATION COST CAN'T BE TWO DV CARDS WITH THE SAME COLOUR!!
      * @param productionIn             the type and number of resources that are necessary to activate the card and produce output.
      * @param outProductionFaithPoints number of faith points out of the production (in output)
-     * @param outProductionResourceNum number of resources in output, the controller or the class that manage the production will
+     * @param outProductionResourceNum number of resources in output, the controller or the class that manages the production will
      *                                 use this number to know how many resources should the user choose.
      */
     public ProdPowerLeaderCard(
@@ -78,7 +78,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         //TODO call the verification method from the coffer&Warehouse and if true return the resources..
         // TODO give the player the possibility to choose one (or more) Resource as a given output as well as the faithPoint
 
-        Integer faithPoints = faithPointsNum();
+        Integer faithPoints = getOutProductionFaithPoints();
         HashMap<Resource, Integer> tempHash = new HashMap<>();
         tempHash.put(Resource.FAITH, faithPoints);
 
@@ -86,8 +86,12 @@ public class ProdPowerLeaderCard extends LeaderCard {
     }
 
 
-    public Integer faithPointsNum() {
+    public Integer getOutProductionFaithPoints() {
         return outProductionFaithPoints;
+    }
+
+    public int getOutProductionResourceNum() {
+        return outProductionResourceNum;
     }
 
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {

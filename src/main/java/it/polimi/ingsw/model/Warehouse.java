@@ -122,7 +122,7 @@ public class Warehouse implements Deposit{
         Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);
         Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);
 
-        if(this.checkAvailability(resourcesToTake)) {
+    if(this.checkAvailability(resourcesToTake)) {
 
             for(Integer storage : warehouse.keySet()){
 

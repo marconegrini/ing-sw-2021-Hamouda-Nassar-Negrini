@@ -191,7 +191,7 @@ public class TurnManager {
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as Message Object
      */
-    public Message activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource) {
+    public Message activateProduction (Player player, List<Integer> slots, Resource leaderResource) {
 
         if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
@@ -252,7 +252,7 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
+    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, Resource leaderResource){
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
@@ -282,7 +282,7 @@ public class TurnManager {
      *      * activated, inserting the selected leaderResource inside warehouse, incrementing user's faith path and updating
      *      * other users' faith paths. Else, it returns false.
      */
-    public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource){
+    public boolean activateLeaderCardProduction(Player player, Resource leaderResource){
         if(player.isLeaderCardActivated(CardType.PRODUCTION)){
             HashMap<Resource, Integer> prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
             List<Resource> pic = new ArrayList();
@@ -304,7 +304,7 @@ public class TurnManager {
                 player.pullWarehouseResources(fromWarehouse);
                 player.pullCofferResources(fromCoffer);
                 List<Resource> clientChoice = new ArrayList<>();
-                clientChoice.addAll(leaderResource);
+                clientChoice.add(leaderResource);
                 //inserts in coffer chosen resource
                 player.putCofferResources(clientChoice);
                 //increments user faith position and updates other user's faith paths

@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
 import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
+import it.polimi.ingsw.model.exceptions.WrongCardTypeException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +55,7 @@ public abstract class LeaderCard extends Card {
 
 
     /* method that makes the cast based on the type(between: DISCOUNT, PRODUCTION, MARBLE) of the card and returns its cost */
-    public List<LeaderCardCost> getCardActivationCostColours() {
+    public List<LeaderCardCost> getCardActivationCostColours() throws WrongCardTypeException {
         if ((List.of(DISCOUNT, PRODUCTION, MARBLE).contains(this.getCardType()))) {
             if (DISCOUNT.equals(this.getCardType())) {
                 DiscountLeaderCard discountLeaderCard = (DiscountLeaderCard) this;
@@ -66,20 +68,20 @@ public abstract class LeaderCard extends Card {
                 return whiteMarbleLeaderCard.getActivationCost();
             }
         }
-        return null;
+        throw new WrongCardTypeException();
     }
 
     /* method that makes the cast based on the type( STORAGE ) of the card and returns its cost */
-    public HashMap<Resource, Integer> getStorageCardActivationCostResources() {
+    public HashMap<Resource, Integer> getStorageCardActivationCostResources() throws WrongCardTypeException {
         if (STORAGE.equals(this.getCardType())) {
             StorageLeaderCard storageLeaderCard = (StorageLeaderCard) this;
             return storageLeaderCard.getActivationCost();
         }
-        return null;
+        throw new WrongCardTypeException();
     }
 
 
-    public abstract HashMap<Resource, Integer> getLeaderCardPower();
+    public abstract HashMap<Resource, Integer> getLeaderCardPower() throws EmptySlotException;
 
     public abstract String toString();
 

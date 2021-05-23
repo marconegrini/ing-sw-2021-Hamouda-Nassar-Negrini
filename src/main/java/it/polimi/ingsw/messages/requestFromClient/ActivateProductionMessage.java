@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.model.Player;
 
@@ -25,7 +26,13 @@ public class ActivateProductionMessage extends Message {
     @Override
     public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
-        Message outcome = turnManager.activateProduction(player, this.slots,this.leaderResource);
+        Message outcome = null;
+        try {
+            outcome = turnManager.activateProduction(player, this.slots,this.leaderResource);
+        } catch (EmptySlotException e) {
+            e.printStackTrace();
+            System.exit(-2);
+        }
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);
