@@ -15,20 +15,31 @@ public class PingMessage extends Message {
 
     @Override
     public String toString(){
-        return "PingMessage{" +
-                "nickname = " + getNickname() +
-                '}';
+        return ("PingMessage{ nickname = " + getNickname() +
+                '}');
     }
 
     @Override
     public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         String jsonPing = gson.toJson(this);
-        try{
-            player.getToClient().writeUTF(jsonPing);
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                    try {
+                        synchronized (this) {
+                            this.wait(5000);
+                            player.getToClient().writeUTF(jsonPing);
+                            System.out.println("sent ping to client " + player.getNickname());
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+            }
+        };
+        Thread t = new Thread(r);
+        t.start();
+
         return true;
     }
 
@@ -36,9 +47,10 @@ public class PingMessage extends Message {
     public boolean clientProcess(DataOutputStream dos){
         Gson gson = new Gson();
         String jsonPing = gson.toJson(this);
-        try{
+        try {
             dos.writeUTF(jsonPing);
-        } catch(IOException e){
+            System.out.println("sent ping to server");
+        } catch (IOException e){
             e.printStackTrace();
         }
         return true;

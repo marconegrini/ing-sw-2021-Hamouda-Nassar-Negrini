@@ -9,11 +9,8 @@ import java.io.DataOutputStream;
 
 public class MultiPlayer extends Player {
 
-    public MultiPlayer(String nickname, Integer userId, DataOutputStream toClient, DataInputStream fromClient){
-        this.userId = userId;
+    public MultiPlayer(String nickname){
         this.nickname = nickname;
-        this.toClient = toClient;
-        this.fromClient = fromClient;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = false;
         this.personalBoard = new PersonalBoard();
@@ -21,7 +18,7 @@ public class MultiPlayer extends Player {
 
     //Added only for testing
     public MultiPlayer() {
-        this.userId = null;
+        //this.userId = null;
         this.nickname = null;
         this.toClient = null;
         this.fromClient = null;

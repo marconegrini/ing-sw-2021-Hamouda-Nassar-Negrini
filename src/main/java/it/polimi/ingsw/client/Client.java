@@ -5,41 +5,48 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageFactory;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Client {
+public class Client implements Runnable{
+
+    private ServerHandler serverHandler;
+    private boolean shallTerminate;
 
     public static void main(String[] args) throws IOException {
 
-        Socket socket = new Socket("192.168.43.125", 5056);
-        ClientSocket clientSocket = new ClientSocket(socket);
+        Client client = new Client();
+        client.run();
+    }
 
-        GameConnection gameConnection = new GameConnection();
+    @Override
+    public void run(){
+        Socket server;
+        try {
+            server = new Socket("127.0.0.1", 5056);
+        } catch (IOException e){
+            System.out.println("Server unreachable");
+            return;
+        }
+        serverHandler = new ServerHandler(server, this);
+        Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+        serverHandlerThread.start();
 
-        boolean isStarted = gameConnection.executeLobby(clientSocket.getSocket(), clientSocket.getScanner(),
-                clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer());
+        //serverHandler.stop();
+    }
 
-        Queue<Message> clientBuffer;
-
-        clientBuffer = new ConcurrentLinkedQueue<>();
-
-        if (isStarted) {
-
-            if (isStarted) {
-                clientBuffer = new ConcurrentLinkedQueue<>();
-                GameSetUp gameSetUp = new GameSetUp();
-                gameSetUp.initialSetUp(clientSocket.getSocket(), clientSocket.getScanner(),
-                        clientSocket.getFromServer(), clientSocket.getToServer(), clientSocket.getBuffer(), clientBuffer);
-            }
-
-
-            clientSocket.closeConnection();
+    public synchronized void terminate(){
+        //shallTerminate is the signal to the view handler loop that it should exit
+        if(!shallTerminate){
+            shallTerminate = true;
         }
     }
+
 }
 
 

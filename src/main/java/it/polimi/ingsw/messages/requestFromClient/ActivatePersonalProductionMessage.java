@@ -9,14 +9,15 @@ import it.polimi.ingsw.server.controller.TurnManager;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class ActivatePersonalProductionMessage extends Message {
     Resource prodIn1;
     Resource prodIn2;
     Resource prodOut;
-    Resource leaderResource;
+    List<Resource> leaderResource;
 
-    public ActivatePersonalProductionMessage(String nickname, Resource prodIn1, Resource prodIn2, Resource prodOut, Resource leaderResource){
+    public ActivatePersonalProductionMessage(String nickname, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
         super(nickname, MessageType.ACTIVATEPERSONALPRODUCTION);
         this.prodIn1 = prodIn1;
         this.prodIn2 = prodIn2;

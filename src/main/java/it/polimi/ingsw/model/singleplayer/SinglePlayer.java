@@ -22,11 +22,8 @@ public class SinglePlayer extends Player {
 
     //TODO single player userFaithPath
 
-    public SinglePlayer(String nickname, Integer userId, DataOutputStream toServer, DataInputStream fromServer){
+    public SinglePlayer(String nickname){
         this.nickname = nickname;
-        this.userId = userId;
-        this.toClient = toServer;
-        this.fromClient = fromServer;
         this.userFaithPath = new FaithPath();
         this.hasCalamaio = true;
         lorenzoCardsDeck = new Stack();

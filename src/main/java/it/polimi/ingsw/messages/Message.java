@@ -16,10 +16,9 @@ public abstract class Message {
     }
 
     public String toString() {
-        return "Message{" +
-                "nickname=" + nickname +
-                ", messageType=" + messageType +
-                '}';
+        return ("Message{ nickname = " + nickname +
+                ", messageType = " + messageType +
+                '}');
     }
 
     public MessageType getMessageType() {

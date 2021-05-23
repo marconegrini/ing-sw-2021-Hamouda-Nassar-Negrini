@@ -1,21 +1,25 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.server.controller.SinglePlayerManager;
+import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.server.controller.TurnManager;
 
 public class SinglePlayerGameHandler extends Thread{
 
-    private final SinglePlayerGameInstance gameInstance;
-    private final SinglePlayerManager manager;
+    private ClientHandler clientHandler;
+    private TurnManager turnManager;
+    private final SinglePlayerGameInstance game;
 
-    public SinglePlayerGameHandler(SinglePlayerGameInstance gameInstance, SinglePlayerManager manager){
-        this.gameInstance = gameInstance;
-        this.manager = manager;
+    public SinglePlayerGameHandler(ClientHandler clientHandler){
+        this.clientHandler = clientHandler;
+        game = new SinglePlayerGameInstance();
+        SinglePlayer player = new SinglePlayer(clientHandler.getNickname());
+        game.addPlayer(player);
+        clientHandler.setPlayer(player);
+        turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
+        turnManager.setMultiplayer(false);
     }
 
-    public void run(){
-        System.out.println("\n\nGameInstance: " + gameInstance);
-        manager.manageTurn();
-        gameInstance.printGamePlayer();
-    }
+    @Override
+    public void run(){}
 }

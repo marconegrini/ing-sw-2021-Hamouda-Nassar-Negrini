@@ -1,22 +1,35 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.server.controller.MultiPlayerManager;
+import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.server.controller.TurnManager;
 
-public class MultiPlayerGameHandler extends Thread{
+import java.util.List;
 
-    private final MultiPlayerGameInstance gameInstance;
-    private final MultiPlayerManager manager;
+public class MultiPlayerGameHandler extends Thread {
 
-    public MultiPlayerGameHandler(MultiPlayerGameInstance gameInstance, MultiPlayerManager manager){
-        this.gameInstance = gameInstance;
-        this.manager = manager;
+    private List<ClientHandler> clientHandlers;
+    private TurnManager turnManager;
+    private final MultiPlayerGameInstance game;
+
+    public MultiPlayerGameHandler(List<ClientHandler> clientHandlers) {
+        this.clientHandlers = clientHandlers;
+        game = new MultiPlayerGameInstance();
+        for (ClientHandler ch : clientHandlers) {
+            MultiPlayer player = new MultiPlayer(ch.getNickname());
+            ch.setPlayer(player);
+            ch.setTurnManager(turnManager);
+            try {
+                game.addPlayer(player);
+            } catch (MaxPlayersException e) {
+            }
+        }
+        turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
+        turnManager.setMultiplayer(true);
+        turnManager.setPlayers(game.getPlayer());
     }
 
-    public void run(){
-        manager.manageTurn();
-        System.out.println("\n\nGameInstance: " + gameInstance);
-        System.out.println("Players in the game: " + gameInstance.getPlayer().size());
-        gameInstance.printGamePlayers();
-    }
+    @Override
+    public void run() {}
 }
