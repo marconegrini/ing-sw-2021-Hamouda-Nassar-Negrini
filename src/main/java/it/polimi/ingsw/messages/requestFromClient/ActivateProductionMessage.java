@@ -27,12 +27,7 @@ public class ActivateProductionMessage extends Message {
     public boolean serverProcess(Player player, TurnManager turnManager) {
         Gson gson = new Gson();
         Message outcome = null;
-        try {
-            outcome = turnManager.activateProduction(player, this.slots,this.leaderResource);
-        } catch (EmptySlotException e) {
-            e.printStackTrace();
-            System.exit(-2);
-        }
+        outcome = turnManager.activateProduction(player, this.slots, this.leaderResource);
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);

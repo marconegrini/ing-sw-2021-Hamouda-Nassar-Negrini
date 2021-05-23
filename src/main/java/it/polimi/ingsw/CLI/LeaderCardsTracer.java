@@ -197,6 +197,8 @@ public class LeaderCardsTracer {
     }
 
 
+
+    //for testing
     public static void main(String[] args) throws EmptySlotException, StorageOutOfBoundsException, IllegalInsertionException {
         LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();

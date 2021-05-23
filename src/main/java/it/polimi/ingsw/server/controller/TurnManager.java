@@ -83,7 +83,13 @@ public class TurnManager {
                     break;
                 case WHITE:
                     if(player.isLeaderCardActivated(CardType.MARBLE)){
-                        HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
+                        HashMap<Resource, Integer> resourcesFromLeaderCard = null;
+                        try {
+                            resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
+                        } catch (EmptySlotException e) {
+                            e.printStackTrace();
+                            System.exit(-2);
+                        }
                         Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
                         for(Resource resource : resourcesFromHashMap){
                             for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
@@ -151,7 +157,13 @@ public class TurnManager {
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
 
         if(player.isLeaderCardActivated(CardType.DISCOUNT)){
-            HashMap<Resource, Integer> resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
+            HashMap<Resource, Integer> resourcesFromLeaderCard = null;
+            try {
+                resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
+            } catch (EmptySlotException e) {
+                e.printStackTrace();
+                System.exit(-2);
+            }
             Set<Resource> discountedResource = resourcesFromLeaderCard.keySet();
             for(Resource resource : discountedResource){
                 if(devCardCost.contains(resource))
@@ -191,7 +203,7 @@ public class TurnManager {
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as Message Object
      */
-    public Message activateProduction (Player player, List<Integer> slots, Resource leaderResource) {
+    public Message activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) {
 
         if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
@@ -252,7 +264,7 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, Resource leaderResource){
+    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
@@ -282,9 +294,15 @@ public class TurnManager {
      *      * activated, inserting the selected leaderResource inside warehouse, incrementing user's faith path and updating
      *      * other users' faith paths. Else, it returns false.
      */
-    public boolean activateLeaderCardProduction(Player player, Resource leaderResource){
+    public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource){
         if(player.isLeaderCardActivated(CardType.PRODUCTION)){
-            HashMap<Resource, Integer> prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
+            HashMap<Resource, Integer> prodInCost = null;
+            try {
+                prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
+            } catch (EmptySlotException e) {
+                e.printStackTrace();
+                System.exit(-2);
+            }
             List<Resource> pic = new ArrayList();
             for(Resource r : prodInCost.keySet()){
                 for(int i = 0; i < prodInCost.get(r); i++){
@@ -304,7 +322,7 @@ public class TurnManager {
                 player.pullWarehouseResources(fromWarehouse);
                 player.pullCofferResources(fromCoffer);
                 List<Resource> clientChoice = new ArrayList<>();
-                clientChoice.add(leaderResource);
+                clientChoice.addAll(leaderResource);
                 //inserts in coffer chosen resource
                 player.putCofferResources(clientChoice);
                 //increments user faith position and updates other user's faith paths
