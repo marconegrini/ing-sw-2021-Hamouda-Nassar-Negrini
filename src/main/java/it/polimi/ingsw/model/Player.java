@@ -272,7 +272,7 @@ public abstract class Player {
      * @param lcType the leader card type
      * @return the resources given or discounted by the leader card power
      */
-    public HashMap<Resource, Integer> getLeaderCardsPower(CardType lcType){
+    public HashMap<Resource, Integer> getLeaderCardsPower(CardType lcType) throws EmptySlotException {
         HashMap<Resource, Integer> resourcesToReturn = new HashMap<>();
         Integer value;
         for(LeaderCard lc : leaderCards) {

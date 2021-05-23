@@ -40,7 +40,8 @@ public class ActivatePersonalProductionMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(DataOutputStream dos){
+    public boolean clientProcess(DataOutputStream getToServer) {
         return false;
     }
+
 }

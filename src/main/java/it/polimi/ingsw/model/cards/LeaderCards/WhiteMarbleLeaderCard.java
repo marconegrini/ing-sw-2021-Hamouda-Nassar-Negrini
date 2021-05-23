@@ -14,26 +14,27 @@ import java.util.List;
 
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
-    private final HashMap <Resource, Integer> productionOut;
+    private final HashMap<Resource, Integer> productionOut;
     //    private final HashMap <Resource, Integer> outProductionResource;
     private final List<LeaderCardCost> activationCost;
 
 
-    public WhiteMarbleLeaderCard(CardType cardType, int vp, List<LeaderCardCost> activationCost, HashMap <Resource, Integer> productionOut) {
+    public WhiteMarbleLeaderCard(CardType cardType, int vp, List<LeaderCardCost> activationCost, HashMap<Resource, Integer> productionOut) {
         this.Vp = vp;
         this.isActivated = false;
         this.activationCost = activationCost;
         this.productionOut = productionOut;
-        this.cardType=cardType;
+        this.cardType = cardType;
         //this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
     }
 
     /**
      * the method is called by the controller only when the player picks up a white marble
      * from the market and decide to use his WhiteMarble LeaderCard to use obtain the resources.
+     *
      * @return returns the resources in output
      */
-    public HashMap <Resource, Integer> useLeaderCard(){
+    public HashMap<Resource, Integer> useLeaderCard() {
         return productionOut;
     }
 
@@ -84,7 +85,7 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
 
     @Override
     public String toString() {
-        return  "\nCard type: " + this.cardType +
+        return "\nCard type: " + this.cardType +
                 "\nVictory points: " + this.Vp +
                 "\nProduction out: " + productionOut.toString() +
                 "\nActivation cost: " + activationCost.toString();

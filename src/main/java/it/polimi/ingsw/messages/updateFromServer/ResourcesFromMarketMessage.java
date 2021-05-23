@@ -41,7 +41,8 @@ public class ResourcesFromMarketMessage extends Message {
     }
 
     @Override
-    public boolean clientProcess(DataOutputStream dos){
+    public boolean clientProcess(DataOutputStream getToServer) {
         return false;
     }
+
 }

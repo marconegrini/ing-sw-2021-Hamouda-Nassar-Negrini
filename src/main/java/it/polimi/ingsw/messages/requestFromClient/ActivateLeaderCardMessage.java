@@ -13,7 +13,7 @@ public class ActivateLeaderCardMessage extends Message {
 
     private Integer indexNumber;
 
-    public ActivateLeaderCardMessage(String nickname, Integer indexNumber){
+    public ActivateLeaderCardMessage(String nickname, Integer indexNumber) {
         super(nickname, MessageType.ACTIVATELEADERCARD);
         this.indexNumber = indexNumber;
     }
@@ -25,15 +25,24 @@ public class ActivateLeaderCardMessage extends Message {
         String messageToSend = gson.toJson(outcome);
         try {
             player.getToClient().writeUTF(messageToSend);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Exception occurred while sending json");
         }
-        if(outcome.getMessageType().equals(MessageType.ERROR)) return false;
+        if (outcome.getMessageType().equals(MessageType.ERROR)) return false;
         return true;
     }
 
     @Override
-    public boolean clientProcess(DataOutputStream dos){
-        return false;
+    public boolean clientProcess(DataOutputStream getToServer) {
+        Gson gson = new Gson();
+        try {
+            getToServer.writeUTF(gson.toJson(this));
+        } catch (IOException e) {
+            System.err.println("Exception occurred while sending json");
+            return false;
+        }
+
+        return true;
     }
+
 }

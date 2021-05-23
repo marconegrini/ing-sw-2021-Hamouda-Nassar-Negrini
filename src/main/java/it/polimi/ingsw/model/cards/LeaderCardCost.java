@@ -5,15 +5,15 @@ import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 
 public class LeaderCardCost {
-private final CardColor color;
-private final Level level;
+    private final CardColor color;
+    private final Level level;
 
-private CardsCompositionMethods cardMethodClass;
+    private CardsCompositionMethods cardMethodClass;
 
-public LeaderCardCost(CardColor color, Level level){
-    this.color=color;
-    this.level=level;
-}
+    public LeaderCardCost(CardColor color, Level level) {
+        this.color = color;
+        this.level = level;
+    }
 
     public CardColor getColor() {
         return color;

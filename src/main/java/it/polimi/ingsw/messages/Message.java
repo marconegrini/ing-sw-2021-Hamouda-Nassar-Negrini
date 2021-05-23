@@ -29,8 +29,18 @@ public abstract class Message {
         return this.nickname;
     }
 
+    /**
+     * A method invoked on server to do what should be done ON SERVER, like (SEND MESSAGE, UPDATE STRUCTURE)
+     * @param player the object player of the player that has sent the message
+     * @param turnManager the turn manager of the game  on the server
+     * @return true if there are no error
+     */
     public abstract boolean serverProcess(Player player, TurnManager turnManager);
 
-    public abstract boolean clientProcess(DataOutputStream dos);
+    /**
+     * A method invoked on server to do what should be done ON CLIENT, like (SEND MESSAGE, UPDATE STRUCTURE)
+     * @return true if the are no errors
+     */
+    public abstract boolean clientProcess(DataOutputStream getToServer);
 
 }

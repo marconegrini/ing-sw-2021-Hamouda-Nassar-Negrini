@@ -1,7 +1,7 @@
 package it.polimi.ingsw.CLI;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.ASCII_Shapes;
+import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
@@ -10,26 +10,21 @@ import java.util.ArrayList;
 public class DvCardsTracer {
     /**
      * Method that takes any dvCards ArrayList and gives bake a list of Strings to be printed consequently as every string is a dv Card for the CLI
+     *
      * @param dvCards ArrayList of development cards
      * @return List of strings, every string (line) represents a dvCard for the CLI
      */
     public ArrayList<String> printDVCard(ArrayList<DevelopmentCard> dvCards) {
 
+
         ArrayList<String> results = new ArrayList<String>();
         String cardLetter;
         char cardChar;
         cardChar = '`'; //the char before "a" in ascii code
-        cardLetter = "`";
-        boolean withNumbers=false;
+        boolean withNumbers = false;
         int number = 0;
-        int maxStrCost=0;
-        int maxStrProdIn=0;
-        int maxStrProdOut=0;
 
-//        System.out.println(ASCII_Shapes.COIN);
-//        System.out.println(ASCII_Shapes.SHIELD);
-//        System.out.println(ASCII_Shapes.STONE);
-//        System.out.println(ASCII_Shapes.SERVANT);
+        results.add("\t # Development Cards # \t");
 
         results.add(String.format("%-6s %-8s %-9s %-12s %-20s %-20s %-20s", "CARD", "COLOR", "LEVEL", "V_POINTS", "*_COST_*", "REQUIRES", "GIVES"));
 
@@ -37,31 +32,27 @@ public class DvCardsTracer {
         for (DevelopmentCard dvCard : dvCards) {
 
             ColorEnum colorCard = ColorEnum.getBackgroundEnum(dvCard.getColor().toString());
-            String stringFormat =     "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t"+ "%-9s %-12d" + ColorEnum.RESET ; //+ "\t%-30"+ // %30.30s %20.30s";
+            String stringFormat = "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t" + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
 
             cardChar++;
-            cardLetter=String.valueOf(cardChar);  //convert char to string
+            cardLetter = String.valueOf(cardChar);  //convert char to string
 
             //add a number next to (card letter) and start from 'a' when reach the letter 'z' //...,x,y,z,a1,b1,...
-            if (cardLetter.charAt(0) > 'z')
-            {
-                cardChar='a';
-                withNumbers=true;
+            if (cardLetter.charAt(0) > 'z') {
+                cardChar = 'a';
+                withNumbers = true;
             }
-            if (withNumbers &&  cardChar == 'a' )
-            {
+            if (withNumbers && cardChar == 'a') {
                 number++;
             }
-            if (withNumbers)
-            {
+            if (withNumbers) {
                 cardLetter = String.valueOf(cardChar) + number;
             }
 
 
-
             ArrayList<String> shapes = getShapes(dvCard);
 
-            cardLetter="("+cardLetter+")";
+            cardLetter = "(" + cardLetter + ")";
 
             String tempStr = String.format(stringFormat, cardLetter, dvCard.getColor(), dvCard.getLevel(), dvCard.getVictoryPoints());
 
@@ -99,8 +90,8 @@ public class DvCardsTracer {
             }
 
 
-        //final string that represents a dvCard, add it to the result array
-            tempStr =  tempStr + varDash1 + shapes.get(0)+ varDash2 + shapes.get(1) + varDash3 + shapes.get(2) ;
+            //final string that represents a dvCard, add it to the result array
+            tempStr = tempStr + varDash1 + shapes.get(0) + varDash2 + shapes.get(1) + varDash3 + shapes.get(2);
             results.add(tempStr);
 
         }
@@ -110,49 +101,50 @@ public class DvCardsTracer {
     //    @org.jetbrains.annotations.NotNull
 
     /**
-     * simple method that takes a dvCard as argument, see what is it cost,requirements and what it gives
+     * simple method that takes a dvCard as argument, see what its cost,requirements and what it gives
      * and returns back a list of emojis of every resource.
+     *
      * @param dvCard development card
      * @return an ArrayList of resources of (COST)(REQUIREMENTS)(PRODUCTION) in form of emoji symbols.
-     *
+     * <p>
      * ArrayList.get(0)==cost resources in form of emoji symbols
      * ArrayList.get(1)==requirements resources in form of emoji symbols
      * ArrayList.get(2)==Production resources in form of emoji symbols
      */
 
     private ArrayList<String> getShapes(DevelopmentCard dvCard) {
-        ArrayList<String> strings=new ArrayList<>();
-        String costString="";
-        String productionInString="";
-        String productionOutString="";
+        ArrayList<String> strings = new ArrayList<>();
+        String costString = "";
+        String productionInString = "";
+        String productionOutString = "";
 
 
-        for(Resource resource: dvCard.getCardCost().keySet()) {
+        for (Resource resource : dvCard.getCardCost().keySet()) {
 
             String value = dvCard.getCardCost().get(resource).toString();
 
-            costString += value + ASCII_Shapes.getShape(resource.toString()) + ",";
+            costString += value + ASCII_Resources.getShape(resource.toString()) + ",";
         }
-        costString=costString.substring(0,costString.length()-1); //remove the last ","
-        costString="❰"+costString+"❱";
+        costString = costString.substring(0, costString.length() - 1); //remove the last ","
+        costString = "❰" + costString + "❱";
 
-        for(Resource resource: dvCard.getProductionIn().keySet()) {
+        for (Resource resource : dvCard.getProductionIn().keySet()) {
 
             String value = dvCard.getProductionIn().get(resource).toString();
 
-            productionInString += value + ASCII_Shapes.getShape(resource.toString()) + ",";
+            productionInString += value + ASCII_Resources.getShape(resource.toString()) + ",";
         }
-        productionInString = productionInString.substring(0,productionInString.length()-1); //remove the last ","
-        productionInString="❰"+productionInString+"❱";
+        productionInString = productionInString.substring(0, productionInString.length() - 1); //remove the last ","
+        productionInString = "❰" + productionInString + "❱";
 
-        for(Resource resource: dvCard.getProductionOut().keySet()) {
+        for (Resource resource : dvCard.getProductionOut().keySet()) {
 
             String value = dvCard.getProductionOut().get(resource).toString();
 
-            productionOutString += value + ASCII_Shapes.getShape(resource.toString()) + ",";
+            productionOutString += value + ASCII_Resources.getShape(resource.toString()) + ",";
         }
-        productionOutString=productionOutString.substring(0,productionOutString.length()-1); //remove the last ","
-        productionOutString="❰"+productionOutString+"❱";
+        productionOutString = productionOutString.substring(0, productionOutString.length() - 1); //remove the last ","
+        productionOutString = "❰" + productionOutString + "❱";
 
 
         strings.add(costString);
