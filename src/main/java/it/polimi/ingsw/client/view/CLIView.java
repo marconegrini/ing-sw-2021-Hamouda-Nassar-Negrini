@@ -88,4 +88,15 @@ public class CLIView extends View{
         System.out.println(message);
     }
 
+    @Override
+    public void showLeaderCards(List<LeaderCard> leaderCards){
+        try {
+            ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
+            output.forEach(System.out::println);
+        } catch (EmptySlotException e){
+            System.out.println("Selected invalid slot");
+            System.exit(-2);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ public enum ServerMessageType {
     LOGIN_ERROR,
     PARTICIPANTS,
     CHOOSELEADERCARDS,
+    UPDATELEADERCARDS,
     END;
 
     public static ServerMessageType getMessageType(String value) {

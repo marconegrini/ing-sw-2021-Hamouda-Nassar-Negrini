@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.messages.fromServer.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.fromServer.ErrorMessage;
@@ -378,7 +379,7 @@ public class TurnManager {
         } catch(IndexOutOfBoundsException e){
             return new ErrorMessage("Selected indexes for leader cards are out of bounds");
         }
-        return new OkMessage("Leader cards correctly chose");
+        return new UpdateLeaderCardsMessage(index1, index2);
     }
 
     public synchronized void resetDone(){

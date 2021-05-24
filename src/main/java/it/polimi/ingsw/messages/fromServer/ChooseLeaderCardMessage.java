@@ -17,6 +17,7 @@ public class ChooseLeaderCardMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
+        serverHandler.getLightModel().setLeaderCards(this.leaderCards);
         ClientMessage message = serverHandler.getView().selectLeaderCards(this.leaderCards);
         serverHandler.sendJson(message);
     }

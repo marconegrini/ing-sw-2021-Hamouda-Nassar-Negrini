@@ -67,6 +67,9 @@ public class ServerMessageFactory {
                     List<LeaderCard> leaderCards = factory.create(jsonLeaderCards);
                     returnMessage = new ChooseLeaderCardMessage(leaderCards);
                     break;
+                case UPDATELEADERCARDS:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateLeaderCardsMessage.class);
+                    break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
                     break;

@@ -19,4 +19,7 @@ public class GUIView extends View{
 
     @Override
     public void showMessage(String message) {}
+
+    @Override
+    public void showLeaderCards(List<LeaderCard> leaderCards) {}
 }

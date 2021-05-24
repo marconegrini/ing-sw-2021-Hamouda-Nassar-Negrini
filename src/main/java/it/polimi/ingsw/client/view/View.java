@@ -13,4 +13,6 @@ public abstract class View {
 
     public abstract void showMessage(String message);
 
+    public abstract void showLeaderCards(List<LeaderCard> leaderCards);
+
 }
