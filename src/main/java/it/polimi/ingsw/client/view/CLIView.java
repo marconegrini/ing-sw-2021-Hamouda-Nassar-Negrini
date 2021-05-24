@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
+import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
@@ -53,6 +54,8 @@ public class CLIView extends View{
 
     @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
+        Integer firstIndex = 0;
+        Integer secondIndex = 0;
         System.out.println("Select 2 leader cards within possible ones (indexes from 1-4).");
         try {
             ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
@@ -65,11 +68,11 @@ public class CLIView extends View{
         boolean OK = false;
         while(!OK) {
             System.out.println("Insert first index: ");
-            Integer firstIndex = scanner.nextInt();
+            firstIndex = scanner.nextInt();
             System.out.println("Insert second index: ");
-            Integer secondIndex = scanner.nextInt();
+            secondIndex = scanner.nextInt();
             if (!firstIndex.equals(secondIndex)) {
-                if((1 <= firstIndex && firstIndex <= leaderCards.size()) ||
+                if((1 <= firstIndex && firstIndex <= leaderCards.size()) &&
                         (1 <= secondIndex && secondIndex <= leaderCards.size())){
                     OK = true;
                     firstIndex--;
@@ -77,7 +80,12 @@ public class CLIView extends View{
                 } else System.out.println("One or both typed indexes are not between 1 and 4.");
             } else System.out.println("Indexes are identical.");
         }
-        return null;
+        return new SelectLeaderCardMessage(firstIndex, secondIndex);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        System.out.println(message);
     }
 
 }

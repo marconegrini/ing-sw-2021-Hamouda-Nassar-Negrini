@@ -23,6 +23,9 @@ public class MultiPlayerGameHandler extends Thread {
     public MultiPlayerGameHandler(List<ClientHandler> clientHandlers) {
         this.clientHandlers = clientHandlers;
         game = new MultiPlayerGameInstance();
+        turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
+        turnManager.setMultiplayer(true);
+        turnManager.setPlayers(game.getPlayer());
         for (ClientHandler ch : clientHandlers) {
             MultiPlayer player = new MultiPlayer(ch.getNickname());
             ch.setPlayer(player);
@@ -31,9 +34,6 @@ public class MultiPlayerGameHandler extends Thread {
                 game.addPlayer(player);
             } catch (MaxPlayersException e) {}
         }
-        turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
-        turnManager.setMultiplayer(true);
-        turnManager.setPlayers(game.getPlayer());
     }
 
     @Override
@@ -47,8 +47,12 @@ public class MultiPlayerGameHandler extends Thread {
 
         sendLeaderCards();
 
+        //while(!turnManager.isDone())
+
+        /*
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());
+         */
     }
 
     public void sendLeaderCards(){

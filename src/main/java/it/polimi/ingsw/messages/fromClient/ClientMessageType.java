@@ -3,20 +3,19 @@ package it.polimi.ingsw.messages.fromClient;
 public enum ClientMessageType {
     PING,
     LOGIN,
+
     BUYDEVELOPMENTCARD,
-
     ACTIVATEPRODUCTION,
-    ERRORPRODUCTION,
+    ACTIVATEPERSONALPRODUCTION,
+    PICKRESOURCES,
 
+    SELECTLEADERCARDS,
+    DISCARDLEADERCARD,
     ACTIVATELEADERCARD,
     ERRORLEADERCARD,
 
-    DISCARDLEADERCARD,
-
-    PICKRESOURCES;
-
-
-
+    INSERTRESOURCESINWAREHOUSE,
+    MOVEWAREHOUSERESOURCES;
 
     public static ClientMessageType getMessageType(String value) {
         return Enum.valueOf(ClientMessageType.class, value.toUpperCase());

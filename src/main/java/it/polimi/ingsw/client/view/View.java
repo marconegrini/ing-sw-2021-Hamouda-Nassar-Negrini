@@ -11,4 +11,6 @@ public abstract class View {
 
     public abstract ClientMessage selectLeaderCards(List<LeaderCard> leaderCards);
 
+    public abstract void showMessage(String message);
+
 }

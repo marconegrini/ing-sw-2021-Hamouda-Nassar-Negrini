@@ -16,4 +16,7 @@ public class GUIView extends View{
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
         return null;
     }
+
+    @Override
+    public void showMessage(String message) {}
 }

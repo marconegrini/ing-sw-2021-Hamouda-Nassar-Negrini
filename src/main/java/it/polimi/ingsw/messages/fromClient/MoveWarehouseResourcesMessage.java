@@ -6,25 +6,22 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+public class MoveWarehouseResourcesMessage extends ClientMessage{
 
-public class BuyDevCardMessage extends ClientMessage{
+    private Integer sourceStorage;
+    private Integer destStorage;
 
-    private Integer row;
-    private Integer column;
-    private Integer devCardSlot;
-
-    public BuyDevCardMessage(Integer row, Integer column, Integer devCardSlot ) {
-        super(ClientMessageType.BUYDEVELOPMENTCARD);
-        this.row = row;
-        this.column = column;
-        this.devCardSlot = devCardSlot;
+    public MoveWarehouseResourcesMessage(Integer sourceStorage, Integer destStorage) {
+        super(ClientMessageType.MOVEWAREHOUSERESOURCES);
+        this.sourceStorage = sourceStorage;
+        this.destStorage = destStorage;
     }
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
-        ServerMessage outcome = turnManager.buyDevelopmentCard(clientHandler.getPlayer(), row, column, devCardSlot);
+        ServerMessage outcome = turnManager.moveResourcesInWarehouse(clientHandler.getPlayer(), sourceStorage, destStorage);
         clientHandler.sendJson(outcome);
     }
 }

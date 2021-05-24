@@ -8,8 +8,7 @@ import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.PingMessage;
-import it.polimi.ingsw.messages.requestFromClient.*;
-import it.polimi.ingsw.messages.updateFromServer.OkMessage;
+import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.updateFromServer.ResourcesFromMarketMessage;
 import it.polimi.ingsw.messages.updateFromServer.UpdateLeaderCardMessage;
 import it.polimi.ingsw.messages.updateFromServer.UpdateMarketboardMessage;
@@ -45,7 +44,7 @@ public class ServerMessageFactory {
             switch (messageType) {
 
                 case OK:
-                    returnMessage = gson.fromJson(receivedMessage, (Type) OkMessage.class);
+                    returnMessage = gson.fromJson(receivedMessage, OkMessage.class);
                     break;
                 case ERROR:
                     returnMessage = gson.fromJson(receivedMessage, ErrorMessage.class);
@@ -70,6 +69,10 @@ public class ServerMessageFactory {
                     break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
+                    break;
+                default:
+                    System.err.println("Server message type not found inside Server factory");
+                    break;
             }
 
         return returnMessage;
