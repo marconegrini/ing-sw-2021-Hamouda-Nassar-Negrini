@@ -24,10 +24,9 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
 
     private final HashMap<Resource, Integer> productionIn;
-
+    private final List<LeaderCardCost> activationCost;
     private final int outProductionResourceNum;
     private final int outProductionFaithPoints;
-    private final List<LeaderCardCost> activationCost;
 
     /**
      * @param vp                       Victory points

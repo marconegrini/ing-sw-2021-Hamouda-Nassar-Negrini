@@ -2,10 +2,12 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
+import it.polimi.ingsw.client.view.CLIView;
+import it.polimi.ingsw.client.view.GUIView;
+import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
-import it.polimi.ingsw.client.view.ViewHandler;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,13 +23,15 @@ public class ServerHandler implements Runnable{
     private BufferedWriter writer;
     private PrintWriter out;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
-    private ViewHandler viewHandler;
+    private View view;
     private boolean isCli = true;
 
     public ServerHandler(Socket server, Client owner){
         this.server = server;
         this.owner = owner;
-        viewHandler = new ViewHandler(isCli);
+        if(isCli)
+            this.view = new CLIView();
+        else this.view = new GUIView();
     }
 
     @Override
@@ -88,6 +92,7 @@ public class ServerHandler implements Runnable{
         } catch (MalformedJsonException e){
             System.out.println("Invalid json object from server");
         }
+
         System.out.println("Game ended");
     }
 
@@ -104,7 +109,7 @@ public class ServerHandler implements Runnable{
         } catch (IOException e) {}
     }
 
-    public ViewHandler getViewHandler(){
-        return viewHandler;
+    public View getView(){
+        return view;
     }
 }

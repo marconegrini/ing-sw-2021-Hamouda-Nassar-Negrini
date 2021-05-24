@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.MalformedJsonException;
@@ -12,8 +13,11 @@ import it.polimi.ingsw.messages.updateFromServer.OkMessage;
 import it.polimi.ingsw.messages.updateFromServer.ResourcesFromMarketMessage;
 import it.polimi.ingsw.messages.updateFromServer.UpdateLeaderCardMessage;
 import it.polimi.ingsw.messages.updateFromServer.UpdateMarketboardMessage;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 public class ServerMessageFactory {
 
@@ -59,7 +63,10 @@ public class ServerMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
                     break;
                 case CHOOSELEADERCARDS:
-                    returnMessage = gson.fromJson(receivedMessage, ChooseLeaderCardMessage.class);
+                    JsonArray jsonLeaderCards = messageObject.getAsJsonArray("leaderCards");
+                    LeaderCardFactory factory = new LeaderCardFactory();
+                    List<LeaderCard> leaderCards = factory.create(jsonLeaderCards);
+                    returnMessage = new ChooseLeaderCardMessage(leaderCards);
                     break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);

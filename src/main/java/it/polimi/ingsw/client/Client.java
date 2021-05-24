@@ -19,7 +19,6 @@ public class Client implements Runnable{
     private boolean shallTerminate;
 
     public static void main(String[] args) throws IOException {
-
         Client client = new Client();
         client.run();
     }
@@ -28,7 +27,7 @@ public class Client implements Runnable{
     public void run(){
         Socket server;
         try {
-            server = new Socket("192.168.43.176", 5056);
+            server = new Socket("127.0.0.1", 5056);
         } catch (IOException e){
             System.out.println("Server unreachable");
             return;

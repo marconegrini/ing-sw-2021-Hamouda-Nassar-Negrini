@@ -45,10 +45,7 @@ public class MultiPlayerGameHandler extends Thread {
             player.printPlayer();
         }
 
-
-
-
-
+        sendLeaderCards();
 
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());

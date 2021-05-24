@@ -1,15 +1,27 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CLIView extends View{
 
+    Scanner scanner;
+    LeaderCardsTracer leaderCardsTracer;
+
+    public CLIView(){
+        scanner = new Scanner(System.in);
+        leaderCardsTracer = new LeaderCardsTracer();
+    }
+
     @Override
     public ClientMessage logClient(){
-        Scanner scanner = new Scanner(System.in);
+
         String nickname;
         boolean isMultiplayer;
 
@@ -36,6 +48,37 @@ public class CLIView extends View{
             System.out.println("Invalid input. Type again your choice");
         }
         return new LoginMessage(nickname, isMultiplayer);
+    }
+
+    @Override
+    public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
+        System.out.println("Select 2 leader cards within possible ones (indexes from 1-4).");
+        try {
+            leaderCardsTracer.printLeaderCards(leaderCards);
+        } catch (EmptySlotException e){
+            System.out.println("Selected invalid slot");
+            System.exit(-2);
+        }
+
+        boolean OK = false;
+        while(!OK) {
+            System.out.println("Insert first index: ");
+            Integer firstIndex = scanner.nextInt();
+            System.out.println("Insert second index: ");
+            Integer secondIndex = scanner.nextInt();
+            if (firstIndex.equals(secondIndex)) {
+                System.out.println("Indexes are identical!");
+                if(!(1 <= firstIndex && firstIndex <= leaderCards.size()) ||
+                        !(1 <= secondIndex && secondIndex <= leaderCards.size())){
+                    System.out.println("One or both typed indexes are not between 1 and 4.");
+                } else {
+                    OK = true;
+                    firstIndex--;
+                    secondIndex--;
+                }
+            }
+        }
+        return null;
     }
 
 }

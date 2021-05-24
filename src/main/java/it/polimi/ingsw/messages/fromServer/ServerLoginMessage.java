@@ -13,7 +13,6 @@ public class ServerLoginMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-
-        serverHandler.sendJson(serverHandler.getViewHandler().logClient());
+        serverHandler.sendJson(serverHandler.getView().logClient());
     }
 }

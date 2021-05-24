@@ -16,6 +16,6 @@ public class ChooseLeaderCardMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-
+        serverHandler.getView().selectLeaderCards(this.leaderCards);
     }
 }
