@@ -4,21 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.MalformedJsonException;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.PingMessage;
-import it.polimi.ingsw.messages.requestFromClient.*;
 import it.polimi.ingsw.messages.updateFromServer.OkMessage;
-import it.polimi.ingsw.messages.updateFromServer.ResourcesFromMarketMessage;
-import it.polimi.ingsw.messages.updateFromServer.UpdateLeaderCardMessage;
-import it.polimi.ingsw.messages.updateFromServer.UpdateMarketboardMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
+
+/**
+ * message factory USED BY the CLIENT, to recieve the messages of the server.
+ */
 public class ServerMessageFactory {
 
     Gson gson;
@@ -61,6 +57,9 @@ public class ServerMessageFactory {
                     break;
                 case PARTICIPANTS:
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
+                    break;
+                case CALAMAIO:
+                    returnMessage = gson.fromJson(receivedMessage, InitializeCalamaio.class);
                     break;
                 case CHOOSELEADERCARDS:
                     JsonArray jsonLeaderCards = messageObject.getAsJsonArray("leaderCards");

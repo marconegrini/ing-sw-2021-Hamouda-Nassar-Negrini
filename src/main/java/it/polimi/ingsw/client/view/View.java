@@ -5,10 +5,19 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.List;
 
+/**
+ * a super abstract class that is used to make it transparent to the client the using of the cli or the gui after the
+ */
 public abstract class View {
 
     public abstract ClientMessage logClient();
 
+//    public abstract ClientMessage printToClient();
+
+    public abstract ClientMessage initializeCalamaio(String strIn);
+
     public abstract ClientMessage selectLeaderCards(List<LeaderCard> leaderCards);
+
+
 
 }

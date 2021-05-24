@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
 import java.util.List;
@@ -51,6 +52,66 @@ public class CLIView extends View{
     }
 
     @Override
+    public ClientMessage initializeCalamaio(String strIn) {
+
+        ClientMessage calamaioResponse;
+
+        String resources = "1."+ ASCII_Resources.SHIELD+" - Shield\n";
+        resources += "2."+ ASCII_Resources.COIN+" - Coin\n";
+        resources += "3."+ ASCII_Resources.SERVANT+" - Servant\n";
+        resources += "4."+ ASCII_Resources.STONE+" - Stone\n";
+        int chosenResource=0;
+
+        System.out.println(strIn);
+        if (strIn.contains("first")){
+            System.out.println(strIn);
+        }
+        else if( (strIn.contains("second")) || (strIn.contains("third") )){
+            System.out.println(strIn);
+            System.out.println(resources);
+            chosenResource=scanner.nextInt();
+            while ( chosenResource>4 || chosenResource<1 ){
+                System.out.println("Wrong input, please choose another resource\n");
+                System.out.println(resources);
+                chosenResource=scanner.nextInt();
+            }
+            //TODO:aggiungi la risorsa scelta alla struttura del client
+
+//            System.out.println("Resource chosen successfully");
+
+            if ( strIn.contains("third") ) {
+                //TODO:aggiungi un punto fede alla struttura del client
+            }
+        }
+
+        else if(strIn.contains("fourth")){
+            int s=2;
+            System.out.println(strIn);
+            System.out.println(resources);
+
+            //when the both conditions are true continue;; it's evaluated before entering the loop.
+            while ( (chosenResource>4||chosenResource<1) || s >0 ){
+                System.out.println("Wrong input, please choose another resource\n");
+                System.out.println(resources);
+                chosenResource = scanner.nextInt();
+                s--;
+            }
+            //TODO:aggiungi le due risorse scelte alla struttura del client
+            //TODO:aggiungi un punto fede alla struttura del client
+//            System.out.println("Resource chosen successfully");
+        }
+
+    }
+
+//
+//    @Override
+//    public void printToClient() {
+//        String
+//    }
+
+
+
+    @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
         System.out.println("Select 2 leader cards within possible ones (indexes from 1-4).");
         try {
@@ -80,5 +141,9 @@ public class CLIView extends View{
         }
         return null;
     }
+
+
+
+
 
 }

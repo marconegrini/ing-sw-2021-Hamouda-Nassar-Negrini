@@ -1,9 +1,14 @@
 package it.polimi.ingsw.messages.fromClient;
 
+
+/**
+ * messages that the client sends
+ */
 public enum ClientMessageType {
     PING,
     LOGIN,
     BUYDEVELOPMENTCARD,
+    CALAMAIORESPONSE,
 
     ACTIVATEPRODUCTION,
     ERRORPRODUCTION,
@@ -14,7 +19,6 @@ public enum ClientMessageType {
     DISCARDLEADERCARD,
 
     PICKRESOURCES;
-
 
 
 

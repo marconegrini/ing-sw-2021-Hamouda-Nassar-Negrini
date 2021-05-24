@@ -96,7 +96,7 @@ public class ClientHandler extends Thread {
         shouldStop.set(true);
         try {
             client.shutdownInput();
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
 
     public void pingClient(){
@@ -127,5 +127,6 @@ public class ClientHandler extends Thread {
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
+
 
 }

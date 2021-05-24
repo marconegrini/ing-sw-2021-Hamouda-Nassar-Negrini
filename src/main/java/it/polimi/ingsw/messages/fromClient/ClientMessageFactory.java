@@ -5,6 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.lang.reflect.Type;
 
+/**
+ * message factory USED BY the SERVER, to recieve the messages of the client.
+ */
 public class ClientMessageFactory {
 
     Gson gson;
@@ -35,6 +38,9 @@ public class ClientMessageFactory {
                     break;
                 case BUYDEVELOPMENTCARD:
                     returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
+                    break;
+                case CALAMAIORESPONSE:
+                    returnMessage = gson.fromJson(receivedMessage, CalamaioResponse.class);
                     break;
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ClientPing.class);

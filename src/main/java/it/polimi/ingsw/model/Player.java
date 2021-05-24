@@ -71,6 +71,10 @@ public abstract class Player {
 
     public PersonalBoard getPersonalBoard(){return this.personalBoard;}
 
+    public void setCalamaio() {
+        this.hasCalamaio = true;
+    }
+
     /**
      *
      * @return total resources in warehouse

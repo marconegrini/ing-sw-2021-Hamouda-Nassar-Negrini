@@ -106,7 +106,7 @@ public class ServerHandler implements Runnable{
         shouldStop.set(true);
         try {
             server.shutdownInput();
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
 
     public View getView(){
