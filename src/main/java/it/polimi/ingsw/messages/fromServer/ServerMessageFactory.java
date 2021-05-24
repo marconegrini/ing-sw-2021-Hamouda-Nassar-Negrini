@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**
- * message factory USED BY the CLIENT, to recieve the messages of the server.
+ * message factory USED BY the CLIENT, to receive the messages of the server.
  */
 public class ServerMessageFactory {
 

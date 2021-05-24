@@ -4,6 +4,10 @@ import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * message sent from server TO CLIENT
+ */
+
 public abstract class ServerMessage {
 
     protected ServerMessageType type;
@@ -12,6 +16,10 @@ public abstract class ServerMessage {
         this.type = type;
     }
 
+    /**
+     * method INVOKED ON THE CLIENT
+     * @param serverHandler the server handler on the client, contains info like socket,Client, readers,writers and View type.
+     */
     public abstract void clientProcess(ServerHandler serverHandler);
 
     public String toString(){

@@ -100,7 +100,7 @@ public class CLIView extends View{
             //TODO:aggiungi un punto fede alla struttura del client
 //            System.out.println("Resource chosen successfully");
         }
-
+        return null;
     }
 
 //

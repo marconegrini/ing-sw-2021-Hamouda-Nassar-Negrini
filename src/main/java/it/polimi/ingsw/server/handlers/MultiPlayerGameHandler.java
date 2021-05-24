@@ -145,9 +145,6 @@ public class MultiPlayerGameHandler extends Thread {
             k++;
         }
 
-        }
-
-
     }
 
 

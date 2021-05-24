@@ -13,6 +13,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * a class used in the CLIENT, contains info like socket,Client, readers,writers and View type.
+ */
 public class ServerHandler implements Runnable{
 
     private Socket server;

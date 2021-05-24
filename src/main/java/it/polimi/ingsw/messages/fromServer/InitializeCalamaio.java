@@ -2,6 +2,8 @@ package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
 
+
+
 public class InitializeCalamaio extends ServerMessage {
 
     String str;

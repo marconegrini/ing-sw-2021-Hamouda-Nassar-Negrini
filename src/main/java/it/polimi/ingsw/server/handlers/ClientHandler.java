@@ -14,6 +14,9 @@ import java.net.Socket;
 import java.nio.CharBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * a class used in the SERVER, contains info like socket,Client, readers,writers and View type.
+ */
 public class ClientHandler extends Thread {
 
     private final Socket client;
