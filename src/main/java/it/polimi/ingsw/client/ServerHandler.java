@@ -26,12 +26,14 @@ public class ServerHandler implements Runnable{
     private BufferedWriter writer;
     private PrintWriter out;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private LightModel lightModel;
     private View view;
     private boolean isCli = true;
 
     public ServerHandler(Socket server, Client owner){
         this.server = server;
         this.owner = owner;
+        this.lightModel = new LightModel();
         if(isCli)
             this.view = new CLIView();
         else this.view = new GUIView();
@@ -114,5 +116,9 @@ public class ServerHandler implements Runnable{
 
     public View getView(){
         return view;
+    }
+
+    public LightModel getLightModel(){
+        return lightModel;
     }
 }

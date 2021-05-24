@@ -107,10 +107,6 @@ public class ClientHandler extends Thread {
         this.sendJson(ping);
     }
 
-    private TurnManager getTurnManager(){
-        return this.turnManager;
-    }
-
     public String getNickname(){
         return nickname;
     }
@@ -125,6 +121,10 @@ public class ClientHandler extends Thread {
 
     public void setTurnManager(TurnManager turnManager){
         this.turnManager = turnManager;
+    }
+
+    public TurnManager getTurnManager(){
+        return this.turnManager;
     }
 
     public void setNickname(String nickname){

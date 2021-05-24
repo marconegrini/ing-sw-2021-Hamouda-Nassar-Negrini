@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.controller;
-import it.polimi.ingsw.messages.updateFromServer.UpdateMarketboardMessage;
+import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.messages.fromServer.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.updateFromServer.OkMessage;
-import it.polimi.ingsw.messages.updateFromServer.ErrorMessage;
+import it.polimi.ingsw.messages.fromServer.OkMessage;
+import it.polimi.ingsw.messages.fromServer.ErrorMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
@@ -28,6 +28,10 @@ public class TurnManager {
     private MarketBoard marketBoard;
 
     private List<Resource> resorucesToStore;
+
+    private boolean done = false;
+
+    private Integer accesses = 0;
 
     /**
      * This constructor will be used when a game is restored. It allows
@@ -56,12 +60,12 @@ public class TurnManager {
      * @param player  The player is who will receive the picked resources
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
-    public Message pickResources(Player player, boolean isRow, int rowOrColNum) {
+    public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum) {
         List<Marble> pickedMarbles;
         try {
             pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
         } catch (IndexOutOfBoundsException e){
-            return new ErrorMessage(player.getNickname(), "Selected row or column doesn't exists");
+            return new ErrorMessage("Selected row or column doesn't exists");
         }
         List<Resource> resourcesToStore = new ArrayList<>();
         for(Marble marble : pickedMarbles){
@@ -102,7 +106,8 @@ public class TurnManager {
             }
         }
         this.resorucesToStore = resourcesToStore;
-        return new UpdateMarketboardMessage(player.getNickname(), marketBoard.getRowOrColumnMarbles(isRow, rowOrColNum), marketBoard.getExternalMarbleColor());
+        return null;
+        //return new UpdateMarketboardMessage(marketBoard.getRowOrColumnMarbles(isRow, rowOrColNum), marketBoard.getExternalMarbleColor());
     }
 
     //TODO method that returns resources taken from market
@@ -117,26 +122,26 @@ public class TurnManager {
      * @param resourcesIn List of resources to insert
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public Message insertResourcesInWarehouse(Player player, Integer destStorage, List<Resource> resourcesIn){
+    public ServerMessage insertResourcesInWarehouse(Player player, Integer destStorage, List<Resource> resourcesIn){
         try {
             player.putWarehouseResources(destStorage, resourcesIn);
         } catch (StorageOutOfBoundsException e1){
-            return new ErrorMessage(player.getNickname(), "Selected storage doesn't exists");
+            return new ErrorMessage("Selected storage doesn't exists");
         } catch (IllegalInsertionException e2){
-            return new ErrorMessage(player.getNickname(), "Insertion not permitted");
+            return new ErrorMessage("Insertion not permitted");
         }
-        return new OkMessage(player.getNickname(), "Resources correctly inserted");
+        return new OkMessage("Resources correctly inserted");
     }
 
-    public Message moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){
+    public ServerMessage moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){
         try{
             player.moveWarehouseResources(sourceStorage, destStorage);
         } catch (IllegalMoveException e1){
-            return new ErrorMessage(player.getNickname(), "Warehouse move not permitted");
+            return new ErrorMessage("Warehouse move not permitted");
         } catch (StorageOutOfBoundsException e2){
-            return new ErrorMessage(player.getNickname(), "Selected storage doesn't exists");
+            return new ErrorMessage("Selected storage doesn't exists");
         }
-        return new OkMessage(player.getNickname(), "Warehouse resources moved");
+        return new OkMessage("Warehouse resources moved");
     }
 
     /**
@@ -146,7 +151,7 @@ public class TurnManager {
      * @param devCardSlot slot index of development cards slots
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public Message buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
+    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
 
         List<Resource> playerResources = player.getTotalResource();
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
@@ -178,12 +183,12 @@ public class TurnManager {
             try{
                 player.addCardInDevCardSlot(devCardSlot, devCard);
             } catch(IllegalInsertionException e1){
-                return new ErrorMessage(player.getNickname(), "Slot insertion not allowed");
+                return new ErrorMessage("Slot insertion not allowed");
             } catch (IndexOutOfBoundsException e2){
-                return new ErrorMessage(player.getNickname(),"Invalid slot number");
+                return new ErrorMessage("Invalid slot number");
             }
-            return new OkMessage(player.getNickname(), "Bought development card and inserted in slot number " + devCardSlot);
-        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to buy selected development card");
+            return new OkMessage("Bought development card and inserted in slot number " + devCardSlot);
+        } else return new ErrorMessage("Insufficient resources to buy selected development card");
     }
 
     /**
@@ -193,18 +198,18 @@ public class TurnManager {
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as Message Object
      */
-    public Message activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) {
+    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) {
 
-        if (slots.size() > 3) return new ErrorMessage(player.getNickname(), "Selected more than 3 slots");
+        if (slots.size() > 3) return new ErrorMessage("Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
         //collects the resources needed to activate production in selected slots/slots
         for (Integer slotNum : slots) {
             try {
                 productionInCost.addAll(player.devCardSlotProductionIn(slotNum));
             } catch (EmptySlotException e1) {
-                return new ErrorMessage(player.getNickname(), "Selected an empty slot");
+                return new ErrorMessage("Selected an empty slot");
             } catch (IndexOutOfBoundsException e2) {
-                return new ErrorMessage(player.getNickname(), "Selected invalid slot number");
+                return new ErrorMessage("Selected invalid slot number");
             }
         }
         List<Resource> playerResources = player.getTotalResource();
@@ -241,9 +246,9 @@ public class TurnManager {
             //checks if production power leader card is activated
             boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
 
-            if(usedLC) return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer. Leader card power used.");
-            else return new OkMessage(player.getNickname(), "Activated production and resources inserted in coffer");
-        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to activate production on selected slots");
+            if(usedLC) return new OkMessage("Activated production and resources inserted in coffer. Leader card power used.");
+            else return new OkMessage("Activated production and resources inserted in coffer");
+        } else return new ErrorMessage("Insufficient resources to activate production on selected slots");
     }
 
     /**
@@ -254,7 +259,7 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-    public Message activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
+    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
@@ -271,9 +276,9 @@ public class TurnManager {
             player.pullCofferResources(fromCoffer);
 
             boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
-            if(usedLC) return new OkMessage(player.getNickname(), "Activated personal production and resources inserted in coffer. Leader card power used.");
-            else return new OkMessage(player.getNickname(), "Activated personal production and resources inserted in coffer");
-        } else return new ErrorMessage(player.getNickname(), "Insufficient resources to activate personal production");
+            if(usedLC) return new OkMessage("Activated personal production and resources inserted in coffer. Leader card power used.");
+            else return new OkMessage("Activated personal production and resources inserted in coffer");
+        } else return new ErrorMessage("Insufficient resources to activate personal production");
     }
 
     /**
@@ -326,19 +331,19 @@ public class TurnManager {
      * @param indexNumber leader card's index number in player's arraylist leaderCards
      * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
      */
-    public Message activateLeaderCard (Player player, Integer indexNumber){
+    public ServerMessage activateLeaderCard (Player player, Integer indexNumber){
         try{
             player.activateLeaderCard(indexNumber);
         } catch(IndexOutOfBoundsException e1){
-            return new ErrorMessage(player.getNickname(), "Selected index for leader card is out of bounds");
+            return new ErrorMessage("Selected index for leader card is out of bounds");
         } catch(AlreadyActivatedLeaderCardException e2){
-            return new ErrorMessage(player.getNickname(), "Selected leader card already activated");
+            return new ErrorMessage("Selected leader card already activated");
         } catch(InsufficientResourcesException e3){
-            return new ErrorMessage(player.getNickname(), "Insufficient resources to activate selected leader card");
+            return new ErrorMessage("Insufficient resources to activate selected leader card");
         } catch(AlreadyDiscardedLeaderCardException e4){
-            return new ErrorMessage(player.getNickname(), "Selected leader card was discarded");
+            return new ErrorMessage("Selected leader card was discarded");
         }
-        return new OkMessage(player.getNickname(), "Selected leader card activated");
+        return new OkMessage("Selected leader card activated");
     }
 
     /**
@@ -347,18 +352,18 @@ public class TurnManager {
      * @param indexNum
      * @return
      */
-    public Message discardLeaderCard (Player player, Integer indexNum){
+    public ServerMessage discardLeaderCard (Player player, Integer indexNum){
         try{
             player.discardLeaderCard(indexNum);
         } catch (IndexOutOfBoundsException e1){
-            return new ErrorMessage(player.getNickname(), "Selected leader card index is out of bounds");
+            return new ErrorMessage("Selected leader card index is out of bounds");
         } catch (AlreadyActivatedLeaderCardException e2){
-            return new ErrorMessage(player.getNickname(), "Selected leader card is activated:you cannot discard it");
+            return new ErrorMessage("Selected leader card is activated:you cannot discard it");
         } catch (AlreadyDiscardedLeaderCardException e3){
-            return new ErrorMessage(player.getNickname(), "Selected leader card was already discarded");
+            return new ErrorMessage("Selected leader card was already discarded");
         }
         player.incrementFaithPathPosition();
-        return new OkMessage(player.getNickname(), "Leader card correctly discarded: received 1 faith point");
+        return new OkMessage("Leader card correctly discarded: received 1 faith point");
     }
 
     /**
@@ -368,14 +373,46 @@ public class TurnManager {
      * @param index2 second leader card index in arraylist
      * @return ErrorMessage if specified indexes are out of bounds, OkMessage instead.
      */
-    public Message chooseLeaderCard(Player player, Integer index1, Integer index2){
+    public ServerMessage selectLeaderCard(Player player, Integer index1, Integer index2){
         try{
             player.chooseLeaderCard(index1, index2);
         } catch(IndexOutOfBoundsException e){
-            return new ErrorMessage(player.getNickname(),"Selected indexes for leader cards are out of bounds");
+            return new ErrorMessage("Selected indexes for leader cards are out of bounds");
         }
-        return new OkMessage(player.getNickname(), "Leader cards correctly chose");
+        return new UpdateLeaderCardsMessage(index1, index2);
     }
+
+    public synchronized void resetDone(){
+        this.done = false;
+    }
+
+    public synchronized void turnDone(){
+        this.done = true;
+        notifyAll();
+    }
+
+    public synchronized boolean isDone() {
+        if (this.done == false)
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        resetDone();
+        return true;
+    }
+
+    public synchronized void clientDone(){
+        accesses++;
+        if(accesses.equals(players.size())){
+            accesses = 0;
+            notifyAll();
+        }
+    }
+
+
+
+
 }
 
 

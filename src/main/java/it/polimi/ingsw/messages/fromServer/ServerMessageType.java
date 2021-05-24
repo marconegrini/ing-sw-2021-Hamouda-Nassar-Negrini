@@ -15,6 +15,7 @@ public enum ServerMessageType {
     CALAMAIO,
     PARTICIPANTS,
     CHOOSELEADERCARDS,
+    UPDATELEADERCARDS,
     END;
 
     public static ServerMessageType getMessageType(String value) {

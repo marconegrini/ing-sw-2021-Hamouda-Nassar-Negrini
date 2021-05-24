@@ -14,10 +14,9 @@ import java.util.List;
 
 
 public class WhiteMarbleLeaderCard extends LeaderCard {
-    private final HashMap<Resource, Integer> productionOut;
-    //    private final HashMap <Resource, Integer> outProductionResource;
-    private final List<LeaderCardCost> activationCost;
 
+    private final HashMap<Resource, Integer> productionOut;
+    private final List<LeaderCardCost> activationCost;
 
     public WhiteMarbleLeaderCard(CardType cardType, int vp, List<LeaderCardCost> activationCost, HashMap<Resource, Integer> productionOut) {
         this.Vp = vp;

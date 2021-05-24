@@ -61,7 +61,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
     //getters
     @Override
-    public HashMap<Resource, Integer> getLeaderCardPower() {
+    public HashMap<Resource, Integer>  getLeaderCardPower() {
         return (HashMap<Resource, Integer>) productionIn.clone();
     }
 

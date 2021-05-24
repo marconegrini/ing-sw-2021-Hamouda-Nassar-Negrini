@@ -28,7 +28,8 @@ public class StorageLeaderCard extends LeaderCard {
         this.isActivated = false;
         this.activationCost = activationCost;
         this.slots = slots;
-        maxCapacity = slots.values().stream().findAny().get();
+        for(Resource res : slots.keySet())
+            this.maxCapacity = slots.get(res);
         storage = new ArrayList<>(maxCapacity);
         //initialize all the elements of the arrayList with null elements.      STARTS WITH the ELEMENT 0
         for (int i = 0; i < maxCapacity; i++) {

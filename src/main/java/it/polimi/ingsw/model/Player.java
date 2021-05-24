@@ -245,6 +245,7 @@ public abstract class Player {
                 leaderCards.remove(i);
             }
         }
+        System.out.println(leaderCards);
     }
 
     public void setLeaderCards(List<LeaderCard> leaderCards){

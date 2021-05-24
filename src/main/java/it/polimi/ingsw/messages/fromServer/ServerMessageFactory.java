@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.messages.updateFromServer.OkMessage;
+import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
@@ -41,7 +41,7 @@ public class ServerMessageFactory {
             switch (messageType) {
 
                 case OK:
-                    returnMessage = gson.fromJson(receivedMessage, (Type) OkMessage.class);
+                    returnMessage = gson.fromJson(receivedMessage, OkMessage.class);
                     break;
                 case ERROR:
                     returnMessage = gson.fromJson(receivedMessage, ErrorMessage.class);
@@ -67,8 +67,15 @@ public class ServerMessageFactory {
                     List<LeaderCard> leaderCards = factory.create(jsonLeaderCards);
                     returnMessage = new ChooseLeaderCardMessage(leaderCards);
                     break;
+                case UPDATELEADERCARDS:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateLeaderCardsMessage.class);
+                    break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
+                    break;
+                default:
+                    System.err.println("Server message type not found inside Server factory");
+                    break;
             }
 
         return returnMessage;
