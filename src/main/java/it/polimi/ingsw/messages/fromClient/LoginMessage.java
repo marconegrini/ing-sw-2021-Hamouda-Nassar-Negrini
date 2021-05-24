@@ -25,7 +25,7 @@ public class LoginMessage extends ClientMessage {
                 clientHandler.setNickname(nickname);
                 System.out.println("Added " + clientHandler.getNickname());
                 Server.add(clientHandler);
-                if(Server.getPlayersNumber() == 4)
+                if(Server.getPlayersNumber() == 2)
                     Server.startMultiplayerGame();
             }
         } else {
