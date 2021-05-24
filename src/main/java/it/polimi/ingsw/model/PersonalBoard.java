@@ -82,6 +82,7 @@ public class PersonalBoard {
         coffer.putResource(resourcesIn);
     }
 
+    //destStorage is an integer between 1 and 3
     public void putWarehouseResource(Integer destStorage, List<Resource> resourceIn) throws StorageOutOfBoundsException,
             IllegalInsertionException{
         warehouse.putResource(destStorage, resourceIn);

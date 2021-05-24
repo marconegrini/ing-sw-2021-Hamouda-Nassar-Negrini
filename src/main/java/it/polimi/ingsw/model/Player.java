@@ -155,11 +155,12 @@ public abstract class Player {
 
     /**
      *
-     * @param destStorage index of the destination storage
+     * @param destStorage index of the destination storage, is an integer between 1 and 3
      * @param resourceIn list of resources to insert in the selcted storage of warehouse
      * @throws StorageOutOfBoundsException if selected index is not an index of warehouse
      * @throws IllegalInsertionException if insertion doesn't satisfy integrity rules of warehouse
      */
+    //destStorage is an integer between 1 and 3
     public void putWarehouseResources(Integer destStorage, List<Resource> resourceIn) throws StorageOutOfBoundsException,
             IllegalInsertionException{
         personalBoard.putWarehouseResource(destStorage, resourceIn);

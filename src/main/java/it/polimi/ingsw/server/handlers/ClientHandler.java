@@ -131,5 +131,4 @@ public class ClientHandler extends Thread {
         this.nickname = nickname;
     }
 
-
 }

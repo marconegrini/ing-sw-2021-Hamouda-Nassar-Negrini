@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
+import it.polimi.ingsw.messages.fromClient.CalamaioResponse;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
@@ -63,6 +64,10 @@ public class CLIView extends View{
         resources += "3."+ ASCII_Resources.SERVANT+" - Servant\n";
         resources += "4."+ ASCII_Resources.STONE+" - Stone\n";
         int chosenResource=0;
+        int chosenResource2=0;
+        int destStorage1=0;
+        int destStorage2=0;
+
 
         System.out.println(strIn);
         if (strIn.contains("first")){
@@ -77,9 +82,15 @@ public class CLIView extends View{
                 System.out.println(resources);
                 chosenResource=scanner.nextInt();
             }
+            System.out.println("in which destination storage do you want to save the resource?\n");
+            destStorage1=scanner.nextInt();
+            while ( destStorage1>3 || destStorage1<1 ){
+                System.out.println("Wrong input, please choose another storage number\n");;
+                destStorage1=scanner.nextInt();
+            }
             //TODO:aggiungi la risorsa scelta alla struttura del client
 
-//            System.out.println("Resource chosen successfully");
+            System.out.println("Resource chosen were added successfully");
 
             if ( strIn.contains("third") ) {
                 //TODO:aggiungi un punto fede alla struttura del client
@@ -87,22 +98,42 @@ public class CLIView extends View{
         }
 
         else if(strIn.contains("fourth")){
-            int s=2;
+
             System.out.println(strIn);
             System.out.println(resources);
+            chosenResource=scanner.nextInt();
 
             //when the both conditions are true continue;; it's evaluated before entering the loop.
-            while ( (chosenResource>4||chosenResource<1) || s >0 ){
+            while ( (chosenResource>4||chosenResource<1)){
                 System.out.println("Wrong input, please choose another resource\n");
                 System.out.println(resources);
                 chosenResource = scanner.nextInt();
-                s--;
+            }
+            System.out.println("in which destination storage do you want to save the resource?\n");
+            destStorage1=scanner.nextInt();
+            while ( destStorage1>3 || destStorage1<1 ){
+                System.out.println("Wrong input, please choose another storage number\n");;
+                destStorage1=scanner.nextInt();
+            }
+            //when the both conditions are true continue;; it's evaluated before entering the loop.
+            System.out.println("enter the second resource that you want to chose: ");
+            chosenResource2=scanner.nextInt();
+            while ( (chosenResource2>4||chosenResource2<1)){
+                System.out.println("Wrong input, please choose another resource\n");
+                System.out.println(resources);
+                chosenResource2 = scanner.nextInt();
+            }
+            System.out.println("in which destination storage do you want to save the resource?\n");
+            destStorage1=scanner.nextInt();
+            while ( destStorage2>3 || destStorage2<1 ){
+                System.out.println("Wrong input, please choose another storage number\n");
+                destStorage2=scanner.nextInt();
             }
             //TODO:aggiungi le due risorse scelte alla struttura del client
             //TODO:aggiungi un punto fede alla struttura del client
 //            System.out.println("Resource chosen successfully");
         }
-        return null;
+        return new CalamaioResponse(chosenResource, chosenResource2, destStorage1, destStorage2);
     }
 
 //

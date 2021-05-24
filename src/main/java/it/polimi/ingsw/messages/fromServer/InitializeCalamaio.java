@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
-
+import it.polimi.ingsw.messages.fromClient.ClientMessage;
 
 
 public class InitializeCalamaio extends ServerMessage {
@@ -14,7 +14,7 @@ public class InitializeCalamaio extends ServerMessage {
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().initializeCalamaio(str);
-
+        ClientMessage message = serverHandler.getView().initializeCalamaio(str);
+        serverHandler.sendJson(message);
     }
 }
