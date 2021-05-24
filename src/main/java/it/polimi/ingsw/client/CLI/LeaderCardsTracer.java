@@ -160,7 +160,7 @@ public class LeaderCardsTracer {
                     }
                 }
 //                    powerString = powerString.substring(0,powerString.length() - 1 ) ;
-                System.out.println("\n"+tempStr+"\n");
+               // System.out.println("\n"+tempStr+"\n");
 
 
 //                for (Resource resource : storageLeaderCard.getLeaderCardPower().keySet()) {
