@@ -391,21 +391,22 @@ public class TurnManager {
         notifyAll();
     }
 
-    public synchronized boolean isDone() {
-        if (this.done == false)
+    public synchronized void isDone() {
+        while(this.done == false)
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         resetDone();
-        return true;
+        return;
     }
 
     public synchronized void clientDone(){
         accesses++;
         if(accesses.equals(players.size())){
             accesses = 0;
+            this.done = true;
             notifyAll();
         }
     }

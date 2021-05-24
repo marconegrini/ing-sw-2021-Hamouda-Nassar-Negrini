@@ -56,14 +56,11 @@ public class MultiPlayerGameHandler extends Thread {
         }
 
         sendLeaderCards();
-        initialiseCalamaio();
+        turnManager.isDone();
+        //initialiseCalamaio();
 
-        //while(!turnManager.isDone())
-
-        /*
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());
-         */
     }
 
     public void sendLeaderCards() {

@@ -27,5 +27,6 @@ public class SelectLeaderCardMessage extends ClientMessage{
         TurnManager turnManager = clientHandler.getTurnManager();
         ServerMessage outcome = turnManager.selectLeaderCard(clientHandler.getPlayer(), index1, index2);
         clientHandler.sendJson(outcome);
+        clientHandler.getTurnManager().clientDone();
     }
 }
