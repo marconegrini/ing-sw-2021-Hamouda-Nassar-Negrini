@@ -18,9 +18,11 @@ public class LightModel{
     }
 
     public void chooseLeaderCards(Integer index1, Integer index2){
-        for(int i = 0; i < leaderCards.size(); i++)
-            if(i!=index1 || i!= index2)
-                leaderCards.remove(i);
+        LeaderCard lc1 = leaderCards.get(index1);
+        LeaderCard lc2 = leaderCards.get(index2);
+        leaderCards.clear();
+        leaderCards.add(lc1);
+        leaderCards.add(lc2);
     }
 
     public List<LeaderCard> getLeaderCards() {

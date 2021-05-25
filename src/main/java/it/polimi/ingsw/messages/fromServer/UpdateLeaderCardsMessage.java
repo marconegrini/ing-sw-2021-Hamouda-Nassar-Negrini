@@ -17,7 +17,7 @@ public class UpdateLeaderCardsMessage extends ServerMessage{
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().chooseLeaderCards(this.index1, this.index2);
-        serverHandler.getView().showMessage("Leader cards correctly updated");
+        serverHandler.getView().showMessage("Your leader cards:");
         serverHandler.getView().showLeaderCards(serverHandler.getLightModel().getLeaderCards());
     }
 }
