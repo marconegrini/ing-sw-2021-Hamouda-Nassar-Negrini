@@ -1,25 +1,20 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.messages.fromServer.ChooseLeaderCardMessage;
-import it.polimi.ingsw.messages.fromServer.EndMessage;
-import it.polimi.ingsw.messages.fromServer.InitializeCalamaio;
-import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.client.CLI.MarketTracer;
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.messages.fromServer.*;
+import it.polimi.ingsw.messages.fromServer.update.UpdateFaithPathMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateMarkeboardMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
-import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.server.controller.TurnManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collector;
-
-import static java.util.stream.Collectors.toList;
 
 import java.util.*;
 
@@ -58,9 +53,14 @@ public class MultiPlayerGameHandler extends Thread {
         sendLeaderCards();
         turnManager.isDone();
         //initialiseCalamaio();
+        updateClients();
+        sendToClients(new SelectActionMessage());
 
+/*
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());
+
+ */
     }
 
     public void sendLeaderCards() {
@@ -79,6 +79,10 @@ public class MultiPlayerGameHandler extends Thread {
         }
     }
 
+    public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
+        clientHandler.sendJson(message);
+    }
+
     public void sendToClients(ServerMessage message) {
         for (ClientHandler ch : clientHandlers)
             ch.sendJson(message);
@@ -90,11 +94,24 @@ public class MultiPlayerGameHandler extends Thread {
                 ch.sendJson(message);
     }
 
-
-    public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
-        clientHandler.sendJson(message);
+    public void updateClients(){
+        sendToClients(new UpdateMarkeboardMessage(game.getMarketBoard()));
+        for(ClientHandler ch : clientHandlers){
+            HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
+            faithPathPositions.remove(ch.getNickname());
+            sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
+        }
     }
 
+    public HashMap<String, Integer> getFaithPathPositions(){
+        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        for(ClientHandler ch : clientHandlers){
+            String nickname = ch.getNickname();
+            Integer fpPos = ch.getPlayer().getFaithPathPosition();
+            faithPathPositions.put(nickname, fpPos);
+        }
+        return faithPathPositions;
+    }
 
     /**
      * puts the client with the calamaio at the beginning of the list
@@ -129,19 +146,19 @@ public class MultiPlayerGameHandler extends Thread {
         while ((k < clientHandlers.size())){
             if (k==0) {
                 strIn="You are the player with the Calamaio and your turn is the first! \nYou have not received any additional resources\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
                 }
             else if(k==1){
                 strIn="Your Turn is the second! \nYou have received one additional resources\nPlease chose which Resource do you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==2){
                 strIn="Your Turn is the third! \nYou have received one additional resource and a Faith Point\nPlease chose which Resource do you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==3){
                 strIn="Your Turn is the second! \nYou have received two additional resources and a Faith Point\nPlease chose which Resource do you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             k++;
         }

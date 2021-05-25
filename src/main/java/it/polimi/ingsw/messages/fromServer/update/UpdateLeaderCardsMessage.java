@@ -1,9 +1,11 @@
-package it.polimi.ingsw.messages.fromServer;
+package it.polimi.ingsw.messages.fromServer.update;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.server.Server;
 
-public class UpdateLeaderCardsMessage extends ServerMessage{
+public class UpdateLeaderCardsMessage extends ServerMessage {
 
     private Integer index1;
     private Integer index2;

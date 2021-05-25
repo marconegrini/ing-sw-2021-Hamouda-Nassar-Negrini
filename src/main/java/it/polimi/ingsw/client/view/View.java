@@ -18,10 +18,12 @@ public abstract class View {
 
     public abstract ClientMessage selectLeaderCards(List<LeaderCard> leaderCards);
 
-
+    public abstract ClientMessage selectAction();
 
     public abstract void showMessage(String message);
 
     public abstract void showLeaderCards(List<LeaderCard> leaderCards);
 
+    public abstract void showComponent();
 }
+

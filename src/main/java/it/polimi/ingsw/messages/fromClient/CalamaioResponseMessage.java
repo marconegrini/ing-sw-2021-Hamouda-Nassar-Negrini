@@ -2,9 +2,9 @@ package it.polimi.ingsw.messages.fromClient;
 
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
-public class CalamaioResponse  extends ClientMessage{
+public class CalamaioResponseMessage extends ClientMessage{
 
-    public CalamaioResponse(){
+    public CalamaioResponseMessage(){
         super(ClientMessageType.CALAMAIORESPONSE);
 
     }

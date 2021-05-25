@@ -35,7 +35,7 @@ public class ServerHandler implements Runnable{
         this.owner = owner;
         this.lightModel = new LightModel();
         if(isCli)
-            this.view = new CLIView();
+            this.view = new CLIView(this.lightModel);
         else this.view = new GUIView();
     }
 
@@ -72,7 +72,7 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("Waiting for json message...");
+                System.out.println("Waiting for json message from server...");
                 try {
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);

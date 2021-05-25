@@ -4,10 +4,10 @@ import it.polimi.ingsw.client.ServerHandler;
 
 
 
-public class InitializeCalamaio extends ServerMessage {
+public class InitializeCalamaioMessage extends ServerMessage {
 
     String str;
-    public InitializeCalamaio(String strIn) {
+    public InitializeCalamaioMessage(String strIn) {
         super(ServerMessageType.CALAMAIO);
         this.str=strIn;
     }
