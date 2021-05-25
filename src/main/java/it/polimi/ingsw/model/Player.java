@@ -241,11 +241,11 @@ public abstract class Player {
     public void chooseLeaderCard(Integer index1, Integer index2) throws IndexOutOfBoundsException{
         if(index1 < 0 || index1 > (leaderCards.size()-1)) throw new IndexOutOfBoundsException();
         if(index2 < 0 || index2 > (leaderCards.size()-1)) throw new IndexOutOfBoundsException();
-        for(int i = 0; i < leaderCards.size(); i++){
-            if(i != index1 || i != index2){
-                leaderCards.remove(i);
-            }
-        }
+        LeaderCard lc1 = leaderCards.get(index1);
+        LeaderCard lc2 = leaderCards.get(index2);
+        leaderCards.clear();
+        leaderCards.add(lc1);
+        leaderCards.add(lc2);
         System.out.println(leaderCards);
     }
 
