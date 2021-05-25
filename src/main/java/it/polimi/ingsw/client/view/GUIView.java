@@ -28,8 +28,18 @@ public class GUIView extends View{
     }
 
     @Override
+    public ClientMessage selectAction() {
+        return null;
+    }
+
+    @Override
     public void showMessage(String message) {}
 
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards) {}
+
+    @Override
+    public void showComponent() {
+
+    }
 }

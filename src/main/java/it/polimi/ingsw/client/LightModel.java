@@ -1,16 +1,29 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.Marble;
+import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class LightModel{
 
     private List<LeaderCard> leaderCards;
+    private MarketBoard marketBoard;
+    private HashMap<String, Integer> otherPlayersFaithPathPosition;
+    private Integer faithPathPosition;
 
     public LightModel(){
         leaderCards = new ArrayList<>();
+        marketBoard = new MarketBoard();
+        otherPlayersFaithPathPosition = new HashMap<>();
+        faithPathPosition = 0;
+    }
+
+    public List<LeaderCard> getLeaderCards() {
+        return this.leaderCards;
     }
 
     public void setLeaderCards(List<LeaderCard> leaderCards) {
@@ -25,7 +38,28 @@ public class LightModel{
         leaderCards.add(lc2);
     }
 
-    public List<LeaderCard> getLeaderCards() {
-        return this.leaderCards;
+    public MarketBoard getMarketBoard(){
+        return this.marketBoard;
     }
+
+    public void setMarketBoard(MarketBoard marketBoard) {
+        this.marketBoard = marketBoard;
+    }
+
+    public Integer getFaithPathPosition() {
+        return faithPathPosition;
+    }
+
+    public void setFaithPathPosition(Integer faithPathPosition) {
+        this.faithPathPosition = faithPathPosition;
+    }
+
+    public HashMap<String, Integer> getOtherPlayersFaithPathPosition() {
+        return otherPlayersFaithPathPosition;
+    }
+
+    public void setOtherPlayersFaithPathPosition(HashMap<String, Integer> otherPlayersFaithPathPosition) {
+        this.otherPlayersFaithPathPosition = otherPlayersFaithPathPosition;
+    }
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.messages.fromServer.UpdateLeaderCardsMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.fromServer.ErrorMessage;

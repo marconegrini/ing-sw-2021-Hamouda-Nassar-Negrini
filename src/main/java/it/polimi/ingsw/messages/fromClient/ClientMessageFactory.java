@@ -3,8 +3,6 @@ package it.polimi.ingsw.messages.fromClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.lang.reflect.Type;
-import java.util.MissingFormatArgumentException;
 
 /**
  * message factory USED BY the SERVER, to recieve the messages of the client.
@@ -38,7 +36,7 @@ public class ClientMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
                     break;
                 case PING:
-                    returnMessage = gson.fromJson(receivedMessage, ClientPing.class);
+                    returnMessage = gson.fromJson(receivedMessage, ClientPingMessage.class);
                     break;
                 case SELECTLEADERCARDS:
                     returnMessage = gson.fromJson(receivedMessage, SelectLeaderCardMessage.class);
@@ -50,7 +48,7 @@ public class ClientMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, BuyDevCardMessage.class);
                     break;
                 case CALAMAIORESPONSE:
-                    returnMessage = gson.fromJson(receivedMessage, CalamaioResponse.class);
+                    returnMessage = gson.fromJson(receivedMessage, CalamaioResponseMessage.class);
                     break;
                 case ACTIVATEPRODUCTION:
                     returnMessage = gson.fromJson(receivedMessage, ActivateProductionMessage.class);

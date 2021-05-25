@@ -16,7 +16,7 @@ public class FaithPathTracer {
 
     String stringFormatOthers="%s is in position: %s";
     String stringFormatPlayer="You are in position: %d";
-    othersPositions.put("tempEntry",playerPosition);
+    //othersPositions.put("tempEntry",playerPosition);
 
         //result.add(String.format(stringFormatPlayer,playerPosition));
 
@@ -68,7 +68,7 @@ public class FaithPathTracer {
 
         FaithPathTracer faithPathTracer = new FaithPathTracer();
 
-       ArrayList<String> positions = faithPathTracer.faithPathTracer(othersPositions,1);
+        ArrayList<String> positions = faithPathTracer.faithPathTracer(othersPositions,1);
         positions.forEach(System.out::println);
     }
 

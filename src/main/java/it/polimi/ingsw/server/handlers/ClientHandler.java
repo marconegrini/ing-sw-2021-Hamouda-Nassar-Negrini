@@ -5,13 +5,12 @@ import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessageFactory;
 import it.polimi.ingsw.messages.fromServer.ServerLoginMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.messages.fromServer.ServerPing;
+import it.polimi.ingsw.messages.fromServer.ServerPingMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.TurnManager;
 import java.io.*;
 import java.net.Socket;
-import java.nio.CharBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -103,7 +102,7 @@ public class ClientHandler extends Thread {
     }
 
     public void pingClient(){
-        ServerMessage ping = new ServerPing();
+        ServerMessage ping = new ServerPingMessage();
         this.sendJson(ping);
     }
 

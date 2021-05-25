@@ -1,13 +1,20 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.CLI.FaithPathTracer;
 import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponse;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
+import it.polimi.ingsw.client.CLI.MarketTracer;
+import it.polimi.ingsw.client.LightModel;
+import it.polimi.ingsw.messages.fromClient.*;
+import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
+import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -17,11 +24,17 @@ import java.util.Scanner;
 public class CLIView extends View{
 
     Scanner scanner;
+    LightModel clientLightModel;
     LeaderCardsTracer leaderCardsTracer;
+    MarketTracer marketTracer;
+    FaithPathTracer faithPathTracer;
 
-    public CLIView(){
+    public CLIView(LightModel clientLightModel){
         scanner = new Scanner(System.in);
+        this.clientLightModel = clientLightModel;
         leaderCardsTracer = new LeaderCardsTracer();
+        marketTracer = new MarketTracer();
+        faithPathTracer = new FaithPathTracer();
     }
 
     @Override
@@ -164,9 +177,9 @@ public class CLIView extends View{
         while(!OK) {
                 //TODO Number format exception
                 System.out.println("Select first card: ");
-                firstCard = scanner.next();
+                firstCard = scanner.nextLine();
                 System.out.println("Select second card: ");
-                secondCard = scanner.next();
+                secondCard = scanner.nextLine();
                 if(firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")){
                     if(secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")){
                         if(!firstCard.equals(secondCard)){
@@ -187,6 +200,75 @@ public class CLIView extends View{
     }
 
     @Override
+    public ClientMessage selectAction() {
+        String choice = "";
+        ServerMessage selection;
+        boolean selected = false;
+        boolean show = true;
+        while(!selected) {
+            System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
+            System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
+            System.out.println("[Type show + market/warehouse/faith path/dev cards deck/slots to see eventual updates]");
+            //the user ha the possibility to view n times his personal board before selecting an action to perform
+            while (show) {
+                choice = scanner.nextLine();
+                if (choice.equals("show market")) {
+                    marketTracer.marketTracer(clientLightModel.getMarketBoard());
+                    show = true;
+                } else if (choice.equals("show warehouse")) {
+                    System.out.println("show warehouse");
+                    show = true;
+                } else if (choice.equals("show coffer")) {
+                    System.out.println("show coffer");
+                    show = true;
+                } else if (choice.equals("show faith path")) {
+                    ArrayList<String> positions = faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition());
+                    positions.forEach(System.out::println);
+                    System.out.println("You are in position " + clientLightModel.getFaithPathPosition());
+                    show = true;
+                } else if (choice.equals("show dev cards deck")) {
+                    System.out.println("show dev cards deck");
+                    show = true;
+                } else if (choice.equals("show slots")) {
+                    System.out.println("show slots");
+                    show = true;
+
+                } else if (choice.equals("a")) {
+                    show = false;
+                    selected = true;
+                    //return new PickResourcesMessage();
+                } else if (choice.equals("b")) {
+
+                    show = false;
+                    selected = true;
+                    //return new BuyDevCardMessage();
+                } else if (choice.equals("c")) {
+
+                    show = false;
+                    selected = true;
+                    //return new ActivateProductionMessage();
+                } else if (choice.equals("d")) {
+
+                    show = false;
+                    selected = true;
+                    //return new ActivateLeaderCardMessage();
+                } else if (choice.equals("e")) {
+
+                    show = false;
+                    selected = true;
+                    //return new DiscardLeaderCardMessage();
+                } else if (choice.equals("f")) {
+
+                    show = false;
+                    selected = true;
+                    //return new MoveWarehouseResourcesMessage();
+                } else System.out.println("Invalid choice. Type again.");
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
@@ -200,6 +282,11 @@ public class CLIView extends View{
             System.out.println("Selected invalid slot");
             System.exit(-2);
         }
+    }
+
+    @Override
+    public void showComponent() {
+
     }
 
 }

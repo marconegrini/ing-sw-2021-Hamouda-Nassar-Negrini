@@ -14,8 +14,16 @@ public enum ServerMessageType {
     LOGIN_ERROR,
     CALAMAIO,
     PARTICIPANTS,
+
     CHOOSELEADERCARDS,
     UPDATELEADERCARDS,
+    SELECTACTION,
+
+    UPDATEMARKETBOARD,
+    UPDATEDEVCARDSDECK,
+    UPDATEDEVCARDSSLOT,
+    UPDATEFAITHPATH,
+
     END;
 
     public static ServerMessageType getMessageType(String value) {

@@ -1,24 +1,19 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
-import it.polimi.ingsw.messages.fromClient.ClientPing;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.server.controller.TurnManager;
+import it.polimi.ingsw.messages.fromClient.ClientPingMessage;
 
-import java.io.DataOutputStream;
+public class ServerPingMessage extends ServerMessage {
 
-public class ServerPing extends ServerMessage {
-
-    public ServerPing() {
+    public ServerPingMessage() {
         super(ServerMessageType.PING);
     }
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         System.out.println("PING from server");
-        ClientMessage ping = new ClientPing();
+        ClientMessage ping = new ClientPingMessage();
         try {
             synchronized (this) {
                 this.wait(3000);

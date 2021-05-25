@@ -13,7 +13,7 @@ import java.util.List;
  * message sent by the client TO THE SERVER, in response of the initialiseCalamaio message
  * it contains the choice/s of te resources that a player will chose in the case he can.
  */
-public class CalamaioResponse extends ClientMessage {
+public class CalamaioResponseMessage extends ClientMessage {
 
 
     int choice1 = 0;
@@ -21,7 +21,7 @@ public class CalamaioResponse extends ClientMessage {
     int destStorage1 = 0;
     int destStorage2 = 0;
 
-    public CalamaioResponse(int choice1, int choice2, int destStorage1, int destStorage2) {
+    public CalamaioResponseMessage(int choice1, int choice2, int destStorage1, int destStorage2) {
         super(ClientMessageType.CALAMAIORESPONSE);
         this.choice1 = choice1;
         this.choice2 = choice2;

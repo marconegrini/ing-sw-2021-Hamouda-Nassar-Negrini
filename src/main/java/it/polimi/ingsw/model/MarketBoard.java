@@ -16,7 +16,6 @@ public class MarketBoard {
         setupMarketBoard();
     }
 
-
     /**
      *
      * Setting up the market board. The method put the marbles inside
@@ -138,7 +137,6 @@ public class MarketBoard {
         }
         return marblesToReturn;
     }
-
 
         //for testing purpose only
         public static void main(String[] args) {

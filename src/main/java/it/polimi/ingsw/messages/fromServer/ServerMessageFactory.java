@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.messages.fromServer.OkMessage;
+import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 
@@ -47,7 +46,7 @@ public class ServerMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, ErrorMessage.class);
                     break;
                 case PING:
-                    returnMessage = gson.fromJson(receivedMessage, ServerPing.class);
+                    returnMessage = gson.fromJson(receivedMessage, ServerPingMessage.class);
                     break;
                 case LOGIN:
                     returnMessage = gson.fromJson(receivedMessage, ServerLoginMessage.class);
@@ -59,7 +58,7 @@ public class ServerMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
                     break;
                 case CALAMAIO:
-                    returnMessage = gson.fromJson(receivedMessage, InitializeCalamaio.class);
+                    returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
                 case CHOOSELEADERCARDS:
                     JsonArray jsonLeaderCards = messageObject.getAsJsonArray("leaderCards");
@@ -69,6 +68,21 @@ public class ServerMessageFactory {
                     break;
                 case UPDATELEADERCARDS:
                     returnMessage = gson.fromJson(receivedMessage, UpdateLeaderCardsMessage.class);
+                    break;
+                case UPDATEMARKETBOARD:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateMarkeboardMessage.class);
+                    break;
+                case UPDATEDEVCARDSDECK:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateDevCardsDeckMessage.class);
+                    break;
+                case UPDATEDEVCARDSSLOT:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateDevCardsSlotMessage.class);
+                    break;
+                case UPDATEFAITHPATH:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateFaithPathMessage.class);
+                    break;
+                case SELECTACTION:
+                    returnMessage = gson.fromJson(receivedMessage, SelectActionMessage.class);
                     break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);

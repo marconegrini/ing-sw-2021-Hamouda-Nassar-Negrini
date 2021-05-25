@@ -58,9 +58,14 @@ public class MultiPlayerGameHandler extends Thread {
         sendLeaderCards();
         turnManager.isDone();
         initialiseCalamaio();
+        updateClients();
+        sendToClients(new SelectActionMessage());
 
+/*
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());
+
+ */
     }
 
     public void sendLeaderCards() {
@@ -79,6 +84,10 @@ public class MultiPlayerGameHandler extends Thread {
         }
     }
 
+    public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
+        clientHandler.sendJson(message);
+    }
+
     public void sendToClients(ServerMessage message) {
         for (ClientHandler ch : clientHandlers)
             ch.sendJson(message);
@@ -90,11 +99,24 @@ public class MultiPlayerGameHandler extends Thread {
                 ch.sendJson(message);
     }
 
-
-    public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
-        clientHandler.sendJson(message);
+    public void updateClients(){
+        sendToClients(new UpdateMarkeboardMessage(game.getMarketBoard()));
+        for(ClientHandler ch : clientHandlers){
+            HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
+            faithPathPositions.remove(ch.getNickname());
+            sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
+        }
     }
 
+    public HashMap<String, Integer> getFaithPathPositions(){
+        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        for(ClientHandler ch : clientHandlers){
+            String nickname = ch.getNickname();
+            Integer fpPos = ch.getPlayer().getFaithPathPosition();
+            faithPathPositions.put(nickname, fpPos);
+        }
+        return faithPathPositions;
+    }
 
     /**
      * puts the client with the calamaio at the beginning of the list
@@ -110,12 +132,7 @@ public class MultiPlayerGameHandler extends Thread {
         clientHandlers.remove(searchedCH);
         tempArr.addAll(clientHandlers);
 
-        System.out.println(tempArr.size());
-        System.out.println(tempArr);
-        System.out.println(clientHandlers.size());
-        System.out.println(clientHandlers);
-
-        if (clientHandlers.size()  == (tempArr.size()-1) ) {
+        if (clientHandlers.size() == (tempArr.size()-1) ) {
             clientHandlers = tempArr;
         } else {
             System.out.println("error while reOrdinating clientHandlers List after setting the calamaio");
@@ -138,22 +155,19 @@ public class MultiPlayerGameHandler extends Thread {
         while ((k < clientHandlers.size())){
             if (k==0) {
                 strIn="You are the player with the Calamaio and your turn is the first! \nYou have not received any additional resources\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
                 }
             else if(k==1){
-                strIn="Your Turn is the second! \nYou have received one additional resources\nPlease chose which Resource you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
+                strIn="Your Turn is the second! \nYou have received one additional resources\nPlease chose which Resource do you want:\n";
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==2){
-                strIn="Your Turn is the third! \nYou have received one additional resource and a Faith Point\nPlease chose which Resource you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
-                clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
-
+                strIn="Your Turn is the third! \nYou have received one additional resource and a Faith Point\nPlease chose which Resource do you want:\n";
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==3){
-                strIn="Your Turn is the second! \nYou have received two additional resources and a Faith Point\nPlease chose which Resource you want:\n";
-                sendToClient(clientHandlers.get(k), new InitializeCalamaio(strIn));
-                clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
+                strIn="Your Turn is the second! \nYou have received two additional resources and a Faith Point\nPlease chose which Resource do you want:\n";
+                sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             k++;
         }
