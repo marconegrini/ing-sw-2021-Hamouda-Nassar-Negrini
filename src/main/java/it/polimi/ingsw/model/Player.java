@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
 
@@ -152,6 +154,10 @@ public abstract class Player {
      */
     public List<Resource> devCardSlotProductionOut(Integer devCardSlotNum) {
         return personalBoard.devCardSlotProductionOut(devCardSlotNum);
+    }
+
+    public HashMap<Integer, DevelopmentCard> getPeekCardsInDevCardSLots(){
+        return personalBoard.getPeekCardsInDevCardSLots();
     }
 
     /**

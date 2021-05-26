@@ -3,10 +3,7 @@ package it.polimi.ingsw.server.handlers;
 import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
-import it.polimi.ingsw.messages.fromServer.update.UpdateDevCardsDeckMessage;
-import it.polimi.ingsw.messages.fromServer.update.UpdateFaithPathMessage;
-import it.polimi.ingsw.messages.fromServer.update.UpdateMarkeboardMessage;
-import it.polimi.ingsw.messages.fromServer.update.UpdateWarehouseCofferMessage;
+import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
@@ -121,6 +118,7 @@ public class MultiPlayerGameHandler extends Thread {
             faithPathPositions.remove(ch.getNickname());
             sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
             sendToClient(ch, new UpdateWarehouseCofferMessage(ch.getPlayer().getClonedWarehouse(), ch.getPlayer().getClonedCoffer()));
+            sendToClient(ch, new UpdateDevCardsSlotMessage(ch.getPlayer().getPeekCardsInDevCardSLots()));
         }
         sendToClients(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
     }

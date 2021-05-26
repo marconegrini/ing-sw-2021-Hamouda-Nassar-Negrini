@@ -19,6 +19,7 @@ public class LightModel{
 
     private List<LeaderCard> leaderCards;
     private ArrayList<DevelopmentCard> developmentCardsDeck;
+    private HashMap<Integer, DevelopmentCard> peekDevCardsInSlot;
     private MarketBoard marketBoard;
     private HashMap<String, Integer> otherPlayersFaithPathPosition;
     private Integer faithPathPosition;
@@ -54,6 +55,14 @@ public class LightModel{
 
     public void setDevelopmentCardsDeck(ArrayList<DevelopmentCard> developmentCardsDeck){
         this.developmentCardsDeck = developmentCardsDeck;
+    }
+
+    public HashMap<Integer, DevelopmentCard> getPeekDevCardsInSlot() {
+        return peekDevCardsInSlot;
+    }
+
+    public void setPeekDevCardsInSlot(HashMap<Integer, DevelopmentCard> peekDevCardsInSlot) {
+        this.peekDevCardsInSlot = peekDevCardsInSlot;
     }
 
     public MarketBoard getMarketBoard(){

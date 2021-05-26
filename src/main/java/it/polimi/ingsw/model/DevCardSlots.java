@@ -2,16 +2,14 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.parser.CardSlotParser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DevCardSlots {
@@ -93,19 +91,46 @@ public class DevCardSlots {
         return result;
     }
 
-    public List<LeaderCardCost> peekCards(){
+
+    /**
+     * @return List of Dev cards slot's peek cards:
+     * - pos 0 first slot's peek card
+     * - pos 1 second slot's peek card
+     * - pos 2 third slot's peek card
+     */
+    public HashMap<Integer, DevelopmentCard> peekCards(){
         List<DevelopmentCard> peekCards = new ArrayList();
+        HashMap<Integer, DevelopmentCard> cardsInSlot = new HashMap<>();
+        for(int i = 0; i < cardSlot.size(); i++)
+            if (!cardSlot.get(i).isEmpty())
+                cardsInSlot.put(i, cardSlot.get(i).peek().clone());
 
-        for(Stack<DevelopmentCard> deck : cardSlot){
-            peekCards.add(deck.peek());
-        }
+        //why did this method returned a List of leaderCardCost?
+        //List<LeaderCardCost> result = peekCards.stream().map(x -> new LeaderCardCost(x.getColor(), x.getLevel())).collect(Collectors.toList());
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 2);
+        cardCost.put(Resource.COIN, 1);
 
-        //List<DevelopmentCard> result = peekCards.stream().map(x -> new DevelopmentCard(x.getVictoryPoints(), x.getColor(), x.getLevel(), x.getCardCost(), x.getProductionIn(), x.getProductionOut())).collect(Collectors.toList());
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 2);
 
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.COIN, 1);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        cardsInSlot.put(1, card1);
+        return cardsInSlot;
+    }
 
-        List<LeaderCardCost> result = peekCards.stream().map(x -> new LeaderCardCost(x.getColor(), x.getLevel())).collect(Collectors.toList());
+    public List<Integer> slotsNumber(){
+        List<Integer> slots = new ArrayList<>();
+        for(int i = 0; i < cardSlot.size(); i++)
+            if(!cardSlot.get(i).isEmpty())
+                slots.add(i);
 
-        return result;
+        return slots;
     }
 
     public List<DevelopmentCard> getCardsInSlots(){
@@ -120,7 +145,7 @@ public class DevCardSlots {
             while(!temporaryDeck.isEmpty())
                 stack.push(temporaryDeck.pop());
         }
-        return cardsToReturn;
+        return List.copyOf(cardsToReturn);
     }
 
 

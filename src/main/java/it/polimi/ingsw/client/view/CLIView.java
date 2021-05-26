@@ -5,15 +5,13 @@ import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class that manages CLI interactions with users
@@ -145,8 +143,7 @@ public class CLIView extends View{
         System.out.println("Select 2 leader cards within possible ones.");
         try {
             //shows 4 options of leader cards to choose
-            ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
-            output.forEach(System.out::println);
+            leaderCardsTracer.printLeaderCards(leaderCards).forEach(System.out::println);
         } catch (EmptySlotException e){
             System.out.println("Selected invalid slot");
             System.exit(-2);
@@ -192,7 +189,7 @@ public class CLIView extends View{
         while(!selected) {
             System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
             System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-            System.out.println("[Type show + market/deposits/faith path/development deck/slots to see eventual updates]");
+            System.out.println("[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
             while (show) {
                 //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
                 //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
@@ -204,14 +201,30 @@ public class CLIView extends View{
                     depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show faith path")) {
+                    System.out.println("\n\t # Faith Path # \t");
                     faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
-                    System.out.println("You are in position " + clientLightModel.getFaithPathPosition());
                     show = true;
                 } else if (choice.equals("show development deck")) {
+                    System.out.println("\n\t # Development Cards Deck # \t");
                     dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show slots")) {
-                    System.out.println("show slots");
+                    System.out.println("\n\t # Development Cards Slots # \t");
+                    HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
+                    for(Integer i : devCardsSlot.keySet()){
+                        System.out.println("\n\t# Slot " + i + " #\t");
+                        ArrayList<DevelopmentCard> dc = new ArrayList();
+                        dc.add(devCardsSlot.get(i));
+                        dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+                    }
+                    show = true;
+
+                }else if (choice.equals("show leader cards")) {
+                    try {
+                        leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    } catch (EmptySlotException e){
+                        e.printStackTrace();
+                    }
                     show = true;
 
                 } else if (choice.equals("a")) {

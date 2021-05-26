@@ -27,10 +27,14 @@ public class PersonalBoard {
         leaderCards = new ArrayList<>(0);
     }
 
+
     public List<Resource> getWarehouseResource() {
         return warehouse.getTotalResources();
     }
 
+    /**
+     * @return a copy of the inner data of Warehouse object. Needed to serialize Warehouse in json
+     */
     public HashMap<Integer, Storage> getClonedWarehouse(){
         return warehouse.getClonedWarehouse();
     }
@@ -39,6 +43,9 @@ public class PersonalBoard {
         return coffer.getTotalResources();
     }
 
+    /**
+     * @return a copy of the inner data of Coffer object. Needed to serialize coffer in json
+     */
     public HashMap<Resource, Integer> getClonedCoffer(){
         return coffer.getClonedCoffer();
     }
@@ -86,6 +93,21 @@ public class PersonalBoard {
         return result;
     }
 
+    /**
+     * @return a List containing a copy of peek cards of Development card Slots
+     */
+    public HashMap<Integer, DevelopmentCard> getPeekCardsInDevCardSLots(){
+        return devCardSlots.peekCards();
+    }
+
+    /**
+     * @return a List containing a copy of all the development cards contained in Development Card Slot
+     */
+    public List<DevelopmentCard> getCardsInDevCardSlots(){
+        return devCardSlots.getCardsInSlots();
+    }
+
+
     public void putCofferResource(List<Resource> resourcesIn){
         coffer.putResource(resourcesIn);
     }
@@ -99,13 +121,8 @@ public class PersonalBoard {
         warehouse.moveResource(sourceStorage, destStorage);
     }
 
-
-        public DevCardSlots getDevCardSlots() {
-        return devCardSlots;
-    }
-
-    public ArrayList<LeaderCard> getLeaderCards() {
-        return (ArrayList<LeaderCard>) leaderCards.clone();
+    public List<LeaderCard> getLeaderCards() {
+        return List.copyOf(leaderCards);
     }
 
     public Warehouse getWarehouse (){return warehouse;}
@@ -114,9 +131,4 @@ public class PersonalBoard {
         //TODO to return total victory points
         return 0;
     }
-
-    public List<DevelopmentCard> getCardsInDevCardSlots(){
-        return devCardSlots.getCardsInSlots();
-    }
-
 }
