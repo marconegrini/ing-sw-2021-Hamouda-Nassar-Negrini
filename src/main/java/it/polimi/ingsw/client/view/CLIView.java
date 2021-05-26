@@ -189,7 +189,7 @@ public class CLIView extends View{
         while(!selected) {
             System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
             System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-            System.out.println("[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
+            System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]\n");
             while (show) {
                 //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
                 //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.

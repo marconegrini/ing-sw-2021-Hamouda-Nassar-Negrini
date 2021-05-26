@@ -80,6 +80,7 @@ public class ServerHandler implements Runnable{
                         if(jsonMessage != null) {
                             ServerMessage message = factory.returnMessage(jsonMessage);
                             System.out.println(message.toString());
+                            System.out.println("\n");
                             message.clientProcess(this);
                         }
                 } catch (IOException e) {
