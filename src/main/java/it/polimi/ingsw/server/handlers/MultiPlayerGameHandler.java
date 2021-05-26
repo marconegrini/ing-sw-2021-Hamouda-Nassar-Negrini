@@ -3,8 +3,10 @@ package it.polimi.ingsw.server.handlers;
 import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
+import it.polimi.ingsw.messages.fromServer.update.UpdateDevCardsDeckMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateFaithPathMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateMarkeboardMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateWarehouseCofferMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
@@ -63,6 +65,10 @@ public class MultiPlayerGameHandler extends Thread {
  */
     }
 
+    /**
+     * Parses leader cards and puts them in a Stack. After shuffling the stack, sends an
+     * ArrayList of 4 leader cards to all clients.
+     */
     public void sendLeaderCards() {
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> deck = new Stack<>();
@@ -79,30 +85,49 @@ public class MultiPlayerGameHandler extends Thread {
         }
     }
 
+    /**
+     * @param clientHandler client target
+     * @param message message to send to target client
+     */
     public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
         clientHandler.sendJson(message);
     }
 
+    /**
+     * @param message to send in broadcast
+     */
     public void sendToClients(ServerMessage message) {
         for (ClientHandler ch : clientHandlers)
             ch.sendJson(message);
     }
 
+    /**
+     * @param message message to send in broadcast except for the client specified as 'exception'
+     * @param exception the client that should not receive the message
+     */
     public void sendToClients(ServerMessage message, ClientHandler exception) {
         for (ClientHandler ch : clientHandlers)
             if (!ch.equals(exception))
                 ch.sendJson(message);
     }
 
+    /**
+     * Updates clients' light models
+     */
     public void updateClients(){
         sendToClients(new UpdateMarkeboardMessage(game.getMarketBoard()));
         for(ClientHandler ch : clientHandlers){
             HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(ch.getNickname());
             sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
+            sendToClient(ch, new UpdateWarehouseCofferMessage(ch.getPlayer().getClonedWarehouse(), ch.getPlayer().getClonedCoffer()));
         }
+        sendToClients(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
     }
 
+    /**
+     * @return an Hash Map containing nickname and positions of all clients
+     */
     public HashMap<String, Integer> getFaithPathPositions(){
         HashMap<String, Integer> faithPathPositions = new HashMap<>();
         for(ClientHandler ch : clientHandlers){

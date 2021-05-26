@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.exceptions.IllegalMoveException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +27,20 @@ public class PersonalBoard {
         leaderCards = new ArrayList<>(0);
     }
 
-
     public List<Resource> getWarehouseResource() {
         return warehouse.getTotalResources();
     }
 
+    public HashMap<Integer, Storage> getClonedWarehouse(){
+        return warehouse.getClonedWarehouse();
+    }
+
     public List<Resource> getCofferResource() {
         return coffer.getTotalResources();
+    }
+
+    public HashMap<Resource, Integer> getClonedCoffer(){
+        return coffer.getClonedCoffer();
     }
 
     public List<Resource> getTotalResource(){

@@ -81,6 +81,9 @@ public class ServerMessageFactory {
                 case UPDATEFAITHPATH:
                     returnMessage = gson.fromJson(receivedMessage, UpdateFaithPathMessage.class);
                     break;
+                case UPDATEWAREHOUSECOFFER:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseCofferMessage.class);
+                    break;
                 case SELECTACTION:
                     returnMessage = gson.fromJson(receivedMessage, SelectActionMessage.class);
                     break;

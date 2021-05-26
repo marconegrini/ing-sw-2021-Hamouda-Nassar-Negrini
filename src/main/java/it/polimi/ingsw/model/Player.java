@@ -83,12 +83,20 @@ public abstract class Player {
         return personalBoard.getWarehouseResource();
     }
 
+    public HashMap<Integer, Storage> getClonedWarehouse(){
+        return personalBoard.getClonedWarehouse();
+    }
+
     /**
      *
      * @return total resources in coffer
      */
     public List<Resource> getCofferResource() {
         return personalBoard.getCofferResource();
+    }
+
+    public HashMap<Resource, Integer> getClonedCoffer(){
+        return personalBoard.getClonedCoffer();
     }
 
     /**

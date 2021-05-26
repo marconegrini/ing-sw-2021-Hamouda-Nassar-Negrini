@@ -16,6 +16,15 @@ public class Coffer implements Deposit{
         coffer.put(Resource.STONE, 0);
     }
 
+    /**
+     * @param coffer custom constructor used to create a coffer object in the light model.
+     *               The Coffer object is build client side after receiving via json file the HashMap<Resource, Integer>
+     *               corresponding to the model's coffer content
+     */
+    public Coffer(Map<Resource, Integer> coffer){
+        this.coffer = coffer;
+    }
+
     public void putResource(List<Resource> resources){
         Integer coinOccurr = occurrences(Resource.COIN, resources);
         Integer stoneOccurr = occurrences(Resource.STONE, resources);
@@ -96,10 +105,14 @@ public class Coffer implements Deposit{
 
     public int resourceOccurrences(Resource resource){
         return coffer.get(resource);
-
-
     }
 
+    public HashMap<Resource, Integer> getClonedCoffer(){
+        HashMap<Resource, Integer> clonedCoffer = new HashMap<>();
+        for(Resource res : coffer.keySet())
+            clonedCoffer.put(res, coffer.get(res));
+        return  clonedCoffer;
+    }
 
 
 

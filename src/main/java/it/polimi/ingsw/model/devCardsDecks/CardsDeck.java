@@ -65,10 +65,20 @@ public class CardsDeck {
     }
 
 
+    /**
+     * @param row
+     * @param column
+     * @return a copy of the card in the specified position
+     */
     public DevelopmentCard peekCard(int row, int column){
         return cardsDeck[row][column].peekCard();
     }
 
+    /**
+     * @param row
+     * @param column
+     * @return the card in the specified position. Differently from peekCard, popCard removes the specified card
+     */
     public DevelopmentCard popCard(int row, int column){
         return cardsDeck[row][column].popCard();
     }
@@ -92,14 +102,21 @@ public class CardsDeck {
 
     }
 
-    public ArrayList<DevelopmentCard> peekRow(int row){
-        ArrayList<DevelopmentCard> dvCardRow = new ArrayList<>();
 
-        for (int column=0; column<4; column++)
-        {
+    public List<DevelopmentCard> peekRow(int row){
+        ArrayList<DevelopmentCard> dvCardRow = new ArrayList<>();
+        for (int column = 0; column < 4; column++)
             dvCardRow.add(peekCard(row,column));
-        }
-        return dvCardRow;
+
+        return List.copyOf(dvCardRow);
+    }
+
+    public ArrayList<DevelopmentCard> peekDecks(){
+        ArrayList<DevelopmentCard> peekDecks = new ArrayList<>();
+        for(int row = 0; row < 3; row++)
+            peekDecks.addAll(peekRow(row));
+
+        return peekDecks;
     }
 
 }
