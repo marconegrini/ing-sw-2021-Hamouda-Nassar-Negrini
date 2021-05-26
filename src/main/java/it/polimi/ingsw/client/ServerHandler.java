@@ -14,7 +14,8 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * a class used in the CLIENT, contains info like socket,Client, readers,writers and View type.
+ * Class handled by Client thread. Contains references to all user's required classes, such as
+ * Socket, LightModel, View, and IO classes.
  */
 public class ServerHandler implements Runnable{
 
@@ -114,11 +115,20 @@ public class ServerHandler implements Runnable{
         } catch (IOException ignored) {}
     }
 
+    /**
+     * Used inside ServerMessages' clientProcess methods to get user's data and pass it to the view
+     * @return light model data
+     */
+    public LightModel getLightModel(){
+        return lightModel;
+    }
+
+    /**
+     * Used inside ServerMessages' clientProcess methods to get CLI/GUI view methods
+     * @return CLI/GUI view methods
+     */
     public View getView(){
         return view;
     }
 
-    public LightModel getLightModel(){
-        return lightModel;
-    }
 }

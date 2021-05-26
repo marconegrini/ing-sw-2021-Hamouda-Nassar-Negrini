@@ -17,6 +17,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class that manages CLI interactions with users
+ */
 public class CLIView extends View{
 
     Scanner scanner;
@@ -33,6 +36,10 @@ public class CLIView extends View{
         faithPathTracer = new FaithPathTracer();
     }
 
+    /**
+     * Method that authenticates the user
+     * @return A LoginMessage for the server
+     */
     @Override
     public ClientMessage logClient(){
 
@@ -122,8 +129,11 @@ public class CLIView extends View{
 //        String
 //    }
 
-
-
+    /**
+     * Show possible options of leader cards to choose and asks the client to select two of them.
+     * @param leaderCards ArrayList of four leader cards
+     * @return a SelectLeaderCards message for the server
+     */
     @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
         String firstCard = "";
@@ -132,13 +142,13 @@ public class CLIView extends View{
         Integer secondIndex = 0;
         System.out.println("Select 2 leader cards within possible ones.");
         try {
+            //shows 4 options of leader cards to choose
             ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
             output.forEach(System.out::println);
         } catch (EmptySlotException e){
             System.out.println("Selected invalid slot");
             System.exit(-2);
         }
-
         boolean OK = false;
         while(!OK) {
                 //TODO Number format exception
@@ -146,6 +156,7 @@ public class CLIView extends View{
                 firstCard = scanner.nextLine();
                 System.out.println("Select second card: ");
                 secondCard = scanner.nextLine();
+                //checks integrity of the two specified characters
                 if(firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")){
                     if(secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")){
                         if(!firstCard.equals(secondCard)){
@@ -165,6 +176,11 @@ public class CLIView extends View{
         return new SelectLeaderCardMessage(firstIndex, secondIndex);
     }
 
+    /**
+     * Actions menu displayed every time a user starts his turn. Before selecting the action to perform, the user can call
+     * the "show" command as long as he wants to see the status of personal board, market board and development cards deck.
+     * @return a ClientMessage type corresponding to the action selected
+     */
     @Override
     public ClientMessage selectAction() {
         String choice = "";
@@ -175,8 +191,9 @@ public class CLIView extends View{
             System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
             System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
             System.out.println("[Type show + market/warehouse/faith path/dev cards deck/slots to see eventual updates]");
-            //the user ha the possibility to view n times his personal board before selecting an action to perform
             while (show) {
+                //if the user selects a show command, he will remain inside this while and the scanner will be ready for a second
+                //read. If an action command is specified, show is set to false, selected is set to true and the while stops.
                 choice = scanner.nextLine();
                 if (choice.equals("show market")) {
                     marketTracer.marketTracer(clientLightModel.getMarketBoard());
@@ -234,11 +251,19 @@ public class CLIView extends View{
         return null;
     }
 
+    /**
+     * A simple show method that prints messages on the console
+     * @param message message to print
+     */
     @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
 
+    /**
+     * Prints in console specified leader cards
+     * @param leaderCards leader cards to print
+     */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards){
         try {

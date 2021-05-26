@@ -6,13 +6,12 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import java.util.List;
 
 /**
- * a super abstract class that is used to make it transparent to the client the using of the cli or the gui after the
+ * Super abstract class that is used to make it transparent to the client the using of cli or gui. Dynamically instantiated
+ * as ClIView or GUIView in serverHandler, it will be called inside messages' clientProcess methods
  */
 public abstract class View {
 
     public abstract ClientMessage logClient();
-
-//    public abstract ClientMessage printToClient();
 
     public abstract ClientMessage initializeCalamaio(String strIn);
 

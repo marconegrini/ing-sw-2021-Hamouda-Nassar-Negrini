@@ -14,6 +14,9 @@ public class Client implements Runnable{
         client.run();
     }
 
+    /**
+     * run method that handles ServerHandler thread
+     */
     @Override
     public void run(){
         Socket server;
@@ -30,6 +33,9 @@ public class Client implements Runnable{
         //serverHandler.stop();
     }
 
+    /**
+     * Currently not used
+     */
     public synchronized void terminate(){
         //shallTerminate is the signal to the view handler loop that it should exit
         if(!shallTerminate){
