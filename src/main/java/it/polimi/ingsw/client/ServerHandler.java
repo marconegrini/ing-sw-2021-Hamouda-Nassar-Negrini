@@ -73,7 +73,7 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("Waiting for json message from server...");
+                System.out.println("\nWaiting for json message from server...");
                 try {
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);
