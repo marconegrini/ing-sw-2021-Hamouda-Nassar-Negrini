@@ -45,7 +45,7 @@ public class ServerHandler implements Runnable{
         try {
             isr = new InputStreamReader(server.getInputStream());
             osw = new OutputStreamWriter(server.getOutputStream());
-            reader = new BufferedReader(isr);
+            reader = new BufferedReader(isr); //ciao
             writer = new BufferedWriter(osw);
             out = new PrintWriter(writer, true);
         } catch (IOException e){
