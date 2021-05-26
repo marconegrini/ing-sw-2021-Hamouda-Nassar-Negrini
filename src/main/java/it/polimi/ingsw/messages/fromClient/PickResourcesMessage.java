@@ -1,6 +1,5 @@
 package it.polimi.ingsw.messages.fromClient;
 
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;

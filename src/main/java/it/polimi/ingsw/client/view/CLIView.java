@@ -209,16 +209,20 @@ public class CLIView extends View{
                     dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show slots")) {
+
                     System.out.println("\n\t # Development Cards Slots # \t");
                     HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
-                    for(Integer i : devCardsSlot.keySet()){
+
+                    if(devCardsSlot.isEmpty())
+                        System.out.println("\nEmpty development card slots!");
+                    else for(Integer i : devCardsSlot.keySet()){
                         System.out.println("\n\t# Slot " + i + " #\t");
                         ArrayList<DevelopmentCard> dc = new ArrayList();
                         dc.add(devCardsSlot.get(i));
                         dvCardsTracer.printDVCard(dc).forEach(System.out::println);
                     }
-                    show = true;
 
+                    show = true;
                 }else if (choice.equals("show leader cards")) {
                     try {
                         leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);

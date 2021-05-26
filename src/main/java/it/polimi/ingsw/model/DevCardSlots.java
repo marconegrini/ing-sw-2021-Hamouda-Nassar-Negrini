@@ -104,9 +104,7 @@ public class DevCardSlots {
         for(int i = 0; i < cardSlot.size(); i++)
             if (!cardSlot.get(i).isEmpty())
                 cardsInSlot.put(i, cardSlot.get(i).peek().clone());
-
-        //why did this method returned a List of leaderCardCost?
-        //List<LeaderCardCost> result = peekCards.stream().map(x -> new LeaderCardCost(x.getColor(), x.getLevel())).collect(Collectors.toList());
+            /*
         HashMap<Resource, Integer> cardCost;
         HashMap<Resource, Integer> prodIn;
         HashMap<Resource, Integer> prodOut;
@@ -121,6 +119,9 @@ public class DevCardSlots {
         prodOut.put(Resource.COIN, 1);
         DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         cardsInSlot.put(1, card1);
+
+        */
+
         return cardsInSlot;
     }
 
