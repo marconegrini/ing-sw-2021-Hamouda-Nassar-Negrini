@@ -7,6 +7,7 @@ package it.polimi.ingsw.messages.fromClient;
 public enum ClientMessageType {
     PING,
     LOGIN,
+    EXITFROMGAME,
 
     BUYDEVELOPMENTCARD,
     CALAMAIORESPONSE,

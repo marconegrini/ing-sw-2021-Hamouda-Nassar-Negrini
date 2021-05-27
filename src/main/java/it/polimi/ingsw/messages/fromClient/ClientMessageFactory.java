@@ -35,6 +35,9 @@ public class ClientMessageFactory {
                 case LOGIN:
                     returnMessage = gson.fromJson(receivedMessage, LoginMessage.class);
                     break;
+                case EXITFROMGAME:
+                    returnMessage = gson.fromJson(receivedMessage, ExitFromGameMessage.class);
+                    break;
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ClientPingMessage.class);
                     break;
