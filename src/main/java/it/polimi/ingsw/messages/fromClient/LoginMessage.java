@@ -1,5 +1,7 @@
 package it.polimi.ingsw.messages.fromClient;
 
+import it.polimi.ingsw.messages.fromServer.InWaitingRoomMessage;
+import it.polimi.ingsw.messages.fromServer.ParticipantsMessage;
 import it.polimi.ingsw.messages.fromServer.ServerLoginErrorMessage;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
@@ -25,8 +27,18 @@ public class LoginMessage extends ClientMessage {
                 clientHandler.setNickname(nickname);
                 System.out.println("Added " + clientHandler.getNickname());
                 Server.add(clientHandler);
-                if(Server.getPlayersNumber() == 2)
+                if(Server.getPlayersNumber() == 4)
                     Server.startMultiplayerGame();
+                else {
+                    Server.sendParticipantsNumberUpdate();
+                    clientHandler.sendJson(new ParticipantsMessage(Server.getPlayersNumber() - 1));
+                    clientHandler.sendJson(new InWaitingRoomMessage());
+                }
+
+                /*
+                if(Server.getPlayersNumber() == 2)
+                Server.startMultiplayerGame();
+                 */
             }
         } else {
             clientHandler.setNickname(nickname);

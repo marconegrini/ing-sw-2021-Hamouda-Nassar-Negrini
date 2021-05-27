@@ -41,6 +41,9 @@ public class MultiPlayerGameHandler extends Thread {
     @Override
     public void run() {
         System.out.println("Multiplayer game started");
+
+        sendToClients(new StartGameMessage());
+
         for(ClientHandler ch : clientHandlers){
             System.out.println("\nPlayer " + ch.getNickname());
             MultiPlayer player = (MultiPlayer) ch.getPlayer();
