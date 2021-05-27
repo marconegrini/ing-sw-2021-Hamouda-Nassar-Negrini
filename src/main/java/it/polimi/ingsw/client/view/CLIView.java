@@ -29,6 +29,7 @@ public class CLIView extends View{
     FaithPathTracer faithPathTracer;
     DepositsTracer depositsTracer;
     DvCardsTracer dvCardsTracer;
+    boolean stillWaiting;
 
     public CLIView(LightModel clientLightModel){
         scanner = new Scanner(System.in);
@@ -38,6 +39,7 @@ public class CLIView extends View{
         faithPathTracer = new FaithPathTracer();
         depositsTracer = new DepositsTracer();
         dvCardsTracer = new DvCardsTracer();
+        stillWaiting = true;
     }
 
     /**
@@ -301,6 +303,41 @@ public class CLIView extends View{
         return null;
     }
 
+    @Override
+    public ClientMessage waitingRoom() {
+
+        String input;
+        ClientMessage returnedMessage = null;
+
+        System.out.println("Type START to start the game or EXIT to leave the game.");
+
+        while (stillWaiting) {
+            if (scanner.hasNext()) {
+                input = scanner.nextLine();
+                if (input.equalsIgnoreCase("START")) {
+                    return new AskStartGameMessage();
+                    /*
+                    returnedMessage = new AskStartGameMessage();
+                    stillWaiting = false;
+                     */
+                } else if (input.equalsIgnoreCase("EXIT")) {
+                    return new ExitFromGameMessage();
+                    /*
+                    returnedMessage = new ExitFromGameMessage();
+                    stillWaiting = false;
+                     */
+                } else
+                    System.out.println("Bad command: Type again another choice.\nType START to start the game or EXIT to leave the game.");
+            }
+        }
+        return new EmptyMessage();
+    }
+
+    @Override
+    public void endWaitingRoom() {
+        stillWaiting = false;
+    }
+
     /**
      * A simple show method that prints messages on the console
      * @param message message to print
@@ -329,5 +366,7 @@ public class CLIView extends View{
     public void showComponent() {
 
     }
+
+
 
 }

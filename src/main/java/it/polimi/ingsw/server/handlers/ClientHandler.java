@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessageFactory;
+import it.polimi.ingsw.messages.fromServer.EndGameMessage;
 import it.polimi.ingsw.messages.fromServer.ServerLoginMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerPingMessage;
@@ -129,5 +130,13 @@ public class ClientHandler extends Thread {
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
+
+    public void exitFromGame(){
+        System.out.println(nickname + " is exiting form the game");
+        sendJson(new EndGameMessage());
+        Server.removeClientHandler(this);
+        setShouldStop();
+    }
+
 
 }

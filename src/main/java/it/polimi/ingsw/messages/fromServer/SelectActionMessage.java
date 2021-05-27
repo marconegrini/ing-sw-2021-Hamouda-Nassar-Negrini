@@ -10,6 +10,11 @@ public class SelectActionMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().selectAction();
+        Runnable runnable = () -> {
+            serverHandler.getView().selectAction();
+        };
+
+        Thread selectAction = new Thread (runnable);
+        selectAction.start();
     }
 }
