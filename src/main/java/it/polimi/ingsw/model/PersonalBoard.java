@@ -3,10 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +54,7 @@ public class PersonalBoard {
         return totalResource;
     }
 
-    public void pullCofferResource(List<Resource> toTake){
+    public void pullCofferResource(List<Resource> toTake) throws InsufficientResourcesException {
         this.coffer.pullResource(toTake);
     }
 
@@ -136,8 +133,5 @@ public class PersonalBoard {
         this.warehouse = warehouse;
     }
 
-    public List<DevelopmentCard> getCardsInDevCardSlots(){
-        return devCardSlots.getCardsInSlots();
-    }
 
 }

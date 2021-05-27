@@ -25,7 +25,7 @@ public class Coffer implements Deposit{
         this.coffer = coffer;
     }
 
-    public void putResource(List<Resource> resources){
+    public void putResource(List<Resource> resources) {
         Integer coinOccurr = occurrences(Resource.COIN, resources);
         Integer stoneOccurr = occurrences(Resource.STONE, resources);
         Integer servantOccurr = occurrences(Resource.SERVANT, resources);
@@ -42,7 +42,6 @@ public class Coffer implements Deposit{
 
         shieldOccurr += coffer.get(Resource.SHIELD);
         coffer.put(Resource.SHIELD, shieldOccurr);
-
     }
 
     @Override

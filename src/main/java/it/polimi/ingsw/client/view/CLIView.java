@@ -1,12 +1,10 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.client.CLI.FaithPathTracer;
-import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
+import it.polimi.ingsw.client.CLI.*;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
-import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
