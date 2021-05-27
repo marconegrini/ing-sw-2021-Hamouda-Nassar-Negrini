@@ -38,6 +38,11 @@ public class GUIView extends View{
     }
 
     @Override
+    public void endWaitingRoom() {
+
+    }
+
+    @Override
     public void showMessage(String message) {}
 
     @Override
