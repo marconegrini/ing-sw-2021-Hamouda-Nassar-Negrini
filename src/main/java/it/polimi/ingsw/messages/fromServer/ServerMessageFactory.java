@@ -60,6 +60,12 @@ public class ServerMessageFactory {
                 case INWAITINGROOM:
                     returnMessage = gson.fromJson(receivedMessage, InWaitingRoomMessage.class);
                     break;
+                case ERRORSTARTGAME:
+                    returnMessage = gson.fromJson(receivedMessage, ErrorStartGameMessage.class);
+                    break;
+                case STARTGAME:
+                    returnMessage = gson.fromJson(receivedMessage, StartGameMessage.class);
+                    break;
                 case ENDGAME:
                     returnMessage = gson.fromJson(receivedMessage, EndGameMessage.class);
                     break;

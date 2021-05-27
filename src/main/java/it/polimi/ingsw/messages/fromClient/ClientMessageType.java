@@ -5,9 +5,12 @@ package it.polimi.ingsw.messages.fromClient;
  * messages that the client sends
  */
 public enum ClientMessageType {
+    EMPTY,
+
     PING,
     LOGIN,
     EXITFROMGAME,
+    ASKSTARTGAME,
 
     BUYDEVELOPMENTCARD,
     CALAMAIORESPONSE,

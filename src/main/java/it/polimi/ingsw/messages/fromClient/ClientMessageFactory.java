@@ -38,6 +38,12 @@ public class ClientMessageFactory {
                 case EXITFROMGAME:
                     returnMessage = gson.fromJson(receivedMessage, ExitFromGameMessage.class);
                     break;
+                case ASKSTARTGAME:
+                    returnMessage = gson.fromJson(receivedMessage, AskStartGameMessage.class);
+                    break;
+                case EMPTY:
+                    returnMessage = gson.fromJson(receivedMessage, EmptyMessage.class);
+                    break;
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ClientPingMessage.class);
                     break;
