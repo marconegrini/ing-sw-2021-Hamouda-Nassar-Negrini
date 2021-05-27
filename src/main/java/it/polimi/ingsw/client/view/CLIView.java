@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -267,36 +270,47 @@ public class CLIView extends View{
         return null;
     }
 
+
+    /**
+     * this method manage the time that the client will be in the waiting room waiting for other players.
+     * It allows the client to type commands on the terminal and to exit the game or to start it at any time.
+     *
+     * @return  A ClientMessage object that will handle the choose of the client. It could be a AskStartGameMessage,
+     *          a ExitFromGameMessage or a EmptyMessage. The EmptyMessage is returned only when the game was started
+     *          from another client.
+     */
     @Override
     public ClientMessage waitingRoom() {
 
         String input;
-        ClientMessage returnedMessage = null;
+
+        // Use of bufferedReader because it has the method ready() that is useful for our purpose
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader buffer = new BufferedReader(isr);
 
         System.out.println("Type START to start the game or EXIT to leave the game.");
 
         while (stillWaiting) {
-            if (scanner.hasNext()) {
-                input = scanner.nextLine();
-                if (input.equalsIgnoreCase("START")) {
-                    return new AskStartGameMessage();
-                    /*
-                    returnedMessage = new AskStartGameMessage();
-                    stillWaiting = false;
-                     */
-                } else if (input.equalsIgnoreCase("EXIT")) {
-                    return new ExitFromGameMessage();
-                    /*
-                    returnedMessage = new ExitFromGameMessage();
-                    stillWaiting = false;
-                     */
-                } else
-                    System.out.println("Bad command: Type again another choice.\nType START to start the game or EXIT to leave the game.");
+            try {
+                if (buffer.ready()){
+                    input = buffer.readLine();
+                    if (input.equalsIgnoreCase("START")) {
+                        return new AskStartGameMessage();
+                    } else if (input.equalsIgnoreCase("EXIT")) {
+                        return new ExitFromGameMessage();
+                    } else
+                        System.out.println("Bad command: Type again another choice.\nType START to start the game or EXIT to leave the game.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return new EmptyMessage();
     }
 
+    /**
+     * This method is used from the StartGameMessage to end the while(stillWaiting) loop of the method waitingRoom()
+     */
     @Override
     public void endWaitingRoom() {
         stillWaiting = false;
