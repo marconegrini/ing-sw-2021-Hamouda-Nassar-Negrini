@@ -33,6 +33,11 @@ public class GUIView extends View{
     }
 
     @Override
+    public ClientMessage waitingRoom() {
+        return null;
+    }
+
+    @Override
     public void showMessage(String message) {}
 
     @Override
