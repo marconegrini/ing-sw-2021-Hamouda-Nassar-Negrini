@@ -73,6 +73,7 @@ public class ClientHandler extends Thread {
                     String jsonMessage = reader.readLine();
                     if(jsonMessage != null) {
                         ClientMessage message = factory.returnMessage(jsonMessage);
+                        System.out.println(message);
                         message.serverProcess(this);
                     }
             } catch (MalformedJsonException e) {

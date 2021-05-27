@@ -84,7 +84,7 @@ public class MarketBoard {
         Marble temporaryMarble;
         List<Marble> pickedMarbles;
 
-        rowOrColNum= rowOrColNum>0 ? rowOrColNum-1 : rowOrColNum; //Convention Start from 1 instead of 0, if 0 leave it as it is
+        rowOrColNum = rowOrColNum > 0 ? rowOrColNum-1 : rowOrColNum; //Convention Start from 1 instead of 0, if 0 leave it as it is
 
         //ArrayList<Resource> pickedResources;
 

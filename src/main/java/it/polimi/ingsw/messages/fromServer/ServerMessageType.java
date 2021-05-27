@@ -26,6 +26,8 @@ public enum ServerMessageType {
     UPDATEFAITHPATH,
     UPDATEWAREHOUSECOFFER,
 
+    RESOURCESFROMMARKET,
+
     END;
 
     public static ServerMessageType getMessageType(String value) {

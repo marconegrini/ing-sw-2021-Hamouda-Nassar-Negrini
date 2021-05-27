@@ -1,12 +1,13 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.CLI.*;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
-import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
+import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
 import java.util.*;
@@ -181,7 +182,7 @@ public class CLIView extends View{
     @Override
     public ClientMessage selectAction() {
         String choice = "";
-        ServerMessage selection;
+        ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
         while(!selected) {
@@ -229,39 +230,87 @@ public class CLIView extends View{
                         e.printStackTrace();
                     }
                     show = true;
-
                 } else if (choice.equals("a")) {
+                    //Take resources from market
+                    marketTracer.marketTracer(clientLightModel.getMarketBoard());
+                    boolean isRow = true;
+                    Integer rowOrColNum = 0;
+                    System.out.println("\nInsert external marble in the market.");
+                    boolean OK = false;
+                    while(!OK) {
+                        System.out.println("Row or column?");
+                        String rowOrCol = scanner.nextLine();
+                        if(rowOrCol.equalsIgnoreCase("COLUMN")){
+                            OK = true;
+                            isRow = false;
+                        } else if(rowOrCol.equalsIgnoreCase("ROW")){
+                            OK = true;
+                            isRow = true;
+                        }
+                    }
+
+                    while(OK){
+                        try {
+                            if(isRow){
+                                System.out.println("Insert row number:");
+                                rowOrColNum = scanner.nextInt();
+                                if(rowOrColNum < 1 || rowOrColNum > 3){
+                                    System.out.println("Row number doesn't exists! Type again");
+                                } else OK = false;
+                            } else {
+                                System.out.println("Insert column number:");
+                                rowOrColNum = scanner.nextInt();
+                                if(rowOrColNum < 1 || rowOrColNum > 4){
+                                    System.out.println("Column number doesn't exists! Type again");
+                                } else OK = false;
+                            }
+                        } catch (InputMismatchException e){
+                            OK = false;
+                            System.out.println("Bad input format. Type again row or column number");
+                        }
+                    }
                     show = false;
                     selected = true;
-                    //return new PickResourcesMessage();
+                    selection = new PickResourcesMessage(isRow, rowOrColNum);
                 } else if (choice.equals("b")) {
+                    //Buy development card
 
                     show = false;
                     selected = true;
-                    //return new BuyDevCardMessage();
+                    //selection = new BuyDevCardMessage();
                 } else if (choice.equals("c")) {
+                    //Activate production
 
                     show = false;
                     selected = true;
-                    //return new ActivateProductionMessage();
+                    //selection = new ActivateProductionMessage();
                 } else if (choice.equals("d")) {
+                    //Activate Leader card
 
                     show = false;
                     selected = true;
-                    //return new ActivateLeaderCardMessage();
+                    //selection = new ActivateLeaderCardMessage();
                 } else if (choice.equals("e")) {
+                    //Discard leader card
 
                     show = false;
                     selected = true;
-                    //return new DiscardLeaderCardMessage();
+                    //selection = new DiscardLeaderCardMessage();
                 } else if (choice.equals("f")) {
+                    //Move warehouse resources
 
                     show = false;
                     selected = true;
-                    //return new MoveWarehouseResourcesMessage();
+                    //selection = new MoveWarehouseResourcesMessage();
                 } else System.out.println("Invalid choice. Type again.");
             }
         }
+        return selection;
+    }
+
+    @Override
+    public ClientMessage storeResources(List<Resource> resources){
+        this.showResources(resources);
         return null;
     }
 
@@ -290,8 +339,13 @@ public class CLIView extends View{
     }
 
     @Override
-    public void showComponent() {
-
+    public void showResources(List<Resource> resources) {
+        int i = 1;
+        System.out.println("\t# Resources #\t");
+        for(Resource res : resources) {
+            System.out.println(i + ") " + res.toString());
+            i++;
+        }
     }
 
 }

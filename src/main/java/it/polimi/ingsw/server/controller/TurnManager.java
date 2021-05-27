@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller;
+import it.polimi.ingsw.messages.fromServer.ResourcesFromMarketMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateMarketboardMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.fromServer.ErrorMessage;
@@ -105,9 +107,7 @@ public class TurnManager {
                     break;
             }
         }
-        this.resorucesToStore = resourcesToStore;
-        return null;
-        //return new UpdateMarketboardMessage(marketBoard.getRowOrColumnMarbles(isRow, rowOrColNum), marketBoard.getExternalMarbleColor());
+        return new ResourcesFromMarketMessage(resourcesToStore);
     }
 
     //TODO method that returns resources taken from market
