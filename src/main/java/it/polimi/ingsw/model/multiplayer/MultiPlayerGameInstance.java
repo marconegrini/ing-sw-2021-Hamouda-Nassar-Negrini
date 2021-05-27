@@ -18,6 +18,7 @@ public class MultiPlayerGameInstance extends GameInstance {
     public MultiPlayerGameInstance(){
         players = new ArrayList<>();
         this.cardsDeck = new CardsDeck();
+        this.cardsDeck.initializeCardsDeck();
         this.marketBoard = new MarketBoard();
     }
 

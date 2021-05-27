@@ -10,17 +10,16 @@ import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
+/**
+ * Class that manages CLI interactions with users
+ */
 public class CLIView extends View{
 
     Scanner scanner;
@@ -28,6 +27,8 @@ public class CLIView extends View{
     LeaderCardsTracer leaderCardsTracer;
     MarketTracer marketTracer;
     FaithPathTracer faithPathTracer;
+    DepositsTracer depositsTracer;
+    DvCardsTracer dvCardsTracer;
 
     public CLIView(LightModel clientLightModel){
         scanner = new Scanner(System.in);
@@ -35,8 +36,14 @@ public class CLIView extends View{
         leaderCardsTracer = new LeaderCardsTracer();
         marketTracer = new MarketTracer();
         faithPathTracer = new FaithPathTracer();
+        depositsTracer = new DepositsTracer();
+        dvCardsTracer = new DvCardsTracer();
     }
 
+    /**
+     * Method that authenticates the user
+     * @return A LoginMessage for the server
+     */
     @Override
     public ClientMessage logClient(){
 
@@ -104,7 +111,7 @@ public class CLIView extends View{
             }
             //TODO:aggiungi la risorsa scelta alla struttura del client
 
-            System.out.println("Resource chosen were added successfully");
+//            System.out.println("Resource chosen successfully");
 
             if ( strIn.contains("third") ) {
                 //TODO:aggiungi un punto fede alla struttura del client
@@ -112,7 +119,7 @@ public class CLIView extends View{
         }
 
         else if(strIn.contains("fourth")){
-
+            int s=2;
             System.out.println(strIn);
             System.out.println(resources);
             chosenResource=scanner.nextInt();
@@ -156,8 +163,11 @@ public class CLIView extends View{
 //        String
 //    }
 
-
-
+    /**
+     * Show possible options of leader cards to choose and asks the client to select two of them.
+     * @param leaderCards ArrayList of four leader cards
+     * @return a SelectLeaderCards message for the server
+     */
     @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
         String firstCard = "";
@@ -166,13 +176,12 @@ public class CLIView extends View{
         Integer secondIndex = 0;
         System.out.println("Select 2 leader cards within possible ones.");
         try {
-            ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
-            output.forEach(System.out::println);
+            //shows 4 options of leader cards to choose
+            leaderCardsTracer.printLeaderCards(leaderCards).forEach(System.out::println);
         } catch (EmptySlotException e){
             System.out.println("Selected invalid slot");
             System.exit(-2);
         }
-
         boolean OK = false;
         while(!OK) {
                 //TODO Number format exception
@@ -180,6 +189,7 @@ public class CLIView extends View{
                 firstCard = scanner.nextLine();
                 System.out.println("Select second card: ");
                 secondCard = scanner.nextLine();
+                //checks integrity of the two specified characters
                 if(firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")){
                     if(secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")){
                         if(!firstCard.equals(secondCard)){
@@ -199,6 +209,11 @@ public class CLIView extends View{
         return new SelectLeaderCardMessage(firstIndex, secondIndex);
     }
 
+    /**
+     * Actions menu displayed every time a user starts his turn. Before selecting the action to perform, the user can call
+     * the "show" command as long as he wants to see the status of personal board, market board and development cards deck.
+     * @return a ClientMessage type corresponding to the action selected
+     */
     @Override
     public ClientMessage selectAction() {
         String choice = "";
@@ -208,29 +223,47 @@ public class CLIView extends View{
         while(!selected) {
             System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
             System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-            System.out.println("[Type show + market/warehouse/faith path/dev cards deck/slots to see eventual updates]");
-            //the user ha the possibility to view n times his personal board before selecting an action to perform
+            System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
             while (show) {
+                //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
+                //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
+                System.out.println("\nMake a choice:");
                 choice = scanner.nextLine();
                 if (choice.equals("show market")) {
                     marketTracer.marketTracer(clientLightModel.getMarketBoard());
                     show = true;
-                } else if (choice.equals("show warehouse")) {
-                    System.out.println("show warehouse");
-                    show = true;
-                } else if (choice.equals("show coffer")) {
-                    System.out.println("show coffer");
+                } else if (choice.equals("show deposits")) {
+                    depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show faith path")) {
-                    ArrayList<String> positions = faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition());
-                    positions.forEach(System.out::println);
-                    System.out.println("You are in position " + clientLightModel.getFaithPathPosition());
+                    System.out.println("\n\t # Faith Path # \t");
+                    faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
                     show = true;
-                } else if (choice.equals("show dev cards deck")) {
-                    System.out.println("show dev cards deck");
+                } else if (choice.equals("show development deck")) {
+                    System.out.println("\n\t # Development Cards Deck # \t");
+                    dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show slots")) {
-                    System.out.println("show slots");
+
+                    System.out.println("\n\t # Development Cards Slots # \t");
+                    HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
+
+                    if(devCardsSlot.isEmpty())
+                        System.out.println("\nEmpty development card slots!");
+                    else for(Integer i : devCardsSlot.keySet()){
+                        System.out.println("\n\t# Slot " + i + " #\t");
+                        ArrayList<DevelopmentCard> dc = new ArrayList();
+                        dc.add(devCardsSlot.get(i));
+                        dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+                    }
+
+                    show = true;
+                }else if (choice.equals("show leader cards")) {
+                    try {
+                        leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    } catch (EmptySlotException e){
+                        e.printStackTrace();
+                    }
                     show = true;
 
                 } else if (choice.equals("a")) {
@@ -268,11 +301,19 @@ public class CLIView extends View{
         return null;
     }
 
+    /**
+     * A simple show method that prints messages on the console
+     * @param message message to print
+     */
     @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
 
+    /**
+     * Prints in console specified leader cards
+     * @param leaderCards leader cards to print
+     */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards){
         try {

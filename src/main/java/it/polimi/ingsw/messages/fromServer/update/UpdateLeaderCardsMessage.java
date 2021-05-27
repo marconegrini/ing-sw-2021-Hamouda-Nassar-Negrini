@@ -5,6 +5,12 @@ import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * The message is sent just one time from server to client to update the client about
+ * the selection of two leader cards  within the first four leader card distributed to each player by the server.
+ * The clientProcess method will discard the other two leader cards in the lightModel leader card list
+ * to keep only the selected ones. When the message is sent the server model has been already updated.
+ */
 public class UpdateLeaderCardsMessage extends ServerMessage {
 
     private Integer index1;

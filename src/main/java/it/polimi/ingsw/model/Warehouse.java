@@ -14,22 +14,36 @@ public class Warehouse implements Deposit{
     public Warehouse(){
 
         warehouse = new HashMap<>();
-
         Map<Integer, Integer> storageNumAndCapacity = new HashMap();
-
         WarehouseParser parser = new WarehouseParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlotsWarehouse.json");
-
         storageNumAndCapacity = parser.getStorageNumAndCapacity();
-
         parser.close();
 
         for(Integer storageNum : storageNumAndCapacity.keySet()){
-
             Integer storageCapacity = storageNumAndCapacity.get(storageNum);
-
             List<Resource> resources = new ArrayList<>(0);
             warehouse.put(storageNum, new Storage(storageCapacity, resources));
         }
+    }
+
+    /**
+     * @param wh custom constructor used to create a warehouse object in the light model.
+     *               The Warehouse object is build client side after receiving via json file the HashMap<Integer, Storage>
+     *               corresponding to the model's warehouse content
+     */
+    public Warehouse(HashMap<Integer, Storage> wh){
+        this.warehouse = wh;
+    }
+
+    /**
+     * Needed to clone the warehouse in order to send it to the client through UpdateWarehouse message
+     * @return
+     */
+    public HashMap<Integer, Storage> getClonedWarehouse(){
+        HashMap<Integer, Storage> clonedWarehouse = new HashMap<>();
+        for(Integer i : warehouse.keySet())
+            clonedWarehouse.put(i, warehouse.get(i));
+        return clonedWarehouse;
     }
 
     /**

@@ -61,17 +61,19 @@ public class ServerMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
                 case CHOOSELEADERCARDS:
-                    JsonArray jsonLeaderCards = messageObject.getAsJsonArray("leaderCards");
-                    LeaderCardFactory factory = new LeaderCardFactory();
-                    List<LeaderCard> leaderCards = factory.create(jsonLeaderCards);
-                    returnMessage = new ChooseLeaderCardMessage(leaderCards);
+                    JsonArray jsonLeaderCards1 = messageObject.getAsJsonArray("leaderCards");
+                    LeaderCardFactory factory1 = new LeaderCardFactory();
+                    List<LeaderCard> leaderCards1 = factory1.create(jsonLeaderCards1);
+                    returnMessage = new ChooseLeaderCardMessage(leaderCards1);
                     break;
                 case UPDATELEADERCARDS:
                     returnMessage = gson.fromJson(receivedMessage, UpdateLeaderCardsMessage.class);
                     break;
-                case UPDATEWAREHOUSE:
-                    returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseMessage.class);
-                    System.out.println(returnMessage);
+                case UPDATELEADERCARDSTATUS:
+                    JsonArray jsonLeaderCards2 = messageObject.getAsJsonArray("leaderCards");
+                    LeaderCardFactory factory2 = new LeaderCardFactory();
+                    List<LeaderCard> leaderCards2 = factory2.create(jsonLeaderCards2);
+                    returnMessage = new UpdateLeaderCardStatusMessage(leaderCards2);
                     break;
                 case UPDATEMARKETBOARD:
                     returnMessage = gson.fromJson(receivedMessage, UpdateMarkeboardMessage.class);
@@ -84,6 +86,9 @@ public class ServerMessageFactory {
                     break;
                 case UPDATEFAITHPATH:
                     returnMessage = gson.fromJson(receivedMessage, UpdateFaithPathMessage.class);
+                    break;
+                case UPDATEWAREHOUSECOFFER:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseCofferMessage.class);
                     break;
                 case SELECTACTION:
                     returnMessage = gson.fromJson(receivedMessage, SelectActionMessage.class);

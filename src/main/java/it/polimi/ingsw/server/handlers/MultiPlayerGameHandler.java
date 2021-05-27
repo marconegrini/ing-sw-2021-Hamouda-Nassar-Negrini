@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.handlers;
 
+import it.polimi.ingsw.client.CLI.MarketTracer;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
-import it.polimi.ingsw.messages.fromServer.update.UpdateFaithPathMessage;
-import it.polimi.ingsw.messages.fromServer.update.UpdateMarkeboardMessage;
+import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
@@ -68,6 +69,10 @@ public class MultiPlayerGameHandler extends Thread {
  */
     }
 
+    /**
+     * Parses leader cards and puts them in a Stack. After shuffling the stack, sends an
+     * ArrayList of 4 leader cards to all clients.
+     */
     public void sendLeaderCards() {
         LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
         Stack<LeaderCard> deck = new Stack<>();
@@ -132,7 +137,7 @@ public class MultiPlayerGameHandler extends Thread {
         clientHandlers.remove(searchedCH);
         tempArr.addAll(clientHandlers);
 
-        if (clientHandlers.size() == (tempArr.size()-1) ) {
+        if (clientHandlers.size() == tempArr.size()) {
             clientHandlers = tempArr;
         } else {
             System.out.println("error while reOrdinating clientHandlers List after setting the calamaio");

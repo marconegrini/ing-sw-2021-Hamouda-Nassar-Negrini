@@ -4,6 +4,11 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.List;
 
+/**
+ * Storage represents a shelf inside Warehouse
+ * capacity: the maximum space that can be occupied inside this storage
+ * resources: an ArrayList that contains resources stored in this storage, with .size() <= capacity
+ */
 public class Storage {
     private Integer capacity;
     private List<Resource> resources;

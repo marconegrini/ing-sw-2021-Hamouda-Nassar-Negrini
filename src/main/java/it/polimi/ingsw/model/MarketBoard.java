@@ -23,7 +23,6 @@ public class MarketBoard {
      * inside marbles[][]
      *
      */
-
     private void setupMarketBoard(){
 
         Stack<Marble> marbleStack= new Stack<>();

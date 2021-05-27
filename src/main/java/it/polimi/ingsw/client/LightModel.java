@@ -1,23 +1,34 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.Coffer;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class that contains only necessary data structures to save user's current state. There are no integrity rules since structures are
+ * updated with model data. At the end of each turn, all Light Model classes associated with users will be updated through Update Messages (ServerMessageType)
+ */
 public class LightModel{
 
     private List<LeaderCard> leaderCards;
+    private ArrayList<DevelopmentCard> developmentCardsDeck;
+    private HashMap<Integer, DevelopmentCard> peekDevCardsInSlot;
     private MarketBoard marketBoard;
     private HashMap<String, Integer> otherPlayersFaithPathPosition;
     private Integer faithPathPosition;
+    private Warehouse warehouse;
+    private Coffer coffer;
 
     public LightModel(){
         leaderCards = new ArrayList<>();
-        marketBoard = new MarketBoard();
+        developmentCardsDeck = new ArrayList<>();
         otherPlayersFaithPathPosition = new HashMap<>();
         faithPathPosition = 0;
     }
@@ -36,6 +47,22 @@ public class LightModel{
         leaderCards.clear();
         leaderCards.add(lc1);
         leaderCards.add(lc2);
+    }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCardsDeck(){
+        return this.developmentCardsDeck;
+    }
+
+    public void setDevelopmentCardsDeck(ArrayList<DevelopmentCard> developmentCardsDeck){
+        this.developmentCardsDeck = developmentCardsDeck;
+    }
+
+    public HashMap<Integer, DevelopmentCard> getPeekDevCardsInSlot() {
+        return peekDevCardsInSlot;
+    }
+
+    public void setPeekDevCardsInSlot(HashMap<Integer, DevelopmentCard> peekDevCardsInSlot) {
+        this.peekDevCardsInSlot = peekDevCardsInSlot;
     }
 
     public MarketBoard getMarketBoard(){
@@ -60,6 +87,22 @@ public class LightModel{
 
     public void setOtherPlayersFaithPathPosition(HashMap<String, Integer> otherPlayersFaithPathPosition) {
         this.otherPlayersFaithPathPosition = otherPlayersFaithPathPosition;
+    }
+
+    public Warehouse getWarehouse(){
+        return this.warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse){
+        this.warehouse = warehouse;
+    }
+
+    public Coffer getCoffer(){
+        return coffer;
+    }
+
+    public void setCoffer(Coffer coffer){
+        this.coffer = coffer;
     }
 
 }

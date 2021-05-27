@@ -16,7 +16,8 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * a class used in the CLIENT, contains info like socket,Client, readers,writers and View type.
+ * Class handled by CLIENT thread. Contains references to all user's required classes, such as
+ * Socket, LightModel, View, and IO classes.
  */
 public class ServerHandler implements Runnable{
 
@@ -31,13 +32,11 @@ public class ServerHandler implements Runnable{
     private LightModel lightModel;
     private View view;
     private boolean isCli = true;
-    private Player player;
 
     public ServerHandler(Socket server, Client owner){
         this.server = server;
         this.owner = owner;
         this.lightModel = new LightModel();
-        this.player =new MultiPlayer();
         if(isCli)
             this.view = new CLIView(this.lightModel);
         else this.view = new GUIView();
@@ -48,7 +47,7 @@ public class ServerHandler implements Runnable{
         try {
             isr = new InputStreamReader(server.getInputStream());
             osw = new OutputStreamWriter(server.getOutputStream());
-            reader = new BufferedReader(isr);
+            reader = new BufferedReader(isr); //ciao
             writer = new BufferedWriter(osw);
             out = new PrintWriter(writer, true);
         } catch (IOException e){
@@ -76,13 +75,14 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("Waiting for a json message from server...");
+                System.out.println("\nWaiting for a json message from server...");
                 try {
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);
                         if(jsonMessage != null) {
                             ServerMessage message = factory.returnMessage(jsonMessage);
                             System.out.println(message.toString());
+                            System.out.println("\n");
                             message.clientProcess(this);
                         }
                 } catch (IOException e) {
@@ -118,16 +118,20 @@ public class ServerHandler implements Runnable{
         } catch (IOException ignored) {}
     }
 
-    public View getView(){
-        return view;
-    }
-
+    /**
+     * Used inside ServerMessages' clientProcess methods to get user's data and pass it to the view
+     * @return light model data
+     */
     public LightModel getLightModel(){
         return lightModel;
     }
 
-    public Player getPlayer() {
-        return player;
+    /**
+     * Used inside ServerMessages' clientProcess methods to get CLI/GUI view methods
+     * @return CLI/GUI view methods
+     */
+    public View getView(){
+        return view;
     }
 
 }
