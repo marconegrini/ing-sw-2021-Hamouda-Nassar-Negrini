@@ -132,7 +132,8 @@ buildNumber.properties
 
 # Icon must end with two \r
 # (this hidden file is created if you change the icon of a folder in Finder.app)
-Icon
+Icon
+
 
 # Resource forks and xattr data on non-Apple filesystems
 ._*
@@ -215,3 +216,4 @@ $RECYCLE.BIN/
 # http://www.sonarlint.org/commandline/
 # SonarLint working directories, configuration files (including credentials)
 .sonarlint/
+!/src/main/java/it/polimi/ingsw/messages/fromServer/UpdateWarehouseMessage.java
