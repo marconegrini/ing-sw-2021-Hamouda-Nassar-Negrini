@@ -57,6 +57,12 @@ public class ServerMessageFactory {
                 case PARTICIPANTS:
                     returnMessage = gson.fromJson(receivedMessage, ParticipantsMessage.class);
                     break;
+                case INWAITINGROOM:
+                    returnMessage = gson.fromJson(receivedMessage, InWaitingRoomMessage.class);
+                    break;
+                case ENDGAME:
+                    returnMessage = gson.fromJson(receivedMessage, EndGameMessage.class);
+                    break;
                 case CALAMAIO:
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
