@@ -7,12 +7,14 @@ public class ParticipantsMessage extends ServerMessage{
 
     private Integer participantsNumber;
 
-    public ParticipantsMessage() {
+    public ParticipantsMessage(Integer participantsNumber)
+    {
         super(ServerMessageType.PARTICIPANTS);
+        this.participantsNumber = participantsNumber;
     }
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        //serverHandler.updateParticipants(Server.getParticipants());
+        serverHandler.getView().showMessage("Waiting with other " + participantsNumber + " players");
     }
 }
