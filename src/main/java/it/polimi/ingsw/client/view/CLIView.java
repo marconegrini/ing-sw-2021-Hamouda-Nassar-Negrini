@@ -4,12 +4,10 @@ import it.polimi.ingsw.client.CLI.*;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
 import java.util.*;
 
