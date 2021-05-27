@@ -108,6 +108,10 @@ public class PersonalBoard {
         return 0;
     }
 
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
     public List<DevelopmentCard> getCardsInDevCardSlots(){
         return devCardSlots.getCardsInSlots();
     }

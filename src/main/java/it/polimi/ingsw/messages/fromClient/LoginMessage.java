@@ -4,6 +4,7 @@ import it.polimi.ingsw.messages.fromServer.ServerLoginErrorMessage;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+
 public class LoginMessage extends ClientMessage {
     private String nickname;
     private boolean isMultiplayer;

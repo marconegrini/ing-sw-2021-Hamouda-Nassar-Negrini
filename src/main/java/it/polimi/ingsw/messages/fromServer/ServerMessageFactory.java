@@ -69,6 +69,10 @@ public class ServerMessageFactory {
                 case UPDATELEADERCARDS:
                     returnMessage = gson.fromJson(receivedMessage, UpdateLeaderCardsMessage.class);
                     break;
+                case UPDATEWAREHOUSE:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseMessage.class);
+                    System.out.println(returnMessage);
+                    break;
                 case UPDATEMARKETBOARD:
                     returnMessage = gson.fromJson(receivedMessage, UpdateMarkeboardMessage.class);
                     break;

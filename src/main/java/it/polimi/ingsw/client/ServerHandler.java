@@ -8,6 +8,8 @@ import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 
 import java.io.*;
 import java.net.Socket;
@@ -29,11 +31,13 @@ public class ServerHandler implements Runnable{
     private LightModel lightModel;
     private View view;
     private boolean isCli = true;
+    private Player player;
 
     public ServerHandler(Socket server, Client owner){
         this.server = server;
         this.owner = owner;
         this.lightModel = new LightModel();
+        this.player =new MultiPlayer();
         if(isCli)
             this.view = new CLIView(this.lightModel);
         else this.view = new GUIView();
@@ -72,7 +76,7 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("Waiting for json message from server...");
+                System.out.println("Waiting for a json message from server...");
                 try {
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);
@@ -121,4 +125,9 @@ public class ServerHandler implements Runnable{
     public LightModel getLightModel(){
         return lightModel;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
 }

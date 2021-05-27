@@ -13,6 +13,7 @@ public enum ServerMessageType {
     LOGIN,
     LOGIN_ERROR,
     CALAMAIO,
+    UPDATEWAREHOUSE,
     PARTICIPANTS,
 
     CHOOSELEADERCARDS,

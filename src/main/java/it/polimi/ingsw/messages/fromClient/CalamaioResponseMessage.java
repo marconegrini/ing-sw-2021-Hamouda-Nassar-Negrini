@@ -1,5 +1,6 @@
 package it.polimi.ingsw.messages.fromClient;
 
+import it.polimi.ingsw.messages.fromServer.UpdateWarehouseMessage;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
@@ -55,7 +56,8 @@ public class CalamaioResponseMessage extends ClientMessage {
                 }
             }
         }
-        //TODO: send a message to update the client's warehouse
+//        clientHandler.sendJson(new UpdateWarehouseMessage(clientHandler.getPlayer().getPersonalBoard().getWarehouse()));
+//        clientHandler.getTurnManager().clientDone();
     }
 
 

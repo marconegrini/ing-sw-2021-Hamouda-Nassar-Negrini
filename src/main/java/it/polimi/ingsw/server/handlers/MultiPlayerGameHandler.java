@@ -1,9 +1,8 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.messages.fromServer.ChooseLeaderCardMessage;
-import it.polimi.ingsw.messages.fromServer.EndMessage;
-import it.polimi.ingsw.messages.fromServer.InitializeCalamaio;
-import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.messages.fromServer.*;
+import it.polimi.ingsw.messages.fromServer.update.UpdateFaithPathMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateMarkeboardMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
@@ -58,6 +57,7 @@ public class MultiPlayerGameHandler extends Thread {
         sendLeaderCards();
         turnManager.isDone();
         initialiseCalamaio();
+        turnManager.isDone();
         updateClients();
         sendToClients(new SelectActionMessage());
 

@@ -297,4 +297,15 @@ public abstract class Player {
         }
         return resourcesToReturn;
     }
+
+
+
+    public void updateWareHouse(Warehouse warehouse){
+        this.personalBoard.setWarehouse(warehouse);
+
+    }
+
+
+
+
 }

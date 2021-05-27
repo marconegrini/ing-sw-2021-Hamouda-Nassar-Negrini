@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.CLI.FaithPathTracer;
 import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
-import it.polimi.ingsw.messages.fromClient.CalamaioResponse;
+import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
@@ -147,7 +147,7 @@ public class CLIView extends View{
             //TODO:aggiungi un punto fede alla struttura del client
 //            System.out.println("Resource chosen successfully");
         }
-        return new CalamaioResponse(chosenResource, chosenResource2, destStorage1, destStorage2);
+        return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
     }
 
 //
