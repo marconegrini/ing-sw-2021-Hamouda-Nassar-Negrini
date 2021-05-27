@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server;
+import it.polimi.ingsw.messages.fromServer.ParticipantsMessage;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
 import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
@@ -80,12 +81,18 @@ public class Server {
     public static synchronized void removeClientHandler (ClientHandler clientHandler){
         clientHandlers.remove(clientHandler);
         System.out.println("Removed " + clientHandler.getNickname());
+        sendParticipantsNumberUpdate();
     }
 
     public static synchronized void clearParticipants(){
         clientHandlers.clear();
     }
 
+    public static synchronized void sendParticipantsNumberUpdate(){
+        for (ClientHandler clientHandler : clientHandlers){
+            clientHandler.sendJson(new ParticipantsMessage(getPlayersNumber() -1));
+        }
+    }
 
 
 }
