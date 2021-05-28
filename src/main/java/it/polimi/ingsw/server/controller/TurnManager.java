@@ -135,10 +135,10 @@ public class TurnManager {
                 player.putWarehouseResources(destStorage, resourcesIn);
                 if(this.resorucesToStore.equals(resourcesIn)){
                     turnDone();
-                    return new ResourcesToStoreMessage(true, null, null);
+                    return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!");
                 } else {
                     this.resorucesToStore.removeAll(resourcesIn);
-                    return new ResourcesToStoreMessage(false, this.resorucesToStore, null);
+                    return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.");
                 }
             } catch (StorageOutOfBoundsException e1) {
                 return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resorucesToStore);
@@ -172,7 +172,7 @@ public class TurnManager {
                 return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!");
             } else {
                 this.resorucesToStore.removeAll(resourcesIn);
-                return new ResourcesToStoreMessage(false, this.resorucesToStore, "\nResources correctly discarded!\n");
+                return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.");
             }
         }
 
