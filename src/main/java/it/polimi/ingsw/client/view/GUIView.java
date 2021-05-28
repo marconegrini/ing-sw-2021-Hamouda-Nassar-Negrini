@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.List;
 
@@ -33,6 +34,11 @@ public class GUIView extends View{
     }
 
     @Override
+    public ClientMessage storeResources(List<Resource> resources) {
+        return null;
+    }
+
+    @Override
     public ClientMessage waitingRoom() {
         return null;
     }
@@ -49,7 +55,5 @@ public class GUIView extends View{
     public void showLeaderCards(List<LeaderCard> leaderCards) {}
 
     @Override
-    public void showComponent() {
-
-    }
+    public void showResources(List<Resource> resources) {}
 }

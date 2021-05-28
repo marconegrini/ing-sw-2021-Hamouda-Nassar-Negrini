@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.server.Server;
 
 public class SelectActionMessage extends ServerMessage{
@@ -10,11 +11,18 @@ public class SelectActionMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
+        /*
+
         Runnable runnable = () -> {
             serverHandler.getView().selectAction();
         };
 
         Thread selectAction = new Thread (runnable);
         selectAction.start();
+
+         */
+
+        ClientMessage message = serverHandler.getView().selectAction();
+        serverHandler.sendJson(message);
     }
 }

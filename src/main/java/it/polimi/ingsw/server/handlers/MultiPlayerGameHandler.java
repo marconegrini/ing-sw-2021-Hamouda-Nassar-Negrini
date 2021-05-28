@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.client.CLI.MarketTracer;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.Player;
@@ -57,14 +55,19 @@ public class MultiPlayerGameHandler extends Thread {
             MultiPlayer player = (MultiPlayer) ch.getPlayer();
             player.printPlayer();
         }
-
         sendLeaderCards();
         turnManager.isDone();
         initialiseCalamaio();
         turnManager.isDone();
         updateClients();
-        sendToClients(new SelectActionMessage());
 
+        //sendToClients(new SelectActionMessage());
+
+        for(ClientHandler ch : clientHandlers){
+            sendToClient(ch, new SelectActionMessage());
+            sendToClients(new OkMessage("Wait your turn..."), ch);
+            turnManager.isDone();
+        }
 /*
         for(ClientHandler ch : clientHandlers)
             ch.sendJson(new EndMessage());
@@ -108,7 +111,7 @@ public class MultiPlayerGameHandler extends Thread {
     }
 
     public void updateClients(){
-        sendToClients(new UpdateMarkeboardMessage(game.getMarketBoard()));
+        sendToClients(new UpdateMarketboardMessage(game.getMarketBoard()));
         for(ClientHandler ch : clientHandlers){
             HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(ch.getNickname());

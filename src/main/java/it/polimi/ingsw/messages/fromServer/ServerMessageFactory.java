@@ -72,6 +72,9 @@ public class ServerMessageFactory {
                 case CALAMAIO:
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
+                case RESOURCESFROMMARKET:
+                    returnMessage = gson.fromJson(receivedMessage, ResourcesFromMarketMessage.class);
+                    break;
                 case CHOOSELEADERCARDS:
                     JsonArray jsonLeaderCards1 = messageObject.getAsJsonArray("leaderCards");
                     LeaderCardFactory factory1 = new LeaderCardFactory();
@@ -88,7 +91,7 @@ public class ServerMessageFactory {
                     returnMessage = new UpdateLeaderCardStatusMessage(leaderCards2);
                     break;
                 case UPDATEMARKETBOARD:
-                    returnMessage = gson.fromJson(receivedMessage, UpdateMarkeboardMessage.class);
+                    returnMessage = gson.fromJson(receivedMessage, UpdateMarketboardMessage.class);
                     break;
                 case UPDATEDEVCARDSDECK:
                     returnMessage = gson.fromJson(receivedMessage, UpdateDevCardsDeckMessage.class);

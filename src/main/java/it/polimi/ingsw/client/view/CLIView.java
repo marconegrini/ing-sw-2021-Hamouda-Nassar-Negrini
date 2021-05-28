@@ -1,18 +1,18 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.CLI.*;
-import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
-import it.polimi.ingsw.messages.fromClient.ClientMessage;
-import it.polimi.ingsw.messages.fromClient.LoginMessage;
-import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
-import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
+import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -217,7 +217,7 @@ public class CLIView extends View{
     @Override
     public ClientMessage selectAction() {
         String choice = "";
-        ServerMessage selection;
+        ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
         while(!selected) {
@@ -265,72 +265,131 @@ public class CLIView extends View{
                         e.printStackTrace();
                     }
                     show = true;
-
                 } else if (choice.equals("a")) {
+                    //Take resources from market
+                    marketTracer.marketTracer(clientLightModel.getMarketBoard());
+                    boolean isRow = true;
+                    Integer rowOrColNum = 0;
+                    System.out.println("\nInsert external marble in the market.");
+                    boolean OK = false;
+                    while(!OK) {
+                        System.out.println("Row or column?");
+                        String rowOrCol = scanner.nextLine();
+                        if(rowOrCol.equalsIgnoreCase("COLUMN")){
+                            OK = true;
+                            isRow = false;
+                        } else if(rowOrCol.equalsIgnoreCase("ROW")){
+                            OK = true;
+                            isRow = true;
+                        }
+                    }
+
+                    while(OK){
+                        try {
+                            if(isRow){
+                                System.out.println("Insert row number:");
+                                rowOrColNum = scanner.nextInt();
+                                if(rowOrColNum < 1 || rowOrColNum > 3){
+                                    System.out.println("Row number doesn't exists! Type again");
+                                } else OK = false;
+                            } else {
+                                System.out.println("Insert column number:");
+                                rowOrColNum = scanner.nextInt();
+                                if(rowOrColNum < 1 || rowOrColNum > 4){
+                                    System.out.println("Column number doesn't exists! Type again");
+                                } else OK = false;
+                            }
+                        } catch (InputMismatchException e){
+                            OK = false;
+                            System.out.println("Bad input format. Type again row or column number");
+                        }
+                    }
                     show = false;
                     selected = true;
-                    //return new PickResourcesMessage();
+                    selection = new PickResourcesMessage(isRow, rowOrColNum);
                 } else if (choice.equals("b")) {
+                    //Buy development card
 
                     show = false;
                     selected = true;
-                    //return new BuyDevCardMessage();
+                    //selection = new BuyDevCardMessage();
                 } else if (choice.equals("c")) {
+                    //Activate production
 
                     show = false;
                     selected = true;
-                    //return new ActivateProductionMessage();
+                    //selection = new ActivateProductionMessage();
                 } else if (choice.equals("d")) {
+                    //Activate Leader card
 
                     show = false;
                     selected = true;
-                    //return new ActivateLeaderCardMessage();
+                    //selection = new ActivateLeaderCardMessage();
                 } else if (choice.equals("e")) {
+                    //Discard leader card
 
                     show = false;
                     selected = true;
-                    //return new DiscardLeaderCardMessage();
+                    //selection = new DiscardLeaderCardMessage();
                 } else if (choice.equals("f")) {
+                    //Move warehouse resources
 
                     show = false;
                     selected = true;
-                    //return new MoveWarehouseResourcesMessage();
+                    //selection = new MoveWarehouseResourcesMessage();
                 } else System.out.println("Invalid choice. Type again.");
             }
         }
+        return selection;
+    }
+
+    @Override
+    public ClientMessage storeResources(List<Resource> resources){
+        this.showResources(resources);
         return null;
     }
 
+
+    /**
+     * this method manage the time that the client will be in the waiting room waiting for other players.
+     * It allows the client to type commands on the terminal and to exit the game or to start it at any time.
+     *
+     * @return  A ClientMessage object that will handle the choose of the client. It could be a AskStartGameMessage,
+     *          a ExitFromGameMessage or a EmptyMessage. The EmptyMessage is returned only when the game was started
+     *          from another client.
+     */
     @Override
     public ClientMessage waitingRoom() {
 
         String input;
-        ClientMessage returnedMessage = null;
+
+        // Use of bufferedReader because it has the method ready() that is useful for our purpose
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader buffer = new BufferedReader(isr);
 
         System.out.println("Type START to start the game or EXIT to leave the game.");
 
         while (stillWaiting) {
-            if (scanner.hasNext()) {
-                input = scanner.nextLine();
-                if (input.equalsIgnoreCase("START")) {
-                    return new AskStartGameMessage();
-                    /*
-                    returnedMessage = new AskStartGameMessage();
-                    stillWaiting = false;
-                     */
-                } else if (input.equalsIgnoreCase("EXIT")) {
-                    return new ExitFromGameMessage();
-                    /*
-                    returnedMessage = new ExitFromGameMessage();
-                    stillWaiting = false;
-                     */
-                } else
-                    System.out.println("Bad command: Type again another choice.\nType START to start the game or EXIT to leave the game.");
+            try {
+                if (buffer.ready()){
+                    input = buffer.readLine();
+                    if (input.equalsIgnoreCase("START")) {
+                        return new AskStartGameMessage();
+                    } else if (input.equalsIgnoreCase("EXIT")) {
+                        return new ExitFromGameMessage();
+                    } else
+                        System.out.println("Bad command: Type again another choice.\nType START to start the game or EXIT to leave the game.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return new EmptyMessage();
     }
 
+    /**
+     * This method is used from the StartGameMessage to end the while(stillWaiting) loop of the method waitingRoom()
+     */
     @Override
     public void endWaitingRoom() {
         stillWaiting = false;
@@ -361,8 +420,13 @@ public class CLIView extends View{
     }
 
     @Override
-    public void showComponent() {
-
+    public void showResources(List<Resource> resources) {
+        int i = 1;
+        System.out.println("\t# Resources #\t");
+        for(Resource res : resources) {
+            System.out.println(i + ") " + res.toString());
+            i++;
+        }
     }
 
 
