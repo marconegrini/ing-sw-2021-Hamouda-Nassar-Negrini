@@ -2,8 +2,11 @@ package it.polimi.ingsw.model;
 
 public class VaticanSection {
 
+    //start pos
     private Integer startPos;
+    //end pos
     private Integer spazioPapa;
+
     private boolean activated;
     private boolean cardFlipped;
     private Integer victoryPoints;

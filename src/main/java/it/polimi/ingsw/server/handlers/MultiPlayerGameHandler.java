@@ -60,6 +60,7 @@ public class MultiPlayerGameHandler extends Thread {
             sendToClient(ch, new SelectActionMessage());
             sendToClients(new OkMessage("Wait your turn..."), ch);
             turnManager.isDone();
+
         }
 /*
         for(ClientHandler ch : clientHandlers)

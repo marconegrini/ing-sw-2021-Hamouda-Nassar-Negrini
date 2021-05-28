@@ -10,8 +10,11 @@ public class FaithPath {
 
     private ArrayList<VaticanSection> vaticanSections;
 
+    //key: position in faith path
+    //value:victory points
     private HashMap<Integer, Integer> victoryPoints;
 
+    //last cell of faith path
     private Integer end;
 
     public FaithPath(){
@@ -47,6 +50,13 @@ public class FaithPath {
         for(VaticanSection vs : vaticanSections)
             if(vs.rapportoVaticano(newPlayingUserPos))
                 vs.activate(this.userPosition);
+    }
+
+    public boolean isRapportoInVaticano(Integer newUserPos){
+        for(VaticanSection vs : vaticanSections)
+            if(vs.rapportoVaticano(newUserPos))
+                return true;
+        return false;
     }
 
     public Integer getVictoryPoints(){

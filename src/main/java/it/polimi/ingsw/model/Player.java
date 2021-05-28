@@ -24,10 +24,6 @@ public abstract class Player {
 
     protected String nickname;
 
-    protected DataOutputStream toClient;
-
-    protected DataInputStream fromClient;
-
     protected boolean hasCalamaio;
 
     protected PersonalBoard personalBoard;
@@ -47,14 +43,6 @@ public abstract class Player {
     public abstract void buyDevelopmentCard();
 
     public abstract void activateProduction();
-
-    public DataInputStream getFromClient(){
-        return this.fromClient;
-    }
-
-    public DataOutputStream getToClient() {
-        return this.toClient;
-    }
 
     public String getNickname(){
         return this.nickname;
