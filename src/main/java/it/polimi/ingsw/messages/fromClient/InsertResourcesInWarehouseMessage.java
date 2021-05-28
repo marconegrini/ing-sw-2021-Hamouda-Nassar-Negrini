@@ -10,11 +10,13 @@ import java.util.List;
 
 public class InsertResourcesInWarehouseMessage extends ClientMessage{
 
+    private boolean discard;
     private List<Resource> resources;
     private Integer shelf;
 
-    public InsertResourcesInWarehouseMessage(List<Resource> resources, Integer shelf){
+    public InsertResourcesInWarehouseMessage(boolean discard, List<Resource> resources, Integer shelf){
         super(ClientMessageType.INSERTRESOURCESINWAREHOUSE);
+        this.discard = discard;
         this.resources = resources;
         this.shelf = shelf;
     }
@@ -23,7 +25,7 @@ public class InsertResourcesInWarehouseMessage extends ClientMessage{
     public void serverProcess(ClientHandler clientHandler) {
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
-        ServerMessage outcome = turnManager.insertResourcesInWarehouse(clientHandler.getPlayer(), shelf, resources);
+        ServerMessage outcome = turnManager.insertResourcesInWarehouse(clientHandler.getPlayer(), shelf, resources, discard);
         clientHandler.sendJson(outcome);
     }
 }

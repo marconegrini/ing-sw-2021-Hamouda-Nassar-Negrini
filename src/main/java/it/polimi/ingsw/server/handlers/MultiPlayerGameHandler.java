@@ -50,24 +50,26 @@ public class MultiPlayerGameHandler extends Thread {
 
         sendToClients(new StartGameMessage());
 
-        for(ClientHandler ch : clientHandlers){
+        for (ClientHandler ch : clientHandlers) {
             System.out.println("\nPlayer " + ch.getNickname());
             MultiPlayer player = (MultiPlayer) ch.getPlayer();
             player.printPlayer();
         }
         sendLeaderCards();
         turnManager.isDone();
-        initialiseCalamaio();
-        turnManager.isDone();
+        //initialiseCalamaio();
+        //turnManager.isDone();
         updateClients();
 
         //sendToClients(new SelectActionMessage());
 
-        for(ClientHandler ch : clientHandlers){
-            sendToClient(ch, new SelectActionMessage());
-            sendToClients(new OkMessage("Wait your turn..."), ch);
-            turnManager.isDone();
-
+        while (true){
+            for (ClientHandler ch : clientHandlers) {
+                sendToClient(ch, new SelectActionMessage());
+                sendToClients(new OkMessage("Wait your turn..."), ch);
+                turnManager.isDone();
+                updateClients();
+            }
         }
 /*
         for(ClientHandler ch : clientHandlers)
@@ -113,10 +115,13 @@ public class MultiPlayerGameHandler extends Thread {
 
     public void updateClients(){
         sendToClients(new UpdateMarketboardMessage(game.getMarketBoard()));
+        sendToClients(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
         for(ClientHandler ch : clientHandlers){
             HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(ch.getNickname());
             sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
+            sendToClient(ch, new UpdateWarehouseCofferMessage(ch.getPlayer().getClonedWarehouse(), ch.getPlayer().getClonedCoffer()));
+            sendToClient(ch, new UpdateDevCardsSlotMessage(ch.getPlayer().getPeekCardsInDevCardSLots()));
         }
     }
 

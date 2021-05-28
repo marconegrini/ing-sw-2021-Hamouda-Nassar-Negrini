@@ -337,9 +337,114 @@ public class CLIView extends View{
     }
 
     @Override
-    public ClientMessage storeResources(List<Resource> resources){
+    public ClientMessage storeResources(List<Resource> resources) {
         this.showResources(resources);
-        return null;
+        depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
+        System.out.println("Type INSERT or DISCARD to insert resources in warehouse or to discard them. \nNB: When discarding a resource you give other players a faith path point each");
+        boolean OK = false;
+        boolean discard = false;
+        String CHOICE = "";
+        Integer shelf = 0;
+        List<Resource> resourcesToStore = new ArrayList<>();
+
+        //asks the client to insert or discard resources
+        while(!OK) {
+            CHOICE = scanner.nextLine();
+            CHOICE = CHOICE.toUpperCase(Locale.ROOT);
+            switch(CHOICE){
+                case ("INSERT"):
+                    OK = true;
+                    break;
+                case ("DISCARD"):
+                    discard = true;
+                    OK = true;
+                    break;
+                case (""):
+                    break;
+                default:
+                    System.out.println("Type again your choice.");
+                    break;
+            }
+        }
+        //uses CHOICE to print the action to perform. Enables to put INSERT and DISCARD branch inside the same while cycle.
+        CHOICE = CHOICE.toLowerCase(Locale.ROOT);
+
+
+        //slot to insert resources
+        Integer selected = 0;
+
+        boolean shelfOK = false;
+
+        //enters here only if INSERT option has been chosen.
+        //Needed to acquire shelf value.
+        if(!discard) {
+            System.out.println("Select shelf to insert resources (1 to 3):");
+            while (!shelfOK) {
+                try {
+                    shelf = scanner.nextInt();
+                    if(shelf >= 1 && shelf <= 3)
+                        shelfOK = true;
+                    else System.out.println("Invalid shelf. Type again");
+                } catch (InputMismatchException e){
+                    System.out.println("Invalid shelf. Type again");
+                }
+            }
+        }
+
+        boolean resourceOK = false;
+        //cycle that asks the user tho choose resources to discard or insert (in the selected slot)
+        while(!resourceOK) {
+
+            //Enters here only if resources List sent from server haven't been selected all already.
+            //In the else branch, terminates while and sends message
+            if(resources.size() > 0) {
+
+                try {
+                    this.showResources(resources);
+                    System.out.println("Select resource to " + CHOICE + ":");
+                    selected = scanner.nextInt();
+
+                    if (selected >= 1 && selected <= resources.size()) {
+                        //resources are ordinated in View from 1 to resourcesIn.size()
+                        selected--;
+                        resourcesToStore.add(resources.get(selected));
+                        Resource res = resources.get(selected);
+                        resources.remove(res);
+                        String yn = "";
+                        System.out.println(CHOICE + " another resource? (YES/NO)");
+                        boolean done = false;
+                        while(!done) {
+                            yn = scanner.nextLine();
+                            yn = yn.toUpperCase(Locale.ROOT);
+                            switch(yn){
+                                case("NO"):
+                                    resourceOK = true;
+                                    done = true;
+                                    break;
+                                case("YES"):
+                                    resourceOK = false;
+                                    done = true;
+                                    break;
+                                case (""):
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Type again.");
+                                    break;
+                            }
+                        }
+                    } else System.out.println("Invalid resource number. Type again");
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input.Type again.");
+                }
+
+            } else {
+                System.out.println("Available resources ended!");
+                resourceOK = true;
+            }
+        }
+
+        return new InsertResourcesInWarehouseMessage(discard, resourcesToStore, shelf);
     }
 
 
@@ -411,7 +516,7 @@ public class CLIView extends View{
     @Override
     public void showResources(List<Resource> resources) {
         int i = 1;
-        System.out.println("\t# Resources #\t");
+        System.out.println("\t# Resources to store #\t");
         for(Resource res : resources) {
             System.out.println(i + ") " + res.toString() +"\t" + ASCII_Resources.getShape(res.toString()));
             i++;

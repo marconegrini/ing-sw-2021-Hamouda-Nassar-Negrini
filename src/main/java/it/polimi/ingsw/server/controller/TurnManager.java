@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.controller;
-import it.polimi.ingsw.messages.fromServer.ResourcesFromMarketMessage;
+import it.polimi.ingsw.messages.fromClient.InsertResourcesInWarehouseMessage;
+import it.polimi.ingsw.messages.fromServer.warehouse.ErrorWarehouseMessage;
+import it.polimi.ingsw.messages.fromServer.warehouse.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
-import it.polimi.ingsw.messages.fromServer.update.UpdateMarketboardMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.fromServer.ErrorMessage;
@@ -69,6 +70,7 @@ public class TurnManager {
         } catch (IndexOutOfBoundsException e){
             return new ErrorMessage("Selected row or column doesn't exists");
         }
+        System.out.println(pickedMarbles);
         List<Resource> resourcesToStore = new ArrayList<>();
         for(Marble marble : pickedMarbles){
             Color marbleColor = marble.getColor();
@@ -105,9 +107,14 @@ public class TurnManager {
                 case BLUE:
                     resourcesToStore.add(Resource.SHIELD);
                     break;
+                default:
+                    break;
             }
         }
-        return new ResourcesFromMarketMessage(resourcesToStore);
+        this.resorucesToStore = resourcesToStore;
+        System.out.println(resourcesToStore);
+        //TODO modifiy return message if no resource is present after the market
+        return new ResourcesToStoreMessage(false, resourcesToStore, null);
     }
 
     //TODO method that returns resources taken from market
@@ -122,15 +129,54 @@ public class TurnManager {
      * @param resourcesIn List of resources to insert
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public ServerMessage insertResourcesInWarehouse(Player player, Integer destStorage, List<Resource> resourcesIn){
-        try {
-            player.putWarehouseResources(destStorage, resourcesIn);
-        } catch (StorageOutOfBoundsException e1){
-            return new ErrorMessage("Selected storage doesn't exists");
-        } catch (IllegalInsertionException e2){
-            return new ErrorMessage("Insertion not permitted");
+    public ServerMessage insertResourcesInWarehouse(Player player, Integer destStorage, List<Resource> resourcesIn, boolean discard) {
+        if (!discard) {
+            try {
+                player.putWarehouseResources(destStorage, resourcesIn);
+                if(this.resorucesToStore.equals(resourcesIn)){
+                    turnDone();
+                    return new ResourcesToStoreMessage(true, null, null);
+                } else {
+                    this.resorucesToStore.removeAll(resourcesIn);
+                    return new ResourcesToStoreMessage(false, this.resorucesToStore, null);
+                }
+            } catch (StorageOutOfBoundsException e1) {
+                return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resorucesToStore);
+            } catch (IllegalInsertionException e2) {
+                return new ErrorWarehouseMessage("\nInsertion not permitted. Insert again resources in warehouse.\n", this.resorucesToStore);
+            }
+        } else {
+            //if the player chose to discard resources, others faith paths are updated and
+            // a check to see if rapporto in vaticano is activated starts. If activated, updates
+            //other users' faith paths.
+            for (Resource res : resourcesIn) {
+                if(multiplayer){
+                    for(Player p : players){
+                        if(!p.equals(player)){
+                            p.incrementFaithPathPosition();
+                            Integer newUserPos = p.getFaithPathPosition();
+                            if (p.isRapportoInVaticano(newUserPos)) {
+                                    for (Player temp : players) {
+                                        MultiPlayer mp = (MultiPlayer) temp;
+                                        temp.updateFaithPath(newUserPos);
+                                    }
+                            }
+                        }
+                    }
+                } else {
+                    //TODO increment lorenzo position
+                }
+            }
+            if(resorucesToStore.equals(resourcesIn)) {
+                turnDone();
+                return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!");
+            } else {
+                this.resorucesToStore.removeAll(resourcesIn);
+                return new ResourcesToStoreMessage(false, this.resorucesToStore, "\nResources correctly discarded!\n");
+            }
         }
-        return new OkMessage("Resources correctly inserted");
+
+
     }
 
     public ServerMessage moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){

@@ -5,6 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.messages.fromServer.update.*;
+import it.polimi.ingsw.messages.fromServer.warehouse.ErrorWarehouseMessage;
+import it.polimi.ingsw.messages.fromServer.warehouse.ResourcesToStoreMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
@@ -72,8 +74,8 @@ public class ServerMessageFactory {
                 case CALAMAIO:
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
-                case RESOURCESFROMMARKET:
-                    returnMessage = gson.fromJson(receivedMessage, ResourcesFromMarketMessage.class);
+                case RESOURCESTOSTORE:
+                    returnMessage = gson.fromJson(receivedMessage, ResourcesToStoreMessage.class);
                     break;
                 case CHOOSELEADERCARDS:
                     JsonArray jsonLeaderCards1 = messageObject.getAsJsonArray("leaderCards");
@@ -104,6 +106,9 @@ public class ServerMessageFactory {
                     break;
                 case UPDATEWAREHOUSECOFFER:
                     returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseCofferMessage.class);
+                    break;
+                case ERRORWAREHOUSE:
+                    returnMessage = gson.fromJson(receivedMessage, ErrorWarehouseMessage.class);
                     break;
                 case SELECTACTION:
                     returnMessage = gson.fromJson(receivedMessage, SelectActionMessage.class);

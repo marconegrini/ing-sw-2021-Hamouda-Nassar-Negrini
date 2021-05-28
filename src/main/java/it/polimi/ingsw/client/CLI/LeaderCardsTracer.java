@@ -49,6 +49,7 @@ public class LeaderCardsTracer {
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
 
+                    /*
                     try {
                         leaderCard.activate();
                     } catch (AlreadyActivatedLeaderCardException e) {
@@ -56,6 +57,8 @@ public class LeaderCardsTracer {
                     } catch (AlreadyDiscardedLeaderCardException e) {
                         e.printStackTrace();
                     }
+
+                     */
                     statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
 
                     //getting the disc. leader card power as ascii shapes

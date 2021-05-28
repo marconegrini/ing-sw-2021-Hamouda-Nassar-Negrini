@@ -38,6 +38,10 @@ public abstract class Player {
 
     public abstract void updateFaithPath(Integer newPlayingUserPos);
 
+    public boolean isRapportoInVaticano(Integer newUserPos){
+        return userFaithPath.isRapportoInVaticano(newUserPos);
+    }
+
     public abstract void buyResources();
 
     public abstract void buyDevelopmentCard();

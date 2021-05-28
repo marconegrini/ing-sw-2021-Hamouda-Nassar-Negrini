@@ -117,7 +117,8 @@ public class MarketBoard {
         }
 
         //pickedResources = fromMarblesToResources(pickedMarbles);
-
+        for(Marble marble : pickedMarbles)
+            System.out.println(marble.toString());
         return pickedMarbles;
     }
 
