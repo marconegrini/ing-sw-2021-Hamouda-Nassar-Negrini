@@ -109,12 +109,12 @@ public class CLIView extends View{
                 System.out.println("Wrong input, please choose another storage number\n");;
                 destStorage1=scanner.nextInt();
             }
-            //TODO:aggiungi la risorsa scelta alla struttura del client
+            //TODO: send an update message to update the faithTrack of the client
 
 //            System.out.println("Resource chosen successfully");
 
             if ( strIn.contains("third") ) {
-                //TODO:aggiungi un punto fede alla struttura del client
+                //TODO: send an update message to update the faithTrack of the client
             }
         }
 
@@ -150,9 +150,9 @@ public class CLIView extends View{
                 System.out.println("Wrong input, please choose another storage number\n");
                 destStorage2=scanner.nextInt();
             }
-            //TODO:aggiungi le due risorse scelte alla struttura del client
-            //TODO:aggiungi un punto fede alla struttura del client
-//            System.out.println("Resource chosen successfully");
+            //TODO:send an update message to update the deposits of the client
+            //TODO: send an update message to update the faithTrack of the client
+
         }
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
     }
@@ -175,13 +175,9 @@ public class CLIView extends View{
         Integer firstIndex = 0;
         Integer secondIndex = 0;
         System.out.println("Select 2 leader cards within possible ones.");
-        try {
             //shows 4 options of leader cards to choose
             leaderCardsTracer.printLeaderCards(leaderCards).forEach(System.out::println);
-        } catch (EmptySlotException e){
-            System.out.println("Selected invalid slot");
-            System.exit(-2);
-        }
+
         boolean OK = false;
         while(!OK) {
                 //TODO Number format exception
@@ -259,11 +255,8 @@ public class CLIView extends View{
 
                     show = true;
                 }else if (choice.equals("show leader cards")) {
-                    try {
                         leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-                    } catch (EmptySlotException e){
-                        e.printStackTrace();
-                    }
+
                     show = true;
                 } else if (choice.equals("a")) {
                     //Take resources from market
@@ -410,13 +403,9 @@ public class CLIView extends View{
      */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards){
-        try {
             ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
             output.forEach(System.out::println);
-        } catch (EmptySlotException e){
-            System.out.println("Selected invalid slot");
-            System.exit(-2);
-        }
+
     }
 
     @Override

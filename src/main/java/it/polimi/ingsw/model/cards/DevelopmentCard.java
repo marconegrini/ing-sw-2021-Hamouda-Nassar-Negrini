@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.HashMap;
 
@@ -58,4 +57,5 @@ public class DevelopmentCard extends Card{
         DevelopmentCard dv = new DevelopmentCard(this.getVictoryPoints(), this.getColor(), this.getLevel(), cost, prodIn, prodOut);
         return dv;
     }
+
 }

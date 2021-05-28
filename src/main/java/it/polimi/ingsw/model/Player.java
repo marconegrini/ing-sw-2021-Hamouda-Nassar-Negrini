@@ -121,8 +121,14 @@ public abstract class Player {
      *
      * @param toTake list of resources to take from coffer
      */
-    public void pullCofferResources(List<Resource> toTake) throws InsufficientResourcesException {
-        personalBoard.pullCofferResource(toTake);
+    public void pullCofferResources(List<Resource> toTake)  {
+        try {
+            personalBoard.pullCofferResource(toTake);
+        }catch (InsufficientResourcesException e){
+            System.err.println("InsufficientResourcesException");
+            e.printStackTrace();
+            System.exit(-3);
+        }
     }
 
     /**

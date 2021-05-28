@@ -151,7 +151,7 @@ public class TurnManager {
      * @param devCardSlot slot index of development cards slots
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
+    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot)  {
 
         List<Resource> playerResources = player.getTotalResource();
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
@@ -198,7 +198,7 @@ public class TurnManager {
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as Message Object
      */
-    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) {
+    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) throws InsufficientResourcesException {
 
         if (slots.size() > 3) return new ErrorMessage("Selected more than 3 slots");
         List<Resource> productionInCost = new ArrayList<>();
@@ -259,7 +259,7 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource){
+    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource) {
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
@@ -289,7 +289,7 @@ public class TurnManager {
      *      * activated, inserting the selected leaderResource inside warehouse, incrementing user's faith path and updating
      *      * other users' faith paths. Else, it returns false.
      */
-    public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource){
+    public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource) {
         if(player.isLeaderCardActivated(CardType.PRODUCTION)){
             HashMap<Resource, Integer> prodInCost = null;
             prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);

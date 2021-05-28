@@ -1,12 +1,12 @@
 package it.polimi.ingsw.messages.fromClient;
 
-import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -55,6 +55,10 @@ public class CalamaioResponseMessage extends ClientMessage {
                 }
             }
         }
+
+        //the message update is sent separately after this message.
+//        clientHandler.sendJson(new UpdateWarehouseCofferMessage(clientHandler.getPlayer().getPersonalBoard().getClonedWarehouse(),clientHandler.getPlayer().getPersonalBoard().getClonedCoffer()));
+//        clientHandler.sendJson(new UpdateFaithPathMessage(othersFaithPath,clientHandler.getPlayer().getFaithPathPosition()));
 //        clientHandler.sendJson(new UpdateWarehouseMessage(clientHandler.getPlayer().getPersonalBoard().getWarehouse()));
 //        clientHandler.getTurnManager().clientDone();
     }

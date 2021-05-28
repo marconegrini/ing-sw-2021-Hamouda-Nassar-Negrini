@@ -74,7 +74,4 @@ public class FaithPathTracer {
 
 
 
-
-
-
 }

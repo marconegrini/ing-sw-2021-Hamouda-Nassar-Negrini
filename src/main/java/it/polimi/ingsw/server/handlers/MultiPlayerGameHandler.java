@@ -174,10 +174,12 @@ public class MultiPlayerGameHandler extends Thread {
             }
             else if(k==2){
                 strIn="Your Turn is the third! \nYou have received one additional resource and a Faith Point\nPlease chose which Resource do you want:\n";
+                clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==3){
                 strIn="Your Turn is the second! \nYou have received two additional resources and a Faith Point\nPlease chose which Resource do you want:\n";
+                clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             k++;

@@ -7,9 +7,7 @@ import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 
 import java.util.ArrayList;
@@ -21,21 +19,22 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.model.enumerations.CardType.*;
 
 public class LeaderCardsTracer {
-    public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) throws EmptySlotException {
+    public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) {
         ArrayList<String> results = new ArrayList<>();
 
 
         HashMap<Resource, Integer> storageCardCost = new HashMap<>();
         char cardChar = 'a'; //the char before "a" in ascii code
         String costString = "";
+        String statusString = "";
         String powerString = "";
 
-        String stringFormat = "%-6s %-22s %-12d %-33s %-40s"; // "CARD", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"
+        String stringFormat = "%-6s %-18s %-22s %-12d %-33s %-30s"; // "CARD", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"
 
         String tempStr = "";
-        results.add("\t # Leader Cards # \t");
+        results.add("\n\t\t \u001b[1m # Leader Cards #  \u001B[0m \t");
 
-        results.add(String.format("%-6s %-12s %-12s %-35s %-20s", "CARD", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"));
+        results.add(String.format("%-6s %-18s %-12s %-13s %-27s %-15s", "CARD", "STATUS", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"));
 
         for (LeaderCard leaderCard : leaderCards) {
 
@@ -48,7 +47,18 @@ public class LeaderCardsTracer {
                         String value = leaderCardCost.getLevel().toString();
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
-                    }//getting the disc. leader card power as ascii shapes
+                    }
+
+                    try {
+                        leaderCard.activate();
+                    } catch (AlreadyActivatedLeaderCardException e) {
+                        e.printStackTrace();
+                    } catch (AlreadyDiscardedLeaderCardException e) {
+                        e.printStackTrace();
+                    }
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+
+                    //getting the disc. leader card power as ascii shapes
                     for (Resource resource : discountLeaderCard.getLeaderCardPower().keySet()) {
 
                         String value = discountLeaderCard.getLeaderCardPower().get(resource).toString();
@@ -59,7 +69,7 @@ public class LeaderCardsTracer {
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
                     powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
 
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")", "\u001b[1m" + discountLeaderCard.getCardType() + "\u001B[0m", discountLeaderCard.getVictoryPoints(), costString, powerString));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + discountLeaderCard.getCardType() + "\u001B[0m", discountLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -71,7 +81,10 @@ public class LeaderCardsTracer {
                         String value = leaderCardCost.getLevel().toString();
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
-                    }//getting the prod. leader card power as ascii shapes
+                    }
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+
+                    //getting the prod. leader card power as ascii shapes
                     for (Resource resource : prodPowerLeaderCard.getLeaderCardPower().keySet()) {
 
                         String value = prodPowerLeaderCard.getLeaderCardPower().get(resource).toString();
@@ -81,7 +94,7 @@ public class LeaderCardsTracer {
                     powerString = "  " + powerString; //adding (9) spacing before power string
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
 //                    powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")", "\u001b[1m" + prodPowerLeaderCard.getCardType() + "\u001B[0m", prodPowerLeaderCard.getVictoryPoints(), costString, powerString));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + prodPowerLeaderCard.getCardType() + "\u001B[0m", prodPowerLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -93,7 +106,10 @@ public class LeaderCardsTracer {
                         String value = leaderCardCost.getLevel().toString();
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
-                    }//getting the marble leader card power as ascii shapes
+                    }
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+
+                    //getting the marble leader card power as ascii shapes
                     for (Resource resource : whiteMarbleLeaderCard.getLeaderCardPower().keySet()) {
 
                         String value = whiteMarbleLeaderCard.getLeaderCardPower().get(resource).toString();
@@ -103,7 +119,7 @@ public class LeaderCardsTracer {
                     powerString = "         " + powerString; //adding (9) spacing before power string
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
 //                    powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")", "\u001b[1m" + whiteMarbleLeaderCard.getCardType() + "\u001B[0m", whiteMarbleLeaderCard.getVictoryPoints(), costString, powerString));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + whiteMarbleLeaderCard.getCardType() + "\u001B[0m", whiteMarbleLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -159,8 +175,10 @@ public class LeaderCardsTracer {
                         tempStr="\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + "  " +"  \u001B[0m";
                     }
                 }
+                statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+
 //                    powerString = powerString.substring(0,powerString.length() - 1 ) ;
-                System.out.println("\n"+tempStr+"\n");
+//                System.out.println("\n"+tempStr+"\n");
 
 
 //                for (Resource resource : storageLeaderCard.getLeaderCardPower().keySet()) {
@@ -178,7 +196,7 @@ public class LeaderCardsTracer {
 
 
                 powerString = spacing + powerString; //adding (9) spacing before power string
-                results.add(String.format(stringFormat, "(" + cardChar++ + ")", "\u001b[1m" + storageLeaderCard.getCardType() + "\u001B[0m", storageLeaderCard.getVictoryPoints(), costString, powerString));
+                results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + storageLeaderCard.getCardType() + "\u001B[0m", storageLeaderCard.getVictoryPoints(), costString, powerString,"|"));
 
                 //reinitialize
                 costString = "";
@@ -190,10 +208,6 @@ public class LeaderCardsTracer {
 
 
         return results;
-    }
-
-    private String getCardCost() {
-        return null;
     }
 
 
@@ -212,7 +226,6 @@ public class LeaderCardsTracer {
 
         List<StorageLeaderCard> leaderCards2 = (List<StorageLeaderCard>)(List<?>) leaderCards.stream()
                 .filter(x -> (x.getCardType().equals(CardType.STORAGE)))
-                .map(x->x=(StorageLeaderCard)x)
                 .collect(Collectors.toList());
 
 
@@ -226,7 +239,7 @@ public class LeaderCardsTracer {
 
 
 
-        System.out.println(st.get().getOccupiedSlots());
+//        System.out.println(st.get().getOccupiedSlots());
 //        leaderCards2.stream().findAny().get().putResourceInCardStorage(null,Resource.STONE);
 
         LeaderCardsTracer leaderCardsTracer = new LeaderCardsTracer();
