@@ -413,7 +413,7 @@ public class CLIView extends View{
         int i = 1;
         System.out.println("\t# Resources #\t");
         for(Resource res : resources) {
-            System.out.println(i + ") " + res.toString());
+            System.out.println(i + ") " + res.toString() +"\t" + ASCII_Resources.getShape(res.toString()));
             i++;
         }
     }
