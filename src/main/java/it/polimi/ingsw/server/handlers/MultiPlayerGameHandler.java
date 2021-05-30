@@ -52,7 +52,7 @@ public class MultiPlayerGameHandler extends Thread {
         sendLeaderCards();
         turnManager.lock();
         initialiseCalamaio();
-        turnManager.isDone();
+        turnManager.lock();
         updateClients();
 
         //sendToClients(new SelectActionMessage());

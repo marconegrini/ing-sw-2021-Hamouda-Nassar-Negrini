@@ -140,7 +140,11 @@ public class TurnManager {
                     turnDone();
                     return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!", player.getClonedWarehouse());
                 } else {
-                    this.resorucesToStore.removeAll(resourcesIn);
+                    for(Resource res : resourcesIn)
+                        this.resorucesToStore.remove(res);
+                    //previous line wasn't correct. It removed all the occurrences of specified resource
+                    //this.resorucesToStore.removeAll(resourcesIn);
+                    System.out.println(this.resorucesToStore.toString());
                     return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
                 }
             } catch (StorageOutOfBoundsException e1) {
@@ -161,7 +165,7 @@ public class TurnManager {
                             if (p.isRapportoInVaticano(newUserPos)) {
                                     for (Player temp : players) {
                                         MultiPlayer mp = (MultiPlayer) temp;
-                                        temp.updateFaithPath(newUserPos);
+                                        mp.updateFaithPath(newUserPos);
                                     }
                             }
                         }

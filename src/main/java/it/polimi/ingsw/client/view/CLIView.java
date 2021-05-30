@@ -461,6 +461,7 @@ public class CLIView extends View {
                 resourceOK = true;
             }
         }
+        System.out.println(resourcesToStore);
         return new InsertResourcesInWarehouseMessage(discard, resourcesToStore, shelf);
     }
 
@@ -666,12 +667,11 @@ public class CLIView extends View {
     public void showResources(List<Resource> resources) {
         int i = 1;
         System.out.println("\t# Resources to store #\t");
-        if(resources != null) {
-            if(resources.size() > 0)
-                for (Resource res : resources) {
-                    System.out.println(i + ") " + res.toString() + "\t" + ASCII_Resources.getShape(res.toString()));
-                    i++;
-                }
+        if(resources.size() > 0) {
+           for (Resource res : resources) {
+               System.out.println(i + ") " + res.toString() + "\t" + ASCII_Resources.getShape(res.toString()));
+               i++;
+           }
         } else System.out.println("You don't have resources to store!");
     }
 
@@ -683,11 +683,16 @@ public class CLIView extends View {
         HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
         if(devCardsSlot.isEmpty())
             System.out.println("\nEmpty development card slots!");
-        else for(Integer i : devCardsSlot.keySet()){
-            System.out.println("\n\t# Slot " + (i+1) + " #\t");
-            ArrayList<DevelopmentCard> dc = new ArrayList();
-            dc.add(devCardsSlot.get(i));
-            dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+        else {
+            for (int i = 1; i <= 3; i++) {
+                //for(Integer i : devCardsSlot.keySet()){
+                System.out.println("\n\t# Slot " + (i + 1) + " #\t");
+                ArrayList<DevelopmentCard> dc = new ArrayList();
+                dc.add(devCardsSlot.get(i));
+                if(dc.isEmpty()){
+                    System.out.println("\n");
+                } else dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+            }
         }
     }
 
