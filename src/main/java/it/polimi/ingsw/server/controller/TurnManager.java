@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
-import it.polimi.ingsw.messages.fromClient.InsertResourcesInWarehouseMessage;
-import it.polimi.ingsw.messages.fromServer.warehouse.ErrorWarehouseMessage;
-import it.polimi.ingsw.messages.fromServer.warehouse.ResourcesToStoreMessage;
+import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
+import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
+import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.model.exceptions.*;
@@ -114,7 +114,10 @@ public class TurnManager {
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
         //TODO modifiy return message if no resource is present after the market
-        return new ResourcesToStoreMessage(false, resourcesToStore, null);
+        if(resourcesToStore.isEmpty()){
+            turnDone();
+            return new OkMessage("You don't have resources to store!");
+        } else return new ResourcesToStoreMessage(false, resourcesToStore, null, player.getClonedWarehouse());
     }
 
     //TODO method that returns resources taken from market
@@ -124,7 +127,7 @@ public class TurnManager {
 
 
     /**
-     * @param player player who performed pickresources choice
+     * @param player player who performed pick resources choice
      * @param destStorage destination storage in warehouse
      * @param resourcesIn List of resources to insert
      * @return OkMessage if everything worked fine, ErrorMessage instead
@@ -135,10 +138,14 @@ public class TurnManager {
                 player.putWarehouseResources(destStorage, resourcesIn);
                 if(this.resorucesToStore.equals(resourcesIn)){
                     turnDone();
-                    return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!");
+                    return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!", player.getClonedWarehouse());
                 } else {
-                    this.resorucesToStore.removeAll(resourcesIn);
-                    return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.");
+                    for(Resource res : resourcesIn)
+                        this.resorucesToStore.remove(res);
+                    //previous line wasn't correct. It removed all the occurrences of specified resource
+                    //this.resorucesToStore.removeAll(resourcesIn);
+                    System.out.println(this.resorucesToStore.toString());
+                    return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
                 }
             } catch (StorageOutOfBoundsException e1) {
                 return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resorucesToStore);
@@ -158,7 +165,7 @@ public class TurnManager {
                             if (p.isRapportoInVaticano(newUserPos)) {
                                     for (Player temp : players) {
                                         MultiPlayer mp = (MultiPlayer) temp;
-                                        temp.updateFaithPath(newUserPos);
+                                        mp.updateFaithPath(newUserPos);
                                     }
                             }
                         }
@@ -169,10 +176,10 @@ public class TurnManager {
             }
             if(resorucesToStore.equals(resourcesIn)) {
                 turnDone();
-                return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!");
+                return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!", player.getClonedWarehouse());
             } else {
                 this.resorucesToStore.removeAll(resourcesIn);
-                return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.");
+                return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
             }
         }
 
@@ -242,20 +249,22 @@ public class TurnManager {
      * @param slots List of integers between 0 and 2: they are the indexes of development card slots
      * @param leaderResource is chosen by the user as a result of the activation of the production power leader card.
      *                       The chosen resource will be added to the production output, together with a faith point.
-     * @return outcome message encoded as Message Object
+     * @return outcome message encoded as ServerMessage Object
      */
-    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource) throws InsufficientResourcesException {
-
-        if (slots.size() > 3) return new ErrorMessage("Selected more than 3 slots");
+    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource){
+        System.out.println(slots.toString());
+        System.out.println(player.getPeekCardsInDevCardSLots());
+        if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true);
+        if (slots.size() > 3) return new ProductionResultMessage(true,"From server: Already selected the maximum of 3 slots!", false);
         List<Resource> productionInCost = new ArrayList<>();
         //collects the resources needed to activate production in selected slots/slots
         for (Integer slotNum : slots) {
             try {
                 productionInCost.addAll(player.devCardSlotProductionIn(slotNum));
             } catch (EmptySlotException e1) {
-                return new ErrorMessage("Selected an empty slot");
+                return new ProductionResultMessage(true,"Selected an empty slot", false);
             } catch (IndexOutOfBoundsException e2) {
-                return new ErrorMessage("Selected invalid slot number");
+                return new ProductionResultMessage(true, "Selected invalid slot number", false);
             }
         }
         List<Resource> playerResources = player.getTotalResource();
@@ -278,23 +287,30 @@ public class TurnManager {
             for(Resource resource : resourcesProductionOut){
                 if(resource.equals(Resource.FAITH)){
                     player.incrementFaithPathPosition();
+                    Integer newPosition = player.getFaithPathPosition();
                     if(multiplayer) {
-                        for (Player p : players)
-                            p.updateFaithPath(player.getFaithPathPosition());
+                        if(player.isRapportoInVaticano(newPosition))
+                            for (Player p : players)
+                                p.updateFaithPath(newPosition);
+                    } else {
+                        //TODO increment lorenzo position
                     }
                 }
             }
             //removes faith resources
-            while(!resourcesProductionOut.contains(Resource.FAITH))
+            while(resourcesProductionOut.contains(Resource.FAITH))
                 resourcesProductionOut.remove(Resource.FAITH);
             //adds production out resources in coffer
             player.putCofferResources(resourcesProductionOut);
             //checks if production power leader card is activated
             boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
-
-            if(usedLC) return new OkMessage("Activated production and resources inserted in coffer. Leader card power used.");
-            else return new OkMessage("Activated production and resources inserted in coffer");
-        } else return new ErrorMessage("Insufficient resources to activate production on selected slots");
+            turnDone();
+            if(usedLC) {
+                return new ProductionResultMessage(false,"Activated production and resources inserted in coffer. Leader card power used.", true);
+            } else {
+                return new ProductionResultMessage(false, "Activated production and resources inserted in coffer", true);
+            }
+        } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true);
     }
 
     /**
@@ -396,7 +412,7 @@ public class TurnManager {
      * Discards selected leader card from leadecards arraylist. OkMessage is returned ad everything worked fine, it also increments user's faith path position.
      * @param player
      * @param indexNum
-     * @return
+     * @return a OkMessage notifying the successful discard action
      */
     public ServerMessage discardLeaderCard (Player player, Integer indexNum){
         try{
@@ -432,12 +448,20 @@ public class TurnManager {
         this.done = false;
     }
 
+    /**
+     * this method enables to unlock the multiplayer handler while
+     * is waiting for a user to finish his turn.
+     */
     public synchronized void turnDone(){
         this.done = true;
         notifyAll();
     }
 
-    public synchronized void isDone() {
+    /**
+     * called by MultiplayerGameHandler to wait one or all the users to perform a certain action. Unlocked by
+     * turnDone (when the game is waiting for a player only) or clientDone (when the game is waiting for all player)
+     */
+    public synchronized void lock() {
         while(this.done == false)
             try {
                 wait();
@@ -448,6 +472,9 @@ public class TurnManager {
         return;
     }
 
+    /**
+     * used by players to notify to the game they finished their action.
+     */
     public synchronized void clientDone(){
         accesses++;
         if(accesses.equals(players.size())){

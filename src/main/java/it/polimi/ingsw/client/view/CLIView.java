@@ -1,14 +1,13 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.CLI.*;
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.*;
 /**
  * Class that manages CLI interactions with users
  */
-public class CLIView extends View{
+public class CLIView extends View {
 
     Scanner scanner;
     LightModel clientLightModel;
@@ -29,7 +28,7 @@ public class CLIView extends View{
     DvCardsTracer dvCardsTracer;
     boolean stillWaiting;
 
-    public CLIView(LightModel clientLightModel){
+    public CLIView(LightModel clientLightModel) {
         scanner = new Scanner(System.in);
         this.clientLightModel = clientLightModel;
         leaderCardsTracer = new LeaderCardsTracer();
@@ -42,10 +41,11 @@ public class CLIView extends View{
 
     /**
      * Method that authenticates the user
+     *
      * @return A LoginMessage for the server
      */
     @Override
-    public ClientMessage logClient(){
+    public ClientMessage logClient() {
 
         String nickname;
         boolean isMultiplayer;
@@ -54,16 +54,17 @@ public class CLIView extends View{
         System.out.println("Insert your nickname:");
         do {
             nickname = scanner.nextLine();
-            if (nickname.isBlank() || nickname.isEmpty()) System.out.println("You can't put an empty name. Type another nickname:");
+            if (nickname.isBlank() || nickname.isEmpty())
+                System.out.println("You can't put an empty name. Type another nickname:");
         } while (nickname.isBlank() || nickname.isEmpty());
 
         //Ask for game modality
         System.out.println("Do you want to play a multiplayer game? [Yes/No]");
 
-        while (true){
+        while (true) {
             String choice = scanner.nextLine();
-            if (!choice.isEmpty()){
-                if(!choice.isBlank()){
+            if (!choice.isEmpty()) {
+                if (!choice.isBlank()) {
                     if (choice.equalsIgnoreCase("YES") || choice.equalsIgnoreCase("NO")) {
                         isMultiplayer = choice.equalsIgnoreCase("YES");
                         break;
@@ -80,81 +81,92 @@ public class CLIView extends View{
 
         ClientMessage calamaioResponse;
 
-        String resources = "1."+ ASCII_Resources.SHIELD+" - Shield\n";
-        resources += "2."+ ASCII_Resources.COIN+" - Coin\n";
-        resources += "3."+ ASCII_Resources.SERVANT+" - Servant\n";
-        resources += "4."+ ASCII_Resources.STONE+" - Stone\n";
-        int chosenResource=0;
-        int chosenResource2=0;
-        int destStorage1=0;
-        int destStorage2=0;
+        String resources = "1." + ASCII_Resources.SHIELD + " - Shield\n";
+        resources += "2." + ASCII_Resources.COIN + " - Coin\n";
+        resources += "3." + ASCII_Resources.SERVANT + " - Servant\n";
+        resources += "4." + ASCII_Resources.STONE + " - Stone\n";
+        int chosenResource = 0;
+        int chosenResource2 = 0;
+        int destStorage1 = 0;
+        int destStorage2 = 0;
 
 
-        System.out.println(strIn);
-        if (strIn.contains("first")){
+        if (strIn.contains("first")) {
             System.out.println(strIn);
-        }
-        else if( (strIn.contains("second")) || (strIn.contains("third") )){
+        } else if ((strIn.contains("second")) || (strIn.contains("third"))) {
             System.out.println(strIn);
             System.out.println(resources);
-            chosenResource=scanner.nextInt();
-            while ( chosenResource>4 || chosenResource<1 ){
-                System.out.println("Wrong input, please choose another resource\n");
+            chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
+            while (chosenResource > 4 || chosenResource < 1) {
+                System.out.println("Invalid input please insert a number between 1 and 4:");
                 System.out.println(resources);
-                chosenResource=scanner.nextInt();
+                chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
             }
+
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1=scanner.nextInt();
-            while ( destStorage1>3 || destStorage1<1 ){
-                System.out.println("Wrong input, please choose another storage number\n");;
-                destStorage1=scanner.nextInt();
+
+            destStorage1 = secureReadInt("");
+            while (destStorage1 > 3 || destStorage1 < 1) {
+                System.out.println("Wrong input, please choose another storage number\n");
+                destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
             }
             //TODO: send an update message to update the faithTrack of the client
 
 //            System.out.println("Resource chosen successfully");
 
-            if ( strIn.contains("third") ) {
+            if (strIn.contains("third")) {
                 //TODO: send an update message to update the faithTrack of the client
             }
-        }
-
-        else if(strIn.contains("fourth")){
-            int s=2;
+        } else if (strIn.contains("fourth")) {
+            int s = 2;
             System.out.println(strIn);
             System.out.println(resources);
-            chosenResource=scanner.nextInt();
 
-            //when the both conditions are true continue;; it's evaluated before entering the loop.
-            while ( (chosenResource>4||chosenResource<1)){
+            chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
+
+            //when the one of the both conditions is true continue;; it's evaluated before entering the loop.
+            while ((chosenResource > 4 || chosenResource < 1)) {
                 System.out.println("Wrong input, please choose another resource\n");
                 System.out.println(resources);
-                chosenResource = scanner.nextInt();
+                chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
             }
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1=scanner.nextInt();
-            while ( destStorage1>3 || destStorage1<1 ){
-                System.out.println("Wrong input, please choose another storage number\n");;
-                destStorage1=scanner.nextInt();
+            destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
+            while (destStorage1 > 3 || destStorage1 < 1) {
+                System.out.println("Wrong input, please choose another storage number\n");
+
+                destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
             }
             //when the both conditions are true continue;; it's evaluated before entering the loop.
             System.out.println("enter the second resource that you want to chose: ");
-            chosenResource2=scanner.nextInt();
-            while ( (chosenResource2>4||chosenResource2<1)){
+            chosenResource2 = secureReadInt("");
+            while ((chosenResource2 > 4 || chosenResource2 < 1)) {
                 System.out.println("Wrong input, please choose another resource\n");
                 System.out.println(resources);
-                chosenResource2 = scanner.nextInt();
+                chosenResource2 = secureReadInt("Invalid input please insert a number between 1 and 4:");
             }
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1=scanner.nextInt();
-            while ( destStorage2>3 || destStorage2<1 ){
+            destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
+            while (destStorage2 > 3 || destStorage2 < 1) {
                 System.out.println("Wrong input, please choose another storage number\n");
-                destStorage2=scanner.nextInt();
+                destStorage2 = scanner.nextInt();
             }
             //TODO:send an update message to update the deposits of the client
             //TODO: send an update message to update the faithTrack of the client
 
         }
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
+    }
+
+    private int secureReadInt(String s2) {
+        int destStorage1;
+        try {
+            destStorage1 = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println(s2);
+            destStorage1 = scanner.nextInt();
+        }
+        return destStorage1;
     }
 
 //
@@ -165,42 +177,43 @@ public class CLIView extends View{
 
     /**
      * Show possible options of leader cards to choose and asks the client to select two of them.
+     *
      * @param leaderCards ArrayList of four leader cards
-     * @return a SelectLeaderCards message for the server
+     * @return a SelectLeaderCards message for the server, containing the indexes of the two selected leader cards
      */
     @Override
-    public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards){
+    public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards) {
         String firstCard = "";
         String secondCard = "";
         Integer firstIndex = 0;
         Integer secondIndex = 0;
         System.out.println("Select 2 leader cards within possible ones.");
-            //shows 4 options of leader cards to choose
-            leaderCardsTracer.printLeaderCards(leaderCards).forEach(System.out::println);
+        //shows 4 options of leader cards to choose
+        leaderCardsTracer.printLeaderCards(leaderCards).forEach(System.out::println);
 
         boolean OK = false;
-        while(!OK) {
-                //TODO Number format exception
-                System.out.println("Select first card: ");
-                firstCard = scanner.nextLine();
-                System.out.println("Select second card: ");
-                secondCard = scanner.nextLine();
-                //checks integrity of the two specified characters
-                if(firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")){
-                    if(secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")){
-                        if(!firstCard.equals(secondCard)){
-                            OK = true;
-                            if(firstCard.equals("a")) firstIndex = 0;
-                            if(firstCard.equals("b")) firstIndex = 1;
-                            if(firstCard.equals("c")) firstIndex = 2;
-                            if(firstCard.equals("d")) firstIndex = 3;
-                            if(secondCard.equals("a")) secondIndex = 0;
-                            if(secondCard.equals("b")) secondIndex = 1;
-                            if(secondCard.equals("c")) secondIndex = 2;
-                            if(secondCard.equals("d")) secondIndex = 3;
-                        } else System.out.println("Card values are identical. Type again.");
-                    } else System.out.println("Second card value doesn't exists. Type again.");
-                } else System.out.println("First card value doesn't exists. Type again.");
+        while (!OK) {
+            //TODO Number format exception
+            System.out.println("Select first card: ");
+            firstCard = scanner.nextLine();
+            System.out.println("Select second card: ");
+            secondCard = scanner.nextLine();
+            //checks integrity of the two specified characters
+            if (firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")) {
+                if (secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")) {
+                    if (!firstCard.equals(secondCard)) {
+                        OK = true;
+                        if (firstCard.equals("a")) firstIndex = 0;
+                        if (firstCard.equals("b")) firstIndex = 1;
+                        if (firstCard.equals("c")) firstIndex = 2;
+                        if (firstCard.equals("d")) firstIndex = 3;
+                        if (secondCard.equals("a")) secondIndex = 0;
+                        if (secondCard.equals("b")) secondIndex = 1;
+                        if (secondCard.equals("c")) secondIndex = 2;
+                        if (secondCard.equals("d")) secondIndex = 3;
+                    } else System.out.println("Card values are identical. Type again.");
+                } else System.out.println("Second card value doesn't exists. Type again.");
+            } else System.out.println("First card value doesn't exists. Type again.");
         }
         return new SelectLeaderCardMessage(firstIndex, secondIndex);
     }
@@ -208,7 +221,9 @@ public class CLIView extends View{
     /**
      * Actions menu displayed every time a user starts his turn. Before selecting the action to perform, the user can call
      * the "show" command as long as he wants to see the status of personal board, market board and development cards deck.
+     *
      * @return a ClientMessage type corresponding to the action selected
+     * @return a ClientMessage type for the server corresponding to the action selected
      */
     @Override
     public ClientMessage selectAction() {
@@ -216,7 +231,7 @@ public class CLIView extends View{
         ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
-        while(!selected) {
+        while (!selected) {
             System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
             System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
             System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
@@ -240,22 +255,10 @@ public class CLIView extends View{
                     dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show slots")) {
-
-                    System.out.println("\n\t # Development Cards Slots # \t");
-                    HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
-
-                    if(devCardsSlot.isEmpty())
-                        System.out.println("\nEmpty development card slots!");
-                    else for(Integer i : devCardsSlot.keySet()){
-                        System.out.println("\n\t# Slot " + i + " #\t");
-                        ArrayList<DevelopmentCard> dc = new ArrayList();
-                        dc.add(devCardsSlot.get(i));
-                        dvCardsTracer.printDVCard(dc).forEach(System.out::println);
-                    }
-
+                    showDevelopmentSlots();
                     show = true;
-                }else if (choice.equals("show leader cards")) {
-                        leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                } else if (choice.equals("show leader cards")) {
+                    leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
 
                     show = true;
                 } else if (choice.equals("a")) {
@@ -265,35 +268,40 @@ public class CLIView extends View{
                     Integer rowOrColNum = 0;
                     System.out.println("\nInsert external marble in the market.");
                     boolean OK = false;
-                    while(!OK) {
+                    while (!OK) {
                         System.out.println("Row or column?");
                         String rowOrCol = scanner.nextLine();
-                        if(rowOrCol.equalsIgnoreCase("COLUMN")){
+                        if (rowOrCol.equalsIgnoreCase("COLUMN")) {
                             OK = true;
                             isRow = false;
-                        } else if(rowOrCol.equalsIgnoreCase("ROW")){
+                        } else if (rowOrCol.equalsIgnoreCase("ROW")) {
                             OK = true;
                             isRow = true;
                         }
                     }
 
-                    while(OK){
+                    while (OK) {
                         try {
-                            if(isRow){
+                            if (isRow) {
                                 System.out.println("Insert row number:");
-                                rowOrColNum = scanner.nextInt();
+                            } else {
+                                System.out.println("Insert column number:");
+                            }
+                            rowOrColNum = scanner.nextInt();
+
+                            if(isRow){
                                 if(rowOrColNum < 1 || rowOrColNum > 3){
                                     System.out.println("Row number doesn't exists! Type again");
                                 } else OK = false;
                             } else {
-                                System.out.println("Insert column number:");
-                                rowOrColNum = scanner.nextInt();
                                 if(rowOrColNum < 1 || rowOrColNum > 4){
                                     System.out.println("Column number doesn't exists! Type again");
                                 } else OK = false;
                             }
+
+
                         } catch (InputMismatchException e){
-                            OK = false;
+                            scanner.nextLine();
                             System.out.println("Bad input format. Type again row or column number");
                         }
                     }
@@ -311,7 +319,7 @@ public class CLIView extends View{
 
                     show = false;
                     selected = true;
-                    //selection = new ActivateProductionMessage();
+                    selection = activateProduction();
                 } else if (choice.equals("d")) {
                     //Activate Leader card
 
@@ -336,6 +344,11 @@ public class CLIView extends View{
         return selection;
     }
 
+    /**
+     * Method invoked by ResourcesToStoreMessage, sent by server at the end of pick resources, containing the resources taken from market.
+     * @param resources
+     * @return InsertResourcesInWarehouseMessage, containing specified shelf and resources to insert or discard.
+     */
     @Override
     public ClientMessage storeResources(List<Resource> resources) {
         this.showResources(resources);
@@ -346,12 +359,11 @@ public class CLIView extends View{
         String CHOICE = "";
         Integer shelf = 0;
         List<Resource> resourcesToStore = new ArrayList<>();
-
         //asks the client to insert or discard resources
-        while(!OK) {
+        while (!OK) {
             CHOICE = scanner.nextLine();
             CHOICE = CHOICE.toUpperCase(Locale.ROOT);
-            switch(CHOICE){
+            switch (CHOICE) {
                 case ("INSERT"):
                     OK = true;
                     break;
@@ -369,23 +381,22 @@ public class CLIView extends View{
         //uses CHOICE to print the action to perform. Enables to put INSERT and DISCARD branch inside the same while cycle.
         CHOICE = CHOICE.toLowerCase(Locale.ROOT);
 
-
         //slot to insert resources
         Integer selected = 0;
-
         boolean shelfOK = false;
 
         //enters here only if INSERT option has been chosen.
         //Needed to acquire shelf value.
-        if(!discard) {
+        if (!discard) {
             System.out.println("Select shelf to insert resources (1 to 3):");
             while (!shelfOK) {
                 try {
                     shelf = scanner.nextInt();
-                    if(shelf >= 1 && shelf <= 3)
+                    if (shelf >= 1 && shelf <= 3)
                         shelfOK = true;
                     else System.out.println("Invalid shelf. Type again");
                 } catch (InputMismatchException e){
+                    scanner.nextLine();
                     System.out.println("Invalid shelf. Type again");
                 }
             }
@@ -393,12 +404,11 @@ public class CLIView extends View{
 
         boolean resourceOK = false;
         //cycle that asks the user tho choose resources to discard or insert (in the selected slot)
-        while(!resourceOK) {
+        while (!resourceOK) {
 
             //Enters here only if resources List sent from server haven't been selected all already.
             //In the else branch, terminates while and sends message
             if(resources.size() > 0) {
-
                 try {
                     this.showResources(resources);
                     System.out.println("Select resource to " + CHOICE + ":");
@@ -410,31 +420,39 @@ public class CLIView extends View{
                         resourcesToStore.add(resources.get(selected));
                         Resource res = resources.get(selected);
                         resources.remove(res);
-                        String yn = "";
-                        System.out.println(CHOICE + " another resource? (YES/NO)");
-                        boolean done = false;
-                        while(!done) {
-                            yn = scanner.nextLine();
-                            yn = yn.toUpperCase(Locale.ROOT);
-                            switch(yn){
-                                case("NO"):
-                                    resourceOK = true;
-                                    done = true;
-                                    break;
-                                case("YES"):
-                                    resourceOK = false;
-                                    done = true;
-                                    break;
-                                case (""):
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice. Type again.");
-                                    break;
+
+                        if(!resources.isEmpty()) {
+                            String yn = "";
+                            String inShelf = "";
+                            if (!discard) inShelf = " in selected shelf";
+                            System.out.println(CHOICE + " another resource" + inShelf + "? (YES/NO)");
+                            boolean done = false;
+                            while (!done) {
+                                yn = scanner.nextLine();
+                                yn = yn.toUpperCase(Locale.ROOT);
+                                switch (yn) {
+                                    case ("NO"):
+                                        resourceOK = true;
+                                        done = true;
+                                        break;
+                                    case ("YES"):
+                                        resourceOK = false;
+                                        done = true;
+                                        break;
+                                    case (""):
+                                        break;
+                                    default:
+                                        System.out.println("Invalid choice. Type again.");
+                                        break;
+                                }
                             }
+                        } else {
+                            resourceOK = true;
                         }
                     } else System.out.println("Invalid resource number. Type again");
 
                 } catch (InputMismatchException e) {
+                    scanner.nextLine();
                     System.out.println("Invalid input.Type again.");
                 }
 
@@ -443,8 +461,136 @@ public class CLIView extends View{
                 resourceOK = true;
             }
         }
-
+        System.out.println(resourcesToStore);
         return new InsertResourcesInWarehouseMessage(discard, resourcesToStore, shelf);
+    }
+
+    /**
+     * Invoked by selectAction method if activate production option has been chosen. Production can be normal or of the
+     * personal board.
+     * @return an ActivateProductionMessage containing slots from which start production and eventually leader resources
+     * if a production power leader card has been activated.
+     */
+    @Override
+    public ClientMessage activateProduction(){
+        ClientMessage toReturn = null;
+        System.out.println("Do you want to activate normal or personal production? Type NORMAL or PERSONAL to choose.");
+        List<Integer> slots = new ArrayList<>();
+        List<Resource> leaderResource;
+        boolean done = false;
+        while(!done){
+            String prodType = scanner.nextLine();
+            prodType = prodType.toUpperCase();
+            switch (prodType){
+                case ("NORMAL"):
+                    showDevelopmentSlots();
+                    Integer slotNumber= 0;
+                    //if and only if there is at least one development card slot filled.
+                    if(!clientLightModel.getPeekDevCardsInSlot().isEmpty()) {
+                        boolean okSlot = false;
+                        while (!okSlot) {
+                            if (slots.size() < 3) {
+                                try {
+                                    //from 0 to 2
+                                    System.out.println("Select slot in which you want to activate production:");
+                                    slotNumber = scanner.nextInt();
+                                    slotNumber--;
+                                    if(!slots.contains(slotNumber)){
+                                        slots.add(slotNumber);
+                                        System.out.println("Do you want to select other slots in which activate production?");
+                                        boolean okResponse = false;
+                                        String response = "";
+                                        while (!okResponse) {
+                                            response = scanner.nextLine();
+                                            response = response.toUpperCase();
+                                            switch (response) {
+                                                case "YES":
+                                                    okSlot = false;
+                                                    okResponse = true;
+                                                    break;
+                                                case "NO":
+                                                    okSlot = true;
+                                                    okResponse = true;
+                                                    break;
+                                                case "":
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid input. Type again.");
+                                                    break;
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("Slot already selected. Type again.");
+                                    }
+                                } catch (InputMismatchException e) {
+                                    scanner.nextLine();
+                                    System.out.println("Invalid input. Type again.");
+                                }
+                            } else {
+                                System.out.println("From client: Already selected the maximum of 3 slots!");
+                                okSlot = true;
+                            }
+                        }
+                    }
+
+                   leaderResource = leaderProductionRoutine();
+                   System.out.println(slots.toString() + leaderResource);
+                   done = true;
+                   toReturn = new ActivateProductionMessage(slots, leaderResource);
+                   break;
+                case ("PERSONAL"):
+
+                    done = true;
+                    break;
+                default:
+                    System.out.println("Invalid input.Type again.");
+                    break;
+            }
+        }
+        return toReturn;
+    }
+
+    @Override
+    public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards) {
+        this.dvCardsTracer.printDVCard(devCards);
+        int row=0, column=0, devCardSlot;
+
+        System.out.println("Which Development card do you want to buy?\n");
+        String choice = scanner.nextLine();
+
+        while (choice.charAt(0) < 'a' || choice.charAt(0) > 'a' + devCards.size() - 1) {
+            System.out.println("Invalid input please try again: ");
+            choice = scanner.nextLine();
+        }
+
+        System.out.println("In which cards slots do you want to put the development card in?");
+        devCardSlot = scanner.nextInt();
+        while (devCardSlot < 1 || devCardSlot > 3) {
+            System.out.println("Invalid input please try again: ");
+            devCardSlot = scanner.nextInt();
+        }
+
+        char charIn = choice.charAt(0);
+//        for (int i=0; i<12 ;i++){
+
+        //first row in the DV deck
+        if (charIn - 'a' < 4) {
+              row = 1;
+              column = charIn - 'a';
+        }
+        //second row in the DV deck
+        else if(charIn - 'a' < 7){
+            row = 2;
+            column = charIn - 'a' - 4 ;
+        }
+        //third row in the DV deck
+        else if(charIn - 'a' < 11){
+            row = 3;
+            column = charIn - 'a' - 8 ;
+        }
+
+
+        return new BuyDevCardMessage(row,column,devCardSlot);
     }
 
 
@@ -452,13 +598,12 @@ public class CLIView extends View{
      * this method manage the time that the client will be in the waiting room waiting for other players.
      * It allows the client to type commands on the terminal and to exit the game or to start it at any time.
      *
-     * @return  A ClientMessage object that will handle the choose of the client. It could be a AskStartGameMessage,
-     *          a ExitFromGameMessage or a EmptyMessage. The EmptyMessage is returned only when the game was started
-     *          from another client.
+     * @return A ClientMessage object that will handle the choose of the client. It could be a AskStartGameMessage,
+     * a ExitFromGameMessage or a EmptyMessage. The EmptyMessage is returned only when the game was started
+     * from another client.
      */
     @Override
     public ClientMessage waitingRoom() {
-
         String input;
 
         // Use of bufferedReader because it has the method ready() that is useful for our purpose
@@ -469,7 +614,7 @@ public class CLIView extends View{
 
         while (stillWaiting) {
             try {
-                if (buffer.ready()){
+                if (buffer.ready()) {
                     input = buffer.readLine();
                     if (input.equalsIgnoreCase("START")) {
                         return new AskStartGameMessage();
@@ -486,7 +631,7 @@ public class CLIView extends View{
     }
 
     /**
-     * This method is used from the StartGameMessage to end the while(stillWaiting) loop of the method waitingRoom()
+     * This method is used from StartGameMessage to end the while(stillWaiting) loop of the method waitingRoom()
      */
     @Override
     public void endWaitingRoom() {
@@ -495,6 +640,7 @@ public class CLIView extends View{
 
     /**
      * A simple show method that prints messages on the console
+     *
      * @param message message to print
      */
     @Override
@@ -504,25 +650,109 @@ public class CLIView extends View{
 
     /**
      * Prints in console specified leader cards
+     *
      * @param leaderCards leader cards to print
      */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards){
             ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
             output.forEach(System.out::println);
-
     }
 
+    /**
+     * prints in console specified resources
+     * @param resources
+     */
     @Override
     public void showResources(List<Resource> resources) {
         int i = 1;
         System.out.println("\t# Resources to store #\t");
-        for(Resource res : resources) {
-            System.out.println(i + ") " + res.toString() +"\t" + ASCII_Resources.getShape(res.toString()));
-            i++;
+        if(resources.size() > 0) {
+           for (Resource res : resources) {
+               System.out.println(i + ") " + res.toString() + "\t" + ASCII_Resources.getShape(res.toString()));
+               i++;
+           }
+        } else System.out.println("You don't have resources to store!");
+    }
+
+    /**
+     * Prints development cards slot if non empty
+     */
+    public void showDevelopmentSlots(){
+        System.out.println("\n\t # Development Cards Slots # \t");
+        HashMap<Integer, DevelopmentCard> devCardsSlot = clientLightModel.getPeekDevCardsInSlot();
+        if(devCardsSlot.isEmpty())
+            System.out.println("\nEmpty development card slots!");
+        else {
+            for (int i = 1; i <= 3; i++) {
+                //for(Integer i : devCardsSlot.keySet()){
+                System.out.println("\n\t# Slot " + (i + 1) + " #\t");
+                ArrayList<DevelopmentCard> dc = new ArrayList();
+                dc.add(devCardsSlot.get(i));
+                if(dc.isEmpty()){
+                    System.out.println("\n");
+                } else dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+            }
         }
     }
 
+    /**
+     * Invoked by activateProduction: returns
+     * @return the list of resources freely chose by the user if a production power leader card has been activated.
+     * Returns null otherwise
+     */
+    public List<Resource> leaderProductionRoutine(){
+        List<Resource> leaderResource = null;
+        for(LeaderCard lc : clientLightModel.getLeaderCards()){
+            if(lc.getCardType().equals(CardType.PRODUCTION))
+                if(lc.isActivated()){
+                    System.out.println("You have a production power leader card activated: if you have the needed resource to activate the leader power,");
+                    System.out.println("select an additional resource to get from production. You will get it together with a faith path.\n");
+                    List<Resource> leaderResources = new ArrayList<>();
+                    leaderResources.add(Resource.STONE); //in position 0
+                    leaderResources.add(Resource.COIN); //in position 1
+                    leaderResources.add(Resource.SERVANT); //in position 2
+                    leaderResources.add(Resource.SHIELD); //in position 3
+                    showResources(leaderResources);
+                    Integer resourceIndex = 0;
+                    boolean okResource = false;
+                    System.out.println("Select a resource:");
+                    while(!okResource){
+                        try {
+                            resourceIndex = scanner.nextInt();
+                            resourceIndex--;
+                            switch(resourceIndex){
+                                case 0:
+                                    leaderResource.add(Resource.STONE);
+                                    okResource = true;
+                                    break;
+                                case 1:
+                                    leaderResource.add(Resource.COIN);
+                                    okResource = true;
+                                    break;
+                                case 2:
+                                    leaderResource.add(Resource.SERVANT);
+                                    okResource = true;
+                                    break;
+                                case 3:
+                                    leaderResource.add(Resource.SHIELD);
+                                    okResource = true;
+                                    break;
+
+                                default:
+                                    System.out.println("Invalid resource index. Select again.");
+                                    break;
+                            }
+                            okResource = true;
+                        } catch (InputMismatchException e){
+                            scanner.nextLine();
+                            System.out.println("Invalid input. Type again.");
+                        }
+                    }
+                }
+        }
+        return leaderResource;
+    }
 
 
 }

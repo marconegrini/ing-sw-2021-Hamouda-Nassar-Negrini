@@ -2,9 +2,11 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +25,8 @@ public abstract class View {
 
     public abstract ClientMessage storeResources(List<Resource> resources);
 
+    public abstract ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards);
+
     public abstract ClientMessage waitingRoom();
 
     public abstract void endWaitingRoom();
@@ -32,5 +36,7 @@ public abstract class View {
     public abstract void showLeaderCards(List<LeaderCard> leaderCards);
 
     public abstract void showResources(List<Resource> resources);
+
+    public abstract ClientMessage activateProduction();
 }
 

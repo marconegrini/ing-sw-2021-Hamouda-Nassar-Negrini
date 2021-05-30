@@ -33,6 +33,7 @@ public enum ServerMessageType {
 
     RESOURCESTOSTORE,
     ERRORWAREHOUSE,
+    PRODUCTIONRESULT,
 
     END;
 

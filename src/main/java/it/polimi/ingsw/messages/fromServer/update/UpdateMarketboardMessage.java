@@ -19,7 +19,5 @@ public class UpdateMarketboardMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setMarketBoard(this.marketBoard);
-        MarketTracer marketTracer = new MarketTracer();
-        marketTracer.marketTracer(serverHandler.getLightModel().getMarketBoard());
     }
 }
