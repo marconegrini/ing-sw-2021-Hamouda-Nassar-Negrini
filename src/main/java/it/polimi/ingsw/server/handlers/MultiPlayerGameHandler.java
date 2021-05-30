@@ -57,8 +57,8 @@ public class MultiPlayerGameHandler extends Thread {
         }
         sendLeaderCards();
         turnManager.isDone();
-        //initialiseCalamaio();
-        //turnManager.isDone();
+        initialiseCalamaio();
+        turnManager.isDone();
         updateClients();
 
         //sendToClients(new SelectActionMessage());
@@ -149,7 +149,7 @@ public class MultiPlayerGameHandler extends Thread {
         clientHandlers.remove(searchedCH);
         tempArr.addAll(clientHandlers);
 
-        if (clientHandlers.size() == tempArr.size()) {
+        if (clientHandlers.size() == tempArr.size() -1 ) {
             clientHandlers = tempArr;
         } else {
             System.out.println("error while reOrdinating clientHandlers List after setting the Calamaio");

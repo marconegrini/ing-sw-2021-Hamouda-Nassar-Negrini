@@ -60,7 +60,7 @@ public class CalamaioResponseMessage extends ClientMessage {
 //        clientHandler.sendJson(new UpdateWarehouseCofferMessage(clientHandler.getPlayer().getPersonalBoard().getClonedWarehouse(),clientHandler.getPlayer().getPersonalBoard().getClonedCoffer()));
 //        clientHandler.sendJson(new UpdateFaithPathMessage(othersFaithPath,clientHandler.getPlayer().getFaithPathPosition()));
 //        clientHandler.sendJson(new UpdateWarehouseMessage(clientHandler.getPlayer().getPersonalBoard().getWarehouse()));
-//        clientHandler.getTurnManager().clientDone();
+        clientHandler.getTurnManager().clientDone();
     }
 
 
