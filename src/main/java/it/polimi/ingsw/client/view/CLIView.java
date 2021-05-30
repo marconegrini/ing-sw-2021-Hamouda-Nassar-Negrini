@@ -474,6 +474,7 @@ public class CLIView extends View {
     @Override
     public ClientMessage activateProduction(){
         ClientMessage toReturn = null;
+        depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
         System.out.println("Do you want to activate normal or personal production? Type NORMAL or PERSONAL to choose.");
         List<Integer> slots = new ArrayList<>();
         List<Resource> leaderResource;
@@ -539,7 +540,63 @@ public class CLIView extends View {
                    toReturn = new ActivateProductionMessage(slots, leaderResource);
                    break;
                 case ("PERSONAL"):
+                    //the user selects two resources from warehouse and a resource to get as output
+                    System.out.println("Select two resources to take from warehouse as production input. Then select a resource to get as production output.");
+                    List<Resource> resource = new ArrayList<>();
+                    Resource prodIn1 = null;
+                    Resource prodIn2 = null;
+                    Resource prodOut = null;
+                    resource.add(Resource.STONE); //in position 0
+                    resource.add(Resource.COIN); //in position 1
+                    resource.add(Resource.SERVANT); //in position 2
+                    resource.add(Resource.SHIELD); //in position 3
+                    showResources(resource);
+                    Integer resourceIndex = 0;
+                    String ask = null;
+                    for(int i = 0; i < 3; i++) {
+                        if (i == 0) ask = "first production input";
+                        if (i == 1) ask = "second production input";
+                        if (i == 2) ask = "production out";
+                        Resource res = null;
+                        boolean okResource = false;
+                        while (!okResource){
+                            System.out.println("Select " + ask + " resource:");
+                            try {
+                                resourceIndex = scanner.nextInt();
+                                resourceIndex--;
+                                switch (resourceIndex) {
+                                    case 0:
+                                        res = Resource.STONE;
+                                        okResource = true;
+                                        break;
+                                    case 1:
+                                        res = Resource.COIN;
+                                        okResource = true;
+                                        break;
+                                    case 2:
+                                        res = Resource.SERVANT;
+                                        okResource = true;
+                                        break;
+                                    case 3:
+                                        res = Resource.SHIELD;
+                                        okResource = true;
+                                        break;
 
+                                    default:
+                                        System.out.println("Invalid resource index. Select again.");
+                                        break;
+                                }
+                                if (i == 0) prodIn1 = res;
+                                if (i == 1) prodIn2 = res;
+                                if (i == 2) prodOut = res;
+                            } catch (InputMismatchException e) {
+                                scanner.nextLine();
+                                System.out.println("Invalid input. Type again.");
+                            }
+                        }
+                    }
+                    leaderResource = leaderProductionRoutine();
+                    toReturn = new ActivatePersonalProductionMessage(prodIn1, prodIn2, prodOut, leaderResource);
                     done = true;
                     break;
                 default:
@@ -684,14 +741,14 @@ public class CLIView extends View {
         if(devCardsSlot.isEmpty())
             System.out.println("\nEmpty development card slots!");
         else {
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 //for(Integer i : devCardsSlot.keySet()){
                 System.out.println("\n\t# Slot " + (i + 1) + " #\t");
                 ArrayList<DevelopmentCard> dc = new ArrayList();
-                dc.add(devCardsSlot.get(i));
-                if(dc.isEmpty()){
-                    System.out.println("\n");
-                } else dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+                if(devCardsSlot.containsKey(i)) {
+                    dc.add(devCardsSlot.get(i));
+                    dvCardsTracer.printDVCard(dc).forEach(System.out::println);
+                } else System.out.println("\n");
             }
         }
     }

@@ -321,6 +321,9 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
+
+    //TODO sending and update of the market after last insertion on personal and normal production
+    //TODO changing client side personal production requests with INPUT and OUTPUT
     public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource) {
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
@@ -336,11 +339,18 @@ public class TurnManager {
             //takes resources from warehouse, then from coffer
             player.pullWarehouseResources(fromWarehouse);
             player.pullCofferResources(fromCoffer);
+            List<Resource> resourceOut = new ArrayList<>();
+            resourceOut.add(prodOut);
+            player.putCofferResources(resourceOut);
 
             boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
-            if(usedLC) return new OkMessage("Activated personal production and resources inserted in coffer. Leader card power used.");
-            else return new OkMessage("Activated personal production and resources inserted in coffer");
-        } else return new ErrorMessage("Insufficient resources to activate personal production");
+            turnDone();
+            if(usedLC) {
+                return new ProductionResultMessage(false, "Activated personal production and resources inserted in coffer. Leader card power used.", true);
+            } else {
+                return new ProductionResultMessage(false, "Activated personal production and resources inserted in coffer", true);
+            }
+        } else return new ProductionResultMessage(true,"Insufficient resources to activate personal production", true);
     }
 
     /**
