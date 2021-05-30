@@ -5,7 +5,7 @@ public enum ASCII_Marbles {
 
     YELLOW("\u001B[33m" + "⬤" +  "\u001B[0m"),
     VIOLET("\u001B[35m" + "⬤" + "\u001B[0m"),
-    WHITE("\u001b[37;1m" + "⬤" + "\u001B[0m"),
+    WHITE("\u001b[38;5;255m" + "⬤" + "\u001B[0m"),
     GREY("\u001b[37;1m" + "⬤" + "\u001B[0m"),
     RED("\u001b[31;1m" + "⬤" + "\u001B[0m"),
     BLUE("\u001b[34;1m" + "⬤" + "\u001B[0m");
