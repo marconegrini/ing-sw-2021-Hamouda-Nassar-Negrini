@@ -63,4 +63,9 @@ public class GUIView extends View{
 
     @Override
     public void showResources(List<Resource> resources) {}
+
+    @Override
+    public ClientMessage activateProduction() {
+        return null;
+    }
 }

@@ -2,22 +2,16 @@ package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
-import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.server.controller.TurnManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collector;
-
-import static java.util.stream.Collectors.toList;
 
 import java.util.*;
 
@@ -56,7 +50,7 @@ public class MultiPlayerGameHandler extends Thread {
             player.printPlayer();
         }
         sendLeaderCards();
-        turnManager.isDone();
+        turnManager.lock();
         initialiseCalamaio();
         turnManager.isDone();
         updateClients();
@@ -67,7 +61,7 @@ public class MultiPlayerGameHandler extends Thread {
             for (ClientHandler ch : clientHandlers) {
                 sendToClient(ch, new SelectActionMessage());
                 sendToClients(new OkMessage("Wait your turn..."), ch);
-                turnManager.isDone();
+                turnManager.lock();
                 updateClients();
             }
         }

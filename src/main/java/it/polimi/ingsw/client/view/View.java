@@ -36,5 +36,7 @@ public abstract class View {
     public abstract void showLeaderCards(List<LeaderCard> leaderCards);
 
     public abstract void showResources(List<Resource> resources);
+
+    public abstract ClientMessage activateProduction();
 }
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages.fromServer.warehouse;
+package it.polimi.ingsw.messages.fromServer.storeResources;
 
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
@@ -8,6 +8,10 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.List;
 
+/**
+ * Error message if the specified insertion cannot be performed. The user is redirected to storeResources method to change
+ * the request.
+ */
 public class ErrorWarehouseMessage extends ServerMessage {
 
     private String error;

@@ -67,7 +67,7 @@ public class PersonalBoard {
     }
 
     public List<Resource> devCardSlotProductionIn(Integer devCardSlotNumber) throws EmptySlotException, IndexOutOfBoundsException{
-        Map<Resource, Integer> productionIn = devCardSlots.resourcesProductionIn(devCardSlotNumber);
+        HashMap<Resource, Integer> productionIn = devCardSlots.resourcesProductionIn(devCardSlotNumber);
         List<Resource> result = new ArrayList<>();
         for(Resource resource : productionIn.keySet()){
             Integer cost = productionIn.get(resource);

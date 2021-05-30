@@ -27,6 +27,21 @@ public class DevCardSlots {
             cardSlot.add(new Stack<>());
             cardSlotNumber--;
         }
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 2);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SHIELD, 1);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.COIN, 10);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        cardSlot.get(0).push(card1);
     }
 
     /**
@@ -64,6 +79,7 @@ public class DevCardSlots {
     public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException, IndexOutOfBoundsException {
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(cardSlot.get(slotNumber).size() != 0){
+            System.out.println(cardSlot.get(slotNumber).peek().getProductionIn());
             return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionIn().clone();
         } else throw new EmptySlotException();
     }
@@ -104,23 +120,6 @@ public class DevCardSlots {
         for(int i = 0; i < cardSlot.size(); i++)
             if (!cardSlot.get(i).isEmpty())
                 cardsInSlot.put(i, cardSlot.get(i).peek().clone());
-            /*
-        HashMap<Resource, Integer> cardCost;
-        HashMap<Resource, Integer> prodIn;
-        HashMap<Resource, Integer> prodOut;
-        cardCost = new HashMap<>();
-        cardCost.put(Resource.SERVANT, 2);
-        cardCost.put(Resource.COIN, 1);
-
-        prodIn = new HashMap<>();
-        prodIn.put(Resource.SERVANT, 2);
-
-        prodOut = new HashMap<>();
-        prodOut.put(Resource.COIN, 1);
-        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
-        cardsInSlot.put(1, card1);
-
-        */
 
         return cardsInSlot;
     }
