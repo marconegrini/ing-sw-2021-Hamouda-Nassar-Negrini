@@ -152,7 +152,7 @@ public class MultiPlayerGameHandler extends Thread {
         if (clientHandlers.size() == tempArr.size()) {
             clientHandlers = tempArr;
         } else {
-            System.out.println("error while reOrdinating clientHandlers List after setting the calamaio");
+            System.out.println("error while reOrdinating clientHandlers List after setting the Calamaio");
             System.exit(-2);
         }
 

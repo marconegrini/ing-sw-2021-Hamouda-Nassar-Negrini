@@ -239,6 +239,7 @@ public abstract class Player {
      * @throws AlreadyDiscardedLeaderCardException
      * @throws IndexOutOfBoundsException
      */
+
     public void discardLeaderCard(Integer indexNumber) throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException, IndexOutOfBoundsException{
         if(indexNumber < 0 || indexNumber > (leaderCards.size()-1)) throw new IndexOutOfBoundsException();
         this.leaderCards.get(indexNumber).discard();
