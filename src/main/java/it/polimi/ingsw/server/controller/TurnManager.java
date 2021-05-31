@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
+import it.polimi.ingsw.messages.fromServer.BuyDVCardError;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
@@ -209,6 +210,9 @@ public class TurnManager {
         List<Resource> playerResources = player.getTotalResource();
         List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
 
+        System.out.println("playerResources: " + playerResources + "\n");
+        System.out.println("devCardCost: " + devCardCost+ "\n");
+
         if(player.isLeaderCardActivated(CardType.DISCOUNT)){
             HashMap<Resource, Integer> resourcesFromLeaderCard = null;
             resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
@@ -219,6 +223,8 @@ public class TurnManager {
                         discountedResource.remove(resource);
             }
         }
+
+
 
         if (playerResources.equals(devCardCost) || playerResources.containsAll(devCardCost)) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
@@ -236,12 +242,13 @@ public class TurnManager {
             try{
                 player.addCardInDevCardSlot(devCardSlot, devCard);
             } catch(IllegalInsertionException e1){
-                return new ErrorMessage("Slot insertion not allowed");
+                return new BuyDVCardError("Slot insertion not allowed");
             } catch (IndexOutOfBoundsException e2){
-                return new ErrorMessage("Invalid slot number");
+                return new BuyDVCardError("Invalid slot number");
             }
-            return new OkMessage("Bought development card and inserted in slot number " + devCardSlot);
-        } else return new ErrorMessage("Insufficient resources to buy selected development card");
+            turnDone();
+            return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) );
+        } else return new BuyDVCardError("Insufficient resources to buy selected development card");
     }
 
     /**
@@ -312,6 +319,10 @@ public class TurnManager {
             }
         } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true);
     }
+
+
+
+
 
     /**
      * @param player the playing player that chose to activate the basic personal board's production

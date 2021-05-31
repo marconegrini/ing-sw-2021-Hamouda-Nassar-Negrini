@@ -14,6 +14,7 @@ public enum ServerMessageType {
     LOGIN_ERROR,
     CALAMAIO,
     UPDATEWAREHOUSE,
+    BUYDVCARDERROR,
     PARTICIPANTS,
     INWAITINGROOM,
     STARTGAME,

@@ -28,20 +28,6 @@ public class DevCardSlots {
             cardSlotNumber--;
         }
 
-        HashMap<Resource, Integer> cardCost;
-        HashMap<Resource, Integer> prodIn;
-        HashMap<Resource, Integer> prodOut;
-        cardCost = new HashMap<>();
-        cardCost.put(Resource.SERVANT, 2);
-        cardCost.put(Resource.COIN, 1);
-
-        prodIn = new HashMap<>();
-        prodIn.put(Resource.SHIELD, 1);
-
-        prodOut = new HashMap<>();
-        prodOut.put(Resource.COIN, 10);
-        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
-        cardSlot.get(0).push(card1);
     }
 
     /**
@@ -54,21 +40,37 @@ public class DevCardSlots {
 
     public void addCard(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
 
+        System.out.println("IN: DevCardSlots/addCard():\n");
+
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
+
+
+
+        System.out.println(cardSlot.get(slotNumber));
+        System.out.println(cardSlot.get(slotNumber).isEmpty());
 
         //if selected slot contains Cards
         if(!cardSlot.get(slotNumber).isEmpty()) {
             Level bottomCardLevel = cardSlot.get(slotNumber).peek().getLevel();
             Level upperCardLevel = developmentCard.getLevel();
 
+            System.out.println("bottomCardLevel " + bottomCardLevel);
+            System.out.println("upperCardLevel " + upperCardLevel);
+
+
             if (bottomCardLevel.equals(Level.FIRST) && upperCardLevel.equals(Level.SECOND))
                 cardSlot.get(slotNumber).push(developmentCard);
-            else if(bottomCardLevel.equals(Level.SECOND) && upperCardLevel.equals(Level.THIRD))
+            else if(bottomCardLevel.equals(Level.SECOND) && upperCardLevel.equals(Level.THIRD)) {
                 cardSlot.get(slotNumber).push(developmentCard);
-            else throw new IllegalInsertionException();
+            }
+            else {
+                System.out.println("KO: INSERTION OF CARD WITH LOWER LEVEL ON ONE WITH HIGHER LEVEL, OR A CARD WITH HIGHER ON EMPTY SLOT");
+                throw new IllegalInsertionException();
+            }
 
         } else {
             //if selected slot is empty
+            System.out.println("OK: PLAYER's selected slot is empty");
             if(developmentCard.getLevel().equals(Level.FIRST))
                 cardSlot.get(slotNumber).push(developmentCard);
             else throw new IllegalInsertionException();

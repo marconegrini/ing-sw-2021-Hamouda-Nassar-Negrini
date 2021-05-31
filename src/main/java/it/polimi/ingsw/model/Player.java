@@ -63,7 +63,7 @@ public abstract class Player {
         return totalResource;
     }
 
-    public PersonalBoard getPersonalBoard(){return this.personalBoard;}
+//    public PersonalBoard getPersonalBoard(){return this.personalBoard;}
 
     public void setCalamaio() {
         this.hasCalamaio = true;
@@ -312,11 +312,11 @@ public abstract class Player {
     }
 
 
-
-    public void updateWareHouse(Warehouse warehouse){
-        this.personalBoard.setWarehouse(warehouse);
-
-    }
+//
+//    public void updateWareHouse(Warehouse warehouse){
+//        this.personalBoard.setWarehouse(warehouse);
+//
+//    }
 
 
 

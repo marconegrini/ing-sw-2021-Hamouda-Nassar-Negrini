@@ -12,7 +12,7 @@ public class SelectActionMessage extends ServerMessage{
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         Runnable runnable = () -> {
-            ClientMessage message = serverHandler.getView().selectAction();
+            ClientMessage message = serverHandler.getView().selectAction("",false);
             serverHandler.sendJson(message);
         };
 
