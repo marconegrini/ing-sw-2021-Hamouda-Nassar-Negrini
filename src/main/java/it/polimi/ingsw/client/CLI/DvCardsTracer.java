@@ -30,70 +30,73 @@ public class DvCardsTracer {
 
 
         for (DevelopmentCard dvCard : dvCards) {
+            if (dvCard.getColor() != null) {
+                ColorEnum colorCard = ColorEnum.getBackgroundEnum(dvCard.getColor().toString());
+                String stringFormat = "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t" + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
 
-            ColorEnum colorCard = ColorEnum.getBackgroundEnum(dvCard.getColor().toString());
-            String stringFormat = "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t" + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
+                cardChar++;
+                cardLetter = String.valueOf(cardChar);  //convert char to string
 
-            cardChar++;
-            cardLetter = String.valueOf(cardChar);  //convert char to string
-
-            //add a number next to (card letter) and start from 'a' when reach the letter 'z' //...,x,y,z,a1,b1,...
-            if (cardLetter.charAt(0) > 'z') {
-                cardChar = 'a';
-                withNumbers = true;
-            }
-            if (withNumbers && cardChar == 'a') {
-                number++;
-            }
-            if (withNumbers) {
-                cardLetter = String.valueOf(cardChar) + number;
-            }
+                //add a number next to (card letter) and start from 'a' when reach the letter 'z' //...,x,y,z,a1,b1,...
+                if (cardLetter.charAt(0) > 'z') {
+                    cardChar = 'a';
+                    withNumbers = true;
+                }
+                if (withNumbers && cardChar == 'a') {
+                    number++;
+                }
+                if (withNumbers) {
+                    cardLetter = String.valueOf(cardChar) + number;
+                }
 
 
-            ArrayList<String> shapes = getShapes(dvCard);
+                ArrayList<String> shapes = getShapes(dvCard);
 
-            cardLetter = "(" + cardLetter + ")";
+                cardLetter = "(" + cardLetter + ")";
 
-            String tempStr = String.format(stringFormat, cardLetter, dvCard.getColor(), dvCard.getLevel(), dvCard.getVictoryPoints());
+                String tempStr = String.format(stringFormat, cardLetter, dvCard.getColor(), dvCard.getLevel(), dvCard.getVictoryPoints());
 
-            //1 elem => 0 delete of the next dashes
-            //2 elem => 4 delete of the next dashes
-            //3 elem => 8 delete of the next dashes
+                //1 elem => 0 delete of the next dashes
+                //2 elem => 4 delete of the next dashes
+                //3 elem => 8 delete of the next dashes
 
 //            String varDash1 = "---";
 //            String varDash2 = "----------------";
 //            String varDash3 = "---------------"; // + "--->"
 
-            String varDash1 = "   ";
-            String varDash2 = "                ";
-            String varDash3 = "         --->    ";
+                String varDash1 = "   ";
+                String varDash2 = "                ";
+                String varDash3 = "         --->    ";
 
 //            System.out.println("length"+shapes.get(0).length());
 
 
-            //calculate how many elements(resources emojis) in the array and adjust the spacing
-            int elemOfShape0 = dvCard.getCardCost().keySet().size();
-            int elemOfShape1 = dvCard.getProductionIn().keySet().size();
-            int elemOfShape2 = dvCard.getProductionOut().keySet().size();
+                //calculate how many elements(resources emojis) in the array and adjust the spacing
+                int elemOfShape0 = dvCard.getCardCost().keySet().size();
+                int elemOfShape1 = dvCard.getProductionIn().keySet().size();
+                int elemOfShape2 = dvCard.getProductionOut().keySet().size();
 
-            if (elemOfShape0 == 2) {
-                varDash2 = varDash2.substring(4); //remove three dashes
-            }
-            if (elemOfShape0 == 3) {
-                varDash2 = varDash2.substring(8); //remove 7 dashes
-            }
-            if (elemOfShape1 == 2) {
-                varDash3 = varDash3.substring(4); //remove three dashes
-            }
-            if (elemOfShape1 == 3) {
-                varDash3 = varDash3.substring(8); //remove 7 dashes
-            }
+                if (elemOfShape0 == 2) {
+                    varDash2 = varDash2.substring(4); //remove three dashes
+                }
+                if (elemOfShape0 == 3) {
+                    varDash2 = varDash2.substring(8); //remove 7 dashes
+                }
+                if (elemOfShape1 == 2) {
+                    varDash3 = varDash3.substring(4); //remove three dashes
+                }
+                if (elemOfShape1 == 3) {
+                    varDash3 = varDash3.substring(8); //remove 7 dashes
+                }
 
 
-            //final string that represents a dvCard, add it to the result array
-            tempStr = tempStr + varDash1 + shapes.get(0) + varDash2 + shapes.get(1) + varDash3 + shapes.get(2);
-            results.add(tempStr);
+                //final string that represents a dvCard, add it to the result array
+                tempStr = tempStr + varDash1 + shapes.get(0) + varDash2 + shapes.get(1) + varDash3 + shapes.get(2);
+                results.add(tempStr);
 
+            }else{
+                results.add("\u001b[3m"+"EMPTY"+"\u001b[0m");   //EMPTY (in italic//)
+            }
         }
         return results;
     }

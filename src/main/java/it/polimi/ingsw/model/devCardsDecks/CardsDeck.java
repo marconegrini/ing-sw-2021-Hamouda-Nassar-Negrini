@@ -71,7 +71,11 @@ public class CardsDeck {
      * @return a copy of the card in the specified position
      */
     public DevelopmentCard peekCard(int row, int column){
-        return cardsDeck[row][column].peekCard();
+        if(cardsDeck[row][column].peekCard() == null){
+            return new DevelopmentCard(0,null,null,null,null,null);
+        }
+        else
+            return cardsDeck[row][column].peekCard();
     }
 
     /**
@@ -80,7 +84,11 @@ public class CardsDeck {
      * @return the card in the specified position. Differently from peekCard, popCard removes the specified card
      */
     public DevelopmentCard popCard(int row, int column){
-        return cardsDeck[row][column].popCard();
+        if(cardsDeck[row][column].peekCard() == null){
+            return new DevelopmentCard(0,null,null,null,null,null);
+        }
+        else
+            return cardsDeck[row][column].popCard();
     }
 
     public boolean emptyDeck(int row, int column){

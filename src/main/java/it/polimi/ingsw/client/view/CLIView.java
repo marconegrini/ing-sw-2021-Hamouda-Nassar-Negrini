@@ -186,6 +186,7 @@ public class CLIView extends View {
         ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
+
         while (!selected) {
             if (!err) {
                 System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
@@ -229,7 +230,7 @@ public class CLIView extends View {
                     System.out.println("\nInsert external marble in the market.");
                     boolean OK = false;
                     while (!OK) {
-                        System.out.println("Row or column?");
+                        System.out.println("Row or column?\n type \"return\" to select another action\n");
                         String rowOrCol = scanner.nextLine();
                         if (rowOrCol.equalsIgnoreCase("COLUMN")) {
                             OK = true;
@@ -237,6 +238,12 @@ public class CLIView extends View {
                         } else if (rowOrCol.equalsIgnoreCase("ROW")) {
                             OK = true;
                             isRow = true;
+                        }
+                        else if(rowOrCol.equalsIgnoreCase("RETURN")){
+                            OK = false;
+                            selected = false;
+                            show = true;
+                            break ;
                         }
                     }
 
@@ -254,10 +261,12 @@ public class CLIView extends View {
                             OK = false;
                             System.out.println("Bad input format. Type again row or column number\n");
                         }
+                        show = false;
+                        selected = true;
+                        selection = new PickResourcesMessage(isRow, rowOrColNum);
                     }
-                    show = false;
-                    selected = true;
-                    selection = new PickResourcesMessage(isRow, rowOrColNum);
+
+
                 } else if (choice.equals("b")) {
                     if (err) {
                         System.out.println("Please check if you have sufficient resources to buy the card\n" +
@@ -269,7 +278,7 @@ public class CLIView extends View {
                     show = false;
                     selected = true;
                     selection = buyDVCard(clientLightModel.getDevelopmentCardsDeck(), err);
-                    if (selection==null)  //if == null --> means the player choosed to choose another action.
+                    if (selection == null)  //if == null --> means the player choosed to choose another action.
                     {
                         selected = false;
                         show = true;
@@ -631,7 +640,6 @@ public class CLIView extends View {
                 valid = false;
             }
         }
-        System.out.println(input); //testing
         return input;
     }
 
@@ -647,7 +655,6 @@ public class CLIView extends View {
                 valid = false;
             }
         }
-        System.out.println(input); //testing
         return Integer.parseInt(input);
     }
 

@@ -20,7 +20,10 @@ public class Deck {
     }
 
     public DevelopmentCard peekCard(){
-        return deck.peek();
+        if(deck.isEmpty()){
+            return null;
+        }
+        else return deck.peek();
     }
 
     /*public void removeCard(){
