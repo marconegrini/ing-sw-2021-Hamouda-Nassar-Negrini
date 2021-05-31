@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
+import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
+import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
 import it.polimi.ingsw.messages.fromServer.ErrorMessage;
@@ -16,10 +18,10 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import it.polimi.ingsw.server.handlers.ClientHandler;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TurnManager {
 
@@ -190,11 +192,11 @@ public class TurnManager {
         try{
             player.moveWarehouseResources(sourceStorage, destStorage);
         } catch (IllegalMoveException e1){
-            return new ErrorMessage("Warehouse move not permitted");
+            return new MoveResourcesResultMessage(true, sourceStorage, destStorage, "Warehouse move not permitted");
         } catch (StorageOutOfBoundsException e2){
-            return new ErrorMessage("Selected storage doesn't exists");
+            return new MoveResourcesResultMessage(true, sourceStorage, destStorage, "Selected storage doesn't exists");
         }
-        return new OkMessage("Warehouse resources moved");
+        return new MoveResourcesResultMessage(false, sourceStorage, destStorage, "Warehouse resources moved");
     }
 
     /**
@@ -268,8 +270,22 @@ public class TurnManager {
             }
         }
         List<Resource> playerResources = player.getTotalResource();
+        HashMap<Resource, Integer> checkCost = new HashMap<>();
+        for(Resource res : productionInCost){
+            if(checkCost.containsKey(res)){
+                Integer newValue = checkCost.get(res);
+                newValue++;
+                checkCost.put(res, newValue);
+            } else checkCost.put(res, 1);
+        }
+        List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
+        for(Resource res : checkCost.keySet()){
+            Integer value = checkCost.get(res);
+            for(int i = 0; i < value; i++)
+                playerCopiedResources.remove(res);
+        }
         //checks if resources needed for production are satisfied by warehouse and/or coffer
-        if (playerResources.equals(productionInCost) || playerResources.containsAll(productionInCost)) {
+        if (playerResources.equals(productionInCost) || !playerCopiedResources.isEmpty()) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
             List<Resource> toTakeFromWarehouse = new ArrayList<>();
             for (Resource resource : productionInCost)
@@ -328,7 +344,24 @@ public class TurnManager {
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
-        if (player.getTotalResource().equals(productionCost) || player.getTotalResource().containsAll(productionCost)) {
+
+        HashMap<Resource, Integer> checkCost = new HashMap<>();
+        for(Resource res : productionCost){
+            if(checkCost.containsKey(res)){
+                Integer newValue = checkCost.get(res);
+                newValue++;
+                checkCost.put(res, newValue);
+            } else checkCost.put(res, 1);
+        }
+
+        List<Resource> playerCopiedResources = player.getTotalResource().stream().collect(Collectors.toList());
+        for(Resource res : checkCost.keySet()){
+            Integer value = checkCost.get(res);
+            for(int i = 0; i < value; i++)
+                playerCopiedResources.remove(res);
+        }
+
+        if (player.getTotalResource().equals(productionCost) || !playerCopiedResources.isEmpty()) {
             List<Resource> fromCoffer = player.getWarehouseResource();
             List<Resource> fromWarehouse = new ArrayList<>();
             for (Resource r : productionCost)
@@ -404,18 +437,20 @@ public class TurnManager {
      * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
      */
     public ServerMessage activateLeaderCard (Player player, Integer indexNumber){
+        HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
+        faithPathPositions.remove(player.getNickname());
         try{
             player.activateLeaderCard(indexNumber);
         } catch(IndexOutOfBoundsException e1){
-            return new ErrorMessage("Selected index for leader card is out of bounds");
+            return new LeaderResultMessage(true, false, true, "Selected index for leader card is out of bounds", indexNumber, faithPathPositions, player.getFaithPathPosition());
         } catch(AlreadyActivatedLeaderCardException e2){
-            return new ErrorMessage("Selected leader card already activated");
+            return new LeaderResultMessage(true, false, true, "Selected leader card already activated", indexNumber, faithPathPositions, player.getFaithPathPosition());
         } catch(InsufficientResourcesException e3){
-            return new ErrorMessage("Insufficient resources to activate selected leader card");
+            return new LeaderResultMessage(true, false, true, "Insufficient resources to activate selected leader card", indexNumber, faithPathPositions, player.getFaithPathPosition());
         } catch(AlreadyDiscardedLeaderCardException e4){
-            return new ErrorMessage("Selected leader card was discarded");
+            return new LeaderResultMessage(true, false, true, "Selected leader card was discarded", indexNumber, faithPathPositions, player.getFaithPathPosition());
         }
-        return new OkMessage("Selected leader card activated");
+        return new LeaderResultMessage(false, false, true, "Selected leader card activated", indexNumber, faithPathPositions, player.getFaithPathPosition());
     }
 
     /**
@@ -425,17 +460,30 @@ public class TurnManager {
      * @return a OkMessage notifying the successful discard action
      */
     public ServerMessage discardLeaderCard (Player player, Integer indexNum){
+        HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
+        faithPathPositions.remove(player.getNickname());
         try{
             player.discardLeaderCard(indexNum);
         } catch (IndexOutOfBoundsException e1){
-            return new ErrorMessage("Selected leader card index is out of bounds");
+            return new LeaderResultMessage(true, true, false, "Selected leader card index is out of bounds", indexNum, faithPathPositions, player.getFaithPathPosition());
         } catch (AlreadyActivatedLeaderCardException e2){
-            return new ErrorMessage("Selected leader card is activated:you cannot discard it");
+            return new LeaderResultMessage(true, true, false, "Selected leader card is activated: you cannot discard it", indexNum, faithPathPositions, player.getFaithPathPosition());
         } catch (AlreadyDiscardedLeaderCardException e3){
-            return new ErrorMessage("Selected leader card was already discarded");
+            return new LeaderResultMessage(true, true, false, "Selected leader card was already discarded", indexNum, faithPathPositions, player.getFaithPathPosition());
         }
         player.incrementFaithPathPosition();
-        return new OkMessage("Leader card correctly discarded: received 1 faith point");
+        Integer newPlayerPos = player.getFaithPathPosition();
+        if(multiplayer) {
+            if (player.isRapportoInVaticano(newPlayerPos)) {
+                for (Player p : players)
+                    p.updateFaithPath(newPlayerPos);
+            }
+        } else {
+            //TODO singleplayer option
+        }
+        faithPathPositions = this.getFaithPathPositions();
+        faithPathPositions.remove(player.getNickname());
+        return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition());
     }
 
     /**
@@ -452,6 +500,16 @@ public class TurnManager {
             return new ErrorMessage("Selected indexes for leader cards are out of bounds");
         }
         return new UpdateLeaderCardsMessage(index1, index2);
+    }
+
+    public HashMap<String, Integer> getFaithPathPositions(){
+        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        for(Player p : players){
+            String nickname = p.getNickname();
+            Integer fpPos = p.getFaithPathPosition();
+            faithPathPositions.put(nickname, fpPos);
+        }
+        return faithPathPositions;
     }
 
     public synchronized void resetDone(){

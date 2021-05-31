@@ -41,7 +41,12 @@ public class DevCardSlots {
         prodOut = new HashMap<>();
         prodOut.put(Resource.COIN, 10);
         DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.VIOLET, Level.SECOND, cardCost, prodIn, prodOut);
+        DevelopmentCard card3 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+
         cardSlot.get(0).push(card1);
+        cardSlot.get(1).push(card3);
+        cardSlot.get(1).push(card2);
     }
 
     /**

@@ -5,9 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
+import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
+import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardFactory;
 
@@ -116,6 +118,12 @@ public class ServerMessageFactory {
                     break;
                 case PRODUCTIONRESULT:
                     returnMessage = gson.fromJson(receivedMessage, ProductionResultMessage.class);
+                    break;
+                case MOVERESOURCESRESULT:
+                    returnMessage = gson.fromJson(receivedMessage, MoveResourcesResultMessage.class);
+                    break;
+                case LEADERCARDRESULT:
+                    returnMessage = gson.fromJson(receivedMessage, LeaderResultMessage.class);
                     break;
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);

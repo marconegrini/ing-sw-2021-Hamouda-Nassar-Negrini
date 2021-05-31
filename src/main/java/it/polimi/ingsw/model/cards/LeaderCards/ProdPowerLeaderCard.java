@@ -94,6 +94,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
     }
 
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {
+
         boolean activatable = true;
 
         for (int i = 0; i < this.activationCost.size(); i++) {
