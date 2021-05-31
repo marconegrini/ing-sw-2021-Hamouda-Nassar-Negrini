@@ -27,7 +27,7 @@ public class MoveResourcesResultMessage extends ServerMessage {
             serverHandler.getLightModel().moveWarehouseResources(sourceStorage, destStorage);
         else message = "Invalid action: " + message;
         System.out.println(message);
-        ClientMessage toSend = serverHandler.getView().selectAction();
+        ClientMessage toSend = serverHandler.getView().selectAction(null, false);
         serverHandler.sendJson(toSend);
     }
 }
