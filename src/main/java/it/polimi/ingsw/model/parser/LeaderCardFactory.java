@@ -39,7 +39,9 @@ public class LeaderCardFactory {
                     JsonObject object = elem.getAsJsonObject();
                     String tempCardColor = object.get("color").getAsString();
                     CardColor cardColor = CardColor.getEnum(tempCardColor);
-                    activationCost.add(new LeaderCardCost(cardColor, Level.ANY));
+                    String tempCardLevel = object.get("level").getAsString();
+                    Level level = Level.getEnum(tempCardLevel);
+                    activationCost.add(new LeaderCardCost(cardColor, level));
                 }
 
                 JsonObject discount = jsonObject.get("discountedResource").getAsJsonObject();
@@ -68,7 +70,9 @@ public class LeaderCardFactory {
                     JsonObject object = elem.getAsJsonObject();
                     String tempCardColor = object.get("color").getAsString();
                     CardColor cardColor = CardColor.getEnum(tempCardColor);
-                    activationCost.add(new LeaderCardCost(cardColor, Level.ANY));
+                    String tempCardLevel = object.get("level").getAsString();
+                    Level level = Level.getEnum(tempCardLevel);
+                    activationCost.add(new LeaderCardCost(cardColor, level));
                 }
 
                 JsonObject jsonObject1 = jsonObject.get("productionOut").getAsJsonObject();
@@ -86,7 +90,9 @@ public class LeaderCardFactory {
                     JsonObject object = elem.getAsJsonObject();
                     String tempCardColor = object.get("color").getAsString();
                     CardColor cardColor = CardColor.getEnum(tempCardColor);
-                    activationCost.add(new LeaderCardCost(cardColor, Level.ANY));
+                    String tempCardLevel = object.get("level").getAsString();
+                    Level level = Level.getEnum(tempCardLevel);
+                    activationCost.add(new LeaderCardCost(cardColor, level));
                 }
 
                 JsonObject jsonObject1 = jsonObject.get("productionIn").getAsJsonObject();

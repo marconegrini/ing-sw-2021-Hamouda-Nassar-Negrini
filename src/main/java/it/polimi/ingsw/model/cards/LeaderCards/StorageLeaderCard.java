@@ -46,16 +46,16 @@ public class StorageLeaderCard extends LeaderCard {
         Set<Resource> resourceCost = activationCost.keySet();
         for (Resource resource : resourceCost) {
             if (resource.equals(Resource.COIN))
-                if (coinOccurr >= activationCost.get(resource))
+                if (coinOccurr < activationCost.get(resource))
                     activatable = false;
             if (resource.equals(Resource.STONE))
-                if (stoneOccurr >= activationCost.get(resource))
+                if (stoneOccurr < activationCost.get(resource))
                     activatable = false;
             if (resource.equals(Resource.SERVANT))
-                if (servantOccurr >= activationCost.get(resource))
+                if (servantOccurr < activationCost.get(resource))
                     activatable = false;
             if (resource.equals(Resource.SHIELD))
-                if (shieldOccurr >= activationCost.get(resource))
+                if (shieldOccurr < activationCost.get(resource))
                     activatable = false;
         }
         return activatable;

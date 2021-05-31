@@ -182,7 +182,6 @@ public class CLIView extends View {
      */
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
-
         ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
@@ -266,7 +265,6 @@ public class CLIView extends View {
                         selection = new PickResourcesMessage(isRow, rowOrColNum);
                     }
 
-
                 } else if (choice.equals("b")) {
                     if (err) {
                         System.out.println("Please check if you have sufficient resources to buy the card\n" +
@@ -285,28 +283,101 @@ public class CLIView extends View {
                     }
                 } else if (choice.equals("c")) {
                     //Activate production
-
+                    selection = activateProduction();
                     show = false;
                     selected = true;
-                    selection = activateProduction();
+
                 } else if (choice.equals("d")) {
                     //Activate Leader card
-
+                    Integer index = 0;
+                    leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    System.out.println("Select a leader card to activate:");
+                    boolean okCards = false;
+                    while(!okCards){
+                        String selectedCard = scanner.nextLine();
+                        switch(selectedCard) {
+                            case "a":
+                                index = 0;
+                                okCards = true;
+                                break;
+                            case "b":
+                                index = 1;
+                                okCards= true;
+                                break;
+                            default:
+                                System.out.println("Invalid input. Type again.");
+                                break;
+                        }
+                    }
+                    selection = new ActivateLeaderCardMessage(index);
                     show = false;
                     selected = true;
-                    //selection = new ActivateLeaderCardMessage();
+
                 } else if (choice.equals("e")) {
                     //Discard leader card
-
+                    Integer index = 0;
+                    leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    System.out.println("Select a leader card to discard:");
+                    boolean okCards = false;
+                    while(!okCards){
+                        String selectedCard = scanner.nextLine();
+                        switch(selectedCard) {
+                            case "a":
+                                index = 0;
+                                okCards = true;
+                                break;
+                            case "b":
+                                index = 1;
+                                okCards= true;
+                                break;
+                            default:
+                                System.out.println("Invalid input. Type again.");
+                                break;
+                        }
+                    }
+                    selection = new DiscardLeaderCardMessage(index);
                     show = false;
                     selected = true;
-                    //selection = new DiscardLeaderCardMessage();
                 } else if (choice.equals("f")) {
                     //Move warehouse resources
-
+                    String ask = "";
+                    Integer sourceStorage = 0;
+                    Integer destStorage = 0;
+                    Integer storage = 0;
+                    for(int i = 0; i < 2; i++) {
+                        if (i == 0) ask = "source";
+                        if (i == 1) ask = "destination";
+                        boolean okStorage = false;
+                        System.out.println("Select " + ask + " storage (1 to 3):");
+                        try {
+                            storage = scanner.nextInt();
+                            //should check in model
+                            /*
+                            switch (storage) {
+                                case 1:
+                                    okStorage = true;
+                                    break;
+                                case 2:
+                                    okStorage = true;
+                                    break;
+                                case 3:
+                                    okStorage = true;
+                                    break;
+                                default:
+                                    System.out.println("Invalid storage index. Select again.");
+                                    break;
+                            }
+                             */
+                            if (i == 0) sourceStorage = storage;
+                            if (i == 1) destStorage = storage;
+                        } catch (InputMismatchException e) {
+                            scanner.nextLine();
+                            System.out.println("Invalid input. Type again.");
+                        }
+                    }
+                    selection = new MoveWarehouseResourcesMessage(sourceStorage, destStorage);
                     show = false;
                     selected = true;
-                    //selection = new MoveWarehouseResourcesMessage();
                 } else System.out.println("Invalid choice. Type again.");
             }
         }
@@ -771,6 +842,7 @@ public class CLIView extends View {
         for(LeaderCard lc : clientLightModel.getLeaderCards()){
             if(lc.getCardType().equals(CardType.PRODUCTION))
                 if(lc.isActivated()){
+                    leaderResource = new ArrayList<>();
                     System.out.println("You have a production power leader card activated: if you have the needed resource to activate the leader power,");
                     System.out.println("select an additional resource to get from production. You will get it together with a faith path.\n");
                     List<Resource> leaderResources = new ArrayList<>();

@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
+import it.polimi.ingsw.model.exceptions.IllegalMoveException;
+import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +51,22 @@ public class LightModel{
         leaderCards.clear();
         leaderCards.add(lc1);
         leaderCards.add(lc2);
+    }
+
+    public void activateLeaderCard(Integer index){
+        try {
+            this.leaderCards.get(index).activate();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e){
+            System.err.println(e);
+        }
+    }
+
+    public void discardLeaderCard(Integer index){
+        try{
+            this.leaderCards.get(index).discard();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e){
+            System.err.println(e);
+        }
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCardsDeck(){
@@ -95,6 +115,14 @@ public class LightModel{
 
     public void setWarehouse(Warehouse warehouse){
         this.warehouse = warehouse;
+    }
+
+    public void moveWarehouseResources(Integer sourceStorage, Integer destStorage){
+        try {
+            this.warehouse.moveResource(sourceStorage, destStorage);
+        } catch(IllegalMoveException | StorageOutOfBoundsException e){
+            System.err.println(e);
+        }
     }
 
     public Coffer getCoffer(){
