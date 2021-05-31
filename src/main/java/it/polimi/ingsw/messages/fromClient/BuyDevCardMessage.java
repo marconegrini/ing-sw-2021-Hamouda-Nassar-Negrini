@@ -29,26 +29,26 @@ public class BuyDevCardMessage extends ClientMessage{
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
 
-        //TESTING
-        List<Resource> resourcesIn = new ArrayList<>();
-        resourcesIn.add(Resource.SHIELD);
-        resourcesIn.add(Resource.SHIELD);
-        resourcesIn.add(Resource.SHIELD);
-        resourcesIn.add(Resource.SHIELD);
-        resourcesIn.add(Resource.COIN);
-        resourcesIn.add(Resource.COIN);
-        resourcesIn.add(Resource.COIN);
-        resourcesIn.add(Resource.COIN);
-        resourcesIn.add(Resource.SERVANT);
-        resourcesIn.add(Resource.SERVANT);
-        resourcesIn.add(Resource.SERVANT);
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
-        resourcesIn.add(Resource.STONE);
-        player.putCofferResources(resourcesIn);
-        //
+//        //TESTING
+//        List<Resource> resourcesIn = new ArrayList<>();
+//        resourcesIn.add(Resource.SHIELD);
+//        resourcesIn.add(Resource.SHIELD);
+//        resourcesIn.add(Resource.SHIELD);
+//        resourcesIn.add(Resource.SHIELD);
+//        resourcesIn.add(Resource.COIN);
+//        resourcesIn.add(Resource.COIN);
+//        resourcesIn.add(Resource.COIN);
+//        resourcesIn.add(Resource.COIN);
+//        resourcesIn.add(Resource.SERVANT);
+//        resourcesIn.add(Resource.SERVANT);
+//        resourcesIn.add(Resource.SERVANT);
+//        resourcesIn.add(Resource.STONE);
+//        resourcesIn.add(Resource.STONE);
+//        resourcesIn.add(Resource.STONE);
+//        resourcesIn.add(Resource.STONE);
+//        resourcesIn.add(Resource.STONE);
+//        player.putCofferResources(resourcesIn);
+//        //
 
         try {
             ServerMessage outcome = turnManager.buyDevelopmentCard(clientHandler.getPlayer(), row, column, devCardSlot);
