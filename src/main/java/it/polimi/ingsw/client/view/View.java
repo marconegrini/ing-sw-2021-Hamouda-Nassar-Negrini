@@ -21,11 +21,11 @@ public abstract class View {
 
     public abstract ClientMessage selectLeaderCards(List<LeaderCard> leaderCards);
 
-    public abstract ClientMessage selectAction();
+    public abstract ClientMessage selectAction(String choice,boolean err);
 
     public abstract ClientMessage storeResources(List<Resource> resources);
 
-    public abstract ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards);
+    public abstract ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err);
 
     public abstract ClientMessage waitingRoom();
 

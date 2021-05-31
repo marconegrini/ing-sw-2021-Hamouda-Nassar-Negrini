@@ -50,6 +50,17 @@ public class DevelopmentCard extends Card{
         return (HashMap<Resource, Integer>) productionOut.clone();
     }
 
+    @Override
+    public String toString() {
+        return "DevelopmentCard{" +
+                "color=" + color +
+                ", level=" + level +
+                ", cardCost=" + cardCost +
+                ", productionIn=" + productionIn +
+                ", productionOut=" + productionOut +
+                '}';
+    }
+
     public DevelopmentCard clone(){
         HashMap<Resource, Integer> cost = this.getCardCost();
         HashMap<Resource, Integer> prodIn = this.getProductionIn();

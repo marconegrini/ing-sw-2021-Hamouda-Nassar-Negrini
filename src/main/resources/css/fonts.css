@@ -1,0 +1,24 @@
+@font-face {
+  src: url('../fonts/PixelEmulator-xq08.ttf');
+}
+
+@font-face {
+  src: url('../fonts/Rumburak.ttf');
+}
+
+@font-face {
+  src: url('../fonts/Florence-Regular.otf');
+}
+
+.label {
+  -fx-font-family: 'Florence Regular';
+}
+
+#title {
+  -fx-font-family: 'Rumburak';
+}
+
+#IPTextFiled {
+    -fx-text-fill: '#ffffff';
+}
+

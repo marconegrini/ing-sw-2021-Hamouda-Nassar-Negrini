@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GUIView extends View{
 
     @Override
@@ -31,9 +32,10 @@ public class GUIView extends View{
     }
 
     @Override
-    public ClientMessage selectAction() {
+    public ClientMessage selectAction(String choice, boolean err) {
         return null;
     }
+
 
     @Override
     public ClientMessage storeResources(List<Resource> resources) {
@@ -41,7 +43,7 @@ public class GUIView extends View{
     }
 
     @Override
-    public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards) {
+    public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
         return null;
     }
 

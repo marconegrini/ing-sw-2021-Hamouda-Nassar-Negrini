@@ -32,6 +32,12 @@
       <version>2.8.6</version>
       <scope>compile</scope>
     </dependency>
+      <dependency>
+          <groupId>it.polimi.ingsw</groupId>
+          <artifactId>PSP32</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
+
 
   </dependencies>
 

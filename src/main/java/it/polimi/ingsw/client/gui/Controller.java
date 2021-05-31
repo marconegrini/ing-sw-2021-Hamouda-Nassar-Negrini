@@ -1,8 +1,5 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.messages.fromClient.EmptyMessage;
-import it.polimi.ingsw.messages.fromClient.ExitFromGameMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

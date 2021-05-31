@@ -128,6 +128,9 @@ public class ServerMessageFactory {
                 case END:
                     returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
                     break;
+                case BUYDVCARDERROR:
+                    returnMessage = gson.fromJson(receivedMessage, BuyDVCardError.class);
+                    break;
                 default:
                     System.err.println("Server message type not found inside Server factory");
                     break;

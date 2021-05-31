@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Class that manages CLI interactions with users
@@ -53,7 +54,7 @@ public class CLIView extends View {
         //Ask for nickname
         System.out.println("Insert your nickname:");
         do {
-            nickname = scanner.nextLine();
+            nickname = secureReadString("[a-zA-Z0-9_]+");
             if (nickname.isBlank() || nickname.isEmpty())
                 System.out.println("You can't put an empty name. Type another nickname:");
         } while (nickname.isBlank() || nickname.isEmpty());
@@ -73,6 +74,7 @@ public class CLIView extends View {
             }
             System.out.println("Invalid input. Type again your choice");
         }
+
         return new LoginMessage(nickname, isMultiplayer);
     }
 
@@ -96,20 +98,12 @@ public class CLIView extends View {
         } else if ((strIn.contains("second")) || (strIn.contains("third"))) {
             System.out.println(strIn);
             System.out.println(resources);
-            chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
-            while (chosenResource > 4 || chosenResource < 1) {
-                System.out.println("Invalid input please insert a number between 1 and 4:");
-                System.out.println(resources);
-                chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
-            }
+            chosenResource = secureReadInt("[1-4]");
 
             System.out.println("in which destination storage do you want to save the resource?\n");
 
-            destStorage1 = secureReadInt("");
-            while (destStorage1 > 3 || destStorage1 < 1) {
-                System.out.println("Wrong input, please choose another storage number\n");
-                destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
-            }
+            destStorage1 = secureReadInt("[1-3]");
+
             //TODO: send an update message to update the faithTrack of the client
 
 //            System.out.println("Resource chosen successfully");
@@ -122,35 +116,17 @@ public class CLIView extends View {
             System.out.println(strIn);
             System.out.println(resources);
 
-            chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
+            chosenResource = secureReadInt("[1-4]");
 
-            //when the one of the both conditions is true continue;; it's evaluated before entering the loop.
-            while ((chosenResource > 4 || chosenResource < 1)) {
-                System.out.println("Wrong input, please choose another resource\n");
-                System.out.println(resources);
-                chosenResource = secureReadInt("Invalid input please insert a number between 1 and 4:");
-            }
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
-            while (destStorage1 > 3 || destStorage1 < 1) {
-                System.out.println("Wrong input, please choose another storage number\n");
+            destStorage1 = secureReadInt("[1-3]");
 
-                destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
-            }
-            //when the both conditions are true continue;; it's evaluated before entering the loop.
             System.out.println("enter the second resource that you want to chose: ");
-            chosenResource2 = secureReadInt("");
-            while ((chosenResource2 > 4 || chosenResource2 < 1)) {
-                System.out.println("Wrong input, please choose another resource\n");
-                System.out.println(resources);
-                chosenResource2 = secureReadInt("Invalid input please insert a number between 1 and 4:");
-            }
+            chosenResource2 = secureReadInt("[1-4]");
+
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1 = secureReadInt("Invalid input please insert a number between 1 and 3:");
-            while (destStorage2 > 3 || destStorage2 < 1) {
-                System.out.println("Wrong input, please choose another storage number\n");
-                destStorage2 = scanner.nextInt();
-            }
+            destStorage1 = secureReadInt("[1-3]");
+
             //TODO:send an update message to update the deposits of the client
             //TODO: send an update message to update the faithTrack of the client
 
@@ -158,16 +134,6 @@ public class CLIView extends View {
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
     }
 
-    private int secureReadInt(String s2) {
-        int destStorage1;
-        try {
-            destStorage1 = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println(s2);
-            destStorage1 = scanner.nextInt();
-        }
-        return destStorage1;
-    }
 
 //
 //    @Override
@@ -195,25 +161,14 @@ public class CLIView extends View {
         while (!OK) {
             //TODO Number format exception
             System.out.println("Select first card: ");
-            firstCard = scanner.nextLine();
+            firstCard = secureReadString("[a-d]");
             System.out.println("Select second card: ");
-            secondCard = scanner.nextLine();
-            //checks integrity of the two specified characters
-            if (firstCard.equals("a") || firstCard.equals("b") || firstCard.equals("c") || firstCard.equals("d")) {
-                if (secondCard.equals("a") || secondCard.equals("b") || secondCard.equals("c") || secondCard.equals("d")) {
-                    if (!firstCard.equals(secondCard)) {
-                        OK = true;
-                        if (firstCard.equals("a")) firstIndex = 0;
-                        if (firstCard.equals("b")) firstIndex = 1;
-                        if (firstCard.equals("c")) firstIndex = 2;
-                        if (firstCard.equals("d")) firstIndex = 3;
-                        if (secondCard.equals("a")) secondIndex = 0;
-                        if (secondCard.equals("b")) secondIndex = 1;
-                        if (secondCard.equals("c")) secondIndex = 2;
-                        if (secondCard.equals("d")) secondIndex = 3;
-                    } else System.out.println("Card values are identical. Type again.");
-                } else System.out.println("Second card value doesn't exists. Type again.");
-            } else System.out.println("First card value doesn't exists. Type again.");
+            secondCard = secureReadString("[a-d]");
+            if (!firstCard.equals(secondCard)) {
+                OK = true;
+                firstIndex = firstCard.charAt(0) - 'a';
+                secondIndex = secondCard.charAt(0) - 'a';
+            } else System.out.println("Card values are identical. Type again.");
         }
         return new SelectLeaderCardMessage(firstIndex, secondIndex);
     }
@@ -226,19 +181,24 @@ public class CLIView extends View {
      * @return a ClientMessage type for the server corresponding to the action selected
      */
     @Override
-    public ClientMessage selectAction() {
+    public ClientMessage selectAction(String choice, boolean err) {
         ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
         while (!selected) {
-            System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
-            System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-            System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
+            if (!err) {
+                System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
+                System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
+                System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
+            }
             while (show) {
                 //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
                 //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
                 System.out.println("\nMake a choice:");
-                String choice = scanner.nextLine();
+                //if it's a normal read from user's input
+                if (!err) {
+                    choice = scanner.nextLine();
+                }//otherwise use the input passed as argument, it's the case when it's an error message and a client has already choosed what he wants.
                 if (choice.equals("show market")) {
                     marketTracer.marketTracer(clientLightModel.getMarketBoard());
                     show = true;
@@ -283,25 +243,15 @@ public class CLIView extends View {
                         try {
                             if (isRow) {
                                 System.out.println("Insert row number:");
+                                rowOrColNum = secureReadInt("[1-3]");
                             } else {
                                 System.out.println("Insert column number:");
+                                rowOrColNum = secureReadInt("[1-4]");
                             }
-                            rowOrColNum = scanner.nextInt();
-
-                            if(isRow){
-                                if(rowOrColNum < 1 || rowOrColNum > 3){
-                                    System.out.println("Row number doesn't exists! Type again");
-                                } else OK = false;
-                            } else {
-                                if(rowOrColNum < 1 || rowOrColNum > 4){
-                                    System.out.println("Column number doesn't exists! Type again");
-                                } else OK = false;
-                            }
-
-
-                        } catch (InputMismatchException e){
-                            scanner.nextLine();
-                            System.out.println("Bad input format. Type again row or column number");
+                            OK = false;
+                        } catch (InputMismatchException e) {
+                            OK = false;
+                            System.out.println("Bad input format. Type again row or column number\n");
                         }
                     }
                     show = false;
@@ -309,11 +259,21 @@ public class CLIView extends View {
                     selection = new PickResourcesMessage(isRow, rowOrColNum);
 
                 } else if (choice.equals("b")) {
-                    //Buy development card
+                    if (err) {
+                        System.out.println("Please check if you have sufficient resources to buy the card\n" +
+                                "Check also if you have inserted a wrong slot or an occupied slot number\n" +
+                                "Then try insert again a valid input: \n");
+                    }
 
+                    //Buy development card
                     show = false;
                     selected = true;
-                    //selection = new BuyDevCardMessage();
+                    selection = buyDVCard(clientLightModel.getDevelopmentCardsDeck(), err);
+                    if (selection==null)  //if == null --> means the player choosed to choose another action.
+                    {
+                        selected = false;
+                        show = true;
+                    }
                 } else if (choice.equals("c")) {
                     //Activate production
                     selection = activateProduction();
@@ -456,23 +416,13 @@ public class CLIView extends View {
 
         //slot to insert resources
         Integer selected = 0;
-        boolean shelfOK = false;
 
         //enters here only if INSERT option has been chosen.
         //Needed to acquire shelf value.
         if (!discard) {
             System.out.println("Select shelf to insert resources (1 to 3):");
-            while (!shelfOK) {
-                try {
-                    shelf = scanner.nextInt();
-                    if (shelf >= 1 && shelf <= 3)
-                        shelfOK = true;
-                    else System.out.println("Invalid shelf. Type again");
-                } catch (InputMismatchException e){
-                    scanner.nextLine();
-                    System.out.println("Invalid shelf. Type again");
-                }
-            }
+
+                    shelf = secureReadInt("[1-3]");
         }
 
         boolean resourceOK = false;
@@ -485,7 +435,7 @@ public class CLIView extends View {
                 try {
                     this.showResources(resources);
                     System.out.println("Select resource to " + CHOICE + ":");
-                    selected = scanner.nextInt();
+                    selected = secureReadInt("[1-"+ resources.size() +"]");
 
                     if (selected >= 1 && selected <= resources.size()) {
                         //resources are ordinated in View from 1 to resourcesIn.size()
@@ -681,46 +631,97 @@ public class CLIView extends View {
     }
 
     @Override
-    public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards) {
-        this.dvCardsTracer.printDVCard(devCards);
-        int row=0, column=0, devCardSlot;
+    public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
+        dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
+        int row = 0, column = 0, devCardSlot;
 
-        System.out.println("Which Development card do you want to buy?\n");
-        String choice = scanner.nextLine();
 
-        while (choice.charAt(0) < 'a' || choice.charAt(0) > 'a' + devCards.size() - 1) {
-            System.out.println("Invalid input please try again: ");
-            choice = scanner.nextLine();
+        System.out.println("Which Development card do you want to buy?");
+        System.out.println();
+
+
+//        if (err)
+//            scanner.nextLine(); //flush the scanner;
+        System.out.println("Choose a card or type \"return\" to choose another action: \n");
+
+
+        char maxChar = (char) ('a' + devCards.size() - 1);
+        String choice = secureReadString("(return|RETURN)|[a-" + maxChar + "]");
+
+        if (choice.length()>1){ //when the player chooses return
+            return null;
         }
+        else {
+            while (choice.charAt(0) < 'a' || choice.charAt(0) > 'a' + devCards.size() - 1) {
+                System.out.println("Invalid input please try again: ");
+                choice = secureReadString("[a-" + maxChar + "]");
+            }
 
-        System.out.println("In which cards slots do you want to put the development card in?");
-        devCardSlot = scanner.nextInt();
-        while (devCardSlot < 1 || devCardSlot > 3) {
-            System.out.println("Invalid input please try again: ");
-            devCardSlot = scanner.nextInt();
-        }
+            System.out.println("In which cards slots do you want to put the development card in?");
+            devCardSlot = secureReadInt("[1-3]");
 
-        char charIn = choice.charAt(0);
+
+            char charIn = choice.charAt(0);
 //        for (int i=0; i<12 ;i++){
 
-        //first row in the DV deck
-        if (charIn - 'a' < 4) {
-              row = 1;
-              column = charIn - 'a';
-        }
-        //second row in the DV deck
-        else if(charIn - 'a' < 7){
-            row = 2;
-            column = charIn - 'a' - 4 ;
-        }
-        //third row in the DV deck
-        else if(charIn - 'a' < 11){
-            row = 3;
-            column = charIn - 'a' - 8 ;
+            //first row in the DV deck
+            if (charIn - 'a' < 4) {
+                row = 1;
+                column = charIn - 'a';
+            }
+            //second row in the DV deck
+            else if (charIn - 'a' < 8) {
+                row = 2;
+                column = charIn - 'a' - 4;
+            }
+            //third row in the DV deck
+            else if (charIn - 'a' < 12) {
+                row = 3;
+                column = charIn - 'a' - 8;
+            }
+            devCardSlot--; //make it starts from 0
+            row--; //make it starts from 0
+
+            System.out.println(row + " " + column + " " + devCardSlot + " ");
+
+            return new BuyDevCardMessage(row, column, devCardSlot);
         }
 
+}
 
-        return new BuyDevCardMessage(row,column,devCardSlot);
+
+
+    //reading securely using REGEX <3
+    private String secureReadString(String pattern) {
+        String input = "";
+        boolean valid = false;
+        while (!valid) {
+
+            valid = true;
+            input = scanner.nextLine();
+            if (!Pattern.matches(pattern, input)) {
+                System.out.println("Invalid input please try again with input between " + pattern + "\n");
+                valid = false;
+            }
+        }
+        System.out.println(input); //testing
+        return input;
+    }
+
+    private int secureReadInt(String pattern) {
+        String input = "";
+        boolean valid = false;
+        while (!valid) {
+
+            valid = true;
+            input = scanner.nextLine();
+            if (!Pattern.matches(pattern, input)) {
+                System.out.println("Invalid input please try again with input between " + pattern + "\n");
+                valid = false;
+            }
+        }
+        System.out.println(input); //testing
+        return Integer.parseInt(input);
     }
 
 
