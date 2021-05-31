@@ -1,13 +1,13 @@
 @font-face {
-  src: url('../../fonts/PixelEmulator-xq08.ttf');
+  src: url('../fonts/PixelEmulator-xq08.ttf');
 }
 
 @font-face {
-  src: url('../../fonts/Rumburak.ttf');
+  src: url('../fonts/Rumburak.ttf');
 }
 
 @font-face {
-  src: url('../../fonts/Florence-Regular.otf');
+  src: url('../fonts/Florence-Regular.otf');
 }
 
 .label {
