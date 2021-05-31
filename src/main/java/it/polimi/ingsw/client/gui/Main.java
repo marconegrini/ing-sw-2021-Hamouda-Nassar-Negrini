@@ -13,13 +13,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/connectToServer.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/login/connectToServer.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();
 
 
         primaryStage.setTitle("Master of Renaissance");
-        primaryStage.setScene(new Scene(root, 727, 395));
+        Scene scene = new Scene(root, 800, 500);
+        primaryStage.setScene(scene);
         primaryStage.setOnHidden(e -> controller.shutDown());
         primaryStage.show();
     }
