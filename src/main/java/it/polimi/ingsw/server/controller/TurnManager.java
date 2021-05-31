@@ -74,6 +74,7 @@ public class TurnManager {
             return new ErrorMessage("Selected row or column doesn't exists");
         }
         System.out.println(pickedMarbles);
+        boolean usedLeaderCard = false;
         List<Resource> resourcesToStore = new ArrayList<>();
         for(Marble marble : pickedMarbles){
             Color marbleColor = marble.getColor();
@@ -102,6 +103,7 @@ public class TurnManager {
                                 resourcesToStore.add(resource);
                             }
                         }
+                        usedLeaderCard = true;
                     }
                     break;
                 case GREY:
@@ -120,7 +122,11 @@ public class TurnManager {
         if(resourcesToStore.isEmpty()){
             turnDone();
             return new OkMessage("You don't have resources to store!");
-        } else return new ResourcesToStoreMessage(false, resourcesToStore, null, player.getClonedWarehouse());
+        } else {
+            if(usedLeaderCard)
+                return new ResourcesToStoreMessage(false, resourcesToStore, "Obtained resources from market.", player.getClonedWarehouse());
+            else return new ResourcesToStoreMessage(false, resourcesToStore, "Obtained resources from market. Leader card power used.", player.getClonedWarehouse());
+        }
     }
 
     //TODO method that returns resources taken from market
@@ -215,6 +221,7 @@ public class TurnManager {
         System.out.println("playerResources: " + playerResources + "\n");
         System.out.println("devCardCost: " + devCardCost+ "\n");
 
+        boolean usedLeaderCard = false;
         if(player.isLeaderCardActivated(CardType.DISCOUNT)){
             HashMap<Resource, Integer> resourcesFromLeaderCard = null;
             resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
@@ -222,13 +229,28 @@ public class TurnManager {
             for(Resource resource : discountedResource){
                 if(devCardCost.contains(resource))
                     for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++)
-                        discountedResource.remove(resource);
+                        devCardCost.remove(resource);
             }
+            usedLeaderCard = true;
+        }
+
+        HashMap<Resource, Integer> checkCost = new HashMap<>();
+        for(Resource res : devCardCost){
+            if(checkCost.containsKey(res)){
+                Integer newValue = checkCost.get(res);
+                newValue++;
+                checkCost.put(res, newValue);
+            } else checkCost.put(res, 1);
+        }
+        List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
+        for(Resource res : checkCost.keySet()){
+            Integer value = checkCost.get(res);
+            for(int i = 0; i < value; i++)
+                playerCopiedResources.remove(res);
         }
 
 
-
-        if (playerResources.equals(devCardCost) || playerResources.containsAll(devCardCost)) {
+        if (playerResources.equals(devCardCost) || !playerCopiedResources.isEmpty()) {
             List<Resource> toTakeFromCoffer = player.getWarehouseResource();
             List<Resource> toTakeFromWarehouse = new ArrayList<>();
 
@@ -249,7 +271,9 @@ public class TurnManager {
                 return new BuyDVCardError("Invalid slot number");
             }
             turnDone();
-            return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) );
+            if(usedLeaderCard)
+                return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used." );
+            else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
         } else return new BuyDVCardError("Insufficient resources to buy selected development card");
     }
 
@@ -348,9 +372,6 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-
-    //TODO sending and update of the market after last insertion on personal and normal production
-    //TODO changing client side personal production requests with INPUT and OUTPUT
     public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource) {
         List<Resource> productionCost = new ArrayList();
         productionCost.add(prodIn1);
