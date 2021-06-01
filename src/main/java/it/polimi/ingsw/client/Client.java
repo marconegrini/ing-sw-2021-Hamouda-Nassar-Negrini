@@ -26,7 +26,7 @@ public class Client implements Runnable{
             System.out.println("Server unreachable");
             return;
         }
-        serverHandler = new ServerHandler(server, this);
+        serverHandler = new ServerHandler(server, true);
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
 
