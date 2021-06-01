@@ -266,15 +266,15 @@ public class TurnManager {
             try{
                 player.addCardInDevCardSlot(devCardSlot, devCard);
             } catch(IllegalInsertionException e1){
-                return new BuyDVCardError("Slot insertion not allowed");
+                return new BuyDVCardError("Slot insertion not allowed", false);
             } catch (IndexOutOfBoundsException e2){
-                return new BuyDVCardError("Invalid slot number");
+                return new BuyDVCardError("Invalid slot number", false);
             }
             turnDone();
             if(usedLeaderCard)
                 return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used." );
             else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
-        } else return new BuyDVCardError("Insufficient resources to buy selected development card");
+        } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
     }
 
     /**
