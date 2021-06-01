@@ -43,4 +43,19 @@ public class VaticanSection {
         else return 0;
     }
 
+    public Integer getStartPos(){
+        return this.startPos;
+    }
+
+    public Integer getSpazioPapa() {
+        return spazioPapa;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public boolean isCardFlipped() {
+        return cardFlipped;
+    }
 }

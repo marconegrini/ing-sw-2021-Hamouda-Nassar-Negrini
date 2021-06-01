@@ -474,15 +474,15 @@ public class TurnManager {
         try{
             player.activateLeaderCard(indexNumber);
         } catch(IndexOutOfBoundsException e1){
-            return new LeaderResultMessage(true, false, true, "Selected index for leader card is out of bounds", indexNumber, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, false, true, "Selected index for leader card is out of bounds", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(AlreadyActivatedLeaderCardException e2){
-            return new LeaderResultMessage(true, false, true, "Selected leader card already activated", indexNumber, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, false, true, "Selected leader card already activated", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(InsufficientResourcesException e3){
-            return new LeaderResultMessage(true, false, true, "Insufficient resources to activate selected leader card", indexNumber, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, false, true, "Insufficient resources to activate selected leader card", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(AlreadyDiscardedLeaderCardException e4){
-            return new LeaderResultMessage(true, false, true, "Selected leader card was discarded", indexNumber, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, false, true, "Selected leader card was discarded", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         }
-        return new LeaderResultMessage(false, false, true, "Selected leader card activated", indexNumber, faithPathPositions, player.getFaithPathPosition());
+        return new LeaderResultMessage(false, false, true, "Selected leader card activated", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
 
     /**
@@ -497,11 +497,11 @@ public class TurnManager {
         try{
             player.discardLeaderCard(indexNum);
         } catch (IndexOutOfBoundsException e1){
-            return new LeaderResultMessage(true, true, false, "Selected leader card index is out of bounds", indexNum, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, true, false, "Selected leader card index is out of bounds", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch (AlreadyActivatedLeaderCardException e2){
-            return new LeaderResultMessage(true, true, false, "Selected leader card is activated: you cannot discard it", indexNum, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, true, false, "Selected leader card is activated: you cannot discard it", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch (AlreadyDiscardedLeaderCardException e3){
-            return new LeaderResultMessage(true, true, false, "Selected leader card was already discarded", indexNum, faithPathPositions, player.getFaithPathPosition());
+            return new LeaderResultMessage(true, true, false, "Selected leader card was already discarded", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         }
         player.incrementFaithPathPosition();
         Integer newPlayerPos = player.getFaithPathPosition();
@@ -515,7 +515,7 @@ public class TurnManager {
         }
         faithPathPositions = this.getFaithPathPositions();
         faithPathPositions.remove(player.getNickname());
-        return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition());
+        return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
 
     /**

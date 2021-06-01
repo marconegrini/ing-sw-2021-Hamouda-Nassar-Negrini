@@ -116,6 +116,7 @@ public class MultiPlayerGameHandler extends Thread {
             sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
             sendToClient(ch, new UpdateWarehouseCofferMessage(ch.getPlayer().getClonedWarehouse(), ch.getPlayer().getClonedCoffer()));
             sendToClient(ch, new UpdateDevCardsSlotMessage(ch.getPlayer().getPeekCardsInDevCardSLots()));
+            sendToClient(ch, new UpdateVaticanSectionsMessage(ch.getPlayer().getVaticanSections()));
         }
     }
 
