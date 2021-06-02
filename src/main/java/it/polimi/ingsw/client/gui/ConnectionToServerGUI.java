@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +20,9 @@ public class ConnectionToServerGUI {
     public TextField nicknameTextField;
     public RadioButton noRadioButton;
     public RadioButton yesRadioButton;
+    public Button startGameButton;
+    @FXML
+    public Label playersNumber;
     @FXML
     private Button connectButton;
     @FXML
@@ -31,41 +31,46 @@ public class ConnectionToServerGUI {
     @FXML
     ToggleGroup multiplayer;
 
-    private ServerHandler serverHandler;
+    private static ServerHandler serverHandler;
 
     public void connectToTheServer(ActionEvent actionEvent) throws Exception{
-        //System.out.println("Button pressed");
-        //System.out.println(IPTextFiled.getCharacters());
 
+        if (IPTextFiled.getText().isBlank() || IPTextFiled.getText().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Server unreachable.");
+            alert.setContentText("Be sure that you wrote a correct IP address or try to change the server.");
+            alert.showAndWait();
+            return;
+        }
         Socket server;
         try {
             server = new Socket(IPTextFiled.getText(), 5056);
         } catch (IOException e){
-            System.out.println("Server unreachable");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Server unreachable.");
+            alert.setContentText("Be sure that you wrote a correct IP address or try to change the server.");
+            alert.showAndWait();
             return;
         }
 
-        Stage window = (Stage) connectButton.getScene().getWindow();
-        SceneManager.setPrimaryStage(window);
 
         IPTextFiled.clear();
         serverHandler = new ServerHandler(server, false);
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
-/*
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/connected.fxml")));
 
-        Stage window = (Stage) connectButton.getScene().getWindow();
-        window.setScene(new Scene(root, 727, 395));
-        window.setTitle("Master of Renaissance - Connected");
- */
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
+
+        SceneManager.setScene(new Scene(root, 800, 500));
     }
 
     public void shutDown(){
         System.out.println("Exiting GUI");
         if (serverHandler != null) {
             serverHandler.sendJson(new ExitFromGameMessage());
-            serverHandler.stop();
+            //serverHandler.stop();
         }
     }
 
@@ -77,10 +82,14 @@ public class ConnectionToServerGUI {
         }
         boolean isMultiplayer;
         RadioButton selected = (RadioButton) multiplayer.getSelectedToggle();
-
         isMultiplayer = selected.getText().equalsIgnoreCase("YES");
-
-        System.out.println("Sending: " + new LoginMessage(nicknameTextField.getText(), isMultiplayer));
         serverHandler.sendJson(new LoginMessage(nicknameTextField.getText(), isMultiplayer));
+    }
+
+    public void startGame(ActionEvent actionEvent) {
+
+        Stage window = (Stage) playersNumber.getScene().getWindow();
+        Label participantsNumber = (Label) window.getScene().lookup("#playersNumber");
+        System.out.println("Scene in button:" + SceneManager.getScene() + " stage: " + window);
     }
 }
