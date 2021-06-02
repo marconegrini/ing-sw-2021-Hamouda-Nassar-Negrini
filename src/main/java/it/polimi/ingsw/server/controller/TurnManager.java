@@ -127,7 +127,7 @@ public class TurnManager {
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
         if(resourcesToStore.isEmpty()){
-            turnDone();
+            this.turnDone();
             return new OkMessage("You don't have resources to store!");
         } else {
             if(usedLeaderCard)
@@ -220,6 +220,7 @@ public class TurnManager {
     public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
 
         List<Resource> playerResources = player.getTotalResource();
+
         if (!cardsDeck.isEmptyDeck(row, column)) {
             List<Resource> devCardCost = null;
             try {
@@ -274,25 +275,24 @@ public class TurnManager {
                 player.pullCofferResources(toTakeFromCoffer);
                 DevelopmentCard devCard = cardsDeck.popCard(row, column);
 
-            try{
-                player.addCardInDevCardSlot(devCardSlot, devCard);
-            } catch(IllegalInsertionException e1){
-                return new BuyDVCardError("Slot insertion not allowed", false);
-            } catch (IndexOutOfBoundsException e2){
-                return new BuyDVCardError("Invalid slot number", false);
-            }
+                try {
+                    player.addCardInDevCardSlot(devCardSlot, devCard);
+                } catch (IllegalInsertionException e1) {
+                    return new BuyDVCardError("Slot insertion not allowed", false);
+                } catch (IndexOutOfBoundsException e2) {
+                    return new BuyDVCardError("Invalid slot number", false);
+                }
 
-            turnDone();
+                turnDone();
 
-            if(player.sevenDevCardBought())
-                sevenDevCardsBought = true;
+                if (player.sevenDevCardBought())
+                    sevenDevCardsBought = true;
 
-            if(usedLeaderCard) {
-                return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used.");
-            } else {
-                return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
-            }
-        } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
+                if (usedLeaderCard)
+                    return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used.");
+                else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
+            } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
+        } else return new BuyDVCardError("Empty deck! You cannot buy requested leader card!", true);
     }
 
     /**
