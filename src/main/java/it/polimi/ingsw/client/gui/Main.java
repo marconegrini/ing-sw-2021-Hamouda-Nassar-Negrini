@@ -14,7 +14,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/login/connectToServer.fxml"));
         Parent root = loader.load();
         ConnectionToServerGUI controller = loader.getController();
-        //SceneManager.setPrimaryStage(primaryStage);
+        SceneManager.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Master of Renaissance");
         Scene scene = new Scene(root, 800, 500);
