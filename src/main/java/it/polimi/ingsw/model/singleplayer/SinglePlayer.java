@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.singleplayer;
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.VaticanSection;
 import it.polimi.ingsw.model.cards.LorenzoCard;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
@@ -66,10 +67,19 @@ public class SinglePlayer extends Player {
     public void activateProduction() {}
 
     public void incrementLorenzoPosition(){
-        this.croceNera++;
+        if(croceNera < userFaithPath.getEnd())
+            croceNera++;
     }
 
-    public void pickLorenzoCard(){
+    public Stack<LorenzoCard>getActionCards(){
+        return lorenzoCardsDeck;
+    }
+
+    public Stack<LorenzoCard> getPoppedLorenzosCard() {
+        return poppedLorenzosCard;
+    }
+
+    public void pickActionCard(){
 
         LorenzoCard lorenzoCard = lorenzoCardsDeck.pop();
 

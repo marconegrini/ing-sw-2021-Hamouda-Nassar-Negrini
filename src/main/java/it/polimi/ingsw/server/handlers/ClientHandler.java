@@ -136,7 +136,7 @@ public class ClientHandler extends Thread {
 
     public void exitFromGame(){
         System.out.println(nickname + " is exiting form the game");
-        sendJson(new EndGameMessage());
+        sendJson(new EndGameMessage("You exit from the game"));
         Server.removeClientHandler(this);
         setShouldStop();
     }

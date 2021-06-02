@@ -39,7 +39,8 @@ public class FaithPath {
     }
 
     public void incrementUserPosition(){
-        userPosition++;
+        if(userPosition < end)
+            userPosition++;
     }
 
     public Integer getUserPosition(){

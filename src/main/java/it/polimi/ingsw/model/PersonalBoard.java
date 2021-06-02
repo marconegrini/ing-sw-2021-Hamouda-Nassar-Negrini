@@ -125,8 +125,13 @@ public class PersonalBoard {
     public Warehouse getWarehouse (){return warehouse;}
 
     public Integer getVictoryPoints(){
-        //TODO to return total victory points
-        return 0;
+        List<Resource> totalResources = this.getTotalResource();
+        Integer resourcesVictoryPoints = totalResources.size() / 5;
+        return resourcesVictoryPoints + devCardSlots.getVictoryPoints();
+    }
+
+    public boolean sevenDevCardsBought(){
+        return devCardSlots.sevenDevCardsBought();
     }
 
     public void setWarehouse(Warehouse warehouse) {
