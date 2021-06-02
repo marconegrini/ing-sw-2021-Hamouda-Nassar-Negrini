@@ -52,7 +52,6 @@ public abstract class Player {
         return this.nickname;
     }
 
-
     /**
      * @return total resources in warehouse and coffer
      */
@@ -61,12 +60,6 @@ public abstract class Player {
         totalResource.addAll(personalBoard.getCofferResource());
 
         return totalResource;
-    }
-
-//    public PersonalBoard getPersonalBoard(){return this.personalBoard;}
-
-    public void setCalamaio() {
-        this.hasCalamaio = true;
     }
 
     /**
@@ -93,12 +86,47 @@ public abstract class Player {
         return personalBoard.getClonedCoffer();
     }
 
+    public List<VaticanSection> getVaticanSections(){
+        return userFaithPath.getVaticanSections();
+    }
+
+    /**
+     * The method returns the power of a leader card. A leader card power is automatically applied in the respective turn if
+     * the leader card has been activated. If the user has two leader card of the same type, they will be used
+     * both every time there is the need.
+     * @param lcType the leader card type
+     * @return the resources given or discounted by the leader card power
+     */
+    public HashMap<Resource, Integer> getLeaderCardsPower(CardType lcType) {
+        HashMap<Resource, Integer> resourcesToReturn = new HashMap<>();
+        Integer value;
+        for(LeaderCard lc : leaderCards) {
+            if (lc.isActivated() && lc.getCardType().equals(lcType)) {
+                HashMap<Resource, Integer> leaderCardPower = lc.getLeaderCardPower();
+                Set<Resource> keyResources = leaderCardPower.keySet();
+                for (Resource resource : keyResources) {
+                    if (leaderCardPower.containsKey(resource)) {
+                        if (resourcesToReturn.containsKey(resource)) {
+                            value = resourcesToReturn.get(resource) + leaderCardPower.get(resource);
+                            resourcesToReturn.put(resource, value);
+                        } else resourcesToReturn.put(resource, leaderCardPower.get(resource));
+                    }
+                }
+            }
+        }
+        return resourcesToReturn;
+    }
+
     /**
      *
      * @return true if this player has calamaio, false otherwise
      */
     public boolean hasCalamaio (){
         return hasCalamaio;
+    }
+
+    public void setCalamaio() {
+        this.hasCalamaio = true;
     }
 
     /**
@@ -282,42 +310,5 @@ public abstract class Player {
         }
         return activated;
     }
-
-    /**
-     * The method returns the power of a leader card. A leader card power is automatically applied in the respective turn if
-     * the leader card has been activated. If the user has two leader card of the same type, they will be used
-     * both every time there is the need.
-     * @param lcType the leader card type
-     * @return the resources given or discounted by the leader card power
-     */
-    public HashMap<Resource, Integer> getLeaderCardsPower(CardType lcType) {
-        HashMap<Resource, Integer> resourcesToReturn = new HashMap<>();
-        Integer value;
-        for(LeaderCard lc : leaderCards) {
-            if (lc.isActivated() && lc.getCardType().equals(lcType)) {
-                HashMap<Resource, Integer> leaderCardPower = lc.getLeaderCardPower();
-                Set<Resource> keyResources = leaderCardPower.keySet();
-                for (Resource resource : keyResources) {
-                    if (leaderCardPower.containsKey(resource)) {
-                        if (resourcesToReturn.containsKey(resource)) {
-                            value = resourcesToReturn.get(resource) + leaderCardPower.get(resource);
-                            resourcesToReturn.put(resource, value);
-                        } else resourcesToReturn.put(resource, leaderCardPower.get(resource));
-                    }
-                }
-            }
-        }
-        return resourcesToReturn;
-    }
-
-
-//
-//    public void updateWareHouse(Warehouse warehouse){
-//        this.personalBoard.setWarehouse(warehouse);
-//
-//    }
-
-
-
 
 }

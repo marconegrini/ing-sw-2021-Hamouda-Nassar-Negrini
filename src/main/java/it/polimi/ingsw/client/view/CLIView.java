@@ -27,6 +27,7 @@ public class CLIView extends View {
     FaithPathTracer faithPathTracer;
     DepositsTracer depositsTracer;
     DvCardsTracer dvCardsTracer;
+    VaticanSectionsTracer vaticanSectionsTracer;
     boolean stillWaiting;
 
     public CLIView(LightModel clientLightModel) {
@@ -35,6 +36,7 @@ public class CLIView extends View {
         leaderCardsTracer = new LeaderCardsTracer();
         marketTracer = new MarketTracer();
         faithPathTracer = new FaithPathTracer();
+        vaticanSectionsTracer = new VaticanSectionsTracer();
         depositsTracer = new DepositsTracer();
         dvCardsTracer = new DvCardsTracer();
         stillWaiting = true;
@@ -202,8 +204,9 @@ public class CLIView extends View {
                     depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show faith path")) {
-                    System.out.println("\n\t # Faith Path # \t");
+                    System.out.println("\n\t # Faith Path # \t\n");
                     faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
+                    vaticanSectionsTracer.showVaticanSections(clientLightModel.getVaticanSections());
                     show = true;
                 } else if (choice.equals("show development deck")) {
                     System.out.println("\n\t # Development Cards Deck # \t");
@@ -346,23 +349,6 @@ public class CLIView extends View {
                         System.out.println("Select " + ask + " storage (1 to 3):");
                         try {
                             storage = scanner.nextInt();
-                            //should check in model
-                            /*
-                            switch (storage) {
-                                case 1:
-                                    okStorage = true;
-                                    break;
-                                case 2:
-                                    okStorage = true;
-                                    break;
-                                case 3:
-                                    okStorage = true;
-                                    break;
-                                default:
-                                    System.out.println("Invalid storage index. Select again.");
-                                    break;
-                            }
-                             */
                             if (i == 0) sourceStorage = storage;
                             if (i == 1) destStorage = storage;
                         } catch (InputMismatchException e) {

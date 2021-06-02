@@ -110,6 +110,9 @@ public class ServerMessageFactory {
                 case UPDATEWAREHOUSECOFFER:
                     returnMessage = gson.fromJson(receivedMessage, UpdateWarehouseCofferMessage.class);
                     break;
+                case UPDATEVATICANSECTIONS:
+                    returnMessage = gson.fromJson(receivedMessage, UpdateVaticanSectionsMessage.class);
+                    break;
                 case ERRORWAREHOUSE:
                     returnMessage = gson.fromJson(receivedMessage, ErrorWarehouseMessage.class);
                     break;
