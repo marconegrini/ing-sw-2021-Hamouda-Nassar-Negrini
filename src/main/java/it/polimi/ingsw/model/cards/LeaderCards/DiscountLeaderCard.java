@@ -54,10 +54,14 @@ public class DiscountLeaderCard extends LeaderCard {
             Integer satisfied = 0;
             CardColor cardColor = this.activationCost.get(i).getColor();
             Level cardLevel = this.activationCost.get(i).getLevel();
-            for (int j = 0; j < this.activationCost.size() && j != i; j++) {
-                if (this.activationCost.get(j).equals(this.activationCost.get(i)))
-                    equalCards++;
+
+            for (int j = 0; j < this.activationCost.size(); j++) {
+                if(i != j)
+                    if (this.activationCost.get(j).getColor().equals(this.activationCost.get(i).getColor())
+                            && this.activationCost.get(j).getLevel().equals(this.activationCost.get(i).getLevel()))
+                        equalCards++;
             }
+
             if (cardLevel.equals(Level.ANY))
                 for (DevelopmentCard dv : developmentCards)
                     if (dv.getColor().equals(cardColor))
