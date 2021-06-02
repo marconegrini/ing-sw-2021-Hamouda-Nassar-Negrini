@@ -16,3 +16,10 @@
     -fx-background-insets: 0;
     -fx-text-fill: white;
 }
+
+#startGameButton {
+    -fx-background-color: linear-gradient( #1d1d2b, #27328c);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
