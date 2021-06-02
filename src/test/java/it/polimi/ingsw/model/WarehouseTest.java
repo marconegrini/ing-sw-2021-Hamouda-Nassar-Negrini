@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.Warehouse;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;

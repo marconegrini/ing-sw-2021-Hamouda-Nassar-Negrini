@@ -109,6 +109,24 @@ public class DevCardSlots {
         return result;
     }
 
+    public boolean sevenDevCardsBought(){
+        Integer i = 0;
+        Stack<DevelopmentCard> serviceDeck = new Stack();
+        DevelopmentCard developmentCard;
+        for(Stack<DevelopmentCard> deck : cardSlot) {
+            while (!deck.isEmpty()) {
+                developmentCard = deck.pop();
+                serviceDeck.push(developmentCard);
+                i++;
+            }
+            while (!serviceDeck.isEmpty())
+                deck.push(serviceDeck.pop());
+        }
+        if(i >= 7)
+            return true;
+        return false;
+    }
+
 
     /**
      * @return List of Dev cards slot's peek cards:

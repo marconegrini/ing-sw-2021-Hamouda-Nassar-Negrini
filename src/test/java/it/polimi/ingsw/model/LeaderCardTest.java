@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.cards.LeaderCards;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Card;
@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.model.enumerations.*;
@@ -70,30 +71,25 @@ public class LeaderCardTest {
         power.put(Resource.STONE, 2);
         for(LeaderCard lc : this.StorageLeaderCards) {
             if (lc.getStorageCardActivationCostResources().containsKey(Resource.COIN)) {
-                lc = (StorageLeaderCard) lc;
+
                 assertEquals(true, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();
             } else {
-                lc = (StorageLeaderCard) lc;
                 assertEquals(false, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();
+                lc.getStorageCardActivationCostResources();
             }
         }
 
-        /*
-        LeaderCardCost lcc2 = new LeaderCardCost(CardColor.VIOLET, Level.ANY);
-        LeaderCardCost lcc1 = new LeaderCardCost(CardColor.YELLOW, Level.ANY);
-        DevelopmentCard dc1 = new DevelopmentCard(2, CardColor.YELLOW, Level.ANY, null, null, null);
-        DevelopmentCard dc2 = new DevelopmentCard(2, CardColor.VIOLET, Level.ANY, null, null, null);
-        leaderCardCosts.add(lcc1);
-        leaderCardCosts.add(lcc2);
-        developmentCards.add(dc1);
-        developmentCards.add(dc2);
+        DevelopmentCard dc = new DevelopmentCard(2, CardColor.YELLOW, Level.ANY, null, null, null);
+        DevelopmentCard dc0 = new DevelopmentCard(2, CardColor.VIOLET, Level.ANY, null, null, null);
+        developmentCards.add(dc);
+        developmentCards.add(dc0);
         for(LeaderCard lc : this.DiscountLeaderCards) {
             DiscountLeaderCard dlc = (DiscountLeaderCard) lc;
-            if (leaderCardCosts.equals(dlc.getActivationCost())) {
+            if (lc.getLeaderCardPower().containsKey(Resource.COIN)) {
                 assertEquals(true, ((DiscountLeaderCard) lc).isActivatable(developmentCards));
                 //assertEquals("Test failed", power, lc.getLeaderCardPower());
             } else {
@@ -101,26 +97,20 @@ public class LeaderCardTest {
                 //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
             }
             lc.activate();
+            lc.getCardActivationCostColours();
         }
-         */
 
-        leaderCardCosts.clear();
-        LeaderCardCost lcc1 = new LeaderCardCost(CardColor.YELLOW, Level.ANY);
-        LeaderCardCost lcc2 = new LeaderCardCost(CardColor.YELLOW, Level.ANY);
-        LeaderCardCost lcc3 = new LeaderCardCost(CardColor.BLUE, Level.ANY);
+
         developmentCards.clear();
         DevelopmentCard dc1 = new DevelopmentCard(2, CardColor.YELLOW, Level.ANY, null, null, null);
         DevelopmentCard dc2 = new DevelopmentCard(2, CardColor.YELLOW, Level.ANY, null, null, null);
         DevelopmentCard dc3 = new DevelopmentCard(2, CardColor.BLUE, Level.ANY, null, null, null);
-        leaderCardCosts.add(lcc1);
-        leaderCardCosts.add(lcc2);
-        leaderCardCosts.add(lcc3);
         developmentCards.add(dc1);
         developmentCards.add(dc2);
         developmentCards.add(dc3);
         for(LeaderCard lc : this.WhiteMarbleLeaderCards) {
             WhiteMarbleLeaderCard dlc = (WhiteMarbleLeaderCard) lc;
-            if (leaderCardCosts.equals(dlc.getActivationCost())) {
+            if (lc.getLeaderCardPower().containsKey(Resource.SERVANT)) {
                 assertEquals(true, dlc.isActivatable(developmentCards));
                 //assertEquals("Test failed", power, lc.getLeaderCardPower());
             } else {
@@ -128,12 +118,23 @@ public class LeaderCardTest {
                 //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
             }
             lc.activate();
+            lc.getCardActivationCostColours();
         }
 
-
-
-
-
-
+        developmentCards.clear();
+        DevelopmentCard dc4 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, null, null, null);
+        developmentCards.add(dc4);
+        for(LeaderCard lc : this.ProdPowerLeaderCards) {
+            ProdPowerLeaderCard dlc = (ProdPowerLeaderCard) lc;
+            if (lc.getLeaderCardPower().containsKey(Resource.SERVANT)) {
+                assertEquals(true, dlc.isActivatable(developmentCards));
+                //assertEquals("Test failed", power, lc.getLeaderCardPower());
+            } else {
+                assertEquals(false, dlc.isActivatable(developmentCards));
+                //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
+            }
+            lc.activate();
+            lc.getCardActivationCostColours();
+        }
     }
 }

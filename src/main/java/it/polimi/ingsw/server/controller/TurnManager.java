@@ -1,15 +1,13 @@
 package it.polimi.ingsw.server.controller;
+import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
-import it.polimi.ingsw.messages.fromServer.BuyDVCardError;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
-import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.messages.fromServer.OkMessage;
-import it.polimi.ingsw.messages.fromServer.ErrorMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
@@ -19,6 +17,8 @@ import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.singleplayer.SinglePlayer;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.*;
@@ -30,12 +30,16 @@ public class TurnManager {
 
     private List<MultiPlayer> players;
 
+    private SinglePlayer player;
+
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
 
     private List<Resource> resorucesToStore;
 
     private boolean done = false;
+
+    private boolean sevenDevCardsBought = false;
 
     private Integer accesses = 0;
 
@@ -59,6 +63,10 @@ public class TurnManager {
     public void setPlayers(List<MultiPlayer> players){
         if(this.multiplayer)
             this.players = players;
+    }
+
+    public void setPlayer(SinglePlayer player){
+        this.player = player;
     }
 
     /**
@@ -118,9 +126,8 @@ public class TurnManager {
         }
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
-        //TODO modifiy return message if no resource is present after the market
         if(resourcesToStore.isEmpty()){
-            turnDone();
+            this.turnDone();
             return new OkMessage("You don't have resources to store!");
         } else {
             if(usedLeaderCard)
@@ -128,12 +135,6 @@ public class TurnManager {
             else return new ResourcesToStoreMessage(false, resourcesToStore, "Obtained resources from market. Leader card power used.", player.getClonedWarehouse());
         }
     }
-
-    //TODO method that returns resources taken from market
-    public List<Resource> getResourcesTakenFromMarket(){
-        return this.resorucesToStore;
-    }
-
 
     /**
      * @param player player who performed pick resources choice
@@ -180,7 +181,10 @@ public class TurnManager {
                         }
                     }
                 } else {
-                    //TODO increment lorenzo position
+                    SinglePlayer sp = (SinglePlayer) player;
+                    sp.incrementLorenzoPosition();
+                    Integer lorenzoPosition = sp.getLorenzoPosition();
+                    sp.updateFaithPath(lorenzoPosition);
                 }
             }
             if(resorucesToStore.equals(resourcesIn)) {
@@ -213,68 +217,82 @@ public class TurnManager {
      * @param devCardSlot slot index of development cards slots
      * @return OkMessage if everything worked fine, ErrorMessage instead
      */
-    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot)  {
+    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
 
         List<Resource> playerResources = player.getTotalResource();
-        List<Resource> devCardCost = cardsDeck.developmentCardCost(row, column);
 
-        System.out.println("playerResources: " + playerResources + "\n");
-        System.out.println("devCardCost: " + devCardCost+ "\n");
-
-        boolean usedLeaderCard = false;
-        if(player.isLeaderCardActivated(CardType.DISCOUNT)){
-            HashMap<Resource, Integer> resourcesFromLeaderCard = null;
-            resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
-            Set<Resource> discountedResource = resourcesFromLeaderCard.keySet();
-            for(Resource resource : discountedResource){
-                if(devCardCost.contains(resource))
-                    for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++)
-                        devCardCost.remove(resource);
+        if (!cardsDeck.isEmptyDeck(row, column)) {
+            List<Resource> devCardCost = null;
+            try {
+                devCardCost = cardsDeck.developmentCardCost(row, column);
+            } catch (EmptyDeckException e) {
+                e.printStackTrace();
+                return new BuyDVCardError("The cards deck is empty please choose another one", false);
             }
-            usedLeaderCard = true;
-        }
 
-        HashMap<Resource, Integer> checkCost = new HashMap<>();
-        for(Resource res : devCardCost){
-            if(checkCost.containsKey(res)){
-                Integer newValue = checkCost.get(res);
-                newValue++;
-                checkCost.put(res, newValue);
-            } else checkCost.put(res, 1);
-        }
-        List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
-        for(Resource res : checkCost.keySet()){
-            Integer value = checkCost.get(res);
-            for(int i = 0; i < value; i++)
-                playerCopiedResources.remove(res);
-        }
+            System.out.println("playerResources: " + playerResources + "\n");
+            System.out.println("devCardCost: " + devCardCost + "\n");
 
-
-        if (playerResources.equals(devCardCost) || !playerCopiedResources.isEmpty()) {
-            List<Resource> toTakeFromCoffer = player.getWarehouseResource();
-            List<Resource> toTakeFromWarehouse = new ArrayList<>();
-
-            for (Resource resource : devCardCost)
-                if (toTakeFromCoffer.contains(resource)) {
-                    toTakeFromCoffer.remove(resource);
-                    toTakeFromWarehouse.add(resource);
+            boolean usedLeaderCard = false;
+            if (player.isLeaderCardActivated(CardType.DISCOUNT)) {
+                HashMap<Resource, Integer> resourcesFromLeaderCard = null;
+                resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
+                Set<Resource> discountedResource = resourcesFromLeaderCard.keySet();
+                for (Resource resource : discountedResource) {
+                    if (devCardCost.contains(resource))
+                        for (int i = 0; i < resourcesFromLeaderCard.get(resource); i++)
+                            devCardCost.remove(resource);
                 }
-            player.pullWarehouseResources(toTakeFromWarehouse);
-            player.pullCofferResources(toTakeFromCoffer);
-            DevelopmentCard devCard = cardsDeck.popCard(row, column);
-
-            try{
-                player.addCardInDevCardSlot(devCardSlot, devCard);
-            } catch(IllegalInsertionException e1){
-                return new BuyDVCardError("Slot insertion not allowed", false);
-            } catch (IndexOutOfBoundsException e2){
-                return new BuyDVCardError("Invalid slot number", false);
+                usedLeaderCard = true;
             }
-            turnDone();
-            if(usedLeaderCard)
-                return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used." );
-            else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
-        } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
+
+            HashMap<Resource, Integer> checkCost = new HashMap<>();
+            for (Resource res : devCardCost) {
+                if (checkCost.containsKey(res)) {
+                    Integer newValue = checkCost.get(res);
+                    newValue++;
+                    checkCost.put(res, newValue);
+                } else checkCost.put(res, 1);
+            }
+            List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
+            for (Resource res : checkCost.keySet()) {
+                Integer value = checkCost.get(res);
+                for (int i = 0; i < value; i++)
+                    playerCopiedResources.remove(res);
+            }
+
+
+            if (playerResources.equals(devCardCost) || !playerCopiedResources.isEmpty()) {
+                List<Resource> toTakeFromCoffer = player.getWarehouseResource();
+                List<Resource> toTakeFromWarehouse = new ArrayList<>();
+
+                for (Resource resource : devCardCost)
+                    if (toTakeFromCoffer.contains(resource)) {
+                        toTakeFromCoffer.remove(resource);
+                        toTakeFromWarehouse.add(resource);
+                    }
+                player.pullWarehouseResources(toTakeFromWarehouse);
+                player.pullCofferResources(toTakeFromCoffer);
+                DevelopmentCard devCard = cardsDeck.popCard(row, column);
+
+                try {
+                    player.addCardInDevCardSlot(devCardSlot, devCard);
+                } catch (IllegalInsertionException e1) {
+                    return new BuyDVCardError("Slot insertion not allowed", false);
+                } catch (IndexOutOfBoundsException e2) {
+                    return new BuyDVCardError("Invalid slot number", false);
+                }
+
+                turnDone();
+
+                if (player.sevenDevCardBought())
+                    sevenDevCardsBought = true;
+
+                if (usedLeaderCard)
+                    return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used.");
+                else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
+            } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
+        } else return new BuyDVCardError("Empty deck! You cannot buy requested leader card!", true);
     }
 
     /**
@@ -334,13 +352,11 @@ public class TurnManager {
             for(Resource resource : resourcesProductionOut){
                 if(resource.equals(Resource.FAITH)){
                     player.incrementFaithPathPosition();
-                    Integer newPosition = player.getFaithPathPosition();
                     if(multiplayer) {
+                        Integer newPosition = player.getFaithPathPosition();
                         if(player.isRapportoInVaticano(newPosition))
                             for (Player p : players)
                                 p.updateFaithPath(newPosition);
-                    } else {
-                        //TODO increment lorenzo position
                     }
                 }
             }
@@ -436,8 +452,26 @@ public class TurnManager {
                     pic.add(r);
                 }
             }
+
+            HashMap<Resource, Integer> checkCost = new HashMap<>();
+            for(Resource res : prodInCost.keySet()){
+                if(checkCost.containsKey(res)){
+                    Integer newValue = checkCost.get(res);
+                    newValue++;
+                    checkCost.put(res, newValue);
+                } else checkCost.put(res, 1);
+            }
+
+            List<Resource> playerCopiedResources = player.getTotalResource().stream().collect(Collectors.toList());
+            for(Resource res : checkCost.keySet()){
+                Integer value = checkCost.get(res);
+                for(int i = 0; i < value; i++)
+                    playerCopiedResources.remove(res);
+            }
+
+
             //checks if there are enough resources in warehouse and/or coffer to activate leader card production
-            if (player.getTotalResource().equals(pic) || player.getTotalResource().containsAll(pic)) {
+            if (player.getTotalResource().equals(pic) || !playerCopiedResources.isEmpty()) {
                 List<Resource> fromCoffer = player.getWarehouseResource();
                 List<Resource> fromWarehouse = new ArrayList<>();
                 for (Resource r : pic)
@@ -544,6 +578,65 @@ public class TurnManager {
         return faithPathPositions;
     }
 
+    public boolean isSevenDevCardsBought(){
+        return sevenDevCardsBought;
+    }
+
+    public boolean discardDevelopmentCards(CardColor color) {
+        String cardColor = color.toString();
+        DevelopmentCard toPop;
+        boolean end = false;
+        for (int i = 0; i < 2; i++){
+            switch (cardColor) {
+                case ("GREEN"):
+                    toPop = cardsDeck.popCard(0, 0);
+                    if (toPop.getVictoryPoints() == 0) {
+                        toPop = cardsDeck.popCard(1, 0);
+                        if (toPop.getVictoryPoints() == 0) {
+                            toPop = cardsDeck.popCard(2, 0);
+                            if(toPop.getVictoryPoints() == 0)
+                                end = true;
+                        }
+                    }
+                    break;
+                case ("BLUE"):
+                    toPop = cardsDeck.popCard(0, 1);
+                    if (toPop.getVictoryPoints() == 0) {
+                        toPop = cardsDeck.popCard(1, 1);
+                        if (toPop.getVictoryPoints() == 0) {
+                            toPop = cardsDeck.popCard(2, 1);
+                            if(toPop.getVictoryPoints() == 0)
+                                end = true;
+                        }
+                    }
+                    break;
+                case ("YELLOW"):
+                    toPop = cardsDeck.popCard(0, 2);
+                    if (toPop.getVictoryPoints() == 0) {
+                        toPop = cardsDeck.popCard(1, 2);
+                        if (toPop.getVictoryPoints() == 0) {
+                            toPop = cardsDeck.popCard(1, 2);
+                            if(toPop.getVictoryPoints() == 0)
+                                end = true;
+                        }
+                    }
+                    break;
+                case ("VIOLET"):
+                    toPop = cardsDeck.popCard(0, 3);
+                    if (toPop.getVictoryPoints() == 0) {
+                        toPop = cardsDeck.popCard(1, 3);
+                        if (toPop.getVictoryPoints() == 0) {
+                            toPop = cardsDeck.popCard(1, 3);
+                            if(toPop.getVictoryPoints() == 0)
+                                end = true;
+                        }
+                    }
+                    break;
+            }
+        }
+        return end;
+    }
+
     public synchronized void resetDone(){
         this.done = false;
     }
@@ -572,17 +665,29 @@ public class TurnManager {
         return;
     }
 
+
     /**
-     * used by players to notify to the game they finished their action.
+     * Used by players to notify to the game they finished their action.
+     * If all players terminated their action, the MultiplayerGameHandler move on
      */
     public synchronized void clientDone(){
-        accesses++;
-        if(accesses.equals(players.size())){
-            accesses = 0;
-            this.done = true;
-            notifyAll();
+        if(multiplayer) {
+            accesses++;
+            if (accesses.equals(players.size())) {
+                accesses = 0;
+                this.done = true;
+                notifyAll();
+            }
+        } else {
+            this.turnDone();
         }
     }
+
+//fotr debugging
+    public Integer getAccesses() {
+        return accesses;
+    }
+
 }
 
 

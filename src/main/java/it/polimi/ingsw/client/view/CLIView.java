@@ -118,17 +118,31 @@ public class CLIView extends View {
 
             chosenResource = secureReadInt("[1-4]");
 
-            System.out.println("in which destination storage do you want to save the resource?\n");
+            System.out.println("in which destination storage do you want to save the first resource?\n");
             destStorage1 = secureReadInt("[1-3]");
 
             System.out.println("enter the second resource that you want to chose: ");
             chosenResource2 = secureReadInt("[1-4]");
 
-            System.out.println("in which destination storage do you want to save the resource?\n");
+            System.out.println("in which destination storage do you want to save the second resource?\n");
             destStorage2 = secureReadInt("[1-3]");
 
         }
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
+    }
+
+
+    //error happends only with the 4th player (that should choose 2 resources).
+    @Override
+    public ClientMessage calamaioErrHandelr(String strIn) {
+        if (strIn.equals("StorageOutOfBoundsException")){
+            System.out.println("Storage shelf out of Bound, please choose another shelf and consider moving elements between shelves if necessary.\n");
+        }
+        else if(strIn.equals("IllegalInsertionException")){
+            System.out.println("Illegal insertion in shelves, please choose another shelf and consider moving elements between shelves if necessary.\n");
+        }
+
+        return initializeCalamaio("You are the fourth player, choose 2 resources:\n");
     }
 
 
@@ -269,6 +283,8 @@ public class CLIView extends View {
                                 "Check also if you have inserted a wrong slot or an occupied slot number\n" +
                                 "Then try insert again a valid input: \n");
                     }
+
+
 
                     //Buy development card
                     show = false;
@@ -684,7 +700,7 @@ public class CLIView extends View {
 
 
 
-    //reading securely using REGEX <3
+    //reading securely using RegEx <3
     private String secureReadString(String pattern) {
         String input = "";
         boolean valid = false;

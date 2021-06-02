@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.DevCardSlots;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -97,7 +98,7 @@ public class DevCardSlotsTest {
         assertEquals(prodOut, test.resourcesProductionOut(1));
     }
 
-    @Test (expected = EmptySlotException.class)
+    @Test (expected = EmptyStackException.class)
     public void testResourcesProductionOut1() throws IllegalInsertionException, EmptySlotException {
         DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
         test.addCard(1, card1);

@@ -77,6 +77,9 @@ public class ServerMessageFactory {
                 case CALAMAIO:
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
+                case CALAMAIOERR:
+                    returnMessage = gson.fromJson(receivedMessage, CalamaioErrorMessage.class);
+                    break;
                 case RESOURCESTOSTORE:
                     returnMessage = gson.fromJson(receivedMessage, ResourcesToStoreMessage.class);
                     break;
@@ -129,10 +132,13 @@ public class ServerMessageFactory {
                     returnMessage = gson.fromJson(receivedMessage, LeaderResultMessage.class);
                     break;
                 case END:
-                    returnMessage = gson.fromJson(receivedMessage, EndMessage.class);
+                    returnMessage = gson.fromJson(receivedMessage, EndGameMessage.class);
                     break;
                 case BUYDVCARDERROR:
                     returnMessage = gson.fromJson(receivedMessage, BuyDVCardError.class);
+                    break;
+                case SINGLEPLAYERACTION:
+                    returnMessage = gson.fromJson(receivedMessage, SinglePlayerActionMessage.class);
                     break;
                 default:
                     System.err.println("Server message type not found inside Server factory");

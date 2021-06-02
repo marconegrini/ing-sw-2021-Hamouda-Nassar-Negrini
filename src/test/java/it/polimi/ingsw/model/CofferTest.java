@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.Coffer;
 
 import java.util.ArrayList;
@@ -56,7 +56,10 @@ public class CofferTest {
         resourceIn.add(Resource.SHIELD);
         resourceIn.add(Resource.STONE);
         test.putResource(resourceIn);
-        assertEquals(resourceIn, test.getTotalResources());
+        resourceIn.clear();
+        resourceIn.add(Resource.SHIELD);
+        resourceIn.add(Resource.STONE);
+        assertTrue(test.getTotalResources().containsAll(resourceIn));
     }
 
 

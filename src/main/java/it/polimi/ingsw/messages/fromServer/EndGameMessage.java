@@ -8,8 +8,11 @@ import it.polimi.ingsw.client.ServerHandler;
 
 public class EndGameMessage extends ServerMessage{
 
-    public EndGameMessage() {
+    String endMessage;
+
+    public EndGameMessage(String endMessage) {
         super(ServerMessageType.ENDGAME);
+        this.endMessage = endMessage;
     }
 
     @Override

@@ -75,10 +75,10 @@ public class DepositsTracer {
 
         result.add(String.format("\n" +
                 "     ╔═══════════════════╗\n"+
-                "     ║  \u001b[1m## DEPOSITS ##\u001B[0m   ║\n" +
+                "     ║  \u001b[1m## DEPOSITS ##\u001B[0m   ║\n" +   //BOLD
                 "╔════╩═══════════════════╩════╗ \n" +
                 "║                             ║ \n" +
-                "║      \u001b[4m# Your warehouse #\u001B[0m       \n" +
+                "║      \u001b[4m# Your warehouse #\u001B[0m       \n" +  //Underline
                 "║                               \n" +
                 "║             /  \\             \n" +
                 "║            / %s               \n" +
@@ -90,7 +90,7 @@ public class DepositsTracer {
                 "║                               \n" +
                 "║    ═ ═ ═ ═ ═ ═ ═ ═ ═ ═ ═      \n" +
                 "║                              \n" +
-                "║      \u001b[4m# Your coffer #\u001B[0m         \n" +
+                "║      \u001b[4m# Your coffer #\u001B[0m         \n" +  //Underline
                 "║                                  \n" +
                 "║      Available Resources         \n" +
                 "║      COINS    (%s): %d          \n" +

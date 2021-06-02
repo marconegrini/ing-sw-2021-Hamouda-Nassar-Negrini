@@ -62,6 +62,10 @@ public abstract class Player {
         return totalResource;
     }
 
+    public Integer faithPathEnd(){
+        return userFaithPath.getEnd();
+    }
+
     /**
      *
      * @return total resources in warehouse
@@ -300,6 +304,14 @@ public abstract class Player {
                 vp += lc.getVictoryPoints();
 
             return vp;
+    }
+
+    public Integer getTotalVictoryPoints(){
+        return personalBoard.getVictoryPoints() + getLeaderCardsVictoryPoint();
+    }
+
+    public boolean sevenDevCardBought(){
+        return personalBoard.sevenDevCardsBought();
     }
 
     public boolean isLeaderCardActivated(CardType lcType){

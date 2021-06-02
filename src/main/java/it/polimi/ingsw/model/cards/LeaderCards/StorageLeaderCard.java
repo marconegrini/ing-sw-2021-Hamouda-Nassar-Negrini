@@ -16,7 +16,7 @@ public class StorageLeaderCard extends LeaderCard {
     private final HashMap<Resource, Integer> activationCost;
     private final HashMap<Resource, Integer> slots;
     private Integer maxCapacity = 0;
-    private ArrayList<Optional<Resource>> storage;
+    private ArrayList<Resource> storage;
 
     public StorageLeaderCard(
             CardType cardType,
@@ -33,7 +33,7 @@ public class StorageLeaderCard extends LeaderCard {
         storage = new ArrayList<>(maxCapacity);
         //initialize all the elements of the arrayList with null elements.      STARTS WITH the ELEMENT 0
         for (int i = 0; i < maxCapacity; i++) {
-            storage.add(Optional.empty());
+            storage.add(null);
         }
     }
 
@@ -88,17 +88,17 @@ public class StorageLeaderCard extends LeaderCard {
                 throw new IllegalInsertionException();
 
             //switch case: the storage is full
-            if ((storage.stream().filter(Optional::isPresent).count() == maxCapacity))
+            if ((storage.stream().filter(Objects::nonNull).count() == maxCapacity))
                 throw new IllegalInsertionException();
             //switch case: storage is filled partially
-            if (storage.stream().findAny().get().isPresent()) {
+            if (storage.stream().findAny().isPresent()) {
 
                 //checking that resource type in the storage is the same of resourceIn
-                System.out.println(slots.keySet().stream().findAny().get());
-                System.out.println(slots.keySet().stream().findAny().get().getClass());
+                System.out.println("LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get(): "  + slots.keySet().stream().findAny().get());
+                System.out.println("LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get().getClass(): " + slots.keySet().stream().findAny().get().getClass());
 
-                System.out.println(resourceIn.stream().findAny());
-                System.out.println(resourceIn.stream().findAny().getClass());
+                System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny(): " + resourceIn.stream().findAny());
+                System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny().getClass(): " + resourceIn.stream().findAny().getClass());
 
                 if (!(slots.keySet().stream().findAny().get().equals(resourceIn.stream().findAny().get())))
                     throw new IllegalInsertionException();
@@ -106,22 +106,23 @@ public class StorageLeaderCard extends LeaderCard {
 
                 //checking that there is enough capacity left to insert resourceIn
 
-                if ((storage.stream().filter(Optional::isPresent).count() + resourceIn.size()) <= maxCapacity) {
+                if ((storage.stream().filter(Objects::nonNull).count() + resourceIn.size()) <= maxCapacity) {
                     int resourcesToAdd = resourceIn.size();
-                    for (int i = 0; i < storage.size(); i++) { //Optional<Resource> optRrs : storage
-                        if (storage.get(i).isEmpty() && resourcesToAdd > 0) {
-                            storage.add(i, Optional.of(resourceInType));
+                    for (int i = 0; i < maxCapacity; i++) { //Optional<Resource> optRrs : storage
+                        if (storage.get(i)==null && resourcesToAdd > 0) {
+                            storage.add(i, resourceInType );
                             resourcesToAdd--;
                         }
                     }
 
 
                 } else throw new IllegalInsertionException();
-            } else if ((storage.stream().filter(Optional::isPresent).count() + resourceIn.size()) <= maxCapacity) {
+                //switch case: the chosen shelf is empty
+            } else if ((storage.stream().filter(Objects::nonNull).count() + resourceIn.size()) <= maxCapacity) {
                 int resourcesToAdd = resourceIn.size();
-                for (int i = 0; i < storage.size(); i++) { //Optional<Resource> optRrs : storage
-                    if (storage.get(i).isEmpty() && resourcesToAdd > 0) {
-                        storage.add(i, Optional.of(resourceInType));
+                for (int i = 0; i < maxCapacity; i++) { //Optional<Resource> optRrs : storage
+                    if (resourcesToAdd > 0) {
+                        storage.add(i, resourceInType);
                         resourcesToAdd--;
                     }
                 }
@@ -137,18 +138,19 @@ public class StorageLeaderCard extends LeaderCard {
      */
     public Resource pullResource() throws EmptySlotException {
         Resource tempResource;
-        tempResource = storage.stream().filter(x -> x.isPresent()).findFirst().get().get();
-        if (tempResource.equals(Optional.empty())) {
+        Optional<Resource> tempOpt = storage.stream().filter(Objects::nonNull).findFirst();
+        if (tempOpt.equals(Optional.empty())) {
             throw new EmptySlotException();
-        }
+        }else tempResource = tempOpt.get();  //if there is at least one shelf non empty--> get tha=e resource in the shelf
 
-        storage.stream().filter(x -> x.isPresent()).findFirst().map(x -> x = Optional.empty());
+        //clearing the resource in that shelf
+        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
         return tempResource;
 
     }
 
     public int getCardStorageFilledSlots() {
-        return (int) storage.stream().filter(x -> x.isPresent()).count();
+        return (int) storage.stream().filter(x -> x != null).count();
     }
 
     public Integer getMaxCapacity() {
@@ -169,14 +171,16 @@ public class StorageLeaderCard extends LeaderCard {
 
     /**
      * @return returns a hashMap with the resources saved in the leaderCard
-     * @throws EmptySlotException when all the slots are empty
+     *  EmptySlotException -- when all the slots are empty
      */
     @Override
     public HashMap<Resource, Integer> getLeaderCardPower() {
-        int presentResources = (int) storage.stream().filter(Optional::isPresent).count();
+        int presentResources = (int) storage.stream().filter(Objects::nonNull).count();
+
+        //putting the return value into a hashMap
         HashMap<Resource, Integer> tempHash = new HashMap<>();
         if (presentResources > 0) {
-            tempHash.put(storage.stream().findAny().get().get(), presentResources);
+            tempHash.put(storage.stream().findAny().get(), presentResources);
         } else {
             try {
                 throw new EmptySlotException();
@@ -188,7 +192,7 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     public int getOccupiedSlots() {
-        return (int) storage.stream().filter(Optional::isPresent).count();
+        return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
     public Resource storageType() {

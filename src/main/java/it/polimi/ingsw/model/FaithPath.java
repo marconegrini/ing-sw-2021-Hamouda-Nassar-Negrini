@@ -19,7 +19,7 @@ public class FaithPath {
 
     public FaithPath(){
 
-        this.userPosition = 3;
+        this.userPosition = 0;
         this.vaticanSections = new ArrayList<>();
 
         Integer startPos = 0;
@@ -39,7 +39,8 @@ public class FaithPath {
     }
 
     public void incrementUserPosition(){
-        userPosition++;
+        if(userPosition < end)
+            userPosition++;
     }
 
     public Integer getUserPosition(){
