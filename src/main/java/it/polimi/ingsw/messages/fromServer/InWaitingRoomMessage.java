@@ -10,16 +10,23 @@ public class InWaitingRoomMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage("You are in waiting room.");
 
-        //serverHandler.sendJson(serverHandler.getView().waitingRoom());
+        if (serverHandler.getIsCli()){
+            serverHandler.getView().showMessage("You are in waiting room.");
 
-        Runnable runnable = () -> {
             serverHandler.sendJson(serverHandler.getView().waitingRoom());
-        };
 
-        Thread waitingRoom = new Thread(runnable);
-        waitingRoom.start();
+            Runnable runnable = () -> {
+                serverHandler.sendJson(serverHandler.getView().waitingRoom());
+            };
+
+            Thread waitingRoom = new Thread(runnable);
+            waitingRoom.start();
+        } else{
+            serverHandler.getView().waitingRoom();
+        }
+
+
 
     }
 }
