@@ -619,6 +619,11 @@ public class CLIView extends View {
     }
 
     @Override
+    public void showParticipantsNumber(String s) {
+        System.out.println("In waiting with:" + s + " players");
+    }
+
+    @Override
     public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
         dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
         int row = 0, column = 0, devCardSlot;
