@@ -21,7 +21,6 @@ public class LoginMessage extends ClientMessage {
     public void serverProcess(ClientHandler clientHandler) {
 
         if (isMultiplayer) {
-            //Server.printCurrentPlayers();
             if (Server.nicknameAlreadyExist(nickname))
                 clientHandler.sendJson(new ServerLoginErrorMessage("Error: Nickname already exists."));
             else {
@@ -31,15 +30,10 @@ public class LoginMessage extends ClientMessage {
                 if(Server.getPlayersNumber() == 4)
                     Server.startMultiplayerGame();
                 else {
-                    Server.sendParticipantsNumberUpdate();
                     clientHandler.sendJson(new InWaitingRoomMessage());
                     clientHandler.sendJson(new ParticipantsMessage(Server.getPlayersNumber() - 1));
+                    Server.sendParticipantsNumberUpdate();
                 }
-
-                /*
-                if(Server.getPlayersNumber() == 2)
-                Server.startMultiplayerGame();
-                 */
             }
         } else {
             clientHandler.setNickname(nickname);
