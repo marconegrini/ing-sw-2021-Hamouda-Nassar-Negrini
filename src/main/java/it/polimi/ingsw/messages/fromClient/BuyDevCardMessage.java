@@ -29,7 +29,7 @@ public class BuyDevCardMessage extends ClientMessage{
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
 
-//        //TESTING
+        //TESTING
 //        List<Resource> resourcesIn = new ArrayList<>();
 //        resourcesIn.add(Resource.SHIELD);
 //        resourcesIn.add(Resource.SHIELD);
@@ -48,11 +48,11 @@ public class BuyDevCardMessage extends ClientMessage{
 //        resourcesIn.add(Resource.STONE);
 //        resourcesIn.add(Resource.STONE);
 //        player.putCofferResources(resourcesIn);
-//        //
+        //
 
         try {
             ServerMessage outcome = turnManager.buyDevelopmentCard(clientHandler.getPlayer(), row, column, devCardSlot);
-            clientHandler.sendJson(outcome);   //response to client {OkMessage, BuyDevCardMessage}
+            clientHandler.sendJson(outcome);   //response message to client {OkMessage, BuyDevCardMessage}
         }catch(EmptyStackException e){
             e.printStackTrace();
         }
