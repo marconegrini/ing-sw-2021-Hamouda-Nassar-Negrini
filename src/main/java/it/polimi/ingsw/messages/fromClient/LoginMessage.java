@@ -32,8 +32,8 @@ public class LoginMessage extends ClientMessage {
                     Server.startMultiplayerGame();
                 else {
                     Server.sendParticipantsNumberUpdate();
-                    clientHandler.sendJson(new ParticipantsMessage(Server.getPlayersNumber() - 1));
                     clientHandler.sendJson(new InWaitingRoomMessage());
+                    clientHandler.sendJson(new ParticipantsMessage(Server.getPlayersNumber() - 1));
                 }
 
                 /*
