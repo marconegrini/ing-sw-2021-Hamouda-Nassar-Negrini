@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.handlers;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
@@ -166,20 +167,20 @@ public class MultiPlayerGameHandler extends Thread {
         int k = 0;
         while ((k < clientHandlers.size())){
             if (k==0) {
-                strIn="You are the player with the Calamaio and your turn is the first! \nYou have not received any additional resources\n";
+                strIn= ANSITextFormat.BOLD + "You are the player with the Calamaio and your turn is the first!" + ANSITextFormat.RESET.toString() +"\nYou have not received any additional resources\n";
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
                 }
             else if(k==1){
-                strIn="Your Turn is the second! \nYou have received \u001b[4mone additional resources \u100b[0m \nPlease chose which Resource do you want:\n";
+                strIn= ANSITextFormat.BOLD.toString()+"Your Turn is the second!"+ANSITextFormat.RESET.toString()+"\nYou have received "+ ANSITextFormat.UNDERLINE.toString()+"one additional resources"+ANSITextFormat.RESET.toString()+" \nPlease chose which Resource do you want:\n";
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==2){
-                strIn="Your Turn is the third! \nYou have received \u001b[4mone additional resource \u100b[0m and "+ "\u001b[31;1m" + "a Faith Point\u001b[0m\nPlease chose which Resource do you want:\n";
+                strIn=ANSITextFormat.BOLD.toString()+"Your Turn is the third!" +ANSITextFormat.RESET.toString() + "\nYou have received "+ANSITextFormat.UNDERLINE.toString()+"one additional resource"+ANSITextFormat.RESET.toString()+" and "+ ""+ANSITextFormat.RED_COLOR.toString()+"" + "a Faith Point"+ANSITextFormat.RESET.toString()+"\nPlease chose which Resource do you want:\n";
                 clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==3){
-                strIn="Your Turn is the fourth! \nYou have received \u001b[4mtwo additional resources \u100b[0m and "+"\u001b[31;1m"+"a Faith Point \u001b[0m \nPlease chose which Resource do you want:\n";
+                strIn=ANSITextFormat.BOLD.toString() + "Your Turn is the fourth!" +ANSITextFormat.RESET.toString()+"\nYou have received "+ANSITextFormat.UNDERLINE.toString()+"two additional resources"+ANSITextFormat.RESET.toString()+" and "+""+ANSITextFormat.RED_COLOR.toString()+""+"a Faith Point"+ANSITextFormat.RESET.toString()+" \nPlease chose which Resource do you want:\n";
                 clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }

@@ -77,6 +77,9 @@ public class ServerMessageFactory {
                 case CALAMAIO:
                     returnMessage = gson.fromJson(receivedMessage, InitializeCalamaioMessage.class);
                     break;
+                case CALAMAIOERR:
+                    returnMessage = gson.fromJson(receivedMessage, CalamaioErrorMessage.class);
+                    break;
                 case RESOURCESTOSTORE:
                     returnMessage = gson.fromJson(receivedMessage, ResourcesToStoreMessage.class);
                     break;

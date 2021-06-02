@@ -20,5 +20,14 @@ public class LeaderCardCost {
         return level;
     }
 
+
+//    @Override
+//    public String toString() {
+//        return "LeaderCardCost{" +
+//                "color=" + color +
+//                ", level=" + level +
+//                '}';
+//    }
+
 }
 

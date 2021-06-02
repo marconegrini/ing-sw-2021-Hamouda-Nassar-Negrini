@@ -19,6 +19,8 @@ public abstract class View {
 
     public abstract ClientMessage initializeCalamaio(String strIn);
 
+    public abstract ClientMessage calamaioErrHandelr(String strIn);
+
     public abstract ClientMessage selectLeaderCards(List<LeaderCard> leaderCards);
 
     public abstract ClientMessage selectAction(String choice,boolean err);

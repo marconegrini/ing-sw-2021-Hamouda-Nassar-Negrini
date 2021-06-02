@@ -38,7 +38,7 @@ public class Deck {
         Collections.shuffle(deck);
     }
 
-    public boolean emptyDeck(){
+    public boolean isEmptyDeck(){
         return deck.isEmpty();
     }
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.EmptyDeckException;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
 import java.util.*;
@@ -71,7 +72,7 @@ public class CardsDeck {
      * @return a copy of the card in the specified position
      */
     public DevelopmentCard peekCard(int row, int column){
-        if(cardsDeck[row][column].peekCard() == null){
+        if(cardsDeck[row][column].isEmptyDeck()){
             return new DevelopmentCard(0,null,null,null,null,null);
         }
         else
@@ -84,30 +85,32 @@ public class CardsDeck {
      * @return the card in the specified position. Differently from peekCard, popCard removes the specified card
      */
     public DevelopmentCard popCard(int row, int column){
-        if(cardsDeck[row][column].peekCard() == null){
+        if(cardsDeck[row][column].isEmptyDeck()){
             return new DevelopmentCard(0,null,null,null,null,null);
         }
         else
             return cardsDeck[row][column].popCard();
     }
 
-    public boolean emptyDeck(int row, int column){
-        return cardsDeck[row][column].emptyDeck();
+    public boolean isEmptyDeck(int row, int column){
+        return cardsDeck[row][column].isEmptyDeck();
     }
 
-    public List<Resource> developmentCardCost(int row, int column){
-        HashMap<Resource, Integer> cost = cardsDeck[row][column].getCardCost();
-        List<Resource> cardCost = new ArrayList<>();
+    public List<Resource> developmentCardCost(int row, int column) throws EmptyDeckException {
+        if (!isEmptyDeck(row, column)) {
+            HashMap<Resource, Integer> cost = cardsDeck[row][column].getCardCost();
+            List<Resource> cardCost = new ArrayList<>();
 
-        for(Resource resource : cost.keySet()){
-            Integer value = cost.get(resource);
-            for(int i = 0; i < value; i++){
-                cardCost.add(resource);
+            for (Resource resource : cost.keySet()) {
+                Integer value = cost.get(resource);
+                for (int i = 0; i < value; i++) {
+                    cardCost.add(resource);
+                }
             }
+
+            return cardCost;
         }
-
-        return cardCost;
-
+        else throw new EmptyDeckException();
     }
 
 

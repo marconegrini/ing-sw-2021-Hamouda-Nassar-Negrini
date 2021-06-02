@@ -21,6 +21,11 @@ public class GUIView extends View{
         return null;
     }
 
+    @Override
+    public ClientMessage calamaioErrHandelr(String strIn) {
+        return null;
+    }
+
 //    @Override
 //    public ClientMessage printToClient() {
 //        return null;
