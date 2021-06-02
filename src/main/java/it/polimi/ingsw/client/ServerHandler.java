@@ -30,9 +30,11 @@ public class ServerHandler implements Runnable{
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
     private LightModel lightModel;
     private View view;
+    private boolean isCli;
 
     public ServerHandler(Socket server, boolean isCli){
         this.server = server;
+        this.isCli = isCli;
         this.lightModel = new LightModel();
         if(isCli)
             this.view = new CLIView(this.lightModel);
@@ -127,6 +129,10 @@ public class ServerHandler implements Runnable{
      */
     public View getView(){
         return view;
+    }
+
+    public boolean getIsCli(){
+        return isCli;
     }
 
 }
