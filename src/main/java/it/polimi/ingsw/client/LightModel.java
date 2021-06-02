@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Coffer;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.MarketBoard;
-import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
@@ -27,6 +24,7 @@ public class LightModel{
     private MarketBoard marketBoard;
     private HashMap<String, Integer> otherPlayersFaithPathPosition;
     private Integer faithPathPosition;
+    private List<VaticanSection> vaticanSections;
     private Warehouse warehouse;
     private Coffer coffer;
 
@@ -107,6 +105,14 @@ public class LightModel{
 
     public void setOtherPlayersFaithPathPosition(HashMap<String, Integer> otherPlayersFaithPathPosition) {
         this.otherPlayersFaithPathPosition = otherPlayersFaithPathPosition;
+    }
+
+    public void setVaticanSections(List<VaticanSection> vaticanSections){
+        this.vaticanSections = vaticanSections;
+    }
+
+    public List<VaticanSection> getVaticanSections(){
+        return this.vaticanSections;
     }
 
     public Warehouse getWarehouse(){

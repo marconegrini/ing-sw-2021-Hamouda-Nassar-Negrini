@@ -19,7 +19,7 @@ public class FaithPath {
 
     public FaithPath(){
 
-        this.userPosition = 0;
+        this.userPosition = 3;
         this.vaticanSections = new ArrayList<>();
 
         Integer startPos = 0;
@@ -81,5 +81,9 @@ public class FaithPath {
     public boolean ended(){
         if(userPosition.equals(this.end)) return true;
         return false;
+    }
+
+    public List<VaticanSection> getVaticanSections(){
+        return List.copyOf(this.vaticanSections);
     }
 }

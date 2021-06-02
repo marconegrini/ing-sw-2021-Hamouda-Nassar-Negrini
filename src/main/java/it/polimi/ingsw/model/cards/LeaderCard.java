@@ -55,7 +55,7 @@ public abstract class LeaderCard extends Card {
 
 
     /* method that makes the cast based on the type(between: DISCOUNT, PRODUCTION, MARBLE) of the card and returns its cost */
-    public List<LeaderCardCost> getCardActivationCostColours() throws WrongCardTypeException {
+    public List<LeaderCardCost>     getCardActivationCostColours() throws WrongCardTypeException {
         if ((List.of(DISCOUNT, PRODUCTION, MARBLE).contains(this.getCardType()))) {
             if (DISCOUNT.equals(this.getCardType())) {
                 DiscountLeaderCard discountLeaderCard = (DiscountLeaderCard) this;

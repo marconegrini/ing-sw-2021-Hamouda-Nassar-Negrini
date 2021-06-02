@@ -27,6 +27,7 @@ public class CLIView extends View {
     FaithPathTracer faithPathTracer;
     DepositsTracer depositsTracer;
     DvCardsTracer dvCardsTracer;
+    VaticanSectionsTracer vaticanSectionsTracer;
     boolean stillWaiting;
 
     public CLIView(LightModel clientLightModel) {
@@ -35,6 +36,7 @@ public class CLIView extends View {
         leaderCardsTracer = new LeaderCardsTracer();
         marketTracer = new MarketTracer();
         faithPathTracer = new FaithPathTracer();
+        vaticanSectionsTracer = new VaticanSectionsTracer();
         depositsTracer = new DepositsTracer();
         dvCardsTracer = new DvCardsTracer();
         stillWaiting = true;
@@ -104,12 +106,10 @@ public class CLIView extends View {
 
             destStorage1 = secureReadInt("[1-3]");
 
-            //TODO: send an update message to update the faithTrack of the client
 
 //            System.out.println("Resource chosen successfully");
 
             if (strIn.contains("third")) {
-                //TODO: send an update message to update the faithTrack of the client
             }
         } else if (strIn.contains("fourth")) {
             int s = 2;
@@ -125,10 +125,7 @@ public class CLIView extends View {
             chosenResource2 = secureReadInt("[1-4]");
 
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1 = secureReadInt("[1-3]");
-
-            //TODO:send an update message to update the deposits of the client
-            //TODO: send an update message to update the faithTrack of the client
+            destStorage2 = secureReadInt("[1-3]");
 
         }
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);
@@ -207,8 +204,9 @@ public class CLIView extends View {
                     depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
                     show = true;
                 } else if (choice.equals("show faith path")) {
-                    System.out.println("\n\t # Faith Path # \t");
+                    System.out.println("\n\t # Faith Path # \t\n");
                     faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
+                    vaticanSectionsTracer.showVaticanSections(clientLightModel.getVaticanSections());
                     show = true;
                 } else if (choice.equals("show development deck")) {
                     System.out.println("\n\t # Development Cards Deck # \t");
@@ -351,23 +349,6 @@ public class CLIView extends View {
                         System.out.println("Select " + ask + " storage (1 to 3):");
                         try {
                             storage = scanner.nextInt();
-                            //should check in model
-                            /*
-                            switch (storage) {
-                                case 1:
-                                    okStorage = true;
-                                    break;
-                                case 2:
-                                    okStorage = true;
-                                    break;
-                                case 3:
-                                    okStorage = true;
-                                    break;
-                                default:
-                                    System.out.println("Invalid storage index. Select again.");
-                                    break;
-                            }
-                             */
                             if (i == 0) sourceStorage = storage;
                             if (i == 1) destStorage = storage;
                         } catch (InputMismatchException e) {

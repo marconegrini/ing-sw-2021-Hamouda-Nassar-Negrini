@@ -5,16 +5,24 @@ import it.polimi.ingsw.messages.fromClient.ClientMessage;
 
 public class BuyDVCardError extends ServerMessage{
 
-    String errorCause;
-    public BuyDVCardError(String errorCause){
+    private String errorCause;
+    private boolean toMenu;
+
+    public BuyDVCardError(String errorCause, boolean toMenu){
         super(ServerMessageType.BUYDVCARDERROR);
         this.errorCause = errorCause;
+        this.toMenu = toMenu;
     }
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getView().showMessage(errorCause+"\n");
-        ClientMessage message = serverHandler.getView().selectAction("b",true);
-        serverHandler.sendJson(message);
+        if(toMenu){
+            ClientMessage message = serverHandler.getView().selectAction(null, false);
+            serverHandler.sendJson(message);
+        } else {
+            ClientMessage message = serverHandler.getView().selectAction("b", true);
+            serverHandler.sendJson(message);
+        }
 
     }
 }

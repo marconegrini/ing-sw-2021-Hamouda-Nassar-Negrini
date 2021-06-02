@@ -71,7 +71,6 @@ public class StorageLeaderCard extends LeaderCard {
      */
     public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws StorageOutOfBoundsException, IllegalInsertionException {
 
-
         if (resourceIn == null) {
             if (oneResourceIn != null)
                 resourceIn = new ArrayList<>();
