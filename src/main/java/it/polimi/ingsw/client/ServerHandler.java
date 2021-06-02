@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ServerHandler implements Runnable{
 
     private Socket server;
-    private Client owner;
     private InputStreamReader isr;
     private OutputStreamWriter osw;
     private BufferedReader reader;
@@ -31,11 +30,9 @@ public class ServerHandler implements Runnable{
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
     private LightModel lightModel;
     private View view;
-    private boolean isCli = true;
 
-    public ServerHandler(Socket server, Client owner){
+    public ServerHandler(Socket server, boolean isCli){
         this.server = server;
-        this.owner = owner;
         this.lightModel = new LightModel();
         if(isCli)
             this.view = new CLIView(this.lightModel);
@@ -52,7 +49,6 @@ public class ServerHandler implements Runnable{
             out = new PrintWriter(writer, true);
         } catch (IOException e){
             System.out.println("Cannot open connection to " + server);
-            owner.terminate();
             return;
         }
 
@@ -66,7 +62,6 @@ public class ServerHandler implements Runnable{
             server.close();
         } catch (IOException e){
                 System.out.println("Exception occurred while closing client socket");
-            owner.terminate();
         }
     }
 

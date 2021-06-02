@@ -170,16 +170,16 @@ public class MultiPlayerGameHandler extends Thread {
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
                 }
             else if(k==1){
-                strIn="Your Turn is the second! \nYou have received one additional resources\nPlease chose which Resource do you want:\n";
+                strIn="Your Turn is the second! \nYou have received \u001b[4mone additional resources \u100b[0m \nPlease chose which Resource do you want:\n";
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==2){
-                strIn="Your Turn is the third! \nYou have received one additional resource and a Faith Point\nPlease chose which Resource do you want:\n";
+                strIn="Your Turn is the third! \nYou have received \u001b[4mone additional resource \u100b[0m and "+ "\u001b[31;1m" + "a Faith Point\u001b[0m\nPlease chose which Resource do you want:\n";
                 clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }
             else if(k==3){
-                strIn="Your Turn is the second! \nYou have received two additional resources and a Faith Point\nPlease chose which Resource do you want:\n";
+                strIn="Your Turn is the fourth! \nYou have received \u001b[4mtwo additional resources \u100b[0m and "+"\u001b[31;1m"+"a Faith Point \u001b[0m \nPlease chose which Resource do you want:\n";
                 clientHandlers.get(k).getPlayer().incrementFaithPathPosition();
                 sendToClient(clientHandlers.get(k), new InitializeCalamaioMessage(strIn));
             }

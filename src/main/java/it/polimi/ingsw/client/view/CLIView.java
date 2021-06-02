@@ -106,12 +106,10 @@ public class CLIView extends View {
 
             destStorage1 = secureReadInt("[1-3]");
 
-            //TODO: send an update message to update the faithTrack of the client
 
 //            System.out.println("Resource chosen successfully");
 
             if (strIn.contains("third")) {
-                //TODO: send an update message to update the faithTrack of the client
             }
         } else if (strIn.contains("fourth")) {
             int s = 2;
@@ -127,10 +125,7 @@ public class CLIView extends View {
             chosenResource2 = secureReadInt("[1-4]");
 
             System.out.println("in which destination storage do you want to save the resource?\n");
-            destStorage1 = secureReadInt("[1-3]");
-
-            //TODO:send an update message to update the deposits of the client
-            //TODO: send an update message to update the faithTrack of the client
+            destStorage2 = secureReadInt("[1-3]");
 
         }
         return new CalamaioResponseMessage(chosenResource, chosenResource2, destStorage1, destStorage2);

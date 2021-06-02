@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
 public class Main extends Application {
 
     @Override
@@ -15,8 +13,8 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/login/connectToServer.fxml"));
         Parent root = loader.load();
-        Controller controller = loader.getController();
-
+        ConnectionToServerGUI controller = loader.getController();
+        //SceneManager.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Master of Renaissance");
         Scene scene = new Scene(root, 800, 500);
