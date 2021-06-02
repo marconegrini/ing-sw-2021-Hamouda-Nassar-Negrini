@@ -1,7 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.model.exceptions.MaxPlayersException;
-import it.polimi.ingsw.server.Server;
 import org.junit.Test;
 
 import java.io.IOException;
