@@ -71,12 +71,11 @@ public class LeaderCardTest {
         power.put(Resource.STONE, 2);
         for(LeaderCard lc : this.StorageLeaderCards) {
             if (lc.getStorageCardActivationCostResources().containsKey(Resource.COIN)) {
-                lc = (StorageLeaderCard) lc;
+
                 assertEquals(true, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();
             } else {
-                lc = (StorageLeaderCard) lc;
                 assertEquals(false, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();

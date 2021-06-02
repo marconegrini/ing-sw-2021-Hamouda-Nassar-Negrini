@@ -59,20 +59,20 @@ public class LeaderCardsTracer {
                     }
 
                      */
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
 
                     //getting the disc. leader card power as ascii shapes
                     for (Resource resource : discountLeaderCard.getLeaderCardPower().keySet()) {
 
                         String value = discountLeaderCard.getLeaderCardPower().get(resource).toString();
 
-                        powerString += "\u001b[1m" + "-" + value + "\u001B[0m" + ASCII_Resources.getShape(resource.toString()) + ",";
+                        powerString += ANSITextFormat.BOLD + "-" + value + ANSITextFormat.RESET.toString() + ASCII_Resources.getShape(resource.toString()) + ",";
                     }
                     powerString = "           " + powerString;  //adding (11) spacing before power string
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
                     powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
 
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + discountLeaderCard.getCardType() + "\u001B[0m", discountLeaderCard.getVictoryPoints(), costString, powerString,"|"));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, ANSITextFormat.BOLD.toString() + discountLeaderCard.getCardType() + ANSITextFormat.RESET.toString(), discountLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -85,7 +85,7 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
 
                     //getting the prod. leader card power as ascii shapes
                     for (Resource resource : prodPowerLeaderCard.getLeaderCardPower().keySet()) {
@@ -97,7 +97,7 @@ public class LeaderCardsTracer {
                     powerString = "  " + powerString; //adding (9) spacing before power string
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
 //                    powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + prodPowerLeaderCard.getCardType() + "\u001B[0m", prodPowerLeaderCard.getVictoryPoints(), costString, powerString,"|"));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, ANSITextFormat.BOLD.toString() + prodPowerLeaderCard.getCardType() + ANSITextFormat.RESET.toString(), prodPowerLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -110,19 +110,19 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
 
                     //getting the marble leader card power as ascii shapes
                     for (Resource resource : whiteMarbleLeaderCard.getLeaderCardPower().keySet()) {
 
                         String value = whiteMarbleLeaderCard.getLeaderCardPower().get(resource).toString();
 
-                        powerString += ASCII_Marbles.WHITE + "\u001b[1m = \u001B[0m" + value + ASCII_Resources.getShape(resource.toString());
+                        powerString += ASCII_Marbles.WHITE + ANSITextFormat.BOLD.toString() + "="+ ANSITextFormat.RESET + value + ASCII_Resources.getShape(resource.toString());
                     }
                     powerString = "         " + powerString; //adding (9) spacing before power string
                     costString = costString.substring(0, costString.length() - 2); //remove the last ", "
 //                    powerString = powerString.substring(0, powerString.length() - 1); //remove the last ","
-                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + whiteMarbleLeaderCard.getCardType() + "\u001B[0m", whiteMarbleLeaderCard.getVictoryPoints(), costString, powerString,"|"));
+                    results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, ANSITextFormat.BOLD.toString() + whiteMarbleLeaderCard.getCardType() + ANSITextFormat.RESET.toString(), whiteMarbleLeaderCard.getVictoryPoints(), costString, powerString,"|"));
                     costString = "";
                     powerString = "";
 
@@ -165,20 +165,20 @@ public class LeaderCardsTracer {
 
                     //prints the occupied slots withe the respective resources
                     for (int i = 0; i < (maxCapacity - emptyCap); i++) {
-                        powerString += "\u001b[48;5;28m " +ASCII_Resources.getShape(leaderResource.toString()) + " " + "\u001B[0m" ;
+                        powerString += "\u001b[48;5;28m " +ASCII_Resources.getShape(leaderResource.toString()) + " " + ANSITextFormat.RESET.toString() ;
                     }
                     //prints the empty slots (with a different color and shady background)
                     for (int i = 0; i < (emptyCap); i++) {
-                        powerString += "\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + " " + "\u001B[0m";
+                        powerString += "\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + " " + ANSITextFormat.RESET.toString();
                     }
                 }else{
                     //prints the empty slots (with a different color and shady background)
                     for (int i = 0; i < (storageLeaderCard.getMaxCapacity()); i++) {
-                        powerString += "\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + " " +"\u001B[0m";
+                        powerString += "\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + " " +ANSITextFormat.RESET.toString();
                         tempStr="\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + "  " +"  \u001B[0m";
                     }
                 }
-                statusString = leaderCard.isActivated() ? "ACTIVATED" : "NON ACTIVATED";
+                statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
 
 //                    powerString = powerString.substring(0,powerString.length() - 1 ) ;
 //                System.out.println("\n"+tempStr+"\n");
@@ -190,7 +190,7 @@ public class LeaderCardsTracer {
 //
 //                    for (int i = 0; i < 2; i++) {
 //                        if (i > Character.getNumericValue((value).charAt(0))) {
-//                            powerString += "1" +"\u001b[48;5;246m"+ " " + ASCII_Resources.getShape(resource.toString()) + " " + "\u001b[0m" ;
+//                            powerString += "1" +"\u001b[48;5;246m"+ " " + ASCII_Resources.getShape(resource.toString()) + " " + ANSITextFormat.RESET.toString() ;
 //                        }
 //                    }
 //                }
@@ -199,7 +199,7 @@ public class LeaderCardsTracer {
 
 
                 powerString = spacing + powerString; //adding (9) spacing before power string
-                results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, "\u001b[1m" + storageLeaderCard.getCardType() + "\u001B[0m", storageLeaderCard.getVictoryPoints(), costString, powerString,"|"));
+                results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, ANSITextFormat.BOLD.toString() + storageLeaderCard.getCardType() + ANSITextFormat.RESET.toString(), storageLeaderCard.getVictoryPoints(), costString, powerString,"|"));
 
                 //reinitialize
                 costString = "";

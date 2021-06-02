@@ -27,7 +27,7 @@ public class CardsDeckTest {
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 4; j++){
-                while(!cardsDeck.emptyDeck(i, j)) {
+                while(!cardsDeck.isEmptyDeck(i, j)) {
                     card = cardsDeck.popCard(i, j);
                     if(i == 0) assertEquals(card.getLevel(), Level.FIRST);
                     if(i == 1) assertEquals(card.getLevel(), Level.SECOND);

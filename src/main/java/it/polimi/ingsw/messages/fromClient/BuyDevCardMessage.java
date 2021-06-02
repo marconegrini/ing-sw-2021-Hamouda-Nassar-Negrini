@@ -48,7 +48,7 @@ public class BuyDevCardMessage extends ClientMessage{
 //        resourcesIn.add(Resource.STONE);
 //        resourcesIn.add(Resource.STONE);
 //        player.putCofferResources(resourcesIn);
-        //
+//        //
 
         try {
             ServerMessage outcome = turnManager.buyDevelopmentCard(clientHandler.getPlayer(), row, column, devCardSlot);

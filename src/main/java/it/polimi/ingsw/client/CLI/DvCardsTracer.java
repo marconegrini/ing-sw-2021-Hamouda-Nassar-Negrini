@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
@@ -24,18 +25,20 @@ public class DvCardsTracer {
         boolean withNumbers = false;
         int number = 0;
 
+        results.add(ANSITextFormat.BOLD.toString() + ANSITextFormat.ITALIC.toString() + "\n\t\t## DEVELOPMENT CARDS DECK ##\n" + ANSITextFormat.RESET );
+
         //results.add("\t # Development Cards # \t");
 
         results.add(String.format("%-6s %-8s %-9s %-12s %-20s %-20s %-20s", "CARD", "COLOR", "LEVEL", "V_POINTS", "*_COST_*", "REQUIRES", "GIVES"));
 
 
         for (DevelopmentCard dvCard : dvCards) {
+            cardChar++;
+            cardLetter = String.valueOf(cardChar);  //convert char to string
             if (dvCard.getColor() != null) {
                 ColorEnum colorCard = ColorEnum.getBackgroundEnum(dvCard.getColor().toString());
                 String stringFormat = "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t" + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
 
-                cardChar++;
-                cardLetter = String.valueOf(cardChar);  //convert char to string
 
                 //add a number next to (card letter) and start from 'a' when reach the letter 'z' //...,x,y,z,a1,b1,...
                 if (cardLetter.charAt(0) > 'z') {
@@ -95,7 +98,8 @@ public class DvCardsTracer {
                 results.add(tempStr);
 
             }else{
-                results.add("\u001b[3m"+"EMPTY"+"\u001b[0m");   //EMPTY (in italic//)
+                cardLetter = "(" + cardLetter + ")";
+                results.add(String.format("%-6s %-15s",cardLetter ,ANSITextFormat.ITALIC.toString()+"     EMPTY DECK"+ANSITextFormat.RESET.toString()));   //EMPTY (in italic//)
             }
         }
         return results;
