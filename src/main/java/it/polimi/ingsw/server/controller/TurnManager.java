@@ -18,8 +18,6 @@ import it.polimi.ingsw.model.enumerations.Color;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,20 +25,13 @@ import java.util.stream.Collectors;
 public class TurnManager {
 
     private boolean multiplayer;
-
     private List<MultiPlayer> players;
-
     private SinglePlayer player;
-
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
-
     private List<Resource> resorucesToStore;
-
     private boolean done = false;
-
     private boolean sevenDevCardsBought = false;
-
     private Integer accesses = 0;
 
     /**
@@ -488,8 +479,12 @@ public class TurnManager {
                 player.putCofferResources(clientChoice);
                 //increments user faith position and updates other user's faith paths
                 player.incrementFaithPathPosition();
-                for(Player p : players)
-                    p.updateFaithPath(player.getFaithPathPosition());
+                if(multiplayer) {
+                    Integer newPlayerPosition = player.getFaithPathPosition();
+                    if(player.isRapportoInVaticano(newPlayerPosition))
+                        for (Player p : players)
+                            p.updateFaithPath(player.getFaithPathPosition());
+                }
                 return true;
             }
         }
@@ -503,8 +498,14 @@ public class TurnManager {
      * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
      */
     public ServerMessage activateLeaderCard (Player player, Integer indexNumber){
-        HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
-        faithPathPositions.remove(player.getNickname());
+        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        if(multiplayer) {
+            faithPathPositions = this.getFaithPathPositions();
+            faithPathPositions.remove(player.getNickname());
+        } else {
+            Integer lorenzoPosition = ((SinglePlayer) player).getLorenzoPosition();
+            faithPathPositions.put("Lorenzo", lorenzoPosition);
+        }
         try{
             player.activateLeaderCard(indexNumber);
         } catch(IndexOutOfBoundsException e1){
@@ -526,8 +527,15 @@ public class TurnManager {
      * @return a OkMessage notifying the successful discard action
      */
     public ServerMessage discardLeaderCard (Player player, Integer indexNum){
-        HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
-        faithPathPositions.remove(player.getNickname());
+        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        if(multiplayer) {
+            faithPathPositions = this.getFaithPathPositions();
+            faithPathPositions.remove(player.getNickname());
+        } else {
+            Integer lorenzoPosition = ((SinglePlayer) player).getLorenzoPosition();
+            faithPathPositions.put("Lorenzo", lorenzoPosition);
+        }
+
         try{
             player.discardLeaderCard(indexNum);
         } catch (IndexOutOfBoundsException e1){
@@ -538,17 +546,16 @@ public class TurnManager {
             return new LeaderResultMessage(true, true, false, "Selected leader card was already discarded", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         }
         player.incrementFaithPathPosition();
-        Integer newPlayerPos = player.getFaithPathPosition();
         if(multiplayer) {
+            Integer newPlayerPos = player.getFaithPathPosition();
             if (player.isRapportoInVaticano(newPlayerPos)) {
                 for (Player p : players)
                     p.updateFaithPath(newPlayerPos);
             }
-        } else {
-            //TODO singleplayer option
+            faithPathPositions = this.getFaithPathPositions();
+            faithPathPositions.remove(player.getNickname());
         }
-        faithPathPositions = this.getFaithPathPositions();
-        faithPathPositions.remove(player.getNickname());
+
         return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
 
@@ -683,7 +690,7 @@ public class TurnManager {
         }
     }
 
-//fotr debugging
+//for debugging
     public Integer getAccesses() {
         return accesses;
     }

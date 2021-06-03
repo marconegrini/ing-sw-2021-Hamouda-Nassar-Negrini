@@ -14,24 +14,9 @@ public class SinglePlayerGameInstance extends GameInstance {
 
     public SinglePlayerGameInstance(){
         this.cardsDeck = new CardsDeck();
+        this.cardsDeck.initializeCardsDeck();
         this.marketBoard = new MarketBoard();
     }
-
-    /*
-    public void incrementFaithPathPos(Player player){
-        if(player.getUserId().equals(this.player.getUserId())) {
-            Integer newPlayingUserPos;
-            this.player.incrementFaithPathPosition();
-            newPlayingUserPos = this.player.getFaithPathPosition();
-            this.player.updateFaithPath(newPlayingUserPos);
-        }
-    }
-
-    public void incrementLorenzoPosition(){
-        this.player.incrementLorenzoPosition();
-        this.player.updateFaithPath(this.player.getLorenzoPosition());
-    }
-*/
 
     @Override
     public void addPlayer(Player player){
