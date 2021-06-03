@@ -135,5 +135,10 @@ public class ProdPowerLeaderCard extends LeaderCard {
                 "\nActivation cost: " + activationCost.toString();
     }
 
+    @Override
+    public String toPath() {
+        return "production" + productionIn.keySet().toString();
+    }
+
 
 }

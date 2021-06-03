@@ -207,4 +207,9 @@ public class StorageLeaderCard extends LeaderCard {
                 "\nAvailable storage: " + slots.toString() +
                 "\nActivation cost: " + activationCost.toString();
     }
+
+    @Override
+    public String toPath() {
+        return "storage" + slots.keySet().toString();
+    }
 }

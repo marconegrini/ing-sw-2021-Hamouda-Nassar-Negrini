@@ -94,4 +94,11 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
                 "\nActivation cost: " + activationCost.toString();
     }
 
+    @Override
+    public String toPath() {
+        return "white" + productionOut.keySet().toString();
+    }
+
+
+
 }

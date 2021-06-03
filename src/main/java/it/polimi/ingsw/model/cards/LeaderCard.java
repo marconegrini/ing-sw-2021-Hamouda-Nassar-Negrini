@@ -85,4 +85,6 @@ public abstract class LeaderCard extends Card {
 
     public abstract String toString();
 
+    public abstract String toPath();
+
 }

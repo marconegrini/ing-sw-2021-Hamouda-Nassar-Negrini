@@ -90,4 +90,9 @@ public class DiscountLeaderCard extends LeaderCard {
                 "\nActivation cost: " + activationCost.toString();
     }
 
+    @Override
+    public String toPath() {
+        return "discount" + discountedResource.keySet().toString();
+    }
+
 }
