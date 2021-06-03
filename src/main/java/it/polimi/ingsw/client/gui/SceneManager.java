@@ -1,9 +1,12 @@
 package it.polimi.ingsw.client.gui;
 
 import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+import java.net.URL;
 
 public class SceneManager {
 
@@ -19,6 +22,10 @@ public class SceneManager {
                 primaryStage.setScene(newScene);
             }
         });
+    }
+
+    public static void setScene(Parent root){
+        Platform.runLater(() -> { primaryStage.setScene(new Scene(root, 1080, 730)); });
     }
 
     public static void setPrimaryStage(Stage stage){
