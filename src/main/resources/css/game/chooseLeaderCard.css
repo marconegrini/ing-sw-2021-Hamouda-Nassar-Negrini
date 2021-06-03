@@ -1,0 +1,7 @@
+ .renaissanceBackground{
+ -fx-background-image: url('../../images/game/loadingImage.jpg');
+ -fx-background-size: 100% 100%;
+}
+
+
+
