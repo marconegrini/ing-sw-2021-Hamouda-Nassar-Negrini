@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.messages.fromClient.AskStartGameMessage;
 import it.polimi.ingsw.messages.fromClient.ExitFromGameMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import javafx.event.ActionEvent;
@@ -61,16 +62,12 @@ public class ConnectionToServerGUI {
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
-
-        SceneManager.setScene(new Scene(root, 800, 500));
     }
 
     public void shutDown(){
         System.out.println("Exiting GUI");
         if (serverHandler != null) {
             serverHandler.sendJson(new ExitFromGameMessage());
-            //serverHandler.stop();
         }
     }
 
@@ -88,8 +85,9 @@ public class ConnectionToServerGUI {
 
     public void startGame(ActionEvent actionEvent) {
 
-        Stage window = (Stage) playersNumber.getScene().getWindow();
-        Label participantsNumber = (Label) window.getScene().lookup("#playersNumber");
-        System.out.println("Scene in button:" + SceneManager.getScene() + " stage: " + window);
+        serverHandler.sendJson(new AskStartGameMessage());
     }
+
+
+
 }
