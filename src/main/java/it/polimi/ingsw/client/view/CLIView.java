@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
@@ -256,6 +257,7 @@ public class CLIView extends View {
                             show = true;
                             break ;
                         }
+
                     }
 
                     while (OK) {
@@ -641,7 +643,10 @@ public class CLIView extends View {
 
     @Override
     public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
+
+        System.out.println(ANSITextFormat.BOLD.toString() + ANSITextFormat.ITALIC.toString() + "\n\t\t## DEVELOPMENT CARDS DECK ##\n" + ANSITextFormat.RESET);
         dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
+
         int row = 0, column = 0, devCardSlot;
 
 

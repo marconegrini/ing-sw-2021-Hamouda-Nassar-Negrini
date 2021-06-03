@@ -246,22 +246,31 @@ public class TurnManager {
                 } else checkCost.put(res, 1);
             }
             List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
+            boolean resourceContained = true;
             for (Resource res : checkCost.keySet()) {
                 Integer value = checkCost.get(res);
-                for (int i = 0; i < value; i++)
-                    playerCopiedResources.remove(res);
+                for (int i = 0; i < value; i++) {
+                    resourceContained = playerCopiedResources.remove(res);
+                    if(resourceContained = false)
+                        break;
+                }
             }
 
 
-            if (playerResources.equals(devCardCost) || !playerCopiedResources.isEmpty()) {
+
+            //tha name comes fro the fact that: the rest of resources that don't exist in the wareHouse will be taken from the coffer
+            if (resourceContained) {
                 List<Resource> toTakeFromCoffer = player.getWarehouseResource();
                 List<Resource> toTakeFromWarehouse = new ArrayList<>();
+                List<Resource> toTakeFromLeaderCard = new ArrayList<>();
 
-                for (Resource resource : devCardCost)
+
+                for (Resource resource : devCardCost){
                     if (toTakeFromCoffer.contains(resource)) {
                         toTakeFromCoffer.remove(resource);
                         toTakeFromWarehouse.add(resource);
                     }
+                }
                 player.pullWarehouseResources(toTakeFromWarehouse);
                 player.pullCofferResources(toTakeFromCoffer);
                 DevelopmentCard devCard = cardsDeck.popCard(row, column);

@@ -58,7 +58,16 @@ public abstract class Player {
     public List<Resource> getTotalResource() {
         List<Resource> totalResource = personalBoard.getWarehouseResource();
         totalResource.addAll(personalBoard.getCofferResource());
-
+        //adding stored resources in the storages of Storage card storage
+        for(LeaderCard ld: leaderCards){
+            if (ld.getCardType().equals(CardType.STORAGE))
+                if (ld.isActivated()) {
+                 StorageLeaderCard sld = (StorageLeaderCard) ld;
+                    if (sld.getOccupiedSlots()>0){
+                        totalResource.addAll(sld.getStoredResources());
+                    }
+                }
+        }
         return totalResource;
     }
 
