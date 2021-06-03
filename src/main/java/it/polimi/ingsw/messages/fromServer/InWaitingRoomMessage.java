@@ -14,8 +14,6 @@ public class InWaitingRoomMessage extends ServerMessage{
         if (serverHandler.getIsCli()){
             serverHandler.getView().showMessage("You are in waiting room.");
 
-            serverHandler.sendJson(serverHandler.getView().waitingRoom());
-
             Runnable runnable = () -> {
                 serverHandler.sendJson(serverHandler.getView().waitingRoom());
             };
