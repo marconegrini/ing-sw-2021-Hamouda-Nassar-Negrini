@@ -55,15 +55,15 @@ public class SinglePlayerGameHandler extends Thread{
             sendToClient(new SelectActionMessage());
             turnManager.lock();
             clientHandler.sendJson(pickActionCard());
+            updateClient();
             if(player.lorenzoWins()){
                 gameEnded = true;
                 clientHandler.sendJson(new EndGameMessage("Lorenzo reached the end of the faith path! You lost!"));
             }
             if(player.getFaithPathPosition().equals(player.faithPathEnd()) || player.sevenDevCardBought()) {
                 gameEnded = true;
-                clientHandler.sendJson(new EndGameMessage("You win!\nTotal Victory points: " + player.getTotalVictoryPoints()));
+                clientHandler.sendJson(new EndGameMessage("You win!\nTotal Victory points: " + player.getTotalVictoryPoints() + " victory points."));
             }
-            updateClient();
         }
     }
 
