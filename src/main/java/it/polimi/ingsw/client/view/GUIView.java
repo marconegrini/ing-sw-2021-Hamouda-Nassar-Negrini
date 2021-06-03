@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,7 +26,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
-            SceneManager.setScene(new Scene(root, 800, 500));
+            SceneManager.setScene(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +46,29 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards) {
-        return null;
+
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/chooseLeaderCards.fxml")));
+            SceneManager.setScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (LeaderCard leaderCard: leaderCards) System.out.println(leaderCard.toPath());
+        //leaderCards.forEach(System.out::println);
+
+        /*
+        Label firstCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#firstCard");
+        Label secondCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#secondCard");
+        Label thirdCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#thirdCard");
+        Label fourthCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#fourthtCard");
+
+        firstCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(0) + ".png\")");
+        secondCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(1) + ".png\")");
+        thirdCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(2) + ".png\")");
+        fourthCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(3) + ".png\")");
+        */
+        return new EmptyMessage();
     }
 
     @Override
@@ -69,8 +92,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/waitingRoom.fxml")));
-            Scene scene = new Scene(root, 800, 500);
-            SceneManager.setScene(scene);
+            SceneManager.setScene(root);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,6 +107,15 @@ public class GUIView extends View {
 
     @Override
     public void showMessage(String message) {
+
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Error.");
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
+
     }
 
     @Override
@@ -102,7 +133,7 @@ public class GUIView extends View {
 
     @Override
     public void showParticipantsNumber(String s) {
-        Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");
-        Platform.runLater(() -> participantsNumber.setText(s));
+        Label participantsNumber = (Label) SceneManager.getPrimaryStage().getScene().lookup("#playersNumber");
+        if (participantsNumber != null )    Platform.runLater(() -> participantsNumber.setText(s));
     }
 }
