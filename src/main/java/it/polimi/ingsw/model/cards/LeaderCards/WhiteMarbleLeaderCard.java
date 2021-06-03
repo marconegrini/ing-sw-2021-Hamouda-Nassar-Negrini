@@ -96,7 +96,9 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
 
     @Override
     public String toPath() {
-        return "white" + productionOut.keySet().toString();
+        return "white" +
+                productionOut.keySet().iterator().next().toString().charAt(0) +
+                productionOut.keySet().iterator().next().toString().substring(1).toLowerCase();
     }
 
 

@@ -137,7 +137,9 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
     @Override
     public String toPath() {
-        return "production" + productionIn.keySet().toString();
+        return "production" +
+                productionIn.keySet().iterator().next().toString().charAt(0) +
+                productionIn.keySet().iterator().next().toString().substring(1).toLowerCase();
     }
 
 

@@ -210,6 +210,8 @@ public class StorageLeaderCard extends LeaderCard {
 
     @Override
     public String toPath() {
-        return "storage" + slots.keySet().toString();
+        return "storage" +
+                slots.keySet().iterator().next().toString().charAt(0) +
+                slots.keySet().iterator().next().toString().substring(1).toLowerCase();
     }
 }

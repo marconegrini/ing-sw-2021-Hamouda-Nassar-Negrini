@@ -92,7 +92,9 @@ public class DiscountLeaderCard extends LeaderCard {
 
     @Override
     public String toPath() {
-        return "discount" + discountedResource.keySet().toString();
+        return "discount" +
+                discountedResource.keySet().iterator().next().toString().charAt(0) +
+                discountedResource.keySet().iterator().next().toString().substring(1).toLowerCase();
     }
 
 }
