@@ -26,7 +26,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
-            SceneManager.setScene(root);
+            SceneManager.setScene(new Scene(root, 1080, 730));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +49,8 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/chooseLeaderCards.fxml")));
-            SceneManager.setScene(root);
+            SceneManager.setScene(new Scene(root, 1080, 730));
+            //SceneManager.setScene(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,17 +58,29 @@ public class GUIView extends View {
         for (LeaderCard leaderCard: leaderCards) System.out.println(leaderCard.toPath());
         //leaderCards.forEach(System.out::println);
 
-        /*
-        Label firstCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#firstCard");
-        Label secondCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#secondCard");
-        Label thirdCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#thirdCard");
-        Label fourthCard = (Label) SceneManager.getPrimaryStage().getScene().lookup("#fourthtCard");
 
-        firstCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(0) + ".png\")");
-        secondCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(1) + ".png\")");
-        thirdCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(2) + ".png\")");
-        fourthCard.setStyle("-fx-background-image: url(\"images/leadercards/" + leaderCards.get(3) + ".png\")");
-        */
+        Label firstCard = (Label) SceneManager.getScene().lookup("#firstCard");
+        Label secondCard = (Label) SceneManager.getScene().lookup("#secondCard");
+        Label thirdCard = (Label) SceneManager.getScene().lookup("#thirdCard");
+        Label fourthCard = (Label) SceneManager.getScene().lookup("#fourthCard");
+
+        firstCard.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                leaderCards.get(0).toPath() + ".png\");" +
+                " -fx-background-size: 100% 100%;" +
+                "-fx-border-width: 5");
+        secondCard.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                leaderCards.get(1).toPath() + ".png\");" +
+                " -fx-background-size: 100% 100%;" +
+                "-fx-border-width: 5");
+        thirdCard.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                leaderCards.get(2).toPath() + ".png\");" +
+                " -fx-background-size: 100% 100%;" +
+                "-fx-border-width: 5");
+        fourthCard.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                leaderCards.get(3).toPath() + ".png\");" +
+                " -fx-background-size: 100% 100%;" +
+                "-fx-border-width: 5");
+
         return new EmptyMessage();
     }
 
@@ -92,7 +105,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/waitingRoom.fxml")));
-            SceneManager.setScene(root);
+            SceneManager.setScene(new Scene(root, 750, 500));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -133,7 +146,7 @@ public class GUIView extends View {
 
     @Override
     public void showParticipantsNumber(String s) {
-        Label participantsNumber = (Label) SceneManager.getPrimaryStage().getScene().lookup("#playersNumber");
-        if (participantsNumber != null )    Platform.runLater(() -> participantsNumber.setText(s));
+        Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");
+        Platform.runLater(() -> participantsNumber.setText(s));
     }
 }
