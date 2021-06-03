@@ -3,5 +3,13 @@
  -fx-background-size: 100% 100%;
 }
 
+.selectedCard{
+    -fx-border-color: #0cad14;
+}
+
+.notSelectedCard{
+    -fx-border-color:  #1d1d2b;
+}
+
 
 
