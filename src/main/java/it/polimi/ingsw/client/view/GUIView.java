@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,13 +103,11 @@ public class GUIView extends View {
     @Override
     public void showParticipantsNumber(String s) {
         Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");
-        if (participantsNumber != null) {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    participantsNumber.setText(s);
-                }
-            });
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                participantsNumber.setText(s);
+            }
+        });
     }
 }
