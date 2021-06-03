@@ -16,6 +16,11 @@ public class ServerLoginErrorMessage extends ServerMessage{
     @Override
     public void clientProcess(ServerHandler serverHandler) {
 
+
+        serverHandler.getView().showMessage("Insert another nickname");
+
+        serverHandler.sendJson(serverHandler.getView().logClient());
+        /*
         Scanner scanner = new Scanner(System.in);
         String nickname;
         boolean isMultiplayer;
@@ -44,6 +49,7 @@ public class ServerLoginErrorMessage extends ServerMessage{
 
         //Send back the answer message
         serverHandler.sendJson(new it.polimi.ingsw.messages.fromClient.LoginMessage(nickname, isMultiplayer));
+    */
     }
 
 }
