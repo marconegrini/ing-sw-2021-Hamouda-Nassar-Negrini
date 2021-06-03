@@ -31,7 +31,7 @@ public class StorageLeaderCard extends LeaderCard {
         for(Resource res : slots.keySet())
             this.maxCapacity = slots.get(res);
         storage = new ArrayList<>(maxCapacity);
-        //initialize all the elements of the arrayList with null elements.      STARTS WITH the ELEMENT 0
+        //initialize all the elements of the arrayList with null elements.      STARTS WITH the INDEX 0
         for (int i = 0; i < maxCapacity; i++) {
             storage.add(null);
         }
@@ -149,9 +149,9 @@ public class StorageLeaderCard extends LeaderCard {
 
     }
 
-    public int getCardStorageFilledSlots() {
-        return (int) storage.stream().filter(x -> x != null).count();
-    }
+//    public int getCardStorageFilledSlots() {
+//        return (int) storage.stream().filter(x -> x != null).count();
+//    }
 
     public Integer getMaxCapacity() {
         return maxCapacity;
@@ -195,6 +195,14 @@ public class StorageLeaderCard extends LeaderCard {
         return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
+    public List<Resource> getStoredResources(){
+        List<Resource> res = new ArrayList<>();
+
+        res = storage.stream().filter(Objects::nonNull).collect(Collectors.toList());
+
+        return res;
+    }
+
     public Resource storageType() {
         return slots.keySet().stream().findFirst().get();
     }
@@ -214,4 +222,7 @@ public class StorageLeaderCard extends LeaderCard {
                 slots.keySet().iterator().next().toString().charAt(0) +
                 slots.keySet().iterator().next().toString().substring(1).toLowerCase();
     }
-}
+
+
+    }
+

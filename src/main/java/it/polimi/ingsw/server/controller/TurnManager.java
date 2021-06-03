@@ -19,6 +19,7 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
+import javax.swing.plaf.multi.MultiLabelUI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,9 +31,11 @@ public class TurnManager {
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
     private List<Resource> resorucesToStore;
-    private boolean done = false;
-    private boolean sevenDevCardsBought = false;
-    private Integer accesses = 0;
+    private boolean done;
+    private MultiPlayer reachedFaithPathEnd;
+    private boolean endedFaithPath;
+    private boolean sevenDevCardsBought;
+    private Integer accesses;
 
     /**
      * This constructor will be used when a game is restored. It allows
@@ -45,6 +48,11 @@ public class TurnManager {
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
         this.resorucesToStore = new ArrayList<>();
+        this.done = false;
+        this.sevenDevCardsBought = false;
+        this.reachedFaithPathEnd = null;
+        this.endedFaithPath = false;
+        this.accesses = 0;
     }
 
     public void setMultiplayer(boolean isMultiplayer){
@@ -87,6 +95,11 @@ public class TurnManager {
                         Integer newUserPos = player.getFaithPathPosition();
                         for(Player p : players)
                             p.updateFaithPath(newUserPos);
+                        if(newUserPos.equals(player.faithPathEnd())){
+                            endedFaithPath = true;
+                            if(reachedFaithPathEnd == null)
+                                reachedFaithPathEnd = (MultiPlayer) player;
+                        }
                     }
                     break;
                 case VIOLET:
@@ -164,10 +177,14 @@ public class TurnManager {
                             p.incrementFaithPathPosition();
                             Integer newUserPos = p.getFaithPathPosition();
                             if (p.isRapportoInVaticano(newUserPos)) {
-                                    for (Player temp : players) {
-                                        MultiPlayer mp = (MultiPlayer) temp;
+                                    for (MultiPlayer mp : players) {
                                         mp.updateFaithPath(newUserPos);
                                     }
+                            }
+                            if(newUserPos.equals(p.faithPathEnd())){
+                                endedFaithPath = true;
+                                if(reachedFaithPathEnd == null)
+                                    reachedFaithPathEnd = (MultiPlayer) player;
                             }
                         }
                     }
@@ -225,6 +242,7 @@ public class TurnManager {
             System.out.println("devCardCost: " + devCardCost + "\n");
 
             boolean usedLeaderCard = false;
+
             if (player.isLeaderCardActivated(CardType.DISCOUNT)) {
                 HashMap<Resource, Integer> resourcesFromLeaderCard = null;
                 resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);
@@ -237,35 +255,11 @@ public class TurnManager {
                 usedLeaderCard = true;
             }
 
-            HashMap<Resource, Integer> checkCost = new HashMap<>();
-            for (Resource res : devCardCost) {
-                if (checkCost.containsKey(res)) {
-                    Integer newValue = checkCost.get(res);
-                    newValue++;
-                    checkCost.put(res, newValue);
-                } else checkCost.put(res, 1);
-            }
-            List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
-            for (Resource res : checkCost.keySet()) {
-                Integer value = checkCost.get(res);
-                for (int i = 0; i < value; i++)
-                    playerCopiedResources.remove(res);
-            }
+            //tha name comes from the fact that: the rest of resources that don't exist in the wareHouse will be taken from the coffer
+            if (containsNeededResources(player, devCardCost)) {
 
-
-            if (playerResources.equals(devCardCost) || !playerCopiedResources.isEmpty()) {
-                List<Resource> toTakeFromCoffer = player.getWarehouseResource();
-                List<Resource> toTakeFromWarehouse = new ArrayList<>();
-
-                for (Resource resource : devCardCost)
-                    if (toTakeFromCoffer.contains(resource)) {
-                        toTakeFromCoffer.remove(resource);
-                        toTakeFromWarehouse.add(resource);
-                    }
-                player.pullWarehouseResources(toTakeFromWarehouse);
-                player.pullCofferResources(toTakeFromCoffer);
+                pullNeededResources(player, devCardCost);
                 DevelopmentCard devCard = cardsDeck.popCard(row, column);
-
                 try {
                     player.addCardInDevCardSlot(devCardSlot, devCard);
                 } catch (IllegalInsertionException e1) {
@@ -273,7 +267,6 @@ public class TurnManager {
                 } catch (IndexOutOfBoundsException e2) {
                     return new BuyDVCardError("Invalid slot number", false);
                 }
-
                 turnDone();
 
                 if (player.sevenDevCardBought())
@@ -284,6 +277,67 @@ public class TurnManager {
                 else return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1));
             } else return new BuyDVCardError("Insufficient resources to buy selected development card", true);
         } else return new BuyDVCardError("Empty deck! You cannot buy requested leader card!", true);
+    }
+
+    /**
+     * Method that checks if specified player contains selected resource cost in deposits
+     * @param player
+     * @param cost
+     * @return
+     */
+    public boolean containsNeededResources(Player player, List<Resource> cost){
+
+        HashMap<Resource, Integer> checkCost = new HashMap<>();
+        for (Resource res : cost) {
+            if (checkCost.containsKey(res)) {
+                Integer newValue = checkCost.get(res);
+                newValue++;
+                checkCost.put(res, newValue);
+            } else checkCost.put(res, 1);
+        }
+
+        List<Resource> playerResources = player.getTotalResource();
+        boolean resourceContained = true;
+        for (Resource res : checkCost.keySet()) {
+            Integer value = checkCost.get(res);
+            for (int i = 0; i < value; i++) {
+                resourceContained = playerResources.remove(res);
+                if(!resourceContained)
+                    break;
+            }
+        }
+        return resourceContained;
+    }
+
+    /**
+     * Method that takes from deposits, first from warehouse, then from market, specified resources
+     * @param player
+     * @param cost
+     */
+    public void pullNeededResources(Player player, List<Resource> cost){
+
+        List<Resource> warehouseResources = player.getWarehouseResource();
+        List<Resource> toTakeFromWarehouse = new ArrayList<>();
+        List<Resource> toTakeFromCoffer = new ArrayList<>();
+        List<Resource> toTakeFromLeaderCard = new ArrayList<>();
+
+        if(containsNeededResources(player, cost)) {
+            for (Resource resource : cost) {
+                //if(leaderResource.contains(resource)){
+                //  leaderResource.remove(resource);
+                //  toTakeFromLeader.add(resource)
+                //} else if (...
+                if (warehouseResources.contains(resource)) {
+                    warehouseResources.remove(resource);
+                    toTakeFromWarehouse.add(resource);
+                } else {
+                    toTakeFromCoffer.add(resource);
+                }
+            }
+
+            player.pullWarehouseResources(toTakeFromWarehouse);
+            player.pullCofferResources(toTakeFromCoffer);
+        }
     }
 
     /**
@@ -309,33 +363,12 @@ public class TurnManager {
                 return new ProductionResultMessage(true, "Selected invalid slot number", false);
             }
         }
-        List<Resource> playerResources = player.getTotalResource();
-        HashMap<Resource, Integer> checkCost = new HashMap<>();
-        for(Resource res : productionInCost){
-            if(checkCost.containsKey(res)){
-                Integer newValue = checkCost.get(res);
-                newValue++;
-                checkCost.put(res, newValue);
-            } else checkCost.put(res, 1);
-        }
-        List<Resource> playerCopiedResources = playerResources.stream().collect(Collectors.toList());
-        for(Resource res : checkCost.keySet()){
-            Integer value = checkCost.get(res);
-            for(int i = 0; i < value; i++)
-                playerCopiedResources.remove(res);
-        }
+
         //checks if resources needed for production are satisfied by warehouse and/or coffer
-        if (playerResources.equals(productionInCost) || !playerCopiedResources.isEmpty()) {
-            List<Resource> toTakeFromCoffer = player.getWarehouseResource();
-            List<Resource> toTakeFromWarehouse = new ArrayList<>();
-            for (Resource resource : productionInCost)
-                if (toTakeFromCoffer.contains(resource)) {
-                    toTakeFromCoffer.remove(resource);
-                    toTakeFromWarehouse.add(resource);
-                }
-            //takes resources from warehouse, then from coffer
-            player.pullWarehouseResources(toTakeFromWarehouse);
-            player.pullCofferResources(toTakeFromCoffer);
+        if (containsNeededResources(player, productionInCost)) {
+
+            pullNeededResources(player, productionInCost);
+
             List<Resource> resourcesProductionOut = new ArrayList<>();
             for (Integer slotNum : slots)
                 resourcesProductionOut.addAll(player.devCardSlotProductionOut(slotNum));
@@ -348,6 +381,11 @@ public class TurnManager {
                         if(player.isRapportoInVaticano(newPosition))
                             for (Player p : players)
                                 p.updateFaithPath(newPosition);
+                        if(newPosition.equals(player.faithPathEnd())){
+                            endedFaithPath = true;
+                            if(reachedFaithPathEnd == null)
+                                reachedFaithPathEnd = (MultiPlayer) player;
+                        }
                     }
                 }
             }
@@ -384,33 +422,9 @@ public class TurnManager {
         productionCost.add(prodIn1);
         productionCost.add(prodIn2);
 
-        HashMap<Resource, Integer> checkCost = new HashMap<>();
-        for(Resource res : productionCost){
-            if(checkCost.containsKey(res)){
-                Integer newValue = checkCost.get(res);
-                newValue++;
-                checkCost.put(res, newValue);
-            } else checkCost.put(res, 1);
-        }
+        if (containsNeededResources(player, productionCost)) {
 
-        List<Resource> playerCopiedResources = player.getTotalResource().stream().collect(Collectors.toList());
-        for(Resource res : checkCost.keySet()){
-            Integer value = checkCost.get(res);
-            for(int i = 0; i < value; i++)
-                playerCopiedResources.remove(res);
-        }
-
-        if (player.getTotalResource().equals(productionCost) || !playerCopiedResources.isEmpty()) {
-            List<Resource> fromCoffer = player.getWarehouseResource();
-            List<Resource> fromWarehouse = new ArrayList<>();
-            for (Resource r : productionCost)
-                if (fromCoffer.contains(r)) {
-                    fromCoffer.remove(r);
-                    fromWarehouse.add(r);
-                }
-            //takes resources from warehouse, then from coffer
-            player.pullWarehouseResources(fromWarehouse);
-            player.pullCofferResources(fromCoffer);
+            pullNeededResources(player, productionCost);
             List<Resource> resourceOut = new ArrayList<>();
             resourceOut.add(prodOut);
             player.putCofferResources(resourceOut);
@@ -437,42 +451,18 @@ public class TurnManager {
         if(player.isLeaderCardActivated(CardType.PRODUCTION)){
             HashMap<Resource, Integer> prodInCost = null;
             prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
-            List<Resource> pic = new ArrayList();
+            List<Resource> productionInputCost = new ArrayList();
             for(Resource r : prodInCost.keySet()){
                 for(int i = 0; i < prodInCost.get(r); i++){
-                    pic.add(r);
+                    productionInputCost.add(r);
                 }
             }
 
-            HashMap<Resource, Integer> checkCost = new HashMap<>();
-            for(Resource res : prodInCost.keySet()){
-                if(checkCost.containsKey(res)){
-                    Integer newValue = checkCost.get(res);
-                    newValue++;
-                    checkCost.put(res, newValue);
-                } else checkCost.put(res, 1);
-            }
-
-            List<Resource> playerCopiedResources = player.getTotalResource().stream().collect(Collectors.toList());
-            for(Resource res : checkCost.keySet()){
-                Integer value = checkCost.get(res);
-                for(int i = 0; i < value; i++)
-                    playerCopiedResources.remove(res);
-            }
-
-
             //checks if there are enough resources in warehouse and/or coffer to activate leader card production
-            if (player.getTotalResource().equals(pic) || !playerCopiedResources.isEmpty()) {
-                List<Resource> fromCoffer = player.getWarehouseResource();
-                List<Resource> fromWarehouse = new ArrayList<>();
-                for (Resource r : pic)
-                    if (fromCoffer.contains(r)) {
-                        fromCoffer.remove(r);
-                        fromWarehouse.add(r);
-                    }
-                //takes resources from warehouse, then from coffer
-                player.pullWarehouseResources(fromWarehouse);
-                player.pullCofferResources(fromCoffer);
+            if (containsNeededResources(player, productionInputCost)) {
+
+                pullNeededResources(player, productionInputCost);
+
                 List<Resource> clientChoice = new ArrayList<>();
                 clientChoice.addAll(leaderResource);
                 //inserts in coffer chosen resource
@@ -484,6 +474,11 @@ public class TurnManager {
                     if(player.isRapportoInVaticano(newPlayerPosition))
                         for (Player p : players)
                             p.updateFaithPath(player.getFaithPathPosition());
+                    if(newPlayerPosition.equals(player.faithPathEnd())){
+                        endedFaithPath = true;
+                        if(reachedFaithPathEnd == null)
+                            reachedFaithPathEnd = (MultiPlayer) player;
+                    }
                 }
                 return true;
             }
@@ -551,6 +546,11 @@ public class TurnManager {
             if (player.isRapportoInVaticano(newPlayerPos)) {
                 for (Player p : players)
                     p.updateFaithPath(newPlayerPos);
+            }
+            if(newPlayerPos.equals(player.faithPathEnd())){
+                endedFaithPath = true;
+                if(reachedFaithPathEnd == null)
+                    reachedFaithPathEnd = (MultiPlayer) player;
             }
             faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(player.getNickname());
@@ -642,6 +642,14 @@ public class TurnManager {
             }
         }
         return end;
+    }
+
+    public boolean reachedFaithPathEnd(){
+        return this.endedFaithPath;
+    }
+
+    public MultiPlayer getFirstPlayerToEndFaithPath(){
+        return this.reachedFaithPathEnd;
     }
 
     public synchronized void resetDone(){

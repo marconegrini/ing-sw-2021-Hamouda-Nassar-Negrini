@@ -30,24 +30,17 @@ public class BuyDevCardMessage extends ClientMessage{
         TurnManager turnManager = clientHandler.getTurnManager();
 
         //TESTING
-//        List<Resource> resourcesIn = new ArrayList<>();
-//        resourcesIn.add(Resource.SHIELD);
-//        resourcesIn.add(Resource.SHIELD);
-//        resourcesIn.add(Resource.SHIELD);
-//        resourcesIn.add(Resource.SHIELD);
-//        resourcesIn.add(Resource.COIN);
-//        resourcesIn.add(Resource.COIN);
-//        resourcesIn.add(Resource.COIN);
-//        resourcesIn.add(Resource.COIN);
-//        resourcesIn.add(Resource.SERVANT);
-//        resourcesIn.add(Resource.SERVANT);
-//        resourcesIn.add(Resource.SERVANT);
-//        resourcesIn.add(Resource.STONE);
-//        resourcesIn.add(Resource.STONE);
-//        resourcesIn.add(Resource.STONE);
-//        resourcesIn.add(Resource.STONE);
-//        resourcesIn.add(Resource.STONE);
-//        player.putCofferResources(resourcesIn);
+        List<Resource> resourcesIn = new ArrayList<>();
+        for (int i=0;i<8;i++)
+            resourcesIn.add(Resource.SHIELD);
+        for (int i=0;i<8;i++)
+            resourcesIn.add(Resource.COIN);
+        for (int i=0;i<8;i++)
+            resourcesIn.add(Resource.SERVANT);
+        for (int i=0;i<8;i++)
+            resourcesIn.add(Resource.STONE);
+
+        player.putCofferResources(resourcesIn);
 //        //
 
         try {

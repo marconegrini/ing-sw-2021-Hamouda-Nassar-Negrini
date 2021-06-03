@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PersonalBoard {
 
@@ -26,7 +27,7 @@ public class PersonalBoard {
 
 
     public List<Resource> getWarehouseResource() {
-        return warehouse.getTotalResources();
+        return warehouse.getTotalResources().stream().collect(Collectors.toList());
     }
 
     /**
@@ -37,7 +38,7 @@ public class PersonalBoard {
     }
 
     public List<Resource> getCofferResource() {
-        return coffer.getTotalResources();
+        return coffer.getTotalResources().stream().collect(Collectors.toList());
     }
 
     /**

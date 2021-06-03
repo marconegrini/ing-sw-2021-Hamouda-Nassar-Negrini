@@ -25,8 +25,6 @@ public class DvCardsTracer {
         boolean withNumbers = false;
         int number = 0;
 
-        results.add(ANSITextFormat.BOLD.toString() + ANSITextFormat.ITALIC.toString() + "\n\t\t## DEVELOPMENT CARDS DECK ##\n" + ANSITextFormat.RESET );
-
         //results.add("\t # Development Cards # \t");
 
         results.add(String.format("%-6s %-8s %-9s %-12s %-20s %-20s %-20s", "CARD", "COLOR", "LEVEL", "V_POINTS", "*_COST_*", "REQUIRES", "GIVES"));

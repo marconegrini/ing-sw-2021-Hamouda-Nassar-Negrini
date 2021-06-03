@@ -209,7 +209,6 @@ public class LeaderCardsTracer {
 
         }
 
-
         return results;
     }
 
