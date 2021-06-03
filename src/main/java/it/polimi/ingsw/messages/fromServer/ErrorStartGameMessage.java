@@ -14,12 +14,14 @@ public class ErrorStartGameMessage extends ServerMessage{
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getView().showMessage(message);
-        Runnable runnable = () -> {
-            serverHandler.sendJson(serverHandler.getView().waitingRoom());
-        };
 
-        Thread waitingRoom = new Thread(runnable);
-        waitingRoom.start();
-        //serverHandler.sendJson(new InWaitingRoomMessage());
+        if (serverHandler.getIsCli()) {
+            Runnable runnable = () -> {
+                serverHandler.sendJson(serverHandler.getView().waitingRoom());
+            };
+
+            Thread waitingRoom = new Thread(runnable);
+            waitingRoom.start();
+        }
     }
 }
