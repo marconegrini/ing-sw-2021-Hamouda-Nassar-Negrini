@@ -8,11 +8,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="753.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectionToServerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectionToServerGUI">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="titlebg" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Label layoutX="25.0" layoutY="192.0" prefHeight="83.0" prefWidth="321.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350;" text="Insert the server IP:" textFill="WHITE" AnchorPane.bottomAnchor="193.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="192.0">
+            <Label layoutX="62.0" layoutY="302.0" maxHeight="99.0" prefHeight="99.0" prefWidth="321.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Insert the server IP:" textFill="WHITE" AnchorPane.bottomAnchor="301.0" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="669.0" AnchorPane.topAnchor="302.0">
                <font>
                   <Font size="48.0" />
                </font>
@@ -22,17 +22,17 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Label fx:id="title" layoutX="104.0" layoutY="27.0" prefHeight="91.0" prefWidth="511.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Master of Renaissance" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="27.0">
+            <Label fx:id="title" layoutX="104.0" layoutY="62.0" maxHeight="119.0" maxWidth="844.0" prefHeight="119.0" prefWidth="844.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Master of Renaissance" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="521.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="62.0">
                <font>
-                  <Font size="59.0" />
+                  <Font size="70.0" />
                </font>
             </Label>
-            <Button fx:id="connectButton" layoutX="287.0" layoutY="329.0" mnemonicParsing="false" onAction="#connectToTheServer" text="Connect" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="286.0">
+            <Button fx:id="connectButton" layoutX="287.0" layoutY="546.0" mnemonicParsing="false" onAction="#connectToTheServer" stylesheets="@../../css/login/connectionPage.css" text="Connect" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="546.0">
                <font>
-                  <Font size="30.0" />
+                  <Font size="35.0" />
                </font>
             </Button>
-            <TextField fx:id="IPTextFiled" layoutX="416.0" layoutY="208.0" prefHeight="52.0" prefWidth="271.0" promptText="i.e. 94.162.47.5" style="-fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-border-radius: 10;" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="208.0">
+            <TextField fx:id="IPTextFiled" layoutX="650.0" layoutY="326.0" prefHeight="52.0" prefWidth="271.0" promptText="i.e. 94.162.47.5" style="-fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-border-radius: 10; -fx-background-radius: 15;" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="650.0" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="326.0">
                <font>
                   <Font size="16.0" />
                </font>
