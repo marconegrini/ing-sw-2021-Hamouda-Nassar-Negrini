@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.handlers;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -21,6 +22,7 @@ public class MultiPlayerGameHandler extends Thread {
     private List<ClientHandler> clientHandlers;
     private TurnManager turnManager;
     private final MultiPlayerGameInstance game;
+    private boolean gameEnded;
 
     public MultiPlayerGameHandler(List<ClientHandler> clientHandlers) {
         this.clientHandlers = clientHandlers;
@@ -37,6 +39,7 @@ public class MultiPlayerGameHandler extends Thread {
             } catch (MaxPlayersException ignored) {
             }
         }
+        gameEnded = false;
     }
 
     @Override
@@ -58,12 +61,46 @@ public class MultiPlayerGameHandler extends Thread {
 
         //sendToClients(new SelectActionMessage());
 
-        while (true){
+        while (!gameEnded){
             for (ClientHandler ch : clientHandlers) {
                 sendToClient(ch, new SelectActionMessage());
                 sendToClients(new OkMessage("Wait your turn..."), ch);
                 turnManager.lock();
                 updateClients();
+                //enters last turn
+                if(turnManager.reachedFaithPathEnd()){
+                    gameEnded = true;
+                    MultiPlayer player = turnManager.getFirstPlayerToEndFaithPath();
+                    ClientHandler firstToFinish = null;
+                    for(ClientHandler ch1 : clientHandlers)
+                        if(ch1.getNickname().equals(player.getNickname()))
+                            firstToFinish = ch1;
+                    sendToClients(new OkMessage(firstToFinish.getNickname() + " reached the end of faith path!"));
+                    Integer playerIndex = clientHandlers.indexOf(firstToFinish);
+                    for(int i = 0; i < playerIndex +1; i++)
+                        sendToClient(clientHandlers.get(i), new OkMessage("Wait for other players to finish their turn..."));
+                    for(int i = (playerIndex + 1); i < clientHandlers.size(); i++){
+                        sendToClient(clientHandlers.get(i), new SelectActionMessage());
+                        for(int j = i + 1; j < clientHandlers.size(); j++)
+                            sendToClient(clientHandlers.get(j), new OkMessage("Wait your turn..."));
+                        turnManager.lock();
+                        updateClients();
+                        sendToClient(clientHandlers.get(i), new OkMessage("This was your last turn. Wait for the other players to finish"));
+                    }
+                    MultiPlayer winner = null;
+                    Integer max = 0;
+                    for(ClientHandler ch2 : clientHandlers){
+                        if(ch2.getPlayer().getTotalVictoryPoints() > max) {
+                            max = ch2.getPlayer().getTotalVictoryPoints();
+                            winner = (MultiPlayer) ch2.getPlayer();
+                        }
+                    }
+                    for(ClientHandler ch3 : clientHandlers){
+                        if(ch3.getPlayer().getNickname().equals(winner.getNickname())) {
+                            sendToClient(ch3, new EndGameMessage("You win! You made " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
+                        } else sendToClient(ch3, new EndGameMessage("You lost! " + winner.getNickname() + " made " + winner.getTotalVictoryPoints() + " victory points.\n You made instead " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
+                    }
+                }
             }
         }
 /*
