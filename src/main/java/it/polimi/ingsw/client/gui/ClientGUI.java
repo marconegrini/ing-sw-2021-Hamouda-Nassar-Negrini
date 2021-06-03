@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class ClientGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -17,7 +17,7 @@ public class Main extends Application {
         SceneManager.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Master of Renaissance");
-        Scene scene = new Scene(root, 800, 500);
+        Scene scene = new Scene(root, 1080, 730);
         primaryStage.setScene(scene);
         primaryStage.setOnHidden(e -> controller.shutDown());
         primaryStage.show();
