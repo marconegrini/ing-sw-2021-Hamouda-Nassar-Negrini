@@ -307,7 +307,7 @@ public abstract class Player {
     }
 
     public Integer getTotalVictoryPoints(){
-        return personalBoard.getVictoryPoints() + getLeaderCardsVictoryPoint();
+        return personalBoard.getVictoryPoints() + getLeaderCardsVictoryPoint() + userFaithPath.getVictoryPoints();
     }
 
     public boolean sevenDevCardBought(){
