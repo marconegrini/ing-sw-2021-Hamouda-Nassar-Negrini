@@ -103,11 +103,6 @@ public class GUIView extends View {
     @Override
     public void showParticipantsNumber(String s) {
         Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                participantsNumber.setText(s);
-            }
-        });
+        Platform.runLater(() -> participantsNumber.setText(s));
     }
 }
