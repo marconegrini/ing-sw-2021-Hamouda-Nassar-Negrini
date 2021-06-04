@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
+import it.polimi.ingsw.client.gui.controllers.ConnectionToServerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,7 @@ public class ClientGUI extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/login/connectToServer.fxml"));
         Parent root = loader.load();
-        ConnectionToServerGUI controller = loader.getController();
+        ConnectionToServerController controller = loader.getController();
         SceneManager.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Master of Renaissance");
