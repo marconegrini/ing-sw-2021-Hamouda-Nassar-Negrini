@@ -306,6 +306,7 @@ public class CLIView extends View {
                 } else if (choice.equals("d")) {
                     //Activate Leader card
                     Integer index = 0;
+                    depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer());
                     leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
                     System.out.println("Select a leader card to activate:");
                     boolean okCards = false;

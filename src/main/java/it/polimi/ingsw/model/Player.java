@@ -43,6 +43,10 @@ public abstract class Player {
         return userFaithPath.isRapportoInVaticano(newUserPos);
     }
 
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
     public abstract void buyResources();
 
     public abstract void buyDevelopmentCard();

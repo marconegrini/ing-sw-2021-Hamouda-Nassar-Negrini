@@ -2,7 +2,11 @@ package it.polimi.ingsw.messages.fromClient;
 
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
@@ -41,6 +45,20 @@ public class BuyDevCardMessage extends ClientMessage{
             resourcesIn.add(Resource.STONE);
 
         player.putCofferResources(resourcesIn);
+
+        //for testing   -- full all leader cards storage
+        if (player.getLeaderCards().get(0).isActivated()&&player.getLeaderCards().get(0).getCardType().equals(CardType.STORAGE)){
+           StorageLeaderCard sld = (StorageLeaderCard)player.getLeaderCards().get(0);
+            for (int i=sld.getOccupiedSlots(); i< sld.getMaxCapacity(); i++){
+                try {
+                    sld.putResourceInCardStorage(null,sld.storageType());
+                } catch (StorageOutOfBoundsException e) {
+                    e.printStackTrace();
+                } catch (IllegalInsertionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 //        //
 
         try {
