@@ -798,6 +798,7 @@ public class CLIView extends View {
      */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards){
+        System.out.println("Your leader cards:");
             ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
             output.forEach(System.out::println);
     }
