@@ -97,7 +97,6 @@ return result;
 
     //ONLY FOR TESTING PURPOSE
     public static void main(String[] args) {
-        ClientCLI clientCLI = new ClientCLI();
 
         HashMap<Resource, Integer> productionIn = new HashMap<>();
         productionIn.put(Resource.COIN,5);

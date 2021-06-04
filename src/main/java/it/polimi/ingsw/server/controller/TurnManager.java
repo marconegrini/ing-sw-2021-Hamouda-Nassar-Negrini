@@ -6,16 +6,15 @@ import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
-import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
+import it.polimi.ingsw.model.enumerations.*;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Color;
-import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
@@ -320,19 +319,50 @@ public class TurnManager {
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
         List<Resource> toTakeFromCoffer = new ArrayList<>();
         List<Resource> toTakeFromLeaderCard = new ArrayList<>();
+        List<LeaderCard> leaderCards = player.getLeaderCards();
+        List<StorageLeaderCard> storageLeaderCards = new ArrayList<>();
+        List<Resource> sldResource = new ArrayList<>();
 
+        //hasn't discarded 'em
+        if (leaderCards.size()>0)
+            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE //I could have used the method is isLeaderCardActivated.
+                for (LeaderCard ld: leaderCards)
+                    if (ld.getCardType().equals(CardType.STORAGE))
+                        storageLeaderCards.add((StorageLeaderCard) ld);
+
+
+        boolean pulled = false;
         if(containsNeededResources(player, cost)) {
             for (Resource resource : cost) {
-                //if(leaderResource.contains(resource)){
-                //  leaderResource.remove(resource);
-                //  toTakeFromLeader.add(resource)
-                //} else if (...
-                if (warehouseResources.contains(resource)) {
+
+                for (StorageLeaderCard sld : storageLeaderCards) {
+                    if (pulled)
+                        break;
+
+                    //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
+                    if (sld.getStoredResources().contains(resource)) {
+                        /*for (int i = 0; i < storageLeaderCards.get(k).getStoredResources().size(); i++)*/
+                        {
+                            //pull one resource from any deposit/slot of teh card
+                            try {
+                                sld.pullResource();
+                                pulled = true;
+                            } catch (EmptySlotException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+
+                if (warehouseResources.contains(resource) && !pulled) {
                     warehouseResources.remove(resource);
                     toTakeFromWarehouse.add(resource);
-                } else {
+                } else if (!pulled){
                     toTakeFromCoffer.add(resource);
                 }
+
+                pulled = false;
             }
 
             player.pullWarehouseResources(toTakeFromWarehouse);
@@ -504,15 +534,15 @@ public class TurnManager {
         try{
             player.activateLeaderCard(indexNumber);
         } catch(IndexOutOfBoundsException e1){
-            return new LeaderResultMessage(true, false, true, "Selected index for leader card is out of bounds", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
+            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +"->Selected index for leader card is out of bounds\n"+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(AlreadyActivatedLeaderCardException e2){
-            return new LeaderResultMessage(true, false, true, "Selected leader card already activated", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
+            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +"->Selected leader card already activated\n"+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(InsufficientResourcesException e3){
-            return new LeaderResultMessage(true, false, true, "Insufficient resources to activate selected leader card", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
+            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +"->Insufficient resources to activate selected leader card\n"+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         } catch(AlreadyDiscardedLeaderCardException e4){
-            return new LeaderResultMessage(true, false, true, "Selected leader card was discarded", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
+            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +"->Selected leader card was discarded\n"+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
         }
-        return new LeaderResultMessage(false, false, true, "Selected leader card activated", indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
+        return new LeaderResultMessage(false, false, true, ANSITextFormat.BOLD_ITALIC +"->Selected leader card activated\n"+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
 
     /**

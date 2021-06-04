@@ -59,7 +59,7 @@ public class LeaderCardsTracer {
                     }
 
                      */
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
+                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET : "NOT ACTIVATED";
 
                     //getting the disc. leader card power as ascii shapes
                     for (Resource resource : discountLeaderCard.getLeaderCardPower().keySet()) {
@@ -85,7 +85,7 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
+                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET : "NOT ACTIVATED";
 
                     //getting the prod. leader card power as ascii shapes
                     for (Resource resource : prodPowerLeaderCard.getLeaderCardPower().keySet()) {
@@ -110,7 +110,7 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
+                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET : "NOT ACTIVATED";
 
                     //getting the marble leader card power as ascii shapes
                     for (Resource resource : whiteMarbleLeaderCard.getLeaderCardPower().keySet()) {
@@ -178,7 +178,7 @@ public class LeaderCardsTracer {
                         tempStr="\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + "  " +"  \u001B[0m";
                     }
                 }
-                statusString = leaderCard.isActivated() ? "ACTIVATED" : "NOT ACTIVATED";
+                statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET : "NOT ACTIVATED";
 
 //                    powerString = powerString.substring(0,powerString.length() - 1 ) ;
 //                System.out.println("\n"+tempStr+"\n");

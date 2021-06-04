@@ -91,7 +91,7 @@ public class StorageLeaderCard extends LeaderCard {
             if ((storage.stream().filter(Objects::nonNull).count() == maxCapacity))
                 throw new IllegalInsertionException();
             //switch case: storage is filled partially
-            if (storage.stream().findAny().isPresent()) {
+            if (storage.stream().anyMatch(Objects::nonNull)) {
 
                 //checking that resource type in the storage is the same of resourceIn
                 System.out.println("LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get(): "  + slots.keySet().stream().findAny().get());
@@ -100,7 +100,7 @@ public class StorageLeaderCard extends LeaderCard {
                 System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny(): " + resourceIn.stream().findAny());
                 System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny().getClass(): " + resourceIn.stream().findAny().getClass());
 
-                if (!(slots.keySet().stream().findAny().get().equals(resourceIn.stream().findAny().get())))
+                if (!(slots.keySet().stream().filter(Objects::nonNull).findAny().get().equals(resourceIn.stream().findAny().get())))
                     throw new IllegalInsertionException();
 
 
@@ -180,7 +180,7 @@ public class StorageLeaderCard extends LeaderCard {
         //putting the return value into a hashMap
         HashMap<Resource, Integer> tempHash = new HashMap<>();
         if (presentResources > 0) {
-            tempHash.put(storage.stream().findAny().get(), presentResources);
+            tempHash.put(storage.stream().filter(Objects::nonNull).findAny().get(), presentResources);
         } else {
             try {
                 throw new EmptySlotException();
