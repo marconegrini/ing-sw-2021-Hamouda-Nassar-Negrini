@@ -122,11 +122,9 @@ public class ChooseLeaderCardsController {
             else slot2 = 4;
 
             System.out.println("Selected cards: " + slot1 + " " + slot2);
-            ControllerGUI.getServerHandler().sendJson(new SelectLeaderCardMessage(slot1, slot1));
-            return;
-        }
-
-        Platform.runLater(() -> {
+            ControllerGUI.getServerHandler().sendJson(new SelectLeaderCardMessage((slot1-1), (slot2-1)));
+        } else
+            Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("ERROR");
             alert.setHeaderText("Error: Leader card selection");

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <Text fill="#f20000" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Pixel Emulator;" styleClass="label">
+               <font>
+                  <Font size="52.0" />
+               </font>
+            </Text>
+            <Label fx:id="title" layoutX="105.0" layoutY="31.0" maxHeight="101.0" maxWidth="844.0" prefHeight="101.0" prefWidth="844.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Waiting for the other players..." textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="570.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="31.0">
+               <font>
+                  <Font size="59.0" />
+               </font>
+            </Label>
+            <Label fx:id="card1" layoutX="280.0" layoutY="198.0" prefHeight="380.0" prefWidth="240.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" stylesheets="@../../css/game/chooseLeaderCard.css" />
+            <Label fx:id="card2" layoutX="528.0" layoutY="198.0" prefHeight="380.0" prefWidth="240.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" />
+         </children>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../css/login/connectionPage.css" />
+      <URL value="@../../css/fonts.css" />
+   </stylesheets>
+</AnchorPane>

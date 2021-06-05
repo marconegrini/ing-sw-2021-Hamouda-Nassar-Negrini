@@ -153,15 +153,24 @@ public class GUIView extends View {
      */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards) {
-/*
+
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/gameStarted.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/showLeaderCard.fxml")));
             SceneManager.setScene(new Scene(root, 1080, 730));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
- */
+        System.out.println("Selected leader cards:\n" + leaderCards);
+
+        for (int i=0; i<2; i++){
+            Label card = (Label) SceneManager.getScene().lookup("#card"+(i+1));
+            card.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                    leaderCards.get(i).toPath() + ".png\");" +
+                    " -fx-background-size: 100% 100%;" +
+                    "-fx-border-width: 5");
+        }
+
     }
 
     @Override
