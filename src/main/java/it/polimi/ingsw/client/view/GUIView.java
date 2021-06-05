@@ -20,7 +20,10 @@ import java.util.Objects;
 
 
 public class GUIView extends View {
-
+    /**
+     * Shows a view in which the user can insert his nickname and the game modality.
+     * @return  EmptyMessage
+     */
     @Override
     public ClientMessage logClient() {
 
@@ -35,16 +38,24 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage initializeCalamaio(String strIn) {
-/*
+
+        String source = "";
+
+        //Define which view should be viewed
+        if (strIn.contains("first")){
+            source = "fxml/game/setcalamaio/setCalamaio.fxml";
+        } else if(strIn.contains("second") || strIn.contains("third")){
+            source = "fxml/game/setcalamaio/selectOneResource.fxml";
+        } else  source = "fxml/game/setcalamaio/selectTwoResource.fxml";
+
+        // set the correct Scene
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
             SceneManager.setScene(new Scene(root, 1080, 730));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
- */
         return new EmptyMessage();
     }
 
@@ -97,6 +108,10 @@ public class GUIView extends View {
         return null;
     }
 
+    /**
+     * Shows a view with a waiting room, in which the user can see how many other players are waiting
+     * @return EmptyMessage
+     */
     @Override
     public ClientMessage waitingRoom() {
 
@@ -115,6 +130,10 @@ public class GUIView extends View {
 
     }
 
+    /**
+     * Shows an alert with the message
+     * @param message  message is shown in the alert pop-up
+     */
     @Override
     public void showMessage(String message) {
 
@@ -128,15 +147,21 @@ public class GUIView extends View {
 
     }
 
+    /**
+     *
+     * @param leaderCards List of LeaderCard that was chosen from the client
+     */
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards) {
-
+/*
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/gameStarted.fxml")));
             SceneManager.setScene(new Scene(root, 1080, 730));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+ */
     }
 
     @Override
@@ -148,6 +173,10 @@ public class GUIView extends View {
         return null;
     }
 
+    /**
+     * updates the label that contains the number of players that are in waiting room
+     * @param s  String that represent number of players in waiting room
+     */
     @Override
     public void showParticipantsNumber(String s) {
         Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");

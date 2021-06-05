@@ -8,16 +8,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.ConnectionToServerGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SetCalamaioController">
    <children>
-      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <Text fill="#f20000" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Pixel Emulator;" styleClass="label">
                <font>
                   <Font size="52.0" />
                </font>
             </Text>
-            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#sendLeaderCard" text="Select" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="590.0">
+            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#continueToGameTwo" text="Select" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="590.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -29,9 +29,9 @@
             </Label>
             <Label fx:id="servant1" layoutX="272.0" layoutY="281.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="servant" />
@@ -40,9 +40,9 @@
             </Label>
             <Label fx:id="coin1" layoutX="430.0" layoutY="288.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="coin" />
@@ -51,9 +51,9 @@
             </Label>
             <Label fx:id="shield1" layoutX="576.0" layoutY="288.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="shield" />
@@ -72,9 +72,9 @@
             </Label>
             <Label fx:id="servant2" layoutX="272.0" layoutY="408.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="servant" />
@@ -83,9 +83,9 @@
             </Label>
             <Label fx:id="coin2" layoutX="430.0" layoutY="408.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="coin" />
@@ -94,9 +94,9 @@
             </Label>
             <Label fx:id="shield2" layoutX="576.0" layoutY="416.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="shield" />
@@ -105,9 +105,9 @@
             </Label>
             <Label fx:id="stone1" layoutX="713.0" layoutY="288.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="stone" />
@@ -116,9 +116,9 @@
             </Label>
             <Label fx:id="stone2" layoutX="713.0" layoutY="416.0" prefHeight="74.0" prefWidth="73.0">
                <stylesheets>
-                  <URL value="@../../css/game/gameStarted.css" />
-                  <URL value="@../../css/game/activeCard.css" />
-                  <URL value="@../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
                <styleClass>
                   <String fx:value="stone" />
@@ -129,7 +129,7 @@
       </AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../../css/login/connectionPage.css" />
-      <URL value="@../../css/fonts.css" />
+      <URL value="@../../../css/login/connectionPage.css" />
+      <URL value="@../../../css/fonts.css" />
    </stylesheets>
 </AnchorPane>
