@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SelectOneResource">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.SelectOneResource">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -22,7 +22,7 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#ContinueToGame" text="Select" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="590.0">
+            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#ContinueToGame" prefHeight="69.0" prefWidth="478.0" text="Select" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="590.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -65,7 +65,7 @@
                   <String fx:value="notSelectedCard" />
                </styleClass>
             </Label>
-            <Label fx:id="massageLabel" layoutX="191.0" layoutY="151.0" maxHeight="101.0" maxWidth="838.0" prefHeight="74.0" prefWidth="674.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Select one resource and put it on a shelf" textAlignment="CENTER" textFill="#000d80">
+            <Label fx:id="massageLabel" layoutX="191.0" layoutY="140.0" maxHeight="101.0" maxWidth="838.0" prefHeight="85.0" prefWidth="675.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Select one resource and put it on a shelf" textAlignment="CENTER" textFill="#000d80">
                <font>
                   <Font size="59.0" />
                </font>
@@ -105,14 +105,14 @@
                   <Label fx:id="label10" prefHeight="132.0" prefWidth="89.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <RadioButton fx:id="servantRadio" mnemonicParsing="false" opacity="0.0" text="servant">
+            <RadioButton fx:id="servantRadio" layoutX="273.0" layoutY="401.0" mnemonicParsing="false" text="servant">
                <toggleGroup>
                   <ToggleGroup fx:id="resources" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="coinRadio" mnemonicParsing="false" opacity="0.0" text="coin" toggleGroup="$resources" />
-            <RadioButton fx:id="stoneRadio" mnemonicParsing="false" opacity="0.0" text="stone" toggleGroup="$resources" />
-            <RadioButton fx:id="shieldRadio" mnemonicParsing="false" opacity="0.0" text="shield" toggleGroup="$resources" />
+            <RadioButton fx:id="coinRadio" layoutX="402.0" layoutY="446.0" mnemonicParsing="false" text="coin" toggleGroup="$resources" />
+            <RadioButton fx:id="stoneRadio" layoutX="288.0" layoutY="446.0" mnemonicParsing="false" text="stone" toggleGroup="$resources" />
+            <RadioButton fx:id="shieldRadio" layoutX="135.0" layoutY="437.0" mnemonicParsing="false" text="shield" toggleGroup="$resources" />
          </children>
       </AnchorPane>
    </children>
