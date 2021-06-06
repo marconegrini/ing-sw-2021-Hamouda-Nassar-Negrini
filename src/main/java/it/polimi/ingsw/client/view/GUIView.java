@@ -29,7 +29,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 730));
+            SceneManager.setScene(new Scene(root, 1080, 720));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class GUIView extends View {
         // set the correct Scene
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
-            SceneManager.setScene(new Scene(root, 1080, 730));
+            SceneManager.setScene(new Scene(root, 1080, 720));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/chooseLeaderCards.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 730));
+            SceneManager.setScene(new Scene(root, 1080, 720));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/waitingRoom.fxml")));
-            SceneManager.setScene(new Scene(root, 750, 500));
+            SceneManager.setScene(new Scene(root, 1080, 720));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/showLeaderCard.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 730));
+            SceneManager.setScene(new Scene(root, 1080, 720));
         } catch (IOException e) {
             e.printStackTrace();
         }
