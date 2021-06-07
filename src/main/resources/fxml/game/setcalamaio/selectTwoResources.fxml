@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.setcalamaio.SelectTwoResourceController">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <Text fill="#f20000" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Pixel Emulator;" styleClass="label">
+               <font>
+                  <Font size="52.0" />
+               </font>
+            </Text>
+            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#ContinueToGame" prefHeight="69.0" prefWidth="478.0" text="Select" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="590.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Label layoutX="39.0" layoutY="298.0" maxHeight="111.0" maxWidth="838.0" prefHeight="96.0" prefWidth="529.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" textAlignment="CENTER" textFill="#000d80">
+               <font>
+                  <Font size="59.0" />
+               </font>
+            </Label>
+            <Label fx:id="servant1" layoutX="58.0" layoutY="309.0" onMouseClicked="#selectServant1" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="servant" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="coin1" layoutX="207.0" layoutY="309.0" onMouseClicked="#selectCoin1" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="coin" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="shield1" layoutX="337.0" layoutY="309.0" onMouseClicked="#selectShield1" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="shield" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="massageLabel" layoutX="191.0" layoutY="140.0" maxHeight="101.0" maxWidth="838.0" prefHeight="85.0" prefWidth="675.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Select one resource and put it on a shelf" textAlignment="CENTER" textFill="#000d80">
+               <font>
+                  <Font size="59.0" />
+               </font>
+            </Label>
+            <Label fx:id="stone1" layoutX="464.0" layoutY="309.0" onMouseClicked="#selectStone1" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="stone" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label layoutX="666.0" layoutY="286.0" prefHeight="287.0" prefWidth="278.0" style="-fx-border-color: #1d1d2b; -fx-border-width: 5;" styleClass="warehouse" stylesheets="@../../../css/game/warehouse.css" />
+            <RadioButton fx:id="servantRadio1" layoutX="132.0" layoutY="413.0" mnemonicParsing="false" opacity="0.0" text="servant">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resource1" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="coinRadio1" layoutX="281.0" layoutY="446.0" mnemonicParsing="false" opacity="0.0" text="coin" toggleGroup="$resource1" />
+            <RadioButton fx:id="stoneRadio1" layoutX="421.0" layoutY="446.0" mnemonicParsing="false" opacity="0.0" text="stone" toggleGroup="$resource1" />
+            <RadioButton fx:id="shieldRadio1" layoutX="411.0" layoutY="392.0" mnemonicParsing="false" opacity="0.0" text="shield" toggleGroup="$resource1" />
+            <GridPane fx:id="thirdShelf" layoutX="775.0" layoutY="346.0" onMouseClicked="#selectThirdShelf" prefHeight="60.0" prefWidth="87.0" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="346.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="74.0" prefHeight="74.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="94.0" prefWidth="88.0" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="secondShelf" layoutX="746.0" layoutY="416.0" onMouseClicked="#selectSecondShelf" prefHeight="60.0" prefWidth="144.0" AnchorPane.bottomAnchor="216.0" AnchorPane.leftAnchor="746.0" AnchorPane.rightAnchor="162.0" AnchorPane.topAnchor="416.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="74.0" prefWidth="74.0" />
+                  <Label prefHeight="77.0" prefWidth="87.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="firstShelf" layoutX="713.0" layoutY="487.0" onMouseClicked="#selectFirstShelf" prefHeight="60.0" prefWidth="201.0" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="713.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="487.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="66.0" prefWidth="84.0" />
+                  <Label prefHeight="76.0" prefWidth="81.0" GridPane.columnIndex="2" />
+                  <Label prefHeight="71.0" prefWidth="83.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <Label layoutX="39.0" layoutY="446.0" maxHeight="111.0" maxWidth="838.0" prefHeight="96.0" prefWidth="529.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" textAlignment="CENTER" textFill="#000d80">
+               <font>
+                  <Font size="59.0" />
+               </font>
+            </Label>
+            <Label fx:id="servant2" layoutX="58.0" layoutY="457.0" onMouseClicked="#selectServant2" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="servant" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="coin2" layoutX="207.0" layoutY="457.0" onMouseClicked="#selectCoin2" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="coin" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="shield2" layoutX="337.0" layoutY="457.0" onMouseClicked="#selectShield2" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="shield" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="stone2" layoutX="464.0" layoutY="457.0" onMouseClicked="#selectStone2" prefHeight="74.0" prefWidth="74.0">
+               <stylesheets>
+                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+                  <URL value="@../../../css/game/activeCard.css" />
+               </stylesheets>
+               <styleClass>
+                  <String fx:value="stone" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <RadioButton fx:id="coinRadio2" layoutX="142.0" layoutY="423.0" mnemonicParsing="false" opacity="0.0" text="servant">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resource2" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="servantRadio2" layoutX="142.0" layoutY="423.0" mnemonicParsing="false" opacity="0.0" text="servant" toggleGroup="$resource2" />
+            <RadioButton fx:id="shieldRadio2" layoutX="142.0" layoutY="423.0" mnemonicParsing="false" opacity="0.0" text="servant" toggleGroup="$resource2" />
+            <RadioButton fx:id="stoneRadio2" layoutX="142.0" layoutY="423.0" mnemonicParsing="false" opacity="0.0" text="servant" toggleGroup="$resource2" />
+         </children>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../../css/login/connectionPage.css" />
+      <URL value="@../../../css/fonts.css" />
+      <URL value="@../../../css/game/gameStarted.css" />
+   </stylesheets>
+</AnchorPane>
