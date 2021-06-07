@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.gui.controllers.ConnectionToServerController;
+import it.polimi.ingsw.client.gui.controllers.login.ConnectionToServerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
