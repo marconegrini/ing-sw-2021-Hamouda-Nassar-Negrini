@@ -1,6 +1,7 @@
-package it.polimi.ingsw.client.gui.controllers;
+package it.polimi.ingsw.client.gui.controllers.login;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.ExitFromGameMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
 import javafx.application.Platform;

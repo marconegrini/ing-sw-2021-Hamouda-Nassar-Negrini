@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.gui.controllers;
+package it.polimi.ingsw.client.gui.controllers.login;
 
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.AskStartGameMessage;
 import it.polimi.ingsw.messages.fromClient.LoginMessage;
 import javafx.application.Platform;
