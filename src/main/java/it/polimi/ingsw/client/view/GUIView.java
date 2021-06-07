@@ -46,7 +46,7 @@ public class GUIView extends View {
             source = "fxml/game/setcalamaio/setCalamaio.fxml";
         } else if(strIn.contains("second") || strIn.contains("third")){
             source = "fxml/game/setcalamaio/selectOneResource.fxml";
-        } else  source = "fxml/game/setcalamaio/selectTwoResource.fxml";
+        } else  source = "fxml/game/setcalamaio/selectTwoResources.fxml";
 
         // set the correct Scene
         try {
