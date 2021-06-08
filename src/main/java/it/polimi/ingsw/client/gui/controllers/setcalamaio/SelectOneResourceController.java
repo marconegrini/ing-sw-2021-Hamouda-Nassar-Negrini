@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
+import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,21 +24,22 @@ public class SelectOneResourceController {
     private RadioButton selected;
     @FXML
     private RadioButton servantRadio, coinRadio, stoneRadio, shieldRadio;
-    boolean insertedResource = false;
+    private boolean insertedResource = false;
+    private int selectedShelf = 0;
 
     public void continueToGameCalamaio(ActionEvent actionEvent) {
     }
 
     public void ContinueToGame(ActionEvent actionEvent) {
         if (selected != null) {
-            System.out.println("Toggle: " + resource + " this: " + this);
-            selected = (RadioButton) resource.getSelectedToggle();
-            System.out.println(" toggle text: " + selected.getText());
+            System.out.println("selected resource: " + selected.getText());
+            System.out.println("Message: " + resourceConverter(selectedLabel) + " shelf:" + selectedShelf);
         }
+        //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel), 0, selectedShelf, 0));
     }
 
     public void selectFirstShelf(MouseEvent mouseEvent) {
-
+        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -69,14 +72,19 @@ public class SelectOneResourceController {
         toPut.getStyleClass().add("notSelectedCard");
         //System.out.println("getResource: " + getResource(selectedLabel));
         //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
-        firstShelf.add(toPut, 0, 0);
+        Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
+        Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
+        if (column == null) column = 0;
+        if (row == null)    row = 0;
+        firstShelf.add(toPut, column, row);
         insertedResource = true;
         disSelectResources(null);
-
+        selectedShelf = 3;
 
     }
 
     public void selectSecondShelf(MouseEvent mouseEvent) {
+        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -117,10 +125,11 @@ public class SelectOneResourceController {
         secondShelf.add(toPut, column, row);
         insertedResource = true;
         disSelectResources(null);
-
+        selectedShelf = 2;
     }
 
     public void selectThirdShelf(MouseEvent mouseEvent) {
+        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -160,6 +169,7 @@ public class SelectOneResourceController {
         thirdShelf.add(toPut, column, row);
         insertedResource = true;
         disSelectResources(null);
+        selectedShelf = 1;
     }
 
     private boolean isSelectedResource() {
@@ -248,6 +258,14 @@ public class SelectOneResourceController {
         if (label.getStyleClass().contains("stone")) return "stone";
         if (label.getStyleClass().contains("servant")) return "servant";
         return "";
+    }
+
+    private int resourceConverter (Label label){
+        if (label.getStyleClass().contains("shield")) return 1;
+        if (label.getStyleClass().contains("coin")) return 2;
+        if (label.getStyleClass().contains("servant")) return 3;
+        if (label.getStyleClass().contains("stone")) return 4;
+        return 0;
     }
 
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
+import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
+import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +13,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.HashMap;
+
 public class SelectTwoResourceController {
 
     @FXML
@@ -17,7 +22,7 @@ public class SelectTwoResourceController {
     @FXML
     private ToggleGroup resource2, resource1;
     @FXML
-    private Label stone2, shield2, coin2 ,servant2;
+    private Label stone2, shield2, coin2, servant2;
     private Label selectedLabel1, selectedLabel2;
     @FXML
     private GridPane firstShelf, secondShelf, thirdShelf;
@@ -25,13 +30,24 @@ public class SelectTwoResourceController {
     private RadioButton shieldRadio1, stoneRadio1, coinRadio1, servantRadio1;
     private RadioButton selected1, selected2;
     @FXML
-    private Label stone1, shield1,  coin1, servant1;
-    boolean insertedResource1 = false, insertedResource2 = false;
+    private Label stone1, shield1, coin1, servant1;
+    private boolean insertedResource1 = false, insertedResource2 = false;
+    private int selectedShelf1 = 0, selectedShelf2 = 0;
+    private HashMap<Integer, Resource> resourcesOnShelfs = new HashMap<>();
+
 
     public void ContinueToGame(ActionEvent actionEvent) {
+        //if (selected1 != null && selected2 != null) {
+        //System.out.println("selected resource: " + selected1.getText());
+        System.out.println("Message:\nResource1: " + resourceConverter(selectedLabel1) + "\tResource2: " + resourceConverter(selectedLabel2) + "\nShelf1: " + selectedShelf1 + "\tShelf2:" + selectedShelf2);
+        System.out.println("HashMap: " + resourcesOnShelfs);
+
+        //}
+        //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
     }
 
     public void selectFirstShelf(MouseEvent mouseEvent) {
+        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -44,28 +60,61 @@ public class SelectTwoResourceController {
         }
 
         if (isSelectedResource1()) {
-            Label toPut = new Label();
-            toPut.setLayoutX(selectedLabel1.getLayoutX());
+
+            //Label toPut = new Label();
+            Label toPut = selectedLabel1;
+            /*toPut.setLayoutX(selectedLabel1.getLayoutX());
             toPut.setLayoutY(selectedLabel1.getLayoutY());
             toPut.setPrefHeight(selectedLabel1.getPrefHeight());
             toPut.setPrefWidth(selectedLabel1.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel1));
             toPut.getStyleClass().add("notSelectedCard");
+
+             */
             //System.out.println("getResource: " + getResource(selectedLabel));
             //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+
+            if (getResourceFromIndex(1 + column) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
+
+            if (!insertionValid(toPut, 1 + column)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
+
             firstShelf.add(toPut, column, row);
             insertedResource1 = true;
             disSelectResources1(null);
             selected1.setSelected(false);
+            selectedShelf1 = 3;
+            resourcesOnShelfs.put(1 + column, Resource.getEnum(getResource(toPut)));
             return;
         }
 
         if (isSelectedResource2()) {
-            Label toPut = new Label();
+            Label toPut = selectedLabel2;
             toPut.setLayoutX(selectedLabel2.getLayoutX());
             toPut.setLayoutY(selectedLabel2.getLayoutY());
             toPut.setPrefHeight(selectedLabel2.getPrefHeight());
@@ -78,14 +127,42 @@ public class SelectTwoResourceController {
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+            if (getResourceFromIndex(1 + column) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
+            if (!insertionValid(toPut, 1 + column)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
             firstShelf.add(toPut, column, row);
             insertedResource2 = true;
             disSelectResources2(null);
             selected2.setSelected(false);
+            selectedShelf2 = 3;
+            resourcesOnShelfs.put(1 + column, Resource.getEnum(getResource(toPut)));
         }
     }
 
     public void selectSecondShelf(MouseEvent mouseEvent) {
+        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
+
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -98,7 +175,7 @@ public class SelectTwoResourceController {
         }
 
         if (isSelectedResource1()) {
-            Label toPut = new Label();
+            Label toPut = selectedLabel1;
             toPut.setLayoutX(selectedLabel1.getLayoutX());
             toPut.setLayoutY(selectedLabel1.getLayoutY());
             toPut.setPrefHeight(selectedLabel1.getPrefHeight());
@@ -111,15 +188,41 @@ public class SelectTwoResourceController {
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+            if (getResourceFromIndex(4 + column) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
+            if (!insertionValid(toPut, 4 + column)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
             secondShelf.add(toPut, column, row);
             insertedResource1 = true;
             disSelectResources1(null);
             selected1.setSelected(false);
+            selectedShelf1 = 2;
+            resourcesOnShelfs.put(4 + column, Resource.getEnum(getResource(toPut)));
             return;
         }
 
         if (isSelectedResource2()) {
-            Label toPut = new Label();
+            Label toPut = selectedLabel2;
             toPut.setLayoutX(selectedLabel2.getLayoutX());
             toPut.setLayoutY(selectedLabel2.getLayoutY());
             toPut.setPrefHeight(selectedLabel2.getPrefHeight());
@@ -132,16 +235,45 @@ public class SelectTwoResourceController {
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+            if (getResourceFromIndex(4 + column) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
+            if (!insertionValid(toPut, 4 + column)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
             secondShelf.add(toPut, column, row);
+            System.out.println("Added in col: " + column + " row: " + row);
             insertedResource2 = true;
             disSelectResources2(null);
             selected2.setSelected(false);
+            selectedShelf2 = 2;
+            resourcesOnShelfs.put(4 + column, Resource.getEnum(getResource(toPut)));
         }
 
 
     }
 
     public void selectThirdShelf(MouseEvent mouseEvent) {
+        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
+
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -154,7 +286,7 @@ public class SelectTwoResourceController {
         }
 
         if (isSelectedResource1()) {
-            Label toPut = new Label();
+            Label toPut = selectedLabel1;
             toPut.setLayoutX(selectedLabel1.getLayoutX());
             toPut.setLayoutY(selectedLabel1.getLayoutY());
             toPut.setPrefHeight(selectedLabel1.getPrefHeight());
@@ -167,15 +299,41 @@ public class SelectTwoResourceController {
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+            if (getResourceFromIndex(6) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
+            if (!insertionValid(toPut, 6)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources1(null);
+                selected1.setSelected(false);
+                return;
+            }
             thirdShelf.add(toPut, column, row);
             insertedResource1 = true;
             disSelectResources1(null);
             selected1.setSelected(false);
+            selectedShelf1 = 1;
+            resourcesOnShelfs.put(6, Resource.getEnum(getResource(toPut)));
             return;
         }
 
         if (isSelectedResource2()) {
-            Label toPut = new Label();
+            Label toPut = selectedLabel2;
             toPut.setLayoutX(selectedLabel2.getLayoutX());
             toPut.setLayoutY(selectedLabel2.getLayoutY());
             toPut.setPrefHeight(selectedLabel2.getPrefHeight());
@@ -188,32 +346,60 @@ public class SelectTwoResourceController {
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
             if (row == null) row = 0;
+            if (getResourceFromIndex(6) != null) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two resources in the same slot.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
+            if (!insertionValid(toPut, 6)) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error: Resource");
+                    alert.setContentText("You can't insert two different type of resources on the same shelf.");
+                    alert.showAndWait();
+                });
+                disSelectResources2(null);
+                selected2.setSelected(false);
+                return;
+            }
             thirdShelf.add(toPut, column, row);
             insertedResource2 = true;
             disSelectResources2(null);
             selected2.setSelected(false);
+            selectedShelf2 = 1;
+            resourcesOnShelfs.put(6, Resource.getEnum(getResource(toPut)));
         }
     }
 
-    private boolean isSelectedResource1(){
+    private boolean isSelectedResource1() {
         if (selected1 == null) return false;
 
         selected1 = (RadioButton) resource1.getSelectedToggle();
+        if (selected1 == null) return false;
 
         return selected1.getText() != null;
     }
 
-    private boolean isSelectedResource2(){
+    private boolean isSelectedResource2() {
         if (selected2 == null) return false;
 
         selected2 = (RadioButton) resource2.getSelectedToggle();
+        if (selected2 == null) return false;
 
         return selected2.getText() != null;
     }
 
 
     public void selectServant1(MouseEvent actionEvent) {
-        if (isSelectedResource2()){
+        if (isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -224,7 +410,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource1){
+        if (insertedResource1) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -245,7 +431,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectShield1(MouseEvent actionEvent) {
-        if (isSelectedResource2()){
+        if (isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -255,7 +441,7 @@ public class SelectTwoResourceController {
             });
             return;
         }
-        if (insertedResource1){
+        if (insertedResource1) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -277,7 +463,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectStone1(MouseEvent actionEvent) {
-        if (isSelectedResource2()){
+        if (isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -287,7 +473,7 @@ public class SelectTwoResourceController {
             });
             return;
         }
-        if (insertedResource1){
+        if (insertedResource1) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -308,7 +494,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectCoin1(MouseEvent actionEvent) {
-        if (isSelectedResource2()){
+        if (isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -319,7 +505,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource1){
+        if (insertedResource1) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -340,7 +526,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectServant2(MouseEvent actionEvent) {
-        if (isSelectedResource1()){
+        if (isSelectedResource1()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -351,7 +537,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource2){
+        if (insertedResource2) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -372,7 +558,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectShield2(MouseEvent actionEvent) {
-        if (isSelectedResource1()){
+        if (isSelectedResource1()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -383,7 +569,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource2){
+        if (insertedResource2) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -405,7 +591,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectStone2(MouseEvent actionEvent) {
-        if (isSelectedResource1()){
+        if (isSelectedResource1()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -416,7 +602,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource2){
+        if (insertedResource2) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -437,7 +623,7 @@ public class SelectTwoResourceController {
     }
 
     public void selectCoin2(MouseEvent actionEvent) {
-        if (isSelectedResource1()){
+        if (isSelectedResource1()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -448,7 +634,7 @@ public class SelectTwoResourceController {
             return;
         }
 
-        if (insertedResource2){
+        if (insertedResource2) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -530,6 +716,58 @@ public class SelectTwoResourceController {
         if (label.getStyleClass().contains("stone")) return "stone";
         if (label.getStyleClass().contains("servant")) return "servant";
         return "";
+    }
+
+    private int resourceConverter(Label label) {
+        if (label.getStyleClass().contains("shield")) return 1;
+        if (label.getStyleClass().contains("coin")) return 2;
+        if (label.getStyleClass().contains("servant")) return 3;
+        if (label.getStyleClass().contains("stone")) return 4;
+        return 0;
+    }
+
+    private Resource getResourceFromIndex(Integer index) {
+        return resourcesOnShelfs.get(index);
+    }
+
+    private boolean insertionValid(Label label, Integer index) {
+        Resource resource = Resource.getEnum(getResource(label));
+        if (index >= 1 && index <= 3) {
+            for (int i = 1; i <= 3; i++) {
+                Resource res = resourcesOnShelfs.get(i);
+                if (res == null) continue;
+                if (!res.equals(resource)) return false;
+            }
+        }
+
+        if (index >= 4 && index <= 5) {
+            for (int i = 4; i <= 5; i++) {
+                Resource res = resourcesOnShelfs.get(i);
+                if (res == null) continue;
+                if (!res.equals(resource)) return false;
+            }
+        }
+        return resourceInAnotherShelf(resource, index);
+    }
+
+    private boolean resourceInAnotherShelf(Resource resource, Integer index) {
+        if (index >= 1 && index <= 3) {
+            for (int i=4; i<=6; i++){
+                Resource res = resourcesOnShelfs.get(i);
+                if (resource.equals(res))   return false;
+            }
+        } else if (index >= 4 && index <= 5) {
+            for (int i = 1; i <= 3; i++) {
+                Resource res = resourcesOnShelfs.get(i);
+                if (resource.equals(res))   return false;
+            }
+            if (resource.equals(resourcesOnShelfs.get(6)))  return false;
+        } else for (int i = 1; i <=5; i++){
+            Resource res = resourcesOnShelfs.get(i);
+            if (resource.equals(res))   return false;
+        }
+
+        return true;
     }
 
 
