@@ -12,7 +12,7 @@ public class TestGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/setcalamaio/selectTwoResources.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/setcalamaio/selectOneResource.fxml"));
         Parent root = loader.load();
         //ConnectionToServerController controller = loader.getController();
         SceneManager.setPrimaryStage(primaryStage);
