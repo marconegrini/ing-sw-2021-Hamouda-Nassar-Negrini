@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.EmptyMessage;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -44,6 +45,13 @@ public class GUIView extends View {
         //Define which view should be viewed
         if (strIn.contains("first")){
             source = "fxml/game/setcalamaio/setCalamaio.fxml";
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
+                SceneManager.setScene(new Scene(root, 1080, 720));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new CalamaioResponseMessage(0, 0, 0, 0);
         } else if(strIn.contains("second") || strIn.contains("third")){
             source = "fxml/game/setcalamaio/selectOneResource.fxml";
         } else  source = "fxml/game/setcalamaio/selectTwoResources.fxml";
@@ -61,7 +69,8 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage calamaioErrHandelr(String strIn) {
-        return null;
+        this.showMessage(strIn);
+        return new EmptyMessage();
     }
 
 
@@ -128,6 +137,16 @@ public class GUIView extends View {
     @Override
     public void endWaitingRoom() {
 
+    }
+
+    @Override
+    public void startGame() {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game.fxml")));
+            SceneManager.setScene(new Scene(root, 1080, 720));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -793,6 +793,11 @@ public class CLIView extends View {
         stillWaiting = false;
     }
 
+    @Override
+    public void startGame() {
+        this.showMessage("Game started!");
+    }
+
     /**
      * A simple show method that prints messages on the console
      *
