@@ -1,16 +1,23 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
+import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class SelectOneResourceController {
 
@@ -27,19 +34,29 @@ public class SelectOneResourceController {
     private boolean insertedResource = false;
     private int selectedShelf = 0;
 
-    public void continueToGameCalamaio(ActionEvent actionEvent) {
-    }
 
     public void ContinueToGame(ActionEvent actionEvent) {
-        if (selected != null) {
-            System.out.println("selected resource: " + selected.getText());
-            System.out.println("Message: " + resourceConverter(selectedLabel) + " shelf:" + selectedShelf);
+        if (!insertedResource) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You should put a resource on the shelf before continuing.");
+                alert.showAndWait();
+            });
+            return;
         }
-        //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel), 0, selectedShelf, 0));
+        ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel), 0, selectedShelf, 0));
+
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game/game.fxml")));
+            SceneManager.setScene(new Scene(root, 1080, 720));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void selectFirstShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -63,15 +80,7 @@ public class SelectOneResourceController {
             return;
         }
 
-        Label toPut = new Label();
-        toPut.setLayoutX(selectedLabel.getLayoutX());
-        toPut.setLayoutY(selectedLabel.getLayoutY());
-        toPut.setPrefHeight(selectedLabel.getPrefHeight());
-        toPut.setPrefWidth(selectedLabel.getPrefWidth());
-        toPut.getStyleClass().add(getResource(selectedLabel));
-        toPut.getStyleClass().add("notSelectedCard");
-        //System.out.println("getResource: " + getResource(selectedLabel));
-        //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
+        Label toPut = selectedLabel;
         Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
         Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (column == null) column = 0;
@@ -84,7 +93,6 @@ public class SelectOneResourceController {
     }
 
     public void selectSecondShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -108,15 +116,7 @@ public class SelectOneResourceController {
             return;
         }
 
-        Label toPut = new Label();
-        toPut.setLayoutX(selectedLabel.getLayoutX());
-        toPut.setLayoutY(selectedLabel.getLayoutY());
-        toPut.setPrefHeight(selectedLabel.getPrefHeight());
-        toPut.setPrefWidth(selectedLabel.getPrefWidth());
-        toPut.getStyleClass().add(getResource(selectedLabel));
-        toPut.getStyleClass().add("notSelectedCard");
-        //System.out.println("getResource: " + getResource(selectedLabel));
-        //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
+        Label toPut = selectedLabel;
         Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
         Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (column == null) column = 0;
@@ -129,7 +129,6 @@ public class SelectOneResourceController {
     }
 
     public void selectThirdShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode()));
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -153,15 +152,7 @@ public class SelectOneResourceController {
             return;
         }
 
-        Label toPut = new Label();
-        toPut.setLayoutX(selectedLabel.getLayoutX());
-        toPut.setLayoutY(selectedLabel.getLayoutY());
-        toPut.setPrefHeight(selectedLabel.getPrefHeight());
-        toPut.setPrefWidth(selectedLabel.getPrefWidth());
-        toPut.getStyleClass().add(getResource(selectedLabel));
-        toPut.getStyleClass().add("notSelectedCard");
-        //System.out.println("getResource: " + getResource(selectedLabel));
-        //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
+        Label toPut = selectedLabel;
         Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
         Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (column == null) column = 0;
@@ -184,6 +175,17 @@ public class SelectOneResourceController {
     }
 
     public void selectServant(MouseEvent actionEvent) {
+        if (insertedResource) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You already inserted a resource in the shelf.");
+                alert.showAndWait();
+            });
+            disSelectResources(null);
+            return;
+        }
         servantRadio.setSelected(true);
         servant.getStyleClass().remove("notSelectedCard");
         servant.getStyleClass().add("selectedCard");
@@ -194,6 +196,17 @@ public class SelectOneResourceController {
     }
 
     public void selectShield(MouseEvent actionEvent) {
+        if (insertedResource) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You already inserted a resource in the shelf.");
+                alert.showAndWait();
+            });
+            disSelectResources(null);
+            return;
+        }
         shieldRadio.setSelected(true);
         shield.getStyleClass().remove("notSelectedCard");
         shield.getStyleClass().add("selectedCard");
@@ -205,6 +218,17 @@ public class SelectOneResourceController {
     }
 
     public void selectStone(MouseEvent actionEvent) {
+        if (insertedResource) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You already inserted a resource in the shelf.");
+                alert.showAndWait();
+            });
+            disSelectResources(null);
+            return;
+        }
         stoneRadio.setSelected(true);
         stone.getStyleClass().remove("notSelectedCard");
         stone.getStyleClass().add("selectedCard");
@@ -215,6 +239,17 @@ public class SelectOneResourceController {
     }
 
     public void selectCoin(MouseEvent actionEvent) {
+        if (insertedResource) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You already inserted a resource in the shelf.");
+                alert.showAndWait();
+            });
+            disSelectResources(null);
+            return;
+        }
         coinRadio.setSelected(true);
         coin.getStyleClass().remove("notSelectedCard");
         coin.getStyleClass().add("selectedCard");

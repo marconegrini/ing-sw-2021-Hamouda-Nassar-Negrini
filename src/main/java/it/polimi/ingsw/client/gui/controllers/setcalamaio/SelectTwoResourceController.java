@@ -1,11 +1,15 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
+import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -13,7 +17,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SelectTwoResourceController {
 
@@ -37,16 +43,20 @@ public class SelectTwoResourceController {
 
 
     public void ContinueToGame(ActionEvent actionEvent) {
-
-        System.out.println("Message:\nResource1: " + resourceConverter(selectedLabel1) + "\tResource2: " + resourceConverter(selectedLabel2) + "\nShelf1: " + selectedShelf1 + "\tShelf2:" + selectedShelf2);
-        System.out.println("HashMap: " + resourcesOnShelfs);
-
-
-        //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
+        if (insertedResource1 && insertedResource2) {
+            ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
+        }else{
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You should select two resource and put them on the shelf before continuing.");
+                alert.showAndWait();
+            });
+        }
     }
 
     public void selectFirstShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -103,12 +113,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -147,7 +151,6 @@ public class SelectTwoResourceController {
     }
 
     public void selectSecondShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
 
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -162,12 +165,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource1()) {
             Label toPut = selectedLabel1;
-            toPut.setLayoutX(selectedLabel1.getLayoutX());
-            toPut.setLayoutY(selectedLabel1.getLayoutY());
-            toPut.setPrefHeight(selectedLabel1.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel1.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel1));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -207,12 +204,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -254,7 +245,6 @@ public class SelectTwoResourceController {
     }
 
     public void selectThirdShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
 
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -269,12 +259,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource1()) {
             Label toPut = selectedLabel1;
-            toPut.setLayoutX(selectedLabel1.getLayoutX());
-            toPut.setLayoutY(selectedLabel1.getLayoutY());
-            toPut.setPrefHeight(selectedLabel1.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel1.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel1));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -314,12 +298,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -708,19 +686,19 @@ public class SelectTwoResourceController {
 
     private boolean resourceInAnotherShelf(Resource resource, Integer index) {
         if (index >= 1 && index <= 3) {
-            for (int i=4; i<=6; i++){
+            for (int i = 4; i <= 6; i++) {
                 Resource res = resourcesOnShelfs.get(i);
-                if (resource.equals(res))   return false;
+                if (resource.equals(res)) return false;
             }
         } else if (index >= 4 && index <= 5) {
             for (int i = 1; i <= 3; i++) {
                 Resource res = resourcesOnShelfs.get(i);
-                if (resource.equals(res))   return false;
+                if (resource.equals(res)) return false;
             }
-            if (resource.equals(resourcesOnShelfs.get(6)))  return false;
-        } else for (int i = 1; i <=5; i++){
+            if (resource.equals(resourcesOnShelfs.get(6))) return false;
+        } else for (int i = 1; i <= 5; i++) {
             Resource res = resourcesOnShelfs.get(i);
-            if (resource.equals(res))   return false;
+            if (resource.equals(res)) return false;
         }
 
         return true;

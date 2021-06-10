@@ -15,4 +15,10 @@ public class GameController {
 
     public void selectedFirstShelf(MouseEvent mouseEvent) {
     }
+
+    public void selectedSecondShelf(MouseEvent mouseEvent) {
+    }
+
+    public void selectedThirdShelf(MouseEvent mouseEvent) {
+    }
 }
