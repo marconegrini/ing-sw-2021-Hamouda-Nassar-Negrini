@@ -37,12 +37,11 @@ public class SelectTwoResourceController {
 
 
     public void ContinueToGame(ActionEvent actionEvent) {
-        //if (selected1 != null && selected2 != null) {
-        //System.out.println("selected resource: " + selected1.getText());
+
         System.out.println("Message:\nResource1: " + resourceConverter(selectedLabel1) + "\tResource2: " + resourceConverter(selectedLabel2) + "\nShelf1: " + selectedShelf1 + "\tShelf2:" + selectedShelf2);
         System.out.println("HashMap: " + resourcesOnShelfs);
 
-        //}
+
         //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
     }
 
@@ -61,18 +60,7 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource1()) {
 
-            //Label toPut = new Label();
             Label toPut = selectedLabel1;
-            /*toPut.setLayoutX(selectedLabel1.getLayoutX());
-            toPut.setLayoutY(selectedLabel1.getLayoutY());
-            toPut.setPrefHeight(selectedLabel1.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel1.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel1));
-            toPut.getStyleClass().add("notSelectedCard");
-
-             */
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -121,8 +109,6 @@ public class SelectTwoResourceController {
             toPut.setPrefWidth(selectedLabel2.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel2));
             toPut.getStyleClass().add("notSelectedCard");
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -182,8 +168,6 @@ public class SelectTwoResourceController {
             toPut.setPrefWidth(selectedLabel1.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel1));
             toPut.getStyleClass().add("notSelectedCard");
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -229,8 +213,6 @@ public class SelectTwoResourceController {
             toPut.setPrefWidth(selectedLabel2.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel2));
             toPut.getStyleClass().add("notSelectedCard");
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -293,8 +275,6 @@ public class SelectTwoResourceController {
             toPut.setPrefWidth(selectedLabel1.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel1));
             toPut.getStyleClass().add("notSelectedCard");
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -340,8 +320,6 @@ public class SelectTwoResourceController {
             toPut.setPrefWidth(selectedLabel2.getPrefWidth());
             toPut.getStyleClass().add(getResource(selectedLabel2));
             toPut.getStyleClass().add("notSelectedCard");
-            //System.out.println("getResource: " + getResource(selectedLabel));
-            //System.out.println("selectedLabel: " + String.valueOf(selectedLabel.getStyleClass()) + " toPut: " + toPut.getStyleClass());
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -489,7 +467,6 @@ public class SelectTwoResourceController {
         stone1.getStyleClass().add("selectedCard");
         disSelectResources1(stone1);
         selectedLabel1 = stone1;
-        //System.out.println(" toggle before: " + resource + " this: " + this);
         selected1 = (RadioButton) resource1.getSelectedToggle();
     }
 
@@ -521,7 +498,6 @@ public class SelectTwoResourceController {
         coin1.getStyleClass().add("selectedCard");
         disSelectResources1(coin1);
         selectedLabel1 = coin1;
-        //System.out.println(" toggle before: " + resource + " this: " + this);
         selected1 = (RadioButton) resource1.getSelectedToggle();
     }
 
@@ -553,7 +529,6 @@ public class SelectTwoResourceController {
         servant2.getStyleClass().add("selectedCard");
         disSelectResources2(servant2);
         selectedLabel2 = servant2;
-        //System.out.println(" toggle before: " + resource + " this: " + this);
         selected2 = (RadioButton) resource2.getSelectedToggle();
     }
 
@@ -618,7 +593,6 @@ public class SelectTwoResourceController {
         stone2.getStyleClass().add("selectedCard");
         disSelectResources2(stone2);
         selectedLabel2 = stone2;
-        //System.out.println(" toggle before: " + resource + " this: " + this);
         selected2 = (RadioButton) resource2.getSelectedToggle();
     }
 
@@ -655,58 +629,40 @@ public class SelectTwoResourceController {
     }
 
     private void disSelectResources1(Label label) {
-        //selected = (RadioButton)resources.getSelectedToggle();
         if (!coin1.equals(label)) {
             coin1.getStyleClass().remove("selectedCard");
             coin1.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Coin");
-            // System.out.println(" toggle text: " + selected.getText());
         }
         if (!stone1.equals(label)) {
             stone1.getStyleClass().remove("selectedCard");
             stone1.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Stone");
-            //System.out.println(" toggle text: " + selected.getText());
         }
         if (!servant1.equals(label)) {
             servant1.getStyleClass().remove("selectedCard");
             servant1.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Servant");
-            //System.out.println(" toggle text: " + selected.getText());
         }
         if (!shield1.equals(label)) {
             shield1.getStyleClass().remove("selectedCard");
             shield1.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Shield");
-            //System.out.println(" toggle text: " + selected.getText());
         }
     }
 
     private void disSelectResources2(Label label) {
-        //selected = (RadioButton)resources.getSelectedToggle();
         if (!coin2.equals(label)) {
             coin2.getStyleClass().remove("selectedCard");
             coin2.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Coin");
-            // System.out.println(" toggle text: " + selected.getText());
         }
         if (!stone2.equals(label)) {
             stone2.getStyleClass().remove("selectedCard");
             stone2.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Stone");
-            //System.out.println(" toggle text: " + selected.getText());
         }
         if (!servant2.equals(label)) {
             servant2.getStyleClass().remove("selectedCard");
             servant2.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Servant");
-            //System.out.println(" toggle text: " + selected.getText());
         }
         if (!shield2.equals(label)) {
             shield2.getStyleClass().remove("selectedCard");
             shield2.getStyleClass().add("notSelectedCard");
-            //System.out.println("disselected Shield");
-            //System.out.println(" toggle text: " + selected.getText());
         }
     }
 
