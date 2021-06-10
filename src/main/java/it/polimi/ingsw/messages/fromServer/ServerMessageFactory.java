@@ -53,6 +53,9 @@ public class ServerMessageFactory {
                 case PING:
                     returnMessage = gson.fromJson(receivedMessage, ServerPingMessage.class);
                     break;
+                case GAMESTARTED:
+                    returnMessage = gson.fromJson(receivedMessage, GameStartedMessage.class);
+                    break;
                 case LOGIN:
                     returnMessage = gson.fromJson(receivedMessage, ServerLoginMessage.class);
                     break;

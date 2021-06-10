@@ -21,6 +21,7 @@ public enum ServerMessageType {
     STARTGAME,
     ENDGAME,
     ERRORSTARTGAME,
+    GAMESTARTED,
 
     CHOOSELEADERCARDS,
     UPDATELEADERCARDS,
