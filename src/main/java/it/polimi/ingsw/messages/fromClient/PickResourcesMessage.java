@@ -6,6 +6,11 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Message sent from the user after the action "pick resources from market" has been selected.
+ * Contains the boolean that specifies if rowOrColNum is the number of row or column, and the respective
+ * number.
+ */
 public class PickResourcesMessage extends ClientMessage{
 
     private boolean isRow;

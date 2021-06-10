@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Sent from the client to discard a leader card. Specifies index of leader cards' arraylist of
+ * the leader card to discard.
+ */
 public class DiscardLeaderCardMessage extends ClientMessage{
 
     Integer slot;

@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.VaticanSection;
 
 import java.util.List;
 
+/**
+ * update message sent with UpdateFaithPathMessage to update client's Vatican Sections
+ */
 public class UpdateVaticanSectionsMessage extends ServerMessage {
 
     List<VaticanSection> vaticanSections;

@@ -6,7 +6,10 @@ import it.polimi.ingsw.messages.fromServer.ServerLoginErrorMessage;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
-
+/**
+ * sent from the client to authenticate the user in the game. The user is set in the waiting room after the message
+ * has been received. If the message is sent by the fourth connecting client, the game is started automatically
+ */
 public class LoginMessage extends ClientMessage {
     private String nickname;
     private boolean isMultiplayer;

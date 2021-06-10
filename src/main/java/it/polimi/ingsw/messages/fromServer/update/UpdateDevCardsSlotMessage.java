@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * update message to update in client's light model development cards slot
+ */
 public class UpdateDevCardsSlotMessage extends ServerMessage {
 
     HashMap<Integer, DevelopmentCard> cardsInSlot;

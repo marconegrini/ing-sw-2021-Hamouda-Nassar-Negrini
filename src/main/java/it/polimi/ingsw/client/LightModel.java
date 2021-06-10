@@ -43,6 +43,12 @@ public class LightModel{
         this.leaderCards = leaderCards;
     }
 
+    /**
+     * method invoked after a server positive reply  as a consequence of leader cards selected
+     * by the user at the start of the game. Deletes the other two leader cards not selected.
+     * @param index1 index in arraylist of first selected leader card
+     * @param index2 index in arraylist of first selected leader card
+     */
     public void chooseLeaderCards(Integer index1, Integer index2){
         LeaderCard lc1 = leaderCards.get(index1);
         LeaderCard lc2 = leaderCards.get(index2);
@@ -51,6 +57,10 @@ public class LightModel{
         leaderCards.add(lc2);
     }
 
+    /**
+     * activates selected leader card
+     * @param index
+     */
     public void activateLeaderCard(Integer index){
         try {
             this.leaderCards.get(index).activate();
@@ -59,6 +69,10 @@ public class LightModel{
         }
     }
 
+    /**
+     * discards selected leader card
+     * @param index
+     */
     public void discardLeaderCard(Integer index){
         try{
             this.leaderCards.get(index).discard();
@@ -75,10 +89,19 @@ public class LightModel{
         this.developmentCardsDeck = developmentCardsDeck;
     }
 
+    /**
+     * returns top cards in development cards slot. Used in the view to show possible cards where activate
+     * production
+     * @return
+     */
     public HashMap<Integer, DevelopmentCard> getPeekDevCardsInSlot() {
         return peekDevCardsInSlot;
     }
 
+    /**
+     * invoked after a development card has been bought. Sets new top leader cards in deck
+     * @param peekDevCardsInSlot
+     */
     public void setPeekDevCardsInSlot(HashMap<Integer, DevelopmentCard> peekDevCardsInSlot) {
         this.peekDevCardsInSlot = peekDevCardsInSlot;
     }
@@ -123,6 +146,12 @@ public class LightModel{
         this.warehouse = warehouse;
     }
 
+    /**
+     * invoked after a positive request of moving resources in warehouse. Called in the process method of a
+     * ServerMessage.
+     * @param sourceStorage
+     * @param destStorage
+     */
     public void moveWarehouseResources(Integer sourceStorage, Integer destStorage){
         try {
             this.warehouse.moveResource(sourceStorage, destStorage);

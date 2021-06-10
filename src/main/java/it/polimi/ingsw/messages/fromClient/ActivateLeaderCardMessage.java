@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * contains leader cards' arraylist's index to activate a leader card.
+ * It will be processed by the server and will modify the model.
+ */
 public class ActivateLeaderCardMessage extends ClientMessage{
 
     private Integer slot;

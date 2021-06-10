@@ -7,6 +7,9 @@ import it.polimi.ingsw.server.Server;
 
 import java.util.HashMap;
 
+/**
+ * update method to update in client's light model the faith path
+ */
 public class UpdateFaithPathMessage extends ServerMessage {
     HashMap<String, Integer> othersPositions;
     Integer playerPosition;

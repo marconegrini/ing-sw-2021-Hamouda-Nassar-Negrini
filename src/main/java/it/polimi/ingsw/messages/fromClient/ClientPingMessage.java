@@ -4,6 +4,9 @@ import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerPingMessage;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Test class used to ping the server.
+ */
 public class ClientPingMessage extends ClientMessage{
 
     public ClientPingMessage(){

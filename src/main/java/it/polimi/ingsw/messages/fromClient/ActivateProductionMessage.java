@@ -6,15 +6,16 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.List;
 
+/**
+ * Invoked to activate productions. Contains information about the slot numbers in which activate production
+ * (max 3) and, if the user has a production power leader card activated, optional leader resources chosen in
+ * leaderResource.
+ */
 public class ActivateProductionMessage extends ClientMessage{
 
     private List<Integer> slots;
     private List<Resource> leaderResource;
 
-    /**
-     * @param slots  slots indicate which slots the client want to activate
-     * @param leaderResource  leaderResource indicate
-     */
     public ActivateProductionMessage(List<Integer> slots, List<Resource> leaderResource) {
         super(ClientMessageType.ACTIVATEPRODUCTION);
         this.slots = slots;

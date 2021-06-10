@@ -3,6 +3,9 @@ package it.polimi.ingsw.messages.fromServer;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 
+/**
+ * sent from the server if the action requested by the client during calamaio setting up cannot be performed.
+ */
 public class CalamaioErrorMessage extends  ServerMessage{
 
     String str;

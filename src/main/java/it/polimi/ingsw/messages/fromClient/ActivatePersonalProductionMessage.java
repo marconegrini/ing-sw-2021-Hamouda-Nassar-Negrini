@@ -9,6 +9,13 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.List;
 
+/**
+ * contains information about:
+ * 1) the two resources the user wants as production input. The will be taken from warehouse or coffer.
+ * 2) the resource the user wants as production output. This resource will be stored in coffer.
+ * 3) If one or two production power leader card is/are activated, selected resources will be chosen by the user and inserted
+ *    in leaderResource arrayList
+ */
 public class ActivatePersonalProductionMessage extends ClientMessage{
 
     private Resource prodIn1;

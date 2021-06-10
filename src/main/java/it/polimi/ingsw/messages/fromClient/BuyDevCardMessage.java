@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 
-
+/**
+ * Sent from the client to buy specified development card. Contains the row and column numbers of the development
+ * cards matrix. Specifies moreover the number of slot in which to insert bought development card.
+ */
 public class BuyDevCardMessage extends ClientMessage{
 
     private final Integer row;

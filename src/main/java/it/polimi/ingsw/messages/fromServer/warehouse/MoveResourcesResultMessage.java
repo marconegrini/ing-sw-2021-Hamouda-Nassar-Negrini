@@ -5,6 +5,10 @@ import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 
+/**
+ * update message to update client's light model warehouse. Sent after a MoveWarehouseResourcesMessage
+ * has been sent from the client
+ */
 public class MoveResourcesResultMessage extends ServerMessage {
 
     private boolean error;

@@ -6,8 +6,6 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
  * ExitFromGameMessage is used to send a message to the server and remove
  * the clientHandler from the server.
  */
-
-
 public class ExitFromGameMessage extends ClientMessage{
 
     public ExitFromGameMessage() {

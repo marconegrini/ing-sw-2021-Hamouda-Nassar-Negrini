@@ -81,6 +81,11 @@ public class CLIView extends View {
         return new LoginMessage(nickname, isMultiplayer);
     }
 
+    /**
+     * Initialises calamaio and enables users to select resources to insert in warehouse
+     * @param strIn
+     * @return
+     */
     @Override
     public ClientMessage initializeCalamaio(String strIn) {
 
@@ -146,13 +151,6 @@ public class CLIView extends View {
         return initializeCalamaio("You are the fourth player, choose 2 resources:\n");
     }
 
-
-//
-//    @Override
-//    public void printToClient() {
-//        String
-//    }
-
     /**
      * Show possible options of leader cards to choose and asks the client to select two of them.
      *
@@ -188,7 +186,7 @@ public class CLIView extends View {
     /**
      * Actions menu displayed every time a user starts his turn. Before selecting the action to perform, the user can call
      * the "show" command as long as he wants to see the status of personal board, market board and development cards deck.
-     *
+     * Contains code to perform all action and each if statement returns a ClientMessageType of the respective action.
      * @return a ClientMessage type corresponding to the action selected
      * @return a ClientMessage type for the server corresponding to the action selected
      */
@@ -637,6 +635,11 @@ public class CLIView extends View {
         return toReturn;
     }
 
+    /**
+     * Used to notify users when waiting in waiting room before starting the game. Tells how many other players
+     * are waiting with them
+     * @param s
+     */
     @Override
     public void showParticipantsNumber(String s) {
         System.out.println("In waiting with:" + s + " players");
@@ -705,7 +708,11 @@ public class CLIView extends View {
 }
 
 
-
+    /**
+     * method invoked to secure the read of user's input. Asks to type again if input integrity rules are not satisfied
+     * @param pattern
+     * @return
+     */
     //reading securely using RegEx <3
     private String secureReadString(String pattern) {
         String input = "";
@@ -721,7 +728,11 @@ public class CLIView extends View {
         }
         return input;
     }
-
+    /**
+     * method invoked to secure the read of user's input. Asks to type again if input integrity rules are not satisfied
+     * @param pattern
+     * @return
+     */
     private int secureReadInt(String pattern) {
         String input = "";
         boolean valid = false;

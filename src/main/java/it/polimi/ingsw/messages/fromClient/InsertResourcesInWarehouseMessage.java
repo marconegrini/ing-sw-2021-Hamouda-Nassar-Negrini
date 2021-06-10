@@ -8,6 +8,13 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.List;
 
+/**
+ * sent from the client and specifies warehouse shelf to insert resources contained in resources ArrayList.
+ * Message sent after resources have been picked from the market. The user has the possibility to insert or
+ * discard picked resources.
+ * Resources that the user wants to insert in different warehouse's shelves need to be packed in different
+ * InsertResourcesInWarehouseMessage - s.
+ */
 public class InsertResourcesInWarehouseMessage extends ClientMessage{
 
     private boolean discard;

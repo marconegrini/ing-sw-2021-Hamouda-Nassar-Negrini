@@ -67,6 +67,10 @@ public class ServerHandler implements Runnable{
         }
     }
 
+    /**
+     * receive server messages and processes them, unconditionally form the message type
+     * @throws IOException
+     */
     public void processServerMessages() throws IOException{
         ServerMessageFactory factory = new ServerMessageFactory();
         try{
@@ -102,12 +106,19 @@ public class ServerHandler implements Runnable{
         System.out.println("Game ended");
     }
 
+    /**
+     * used pack a ClientMessage into a json file. Sends it to the server
+     * @param message
+     */
     public void sendJson(ClientMessage message){
         Gson gson = new Gson();
         String toSend = gson.toJson(message);
         out.println(toSend);
     }
 
+    /**
+     * invoked in EndGameMessage to stop processServerMessages method. Only used at the end of the game
+     */
     public void stop(){
         shouldStop.set(true);
         try {

@@ -3,6 +3,9 @@ package it.polimi.ingsw.messages.fromServer;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * A generic error message sent from the server to the client
+ */
 public class ErrorMessage extends ServerMessage{
 
     private String errorMessage;

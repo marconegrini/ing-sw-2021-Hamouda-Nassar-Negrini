@@ -10,6 +10,9 @@ import it.polimi.ingsw.model.enumerations.Resource;
 
 import java.util.HashMap;
 
+/**
+ * Update message to update client's warehouse and coffer in light model
+ */
 public class UpdateWarehouseCofferMessage extends ServerMessage {
 
     private HashMap<Integer, Storage> warehouse;

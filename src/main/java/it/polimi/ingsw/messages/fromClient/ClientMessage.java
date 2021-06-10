@@ -4,7 +4,9 @@ import it.polimi.ingsw.server.handlers.ClientHandler;
 
 
 /**
- * message sent from client TO SERVER
+ * messages sent from client TO SERVER. Each message will be processed independently from the message type.
+ * To let the message have effect, when processing it the server will access to turn manager's methods, that
+ * are controller's methods.
  */
 public abstract class ClientMessage {
 

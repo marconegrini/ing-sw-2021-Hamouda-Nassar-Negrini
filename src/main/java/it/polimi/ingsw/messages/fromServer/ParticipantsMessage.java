@@ -7,8 +7,7 @@ public class ParticipantsMessage extends ServerMessage{
 
     private Integer participantsNumber;
 
-    public ParticipantsMessage(Integer participantsNumber)
-    {
+    public ParticipantsMessage(Integer participantsNumber) {
         super(ServerMessageType.PARTICIPANTS);
         this.participantsNumber = participantsNumber;
     }

@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Message sent from the client to move resources in warehouse between shelves.
+ * Contains source storage and destination storage.
+ */
 public class MoveWarehouseResourcesMessage extends ClientMessage{
 
     private Integer sourceStorage;

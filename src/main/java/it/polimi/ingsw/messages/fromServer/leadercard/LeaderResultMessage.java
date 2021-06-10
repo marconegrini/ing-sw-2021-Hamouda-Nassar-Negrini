@@ -12,6 +12,11 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * sent from server to update leader cards (activated or discarded) in client model. If requested action couldn't be performed, the flag
+ * error is set to true and another action to perform is requested. If not, the process method updates le client
+ * light model and notifies to the client the action performed.
+ */
 public class LeaderResultMessage extends ServerMessage {
 
     private boolean error;

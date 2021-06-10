@@ -2,6 +2,9 @@ package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
 
+/**
+ * Sent from the server if requested start from the client in waiting room cannot be performed
+ */
 public class ErrorStartGameMessage extends ServerMessage{
 
     String message;

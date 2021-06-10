@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Message sent from the user to select two leader cards out of four at the beginning of the game.
+ * Contains leader cards' arraylist's indexes of specified leader cards.
+ */
 public class SelectLeaderCardMessage extends ClientMessage{
 
     private Integer index1;

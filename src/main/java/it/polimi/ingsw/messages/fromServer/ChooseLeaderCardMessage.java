@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.List;
 
+/**
+ * Message sent from server after the client choose two leader cards out of four. The method updates client's
+ * light model and prints selected leader cards to the client
+ */
 public class ChooseLeaderCardMessage extends ServerMessage{
 
     List<LeaderCard> leaderCards;

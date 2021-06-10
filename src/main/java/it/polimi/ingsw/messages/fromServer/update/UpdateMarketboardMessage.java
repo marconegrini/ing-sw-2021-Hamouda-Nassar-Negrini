@@ -7,6 +7,9 @@ import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 
+/**
+ * update method to update client's marketboard after marbles have been picked
+ */
 public class UpdateMarketboardMessage extends ServerMessage {
 
     private MarketBoard marketBoard;

@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 
 import java.util.ArrayList;
 
+/**
+ * Update method that updates client's light model with new development cards in development card matrix
+ */
 public class UpdateDevCardsDeckMessage extends ServerMessage {
 
     private ArrayList<DevelopmentCard> developmentCardsDeck;

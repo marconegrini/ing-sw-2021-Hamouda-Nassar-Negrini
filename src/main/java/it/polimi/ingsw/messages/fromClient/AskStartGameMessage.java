@@ -4,6 +4,10 @@ import it.polimi.ingsw.messages.fromServer.ErrorStartGameMessage;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+/**
+ * Sent from a client if in waiting room there are less than 4 players. Enables a player to let the game start
+ * if less than 4 players are in waiting room.
+ */
 public class AskStartGameMessage extends ClientMessage{
 
     public AskStartGameMessage() {

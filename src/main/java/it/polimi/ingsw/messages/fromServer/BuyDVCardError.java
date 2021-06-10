@@ -3,6 +3,10 @@ package it.polimi.ingsw.messages.fromServer;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 
+/**
+ * message returned if selected development card in the development cards matrix cannot be bought. Redirects
+ * the client to the main menu
+ */
 public class BuyDVCardError extends ServerMessage{
 
     private String errorCause;

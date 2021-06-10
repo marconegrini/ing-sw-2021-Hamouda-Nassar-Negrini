@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * message factory USED BY the SERVER, to recieve the messages of the client.
+ * message factory USED BY the SERVER, to get a ClientMessage from a Json string.
  */
 public class ClientMessageFactory {
 
