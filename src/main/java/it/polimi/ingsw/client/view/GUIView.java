@@ -103,7 +103,7 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
-        return null;
+        return new EmptyMessage();
     }
 
 
