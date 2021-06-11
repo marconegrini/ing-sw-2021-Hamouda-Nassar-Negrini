@@ -39,7 +39,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label prefHeight="161.0" prefWidth="125.0" style="-fx-background-color: #800d0d; -fx-border-color: #000000; -fx-border-width: 2;" styleClass="rood" GridPane.rowIndex="2" />
+                  <Label prefHeight="161.0" prefWidth="125.0" style="-fx-background-color: #800d0d; -fx-border-color: #000000; -fx-border-width: 2;" styleClass="rood" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="devCardsSlots" layoutX="403.0" layoutY="282.0" onMouseClicked="#selectedDevCardSlot" prefHeight="406.0" prefWidth="600.0">

@@ -45,6 +45,15 @@ public class SelectTwoResourceController {
     public void ContinueToGame(ActionEvent actionEvent) {
         if (insertedResource1 && insertedResource2) {
             ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
+
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/setcalamaio/waiting_game.fxml")));
+                SceneManager.setScene(new Scene(root, 1080, 720));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }else{
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

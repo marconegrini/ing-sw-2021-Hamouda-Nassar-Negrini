@@ -1,0 +1,4 @@
+.boardBackBackground{
+    -fx-background-image: url('../../images/game/plancia_retro.png');
+    -fx-background-size: 100% 100%;
+}

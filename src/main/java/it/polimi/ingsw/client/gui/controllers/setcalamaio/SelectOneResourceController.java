@@ -49,11 +49,12 @@ public class SelectOneResourceController {
         ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel), 0, selectedShelf, 0));
 
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game/game.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/setcalamaio/waiting_game.fxml")));
             SceneManager.setScene(new Scene(root, 1080, 720));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void selectFirstShelf(MouseEvent mouseEvent) {
