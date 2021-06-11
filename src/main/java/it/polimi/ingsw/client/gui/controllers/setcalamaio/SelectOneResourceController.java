@@ -35,6 +35,10 @@ public class SelectOneResourceController {
     private int selectedShelf = 0;
 
 
+    /**
+     * Manage the action on the button that allow the user to confirm the selected resource
+     * @param actionEvent
+     */
     public void ContinueToGame(ActionEvent actionEvent) {
         if (!insertedResource) {
             Platform.runLater(() -> {
@@ -48,14 +52,12 @@ public class SelectOneResourceController {
         }
         ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel), 0, selectedShelf, 0));
 
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game/game.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 720));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
+    /**
+     * Manage the onClick event on the first shelf
+     * @param mouseEvent
+     */
     public void selectFirstShelf(MouseEvent mouseEvent) {
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
@@ -92,6 +94,10 @@ public class SelectOneResourceController {
 
     }
 
+    /**
+     * Manage the onClick event on the second shelf
+     * @param mouseEvent
+     */
     public void selectSecondShelf(MouseEvent mouseEvent) {
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
@@ -128,6 +134,10 @@ public class SelectOneResourceController {
         selectedShelf = 2;
     }
 
+    /**
+     * Manage the onClick event on the third shelf
+     * @param mouseEvent
+     */
     public void selectThirdShelf(MouseEvent mouseEvent) {
         if (!isSelectedResource()) {
             Platform.runLater(() -> {
@@ -163,6 +173,10 @@ public class SelectOneResourceController {
         selectedShelf = 1;
     }
 
+    /**
+     * Check if a resource is selected or not
+     * @return true if a resource is selected. False if there isn't a selected resource.
+     */
     private boolean isSelectedResource() {
         if (selected == null) {
             //System.out.println(" toggle before: " + resource + " this: " + this);
@@ -174,6 +188,10 @@ public class SelectOneResourceController {
         return selected.getText() != null;
     }
 
+    /**
+     * Manage the selection of the resource servant
+     * @param actionEvent
+     */
     public void selectServant(MouseEvent actionEvent) {
         if (insertedResource) {
             Platform.runLater(() -> {
@@ -195,6 +213,10 @@ public class SelectOneResourceController {
         selected = (RadioButton) resource.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource shield
+     * @param actionEvent
+     */
     public void selectShield(MouseEvent actionEvent) {
         if (insertedResource) {
             Platform.runLater(() -> {
@@ -217,6 +239,10 @@ public class SelectOneResourceController {
 
     }
 
+    /**
+     * Manage the selection of the resource stone
+     * @param actionEvent
+     */
     public void selectStone(MouseEvent actionEvent) {
         if (insertedResource) {
             Platform.runLater(() -> {
@@ -238,6 +264,10 @@ public class SelectOneResourceController {
         selected = (RadioButton) resource.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource coin
+     * @param actionEvent
+     */
     public void selectCoin(MouseEvent actionEvent) {
         if (insertedResource) {
             Platform.runLater(() -> {
@@ -259,6 +289,11 @@ public class SelectOneResourceController {
         selected = (RadioButton) resource.getSelectedToggle();
     }
 
+    /**
+     * Remove the selection from all the labels except the label in the parameter.
+     * It does remove the green frame around the labels and put a blue one.
+     * @param label  The label from which you didn't want to remove the green frame
+     */
     private void disSelectResources(Label label) {
         //selected = (RadioButton)resources.getSelectedToggle();
         if (!coin.equals(label)) {
@@ -287,14 +322,12 @@ public class SelectOneResourceController {
         }
     }
 
-    private String getResource(Label label) {
-        if (label.getStyleClass().contains("coin")) return "coin";
-        if (label.getStyleClass().contains("shield")) return "shield";
-        if (label.getStyleClass().contains("stone")) return "stone";
-        if (label.getStyleClass().contains("servant")) return "servant";
-        return "";
-    }
-
+    /**
+     * This method is used to convert a label into a number that represent that label.
+     * This is necessary to use the same message standard that will be sent to the server.
+     * @param label  the label that should be converted in an integer
+     * @return  the integer that refers to the label
+     */
     private int resourceConverter (Label label){
         if (label.getStyleClass().contains("shield")) return 1;
         if (label.getStyleClass().contains("coin")) return 2;

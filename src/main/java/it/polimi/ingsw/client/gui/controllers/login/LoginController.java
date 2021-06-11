@@ -18,6 +18,10 @@ public class LoginController {
     @FXML
     private ToggleGroup multiplayer;
 
+    /**
+     * Invoked when the continue button is pressed. This method check if the nickname is valid and send the LoginMessage to the server
+     * @param actionEvent
+     */
     public void askLogin(ActionEvent actionEvent) {
 
         if (nicknameTextField.getText().isEmpty() || nicknameTextField.getText().isBlank()) {
@@ -48,8 +52,11 @@ public class LoginController {
         ControllerGUI.getServerHandler().sendJson(new LoginMessage(nicknameTextField.getText(), isMultiplayer));
     }
 
+    /**
+     * Invoked when the start game button is pressed. Try to start the game. The game will start only of there are at least two players in the waiting room
+     * @param actionEvent
+     */
     public void startGame(ActionEvent actionEvent) {
-
         ControllerGUI.getServerHandler().sendJson(new AskStartGameMessage());
     }
 
