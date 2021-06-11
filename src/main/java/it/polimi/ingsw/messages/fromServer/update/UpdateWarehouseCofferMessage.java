@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer.update;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.Coffer;
@@ -30,5 +31,9 @@ public class UpdateWarehouseCofferMessage extends ServerMessage {
         Coffer coffer = new Coffer(this.coffer);
         serverHandler.getLightModel().setWarehouse(warehouse);
         serverHandler.getLightModel().setCoffer(coffer);
+        if (!serverHandler.getIsCli()){
+            UpdateObjects.updateWarehouse(warehouse);
+            UpdateObjects.updateCoffer(coffer);
+        }
     }
 }
