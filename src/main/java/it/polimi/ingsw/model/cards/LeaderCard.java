@@ -85,6 +85,10 @@ public abstract class LeaderCard extends Card {
 
     public abstract String toString();
 
+    /**
+     * This method transform a card to a String that represent the image name in the resources directory. It will be used to upload the image of the card in the GUI
+     * @return  a String that will be used for the path of the image
+     */
     public abstract String toPath();
 
 }
