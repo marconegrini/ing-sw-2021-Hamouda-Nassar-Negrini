@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Class that manages CLI interactions with users
@@ -29,6 +30,7 @@ public class CLIView extends View {
     DepositsTracer depositsTracer;
     DvCardsTracer dvCardsTracer;
     VaticanSectionsTracer vaticanSectionsTracer;
+
     boolean stillWaiting;
 
     public CLIView(LightModel clientLightModel) {
@@ -421,13 +423,28 @@ public class CLIView extends View {
 
         //slot to insert resources
         Integer selected = 0;
-
+        String returnedStr = "";
         //enters here only if INSERT option has been chosen.
         //Needed to acquire shelf value.
         if (!discard) {
-            System.out.println("Select shelf to insert resources (1 to 3):");
 
-                    shelf = secureReadInt("[1-3]");
+            if (clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).count() > 0) {
+                System.out.println("Select shelf to insert resources (1 to 3) OR write \"store in LC\" to use the storage of a leader card: ");
+                leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+
+                returnedStr = secureReadString("(store in LC)|[1-3]");
+                if (returnedStr.length()<2)
+                    shelf = Integer.parseInt(returnedStr);
+                else shelf = -1;
+            }else {
+                System.out.println("Select shelf to insert resources (1 to 3)");
+                shelf = secureReadInt("[1-3]");
+            }
+//            leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).collect(Collectors.toList())).forEach(System.out::println);
+//            shelf = secureReadInt("[a-" + '`' + clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).count() + "]|[1-3]");
+
+
+
         }
 
         boolean resourceOK = false;

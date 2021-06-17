@@ -152,6 +152,7 @@ public class MultiPlayerGameHandler extends Thread {
         for(ClientHandler ch : clientHandlers){
             HashMap<String, Integer> faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(ch.getNickname());
+            sendToClient(ch, new UpdateLeaderCardStatusMessage(ch.getPlayer().getLeaderCards()));
             sendToClient(ch, new UpdateFaithPathMessage(faithPathPositions, ch.getPlayer().getFaithPathPosition()));
             sendToClient(ch, new UpdateWarehouseCofferMessage(ch.getPlayer().getClonedWarehouse(), ch.getPlayer().getClonedCoffer()));
             sendToClient(ch, new UpdateDevCardsSlotMessage(ch.getPlayer().getPeekCardsInDevCardSLots()));

@@ -18,6 +18,28 @@ public class StorageLeaderCard extends LeaderCard {
     private Integer maxCapacity = 0;
     private ArrayList<Resource> storage;
 
+    //the constructor of Storage leader cards from messages between server and client.
+    public StorageLeaderCard(
+            CardType cardType,
+            int victoryPoints,
+            boolean isActivated,
+            boolean isDiscarded,
+            Integer maxCapacity,
+            HashMap<Resource, Integer> activationCost,
+            HashMap<Resource, Integer> slots,
+            ArrayList<Resource> storage) {
+        this.cardType = cardType;
+        this.Vp = victoryPoints;
+        this.isActivated = isActivated;
+        this.isDiscarded = isDiscarded;
+        this.activationCost = activationCost;
+        this.slots = slots;
+        this.maxCapacity = maxCapacity;
+        this.storage = storage;
+    }
+
+
+    //first instantiation of the leader cards in the game,, is being used just at the beginning.
     public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
@@ -26,6 +48,7 @@ public class StorageLeaderCard extends LeaderCard {
         this.cardType = cardType;
         this.Vp = victoryPoints;
         this.isActivated = false;
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.slots = slots;
         for(Resource res : slots.keySet())
@@ -62,14 +85,14 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     /**
-     * methos that can be used to a single resources or a list of resources to a storage leader card's storage
+     * methos that can be used to put a single resources or a list of resources to a storage leader card's storage
      *
      * @param resourceIn    a list of resources, when used the second argument should be "null"  .if want to add single resource --> "null" instead and put the single resource as the second argument.
      * @param oneResourceIn a single resource passed to the method to be added when used the first argument should be "null"
      * @throws StorageOutOfBoundsException storage out of bound
      * @throws IllegalInsertionException   illegal insertion when the type of the card is different from the resource passed or when the
      */
-    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws StorageOutOfBoundsException, IllegalInsertionException {
+    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws  IllegalInsertionException {
 
         if (resourceIn == null) {
             if (oneResourceIn != null)
@@ -144,7 +167,13 @@ public class StorageLeaderCard extends LeaderCard {
         }else tempResource = tempOpt.get();  //if there is at least one shelf non empty--> get tha=e resource in the shelf
 
         //clearing the resource in that shelf
-        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+//        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+        for (int i=0;i<maxCapacity; i++){
+            if (storage.get(i)!=null) {
+                storage.remove(i); //the last loop does not depend on the array's size
+                break;
+            }
+        }
         return tempResource;
 
     }
@@ -165,9 +194,6 @@ public class StorageLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getSlots() {
-        return slots;
-    }
 
     /**
      * @return returns a hashMap with the resources saved in the leaderCard
@@ -195,6 +221,7 @@ public class StorageLeaderCard extends LeaderCard {
         return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
+
     public List<Resource> getStoredResources(){
         List<Resource> res = new ArrayList<>();
 
@@ -203,8 +230,16 @@ public class StorageLeaderCard extends LeaderCard {
         return res;
     }
 
+    /**
+     *
+     * @return the type of the resource that a Storage Leader Card can contain.
+     */
     public Resource storageType() {
         return slots.keySet().stream().findFirst().get();
+    }
+
+    public boolean hasAvailableSlots(){
+        return getOccupiedSlots() < maxCapacity;
     }
 
 

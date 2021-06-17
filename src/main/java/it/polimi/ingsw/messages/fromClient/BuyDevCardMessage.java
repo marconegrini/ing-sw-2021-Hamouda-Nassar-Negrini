@@ -50,18 +50,16 @@ public class BuyDevCardMessage extends ClientMessage{
         player.putCofferResources(resourcesIn);
 
         //for testing   -- full all leader cards storage
-        if (player.getLeaderCards().get(0).isActivated()&&player.getLeaderCards().get(0).getCardType().equals(CardType.STORAGE)){
-           StorageLeaderCard sld = (StorageLeaderCard)player.getLeaderCards().get(0);
-            for (int i=sld.getOccupiedSlots(); i< sld.getMaxCapacity(); i++){
-                try {
-                    sld.putResourceInCardStorage(null,sld.storageType());
-                } catch (StorageOutOfBoundsException e) {
-                    e.printStackTrace();
-                } catch (IllegalInsertionException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        if (player.getLeaderCards().get(0).isActivated()&&player.getLeaderCards().get(0).getCardType().equals(CardType.STORAGE)){
+//           StorageLeaderCard sld = (StorageLeaderCard)player.getLeaderCards().get(0);
+//            for (int i=sld.getOccupiedSlots(); i< sld.getMaxCapacity(); i++){
+//                try {
+//                    sld.putResourceInCardStorage(null,sld.storageType());
+//                } catch (IllegalInsertionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 //        //
 
         try {

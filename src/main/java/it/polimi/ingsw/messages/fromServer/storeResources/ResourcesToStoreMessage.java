@@ -1,5 +1,6 @@
 package it.polimi.ingsw.messages.fromServer.storeResources;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
@@ -21,6 +22,7 @@ public class ResourcesToStoreMessage extends ServerMessage {
     String okMessage;
     HashMap<Integer, Storage> warehouse;
     private boolean turnDone;
+    private boolean updateLeaderCards = false;
 
     public ResourcesToStoreMessage(boolean turnDone, List<Resource> resourcesFromMarket, String okMessage, HashMap<Integer, Storage> warehouse) {
         super(ServerMessageType.RESOURCESTOSTORE);
@@ -30,15 +32,30 @@ public class ResourcesToStoreMessage extends ServerMessage {
         this.warehouse = warehouse;
     }
 
+
+    public ResourcesToStoreMessage(boolean turnDone,boolean updateLeaderCards, List<Resource> resourcesFromMarket, String okMessage, HashMap<Integer, Storage> warehouse) {
+        super(ServerMessageType.RESOURCESTOSTORE);
+        this.turnDone = turnDone;
+        this.resourcesToStore = resourcesFromMarket;
+        this.okMessage = okMessage;
+        this.warehouse = warehouse;
+        this.updateLeaderCards = updateLeaderCards;
+    }
+
+
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        if(!turnDone) {
-            System.out.println(resourcesToStore);
+        if (!turnDone) {
+            System.out.println(resourcesToStore); //testing
             Warehouse newWarehouse = new Warehouse(warehouse);
             serverHandler.getLightModel().setWarehouse(newWarehouse);
             serverHandler.getView().showMessage(this.okMessage);
             ClientMessage message = serverHandler.getView().storeResources(this.resourcesToStore);
             serverHandler.sendJson(message);
         } else serverHandler.getView().showMessage(this.okMessage);
+        if (updateLeaderCards){
+//            ClientMessage outcome =
+//            clientHandler.sendJson(outcome);
+        }
     }
 }
