@@ -196,6 +196,7 @@ public class TurnManager {
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
         if(resourcesToStore.isEmpty()){
+
             this.turnDone();
             return new OkMessage("You don't have resources to store!");
         } else {
@@ -320,7 +321,6 @@ public class TurnManager {
                 usedLeaderCard = true;
             }
 
-            //tha name comes from the fact that: the rest of resources that don't exist in the wareHouse will be taken from the coffer
             if (containsNeededResources(player, devCardCost)) {
 
                 pullNeededResources(player, devCardCost);
@@ -361,7 +361,7 @@ public class TurnManager {
         if (leaderCards.stream().anyMatch(x->x.isActivated()))
             if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE
                 for (LeaderCard ld: leaderCards)
-                    if (ld.getCardType().equals(CardType.STORAGE))
+                    if (ld.getCardType().equals(CardType.STORAGE)&&ld.isActivated())
                         storageLeaderCards.add((StorageLeaderCard) ld);
 
 
@@ -419,9 +419,9 @@ public class TurnManager {
 
         //hasn't discarded 'em
         if (leaderCards.stream().anyMatch(x->x.isActivated()))
-            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE
+            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE)&&x.isActivated())) //if any card is of type STORAGE
                 for (LeaderCard ld: leaderCards)
-                    if (ld.getCardType().equals(CardType.STORAGE))
+                    if (ld.getCardType().equals(CardType.STORAGE)&&ld.isActivated())
                         storageLeaderCards.add((StorageLeaderCard) ld);
 
 
@@ -434,10 +434,10 @@ public class TurnManager {
                         break;
                     //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
                     if (sld.getStoredResources().contains(resource)) {
-                        /*for (int i = 0; i < storageLeaderCards.get(k).getStoredResources().size(); i++)*/
                         {
                             //pull one resource from any deposit/slot of teh card
                             try {
+                                System.out.println("Passed here 1 + Resource: "+resource); //testing
                                 sld.pullResource();
                                 pulled = true;
                             } catch (EmptySlotException e) {
@@ -448,9 +448,11 @@ public class TurnManager {
                 }
 
                 if (warehouseResources.contains(resource) && !pulled) {
+                    System.out.println("Passed here 2 + Resource: "+resource);//testing
                     warehouseResources.remove(resource);
                     toTakeFromWarehouse.add(resource);
                 } else if (!pulled){
+                    System.out.println("Passed here 3 + Resource: "+resource);//testing
                     toTakeFromCoffer.add(resource);
                 }
 

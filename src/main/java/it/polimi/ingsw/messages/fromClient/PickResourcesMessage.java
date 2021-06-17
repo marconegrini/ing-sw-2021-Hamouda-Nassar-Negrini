@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromClient;
 
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
+import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardStatusMessage;
 import it.polimi.ingsw.messages.fromServer.update.UpdateMarketboardMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.controller.TurnManager;
@@ -28,6 +29,7 @@ public class PickResourcesMessage extends ClientMessage{
         TurnManager turnManager = clientHandler.getTurnManager();
         ServerMessage outcome = turnManager.pickResources(clientHandler.getPlayer(), isRow, rowOrColNum);
         clientHandler.sendJson(outcome);
+
         //clientHandler.sendJson(new UpdateMarketboardMessage(clientHandler.g));
     }
 }

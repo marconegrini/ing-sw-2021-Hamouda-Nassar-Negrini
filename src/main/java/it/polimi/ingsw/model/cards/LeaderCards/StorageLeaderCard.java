@@ -18,6 +18,28 @@ public class StorageLeaderCard extends LeaderCard {
     private Integer maxCapacity = 0;
     private ArrayList<Resource> storage;
 
+    //the constructor of Storage leader cards from messages between server and client.
+    public StorageLeaderCard(
+            CardType cardType,
+            int victoryPoints,
+            boolean isActivated,
+            boolean isDiscarded,
+            Integer maxCapacity,
+            HashMap<Resource, Integer> activationCost,
+            HashMap<Resource, Integer> slots,
+            ArrayList<Resource> storage) {
+        this.cardType = cardType;
+        this.Vp = victoryPoints;
+        this.isActivated = isActivated;
+        this.isDiscarded = isDiscarded;
+        this.activationCost = activationCost;
+        this.slots = slots;
+        this.maxCapacity = maxCapacity;
+        this.storage = storage;
+    }
+
+
+    //first instantiation of the leader cards in the game,, is being used just at the beginning.
     public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
@@ -26,6 +48,7 @@ public class StorageLeaderCard extends LeaderCard {
         this.cardType = cardType;
         this.Vp = victoryPoints;
         this.isActivated = false;
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.slots = slots;
         for(Resource res : slots.keySet())
@@ -144,7 +167,13 @@ public class StorageLeaderCard extends LeaderCard {
         }else tempResource = tempOpt.get();  //if there is at least one shelf non empty--> get tha=e resource in the shelf
 
         //clearing the resource in that shelf
-        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+//        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+        for (int i=0;i<maxCapacity; i++){
+            if (storage.get(i)!=null) {
+                storage.remove(i); //the last loop does not depend on the array's size
+                break;
+            }
+        }
         return tempResource;
 
     }
