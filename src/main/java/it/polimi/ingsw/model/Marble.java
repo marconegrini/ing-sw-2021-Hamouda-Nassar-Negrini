@@ -15,4 +15,10 @@ public class Marble {
     }
 
 
+    @Override
+    public String toString() {
+        return "Marble{" +
+                "color=" + color +
+                '}';
+    }
 }

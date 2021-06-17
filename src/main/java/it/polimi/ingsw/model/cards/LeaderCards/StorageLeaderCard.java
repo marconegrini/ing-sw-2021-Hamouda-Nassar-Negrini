@@ -62,14 +62,14 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     /**
-     * methos that can be used to a single resources or a list of resources to a storage leader card's storage
+     * methos that can be used to put a single resources or a list of resources to a storage leader card's storage
      *
      * @param resourceIn    a list of resources, when used the second argument should be "null"  .if want to add single resource --> "null" instead and put the single resource as the second argument.
      * @param oneResourceIn a single resource passed to the method to be added when used the first argument should be "null"
      * @throws StorageOutOfBoundsException storage out of bound
      * @throws IllegalInsertionException   illegal insertion when the type of the card is different from the resource passed or when the
      */
-    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws StorageOutOfBoundsException, IllegalInsertionException {
+    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws  IllegalInsertionException {
 
         if (resourceIn == null) {
             if (oneResourceIn != null)
@@ -165,9 +165,6 @@ public class StorageLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getSlots() {
-        return slots;
-    }
 
     /**
      * @return returns a hashMap with the resources saved in the leaderCard
@@ -195,6 +192,7 @@ public class StorageLeaderCard extends LeaderCard {
         return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
+
     public List<Resource> getStoredResources(){
         List<Resource> res = new ArrayList<>();
 
@@ -203,8 +201,16 @@ public class StorageLeaderCard extends LeaderCard {
         return res;
     }
 
+    /**
+     *
+     * @return the type of the resource that a Storage Leader Card can contain.
+     */
     public Resource storageType() {
         return slots.keySet().stream().findFirst().get();
+    }
+
+    public boolean hasAvailableSlots(){
+        return getOccupiedSlots() < maxCapacity;
     }
 
 

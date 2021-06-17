@@ -33,7 +33,7 @@ public class ResourcesToStoreMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         if(!turnDone) {
-            System.out.println(resourcesToStore);
+            System.out.println(resourcesToStore); //testing
             Warehouse newWarehouse = new Warehouse(warehouse);
             serverHandler.getLightModel().setWarehouse(newWarehouse);
             serverHandler.getView().showMessage(this.okMessage);

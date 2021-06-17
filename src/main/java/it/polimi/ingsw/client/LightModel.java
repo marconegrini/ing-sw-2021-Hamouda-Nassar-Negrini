@@ -90,9 +90,9 @@ public class LightModel{
     }
 
     /**
-     * returns top cards in development cards slot. Used in the view to show possible cards where activate
+     *
+     * @return returns top cards in development cards slot. Used in the view to show possible cards where activate
      * production
-     * @return
      */
     public HashMap<Integer, DevelopmentCard> getPeekDevCardsInSlot() {
         return peekDevCardsInSlot;
