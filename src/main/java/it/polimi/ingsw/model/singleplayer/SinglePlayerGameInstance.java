@@ -27,8 +27,4 @@ public class SinglePlayerGameInstance extends GameInstance {
        return this.player;
     }
 
-    public void printGamePlayer(){
-        //System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
-        player.printPlayer();
-    }
 }

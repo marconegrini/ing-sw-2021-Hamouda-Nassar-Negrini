@@ -19,15 +19,28 @@ public class VaticanSection {
         this.cardFlipped = false;
     }
 
+    /**
+     * flips (or activate) the papal card in this Vatican Section
+     */
     public void flipCard(){
         this.cardFlipped = true;
     }
 
-    //the argument is someone else's position
+    /**
+     *
+     * @param position someone else's position in faiht path
+     * @return true if specified position activates a rapporto in vaticano, else otherwise.
+     */
     public boolean rapportoVaticano(Integer position){
         return position.equals(this.spazioPapa) && !this.activated;
     }
 
+    /**
+     * @param userPosition if rapporto in vaticano returns true, the following method is invoked. If the caller (the user)
+     *                     is inside the Vatican Section (this) in which the rapporto in vaticano has been activated, the papal
+     *                     favor card is flipped. Otherwise, the card is not flipped but the Vatican Section (this) is activated,
+     *                     so it will not be possible to activate another rapporto in vatican in this Vatican Section.
+     */
     public void activate(Integer userPosition){
         //if the user position is inside vatican section, papalFavorCard is flipped
         if(userPosition >= this.startPos && userPosition <= this.spazioPapa)
@@ -37,6 +50,10 @@ public class VaticanSection {
         this.activated = true;
     }
 
+    /**
+     * Returns victory points given by the papal favor card inside this rapporto in vaticano
+     * @return
+     */
     public Integer getVictoryPoints(){
         if(this.cardFlipped)
             return this.victoryPoints;

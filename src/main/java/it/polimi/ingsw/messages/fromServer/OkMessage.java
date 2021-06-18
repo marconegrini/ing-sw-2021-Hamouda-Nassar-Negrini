@@ -3,6 +3,9 @@ package it.polimi.ingsw.messages.fromServer;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * A generic Server Message to show a positive message to the client
+ */
 public class OkMessage extends ServerMessage{
 
     private String message;

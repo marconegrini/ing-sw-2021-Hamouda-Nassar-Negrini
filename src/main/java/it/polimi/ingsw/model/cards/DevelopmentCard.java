@@ -13,6 +13,14 @@ public class DevelopmentCard extends Card{
     private final HashMap<Resource, Integer> productionIn;
     private final HashMap<Resource, Integer> productionOut;
 
+    /**
+     * @param Vp            victory points given
+     * @param cardColor
+     * @param level
+     * @param cardCost      development card cost specified as HashMap
+     * @param productionIn  resources needed to activate production on the development card
+     * @param productionOut resources given as production output by the development card
+     */
     public DevelopmentCard(int Vp, CardColor cardColor, Level level,
                            HashMap<Resource, Integer> cardCost,
                            HashMap<Resource, Integer> productionIn,
@@ -25,6 +33,9 @@ public class DevelopmentCard extends Card{
         this.productionOut = productionOut;
     }
 
+    /**
+     * @return victory points given by the development card
+     */
     @Override
     public int getVictoryPoints(){
         return this.Vp;
@@ -61,6 +72,10 @@ public class DevelopmentCard extends Card{
                 '}';
     }
 
+    /**
+     * Ad hoc clone method to copy a development card
+     * @return
+     */
     public DevelopmentCard clone(){
         HashMap<Resource, Integer> cost = this.getCardCost();
         HashMap<Resource, Integer> prodIn = this.getProductionIn();

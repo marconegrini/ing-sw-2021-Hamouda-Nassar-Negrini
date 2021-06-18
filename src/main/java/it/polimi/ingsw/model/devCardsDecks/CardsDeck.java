@@ -22,6 +22,11 @@ public class CardsDeck {
             }
     }
 
+    /**
+     * Gets card deck from json file and initializes the deck. The method builds a matrix of 3 rows x 4 columns
+     * and sets in the first row cards of the first level, divided by colour. the same happens with the other
+     * rows, and in each row cards are divided by colours.
+     */
     public void initializeCardsDeck(){
         DevelopmentCardParser parser = new DevelopmentCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/DevCardJson.json");
         ArrayList<DevelopmentCard> deck = parser.getDevelopmentCardsDeck();
@@ -92,6 +97,11 @@ public class CardsDeck {
             return cardsDeck[row][column].popCard();
     }
 
+    /**
+     * @param row
+     * @param column
+     * @return true if in selected poisition no development card is available, false otherwise
+     */
     public boolean isEmptyDeck(int row, int column){
         return cardsDeck[row][column].isEmptyDeck();
     }
@@ -113,7 +123,10 @@ public class CardsDeck {
         else throw new EmptyDeckException();
     }
 
-
+    /**
+     * @param row
+     * @return returns peek cards of the specified row
+     */
     public List<DevelopmentCard> peekRow(int row){
         ArrayList<DevelopmentCard> dvCardRow = new ArrayList<>();
         for (int column = 0; column < 4; column++)
@@ -122,6 +135,9 @@ public class CardsDeck {
         return List.copyOf(dvCardRow);
     }
 
+    /**
+     * @return peek cards of the entire development card matrix
+     */
     public ArrayList<DevelopmentCard> peekDecks(){
         ArrayList<DevelopmentCard> peekDecks = new ArrayList<>();
         for(int row = 0; row < 3; row++)

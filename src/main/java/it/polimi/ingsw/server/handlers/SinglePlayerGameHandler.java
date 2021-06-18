@@ -24,6 +24,9 @@ public class SinglePlayerGameHandler extends Thread{
     private SinglePlayer player;
     boolean gameEnded = false;
 
+    /**
+     * @param clientHandler
+     */
     public SinglePlayerGameHandler(ClientHandler clientHandler){
         System.out.println("dentro costruttore");
         this.clientHandler = clientHandler;
@@ -41,6 +44,11 @@ public class SinglePlayerGameHandler extends Thread{
         this.poppedActionsCard = player.getPoppedLorenzosCard();
     }
 
+    /**
+     * administers game logic. Sends to client action messages to choose an action to perform in the turn, at
+     * the end of which it performs a 'Lorenzo' action. Checks each time at the end of the turn if the player
+     * or Lorenzo reached the end of faith path or the player bought seven development cards.
+     */
     @Override
     public void run(){
         System.out.println("Single player game started");
@@ -85,10 +93,17 @@ public class SinglePlayerGameHandler extends Thread{
         sendToClient(new ChooseLeaderCardMessage(leaderCards));
     }
 
+    /**
+     * Send a ServerMessage to client
+     * @param message
+     */
     public void sendToClient(ServerMessage message) {
         clientHandler.sendJson(message);
     }
 
+    /**
+     * Update client's light model structures
+     */
     public void updateClient(){
         sendToClient(new UpdateMarketboardMessage(game.getMarketBoard()));
         sendToClient(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
@@ -99,6 +114,10 @@ public class SinglePlayerGameHandler extends Thread{
         sendToClient(new UpdateVaticanSectionsMessage(clientHandler.getPlayer().getVaticanSections()));
     }
 
+    /**
+     * returns lorenzo position in faith path.
+     * @return
+     */
     public HashMap<String, Integer> getLorenzoPosition(){
         HashMap<String, Integer> faithPathPositions = new HashMap<>();
         String nickname = "Lorenzo";
@@ -107,6 +126,10 @@ public class SinglePlayerGameHandler extends Thread{
         return faithPathPositions;
     }
 
+    /**
+     * Pick a card from action cards deck to perform a 'Lorenzo' action.
+     * @return
+     */
     public ServerMessage pickActionCard(){
 
         LorenzoCard lorenzoCard = actionCards.pop();

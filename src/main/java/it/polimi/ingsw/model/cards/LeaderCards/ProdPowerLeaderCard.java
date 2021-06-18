@@ -59,20 +59,24 @@ public class ProdPowerLeaderCard extends LeaderCard {
     }
 
 
-    //getters
+    /**
+     * @return the production power leader card as hash map:
+     * - key: resource
+     * - value: number of resources given as output
+     */
     @Override
     public HashMap<Resource, Integer>  getLeaderCardPower() {
         return (HashMap<Resource, Integer>) productionIn.clone();
     }
 
+    /**
+     * @return Leader card cost arraylist, or the activation cost
+     */
     public List<LeaderCardCost> getActivationCost() {
         return activationCost;
     }
 
-
-    //public boolean activateLeaderCard(HashMap<CardColor, Level> cardsIn){} //in the super class
-
-
+    /*
     public HashMap<Resource, Integer> useCard(HashMap<Resource, Integer> resourceIn) throws InsufficientResourcesException {
         //TODO call the verification method from the coffer&Warehouse and if true return the resources..
         // TODO give the player the possibility to choose one (or more) Resource as a given output as well as the faithPoint
@@ -83,16 +87,26 @@ public class ProdPowerLeaderCard extends LeaderCard {
 
         return tempHash;
     }
+     */
 
-
+    /**
+     * @return the number of faith points given as production output
+     */
     public Integer getOutProductionFaithPoints() {
         return outProductionFaithPoints;
     }
 
+    /**
+     * @return the number of resources given as production output
+     */
     public int getOutProductionResourceNum() {
         return outProductionResourceNum;
     }
 
+    /**
+     * @param developmentCards list of development cards held by the player
+     * @return true if available development cards are enough to activate the leader card, false otherwise
+     */
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {
 
         boolean activatable = true;

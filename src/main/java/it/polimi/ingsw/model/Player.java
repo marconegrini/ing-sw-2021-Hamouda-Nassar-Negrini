@@ -47,12 +47,6 @@ public abstract class Player {
         return leaderCards;
     }
 
-    public abstract void buyResources();
-
-    public abstract void buyDevelopmentCard();
-
-    public abstract void activateProduction();
-
     public String getNickname(){
         return this.nickname;
     }
@@ -76,6 +70,9 @@ public abstract class Player {
         return totalResource.stream().collect(Collectors.toList());
     }
 
+    /**
+     * @return the end position of faith path
+     */
     public Integer faithPathEnd(){
         return userFaithPath.getEnd();
     }
@@ -88,6 +85,9 @@ public abstract class Player {
         return personalBoard.getWarehouseResource();
     }
 
+    /**
+     * @return a cloned warehouse to update client's warehouse in light model
+     */
     public HashMap<Integer, Storage> getClonedWarehouse(){
         return personalBoard.getClonedWarehouse();
     }
@@ -100,10 +100,16 @@ public abstract class Player {
         return personalBoard.getCofferResource();
     }
 
+    /**
+     * @return a cloned coffer to update client's coffer in light model
+     */
     public HashMap<Resource, Integer> getClonedCoffer(){
         return personalBoard.getClonedCoffer();
     }
 
+    /**
+     * @return the arraylist containing vatican sections. Needed to update client's faith path in light model
+     */
     public List<VaticanSection> getVaticanSections(){
         return userFaithPath.getVaticanSections();
     }
@@ -143,6 +149,9 @@ public abstract class Player {
         return hasCalamaio;
     }
 
+    /**
+     * sets the calamaio true to this
+     */
     public void setCalamaio() {
         this.hasCalamaio = true;
     }
@@ -172,7 +181,7 @@ public abstract class Player {
     /**
      *
      * @param slotNumber slot's index to insert development card
-     * @param developmentCard
+     * @param developmentCard card to insert in slot
      * @throws IllegalInsertionException if insertion doesn't satisfy integrity rules of development card slots
      * @throws IndexOutOfBoundsException if slotNum is not and index of development card slots
      */
@@ -200,6 +209,9 @@ public abstract class Player {
         return personalBoard.devCardSlotProductionOut(devCardSlotNum);
     }
 
+    /**
+     * @return peek cards in development card slots
+     */
     public HashMap<Integer, DevelopmentCard> getPeekCardsInDevCardSLots(){
         return personalBoard.getPeekCardsInDevCardSLots();
     }
@@ -212,7 +224,6 @@ public abstract class Player {
     }
 
     /**
-     *
      * @param destStorage index of the destination storage, is an integer between 1 and 3
      * @param resourceIn list of resources to insert in the selcted storage of warehouse
      * @throws StorageOutOfBoundsException if selected index is not an index of warehouse
@@ -249,6 +260,11 @@ public abstract class Player {
         else throw new InsufficientResourcesException();
     }
 
+    /**
+     * @param indexNumber is the index representing a leader card inside leader cards list (0 or 1, since they are 2)
+     * @return true if leader card is activatable given available resources in warehouse/coffer/development cards slot,
+     * false otherwise
+     */
     public boolean isLeaderCardActivatable(Integer indexNumber){
         if(indexNumber < 0 || indexNumber > (leaderCards.size()-1)) throw new IndexOutOfBoundsException();
         CardType cardType = leaderCards.get(indexNumber).getCardType();
@@ -280,7 +296,7 @@ public abstract class Player {
     }
 
     /**
-     * @param indexNumber is the index of the leader card inside leadercards arraylist
+     * @param indexNumber is the index (0 or 1) of the leader card inside leader cards arraylist
      * @throws AlreadyActivatedLeaderCardException
      * @throws AlreadyDiscardedLeaderCardException
      * @throws IndexOutOfBoundsException
@@ -291,7 +307,7 @@ public abstract class Player {
     }
 
     /**
-     * This method is called when the user select 2 leader cards out of the first 4 given while setting up the game
+     * This method is called when the user selects 2 leader cards out of the first 4 given while setting up the game
      * @param index1
      * @param index2
      * @throws IndexOutOfBoundsException
@@ -311,6 +327,9 @@ public abstract class Player {
         this.leaderCards = leaderCards;
     }
 
+    /**
+     * @return leader card's victory points
+     */
     public Integer getLeaderCardsVictoryPoint(){
         Integer vp = 0;
         for(LeaderCard lc : leaderCards)
@@ -320,14 +339,26 @@ public abstract class Player {
             return vp;
     }
 
+    /**
+     * @return total victory points of the player
+     */
     public Integer getTotalVictoryPoints(){
         return personalBoard.getVictoryPoints() + getLeaderCardsVictoryPoint() + userFaithPath.getVictoryPoints();
     }
 
+    /**
+     * @return true if the user bought seven development cards, false otherwise. The method is called to check
+     * wether the game will end or not.
+     */
     public boolean sevenDevCardBought(){
         return personalBoard.sevenDevCardsBought();
     }
 
+    /**
+     * returns true if there is a leader card of the specified type activated, false otherwise.
+     * @param lcType
+     * @return
+     */
     public boolean isLeaderCardActivated(CardType lcType){
         boolean activated = false;
         for(LeaderCard lc : leaderCards){

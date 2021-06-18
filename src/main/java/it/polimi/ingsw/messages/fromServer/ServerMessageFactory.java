@@ -17,7 +17,7 @@ import java.util.List;
 
 
 /**
- * message factory USED BY the CLIENT, to receive the messages of the server.
+ * message factory USED BY the CLIENT, to dynamically get the correct instance the server's message.
  */
 public class ServerMessageFactory {
 

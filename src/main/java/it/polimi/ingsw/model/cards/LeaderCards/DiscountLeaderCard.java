@@ -13,13 +13,20 @@ import java.util.List;
 
 /**
  * Discount Leader Card
- * A Leader Card that ,when activated and, gives a discount on one (or more) resources when the player wants to buy a Development card.
+ * A Leader Card that ,when activated, gives a discount on one (or more) resources when the player wants to buy a Development card.
  */
 
 public class DiscountLeaderCard extends LeaderCard {
     private final List<LeaderCardCost> activationCost;
     private final HashMap<Resource, Integer> discountedResource;
 
+    /**
+     * @param vp                       Victory points
+     * @param cardType                 leader card type
+     * @param activationCost           the cost to activate the Leader card for the first time,
+     *                                 the activation cost for this specific Leader card is a Leader Card Cost.
+     * @param discountedResource       number of resources given as discount on a development card purchase
+     */
     public DiscountLeaderCard(
             CardType cardType,
             int vp,
@@ -40,11 +47,20 @@ public class DiscountLeaderCard extends LeaderCard {
         return activationCost;
     }
 
+    /**
+     * @return an hashmap containing the disconunted resources, given as:
+     * - key: resource
+     * - value: discount value
+     */
     @Override
     public HashMap<Resource, Integer> getLeaderCardPower() {
         return (HashMap<Resource, Integer>) discountedResource.clone();
     }
 
+    /**
+     * @param developmentCards
+     * @return true if, given the list of development cards, the leader card (this) is activatable
+     */
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {
 
         boolean activatable = true;

@@ -49,7 +49,7 @@ public class Warehouse implements Deposit{
     /**
      *
      *  @param destStorage: requires an integer between 1 and 3
-     *  @param resourceIn: requires an ArrayList of the same type of resources
+     *  @param resourceIn: requires an ArrayList of the same type of resources (throws exception if not satisfied)
      * @throws StorageOutOfBoundsException if destStorage is not between 1 and 3
      * @throws IllegalInsertionException if the insertion doesn't satisfy warehouse's rules
      */
@@ -100,7 +100,7 @@ public class Warehouse implements Deposit{
      *
      * @param sourceStorage integer between 1 and 3
      * @param destStorage integer between 1 and 3
-     * @throws IllegalMoveException if the move doesn't satisfy warehouse's rules
+     * @throws IllegalMoveException if the move doesn't satisfy warehouse's integrity rules
      * @throws StorageOutOfBoundsException if source or destination storage are not between 1 and 3
      */
     public void moveResource(int sourceStorage, int destStorage) throws IllegalMoveException, StorageOutOfBoundsException {
@@ -126,7 +126,7 @@ public class Warehouse implements Deposit{
 
     /**
      * Takes resources from warehouse
-     * @param resourcesToTake
+     * @param resourcesToTake needed resources to take from warehouse
      */
     @Override
     public void pullResource(List<Resource> resourcesToTake) {
@@ -162,7 +162,7 @@ public class Warehouse implements Deposit{
 
     /**
      * @param resourcesToTake List of resources needed
-     * @return true if resources are present, false otherwise
+     * @return true if resources are present in warehouse, false otherwise
      */
     @Override
     public boolean checkAvailability(List<Resource> resourcesToTake) {
@@ -192,11 +192,21 @@ public class Warehouse implements Deposit{
         return totalResources;
     }
 
+    /**
+     *
+     * @param storageNum
+     * @return the list of resources contained in selected storage number
+     */
     public List<Resource> getWarehouseStorage(Integer storageNum) {
         if(!warehouse.containsKey(storageNum)) throw new IndexOutOfBoundsException();
         return warehouse.get(storageNum).getResources();
     }
 
+    /**
+     * @param resource
+     * @param resources
+     * @return the occurrences of resource in resources list
+     */
     @Override
     public Integer occurrences(Resource resource, List<Resource> resources){
         return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());

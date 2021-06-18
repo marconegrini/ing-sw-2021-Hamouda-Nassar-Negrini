@@ -4,6 +4,9 @@ import it.polimi.ingsw.client.ServerHandler;
 
 import java.util.Scanner;
 
+/**
+ * Sent to the client if there are errors with login credentials, such as a repeated nickname.
+ */
 public class ServerLoginErrorMessage extends ServerMessage{
 
     String errorMessage;

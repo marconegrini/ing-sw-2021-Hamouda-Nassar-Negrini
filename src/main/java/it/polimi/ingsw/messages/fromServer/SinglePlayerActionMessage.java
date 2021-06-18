@@ -3,6 +3,10 @@ package it.polimi.ingsw.messages.fromServer;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.model.enumerations.LorenzoCardType;
 
+/**
+ * Message sent from server to client to notify about a single player action event. This event occurs
+ * each time the player in a single game terminate his turn's action.
+ */
 public class SinglePlayerActionMessage extends ServerMessage{
 
     private String actionPerformed;

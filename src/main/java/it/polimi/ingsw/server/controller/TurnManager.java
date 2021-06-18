@@ -54,15 +54,27 @@ public class TurnManager {
         this.accesses = 0;
     }
 
+    /**
+     * used to set teh turn manager in multiplayer mode. Acting this way, there will be some cases when
+     * it will increment all players faith path instead of just one.
+     * @param isMultiplayer
+     */
     public void setMultiplayer(boolean isMultiplayer){
         this.multiplayer = isMultiplayer;
     }
 
+    /**
+     * sets multiplayer arrayList to manipulate them during the game
+     */
     public void setPlayers(List<MultiPlayer> players){
         if(this.multiplayer)
             this.players = players;
     }
 
+    /**
+     * Sets the single player object to manipulate it during the game
+     * @param player
+     */
     public void setPlayer(SinglePlayer player){
         this.player = player;
     }
@@ -206,6 +218,13 @@ public class TurnManager {
 
     }
 
+    /**
+     * @param player the playing player
+     * @param sourceStorage
+     * @param destStorage
+     * @return a MoveResourcesResult message, containing a positive outcome if everything worked fine, a
+     * negative one instead.
+     */
     public ServerMessage moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){
         try{
             player.moveWarehouseResources(sourceStorage, destStorage);
@@ -282,7 +301,7 @@ public class TurnManager {
      * Method that checks if specified player contains selected resource cost in deposits
      * @param player
      * @param cost
-     * @return
+     * @return true if needed resources are present, false otherwise.
      */
     public boolean containsNeededResources(Player player, List<Resource> cost){
 
@@ -434,10 +453,6 @@ public class TurnManager {
             }
         } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true);
     }
-
-
-
-
 
     /**
      * @param player the playing player that chose to activate the basic personal board's production
@@ -605,6 +620,10 @@ public class TurnManager {
         return new UpdateLeaderCardsMessage(index1, index2);
     }
 
+    /**
+     * @return an hashMap containing the players position in faith path. Needed to send an update version
+     * of the model to clients.
+     */
     public HashMap<String, Integer> getFaithPathPositions(){
         HashMap<String, Integer> faithPathPositions = new HashMap<>();
         for(Player p : players){
@@ -615,10 +634,20 @@ public class TurnManager {
         return faithPathPositions;
     }
 
+    /**
+     * Method called to check wether a player bought seven development cards or not
+     * @return
+     */
     public boolean isSevenDevCardsBought(){
         return sevenDevCardsBought;
     }
 
+    /**
+     * The method discards a development card of the specified color from the deck
+     * @param color
+     * @return false if the game is not ended, true otherwise. The game ends when all cards of a colour have
+     * been removed.
+     */
     public boolean discardDevelopmentCards(CardColor color) {
         String cardColor = color.toString();
         DevelopmentCard toPop;
@@ -674,14 +703,25 @@ public class TurnManager {
         return end;
     }
 
+    /**
+     * return true if a player reached the end of the faith path
+     * @return
+     */
     public boolean reachedFaithPathEnd(){
         return this.endedFaithPath;
     }
 
+    /**
+     * @return the first player that ends the faith path. If during a turn more than one player reach the
+     * end, the first one to reach it will be returned.
+     */
     public MultiPlayer getFirstPlayerToEndFaithPath(){
         return this.reachedFaithPathEnd;
     }
 
+    /**
+     * Method invoked to reset done variable, used with locks.
+     */
     public synchronized void resetDone(){
         this.done = false;
     }
@@ -696,8 +736,8 @@ public class TurnManager {
     }
 
     /**
-     * called by MultiplayerGameHandler to wait one or all the users to perform a certain action. Unlocked by
-     * turnDone (when the game is waiting for a player only) or clientDone (when the game is waiting for all player)
+     * called by MultiplayerGameHandler to wait one or all users to perform a certain action. Unlocked by
+     * turnDone (when the game is waiting for a player only) or clientDone (when the game is waiting for all players)
      */
     public synchronized void lock() {
         while(this.done == false)
@@ -713,7 +753,7 @@ public class TurnManager {
 
     /**
      * Used by players to notify to the game they finished their action.
-     * If all players terminated their action, the MultiplayerGameHandler move on
+     * If all players terminated their action, the MultiplayerGameHandler will be unlocked.
      */
     public synchronized void clientDone(){
         if(multiplayer) {

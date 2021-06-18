@@ -57,78 +57,39 @@ public class SinglePlayer extends Player {
         this.userFaithPath.update(newLorenzoPos);
     }
 
-    @Override
-    public void buyResources() {}
-
-    @Override
-    public void buyDevelopmentCard() {}
-
-    @Override
-    public void activateProduction() {}
-
+    /**
+     * Increments black cross position in faith path
+     */
     public void incrementLorenzoPosition(){
         if(croceNera < userFaithPath.getEnd())
             croceNera++;
     }
 
+    /**
+     * @return the entire action cards deck
+     */
     public Stack<LorenzoCard>getActionCards(){
         return lorenzoCardsDeck;
     }
 
+    /**
+     * @return action card picked from the main deck and left apart
+     */
     public Stack<LorenzoCard> getPoppedLorenzosCard() {
         return poppedLorenzosCard;
     }
 
-    public void pickActionCard(){
-
-        LorenzoCard lorenzoCard = lorenzoCardsDeck.pop();
-
-        switch (lorenzoCard.getType()){
-
-            case DISCARD2BLUEDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2BLUEDVCARDS);
-                break;
-
-            case DISCARD2GREENDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2GREENDVCARDS);
-                break;
-
-            case DISCARD2VIOLETDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2VIOLETDVCARDS);
-                break;
-
-            case DISCARD2YELLOWDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2YELLOWDVCARDS);
-                break;
-
-            case TWOFAITHPOINTSCARD:
-                this.incrementLorenzoPosition();
-                this.updateFaithPath(this.getLorenzoPosition());
-                this.incrementLorenzoPosition();
-                this.updateFaithPath(this.getLorenzoPosition());
-                System.out.println("Picked Up a "+ LorenzoCardType.TWOFAITHPOINTSCARD);
-                break;
-
-            case FAITHANDSHUFFLECARD:
-                this.incrementLorenzoPosition();
-                this.updateFaithPath(this.getLorenzoPosition());
-                this.incrementLorenzoPosition();
-                this.updateFaithPath(this.getLorenzoPosition());
-                lorenzoCardsDeck.addAll(poppedLorenzosCard);
-                poppedLorenzosCard.clear();
-                Collections.shuffle(this.lorenzoCardsDeck);
-                System.out.println("Picked Up a "+ LorenzoCardType.FAITHANDSHUFFLECARD);
-                break;
-
-        }
-
-        poppedLorenzosCard.push(lorenzoCard);
-    }
-
+    /**
+     * @return black cross' position in faithpath
+     */
     public Integer getLorenzoPosition(){
         return this.croceNera;
     }
 
+    /**
+     *
+     * @return true if the black cross reached the end of faith path
+     */
     public boolean lorenzoWins(){
         if(croceNera.equals(this.userFaithPath.getEnd())) return true;
         return false;

@@ -17,47 +17,32 @@ public class DevCardSlots {
     private ArrayList<Stack<DevelopmentCard>> cardSlot;
 
     public DevCardSlots(){
-
         CardSlotParser parser = new CardSlotParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlotsWarehouse.json");
         Integer cardSlotNumber = parser.getCardSlotsNumber();
-
         cardSlot = new ArrayList<>();
-
         while(cardSlotNumber != 0){
             cardSlot.add(new Stack<>());
             cardSlotNumber--;
         }
-
     }
 
     /**
-     *
      * @param slotNumber
      * @param developmentCard card to insert
-     * @throws IllegalInsertionException if
+     * @throws IllegalInsertionException if specified insertion doesn't satisfy development card slot's integrity rules
      * @throws IndexOutOfBoundsException if slot number doesn't exists
      */
-
     public void addCard(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
-
         System.out.println("IN: DevCardSlots/addCard():\n");
-
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
-
-
-
         System.out.println(cardSlot.get(slotNumber));
         System.out.println(cardSlot.get(slotNumber).isEmpty());
-
         //if selected slot contains Cards
         if(!cardSlot.get(slotNumber).isEmpty()) {
             Level bottomCardLevel = cardSlot.get(slotNumber).peek().getLevel();
             Level upperCardLevel = developmentCard.getLevel();
-
             System.out.println("bottomCardLevel " + bottomCardLevel);
             System.out.println("upperCardLevel " + upperCardLevel);
-
-
             if (bottomCardLevel.equals(Level.FIRST) && upperCardLevel.equals(Level.SECOND))
                 cardSlot.get(slotNumber).push(developmentCard);
             else if(bottomCardLevel.equals(Level.SECOND) && upperCardLevel.equals(Level.THIRD)) {
@@ -67,7 +52,6 @@ public class DevCardSlots {
                 System.out.println("KO: INSERTION OF CARD WITH LOWER LEVEL ON ONE WITH HIGHER LEVEL, OR A CARD WITH HIGHER ON EMPTY SLOT");
                 throw new IllegalInsertionException();
             }
-
         } else {
             //if selected slot is empty
             System.out.println("OK: PLAYER's selected slot is empty");
@@ -78,6 +62,12 @@ public class DevCardSlots {
 
     }
 
+    /**
+     * @param slotNumber
+     * @return resources needed to activate production in selected development card slots
+     * @throws EmptySlotException if selected development card slot is empty
+     * @throws IndexOutOfBoundsException if selected development card slot index doesn't exists
+     */
     public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException, IndexOutOfBoundsException {
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(cardSlot.get(slotNumber).size() != 0){
@@ -90,7 +80,9 @@ public class DevCardSlots {
         return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionOut().clone();
     }
 
-
+    /**
+     * @return total victory points of development cards contained in slots
+     */
     public int getVictoryPoints(){
         int result = 0;
         Stack<DevelopmentCard> serviceDeck = new Stack<DevelopmentCard>();
@@ -109,6 +101,10 @@ public class DevCardSlots {
         return result;
     }
 
+    /**
+     * returns true if the user has seven development cards in slots
+     * @return
+     */
     public boolean sevenDevCardsBought(){
         Integer i = 0;
         Stack<DevelopmentCard> serviceDeck = new Stack();
@@ -129,7 +125,7 @@ public class DevCardSlots {
 
 
     /**
-     * @return List of Dev cards slot's peek cards:
+     * @return List of slot's peek development cards:
      * - pos 0 first slot's peek card
      * - pos 1 second slot's peek card
      * - pos 2 third slot's peek card
@@ -144,6 +140,9 @@ public class DevCardSlots {
         return cardsInSlot;
     }
 
+    /**
+     * @return an arraylist containing slot's indexes
+     */
     public List<Integer> slotsNumber(){
         List<Integer> slots = new ArrayList<>();
         for(int i = 0; i < cardSlot.size(); i++)
@@ -153,6 +152,9 @@ public class DevCardSlots {
         return slots;
     }
 
+    /**
+     * @return a list containing all development cards in slots
+     */
     public List<DevelopmentCard> getCardsInSlots(){
         Stack<DevelopmentCard> temporaryDeck = new Stack();
         List<DevelopmentCard> cardsToReturn = new ArrayList();

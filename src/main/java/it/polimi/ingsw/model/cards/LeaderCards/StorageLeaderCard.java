@@ -18,6 +18,14 @@ public class StorageLeaderCard extends LeaderCard {
     private Integer maxCapacity = 0;
     private ArrayList<Resource> storage;
 
+    /**
+     * @param cardType              Leader card type
+     * @param victoryPoints         Victory points given by the leader card
+     * @param activationCost        The cost to activate the Leader card for he first time,
+     *                              the activation cost for this specific Leader card is an HashMap.
+     * @param slots                 The hashmap containing as key value the resource type, and as object value the
+     *                              available storage for that type of resource.
+     */
     public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
@@ -37,6 +45,10 @@ public class StorageLeaderCard extends LeaderCard {
         }
     }
 
+    /**
+     * @param resources list of resources held by the player
+     * @return true if available resources are enough to activate the leader card, false otherwise
+     */
     public boolean isActivatable(List<Resource> resources) {
         boolean activatable = true;
         Integer coinOccurr = occurrences(Resource.COIN, resources);
@@ -62,7 +74,7 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     /**
-     * methos that can be used to a single resources or a list of resources to a storage leader card's storage
+     * method that can be used to a single resources or a list of resources to a storage leader card's storage
      *
      * @param resourceIn    a list of resources, when used the second argument should be "null"  .if want to add single resource --> "null" instead and put the single resource as the second argument.
      * @param oneResourceIn a single resource passed to the method to be added when used the first argument should be "null"
@@ -131,7 +143,7 @@ public class StorageLeaderCard extends LeaderCard {
     }
 
     /**
-     * method that pulls one resource from a leader card and remove it from tha card slot
+     * method that pulls one resource from a leader card and remove it from the card slot
      *
      * @return returns a resource and remove it from a slot in the card.
      * @throws EmptySlotException when all the slots are empty
@@ -149,16 +161,11 @@ public class StorageLeaderCard extends LeaderCard {
 
     }
 
-//    public int getCardStorageFilledSlots() {
-//        return (int) storage.stream().filter(x -> x != null).count();
-//    }
-
+    /**
+     * @return max capacity of the storage
+     */
     public Integer getMaxCapacity() {
         return maxCapacity;
-    }
-
-    public Integer occurrences(Resource resource, List<Resource> resources) {
-        return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
     public HashMap<Resource, Integer> getActivationCost() {
@@ -191,22 +198,37 @@ public class StorageLeaderCard extends LeaderCard {
         return tempHash;
     }
 
+    /**
+     * @return an integer corresponding to the number of storage slots occupied
+     */
     public int getOccupiedSlots() {
         return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
+    /**
+     * @return a list containing stored resources in the leader card
+     */
     public List<Resource> getStoredResources(){
         List<Resource> res = new ArrayList<>();
-
         res = storage.stream().filter(Objects::nonNull).collect(Collectors.toList());
-
         return res;
     }
 
+    /**
+     * @return resource type of the storage leader card
+     */
     public Resource storageType() {
         return slots.keySet().stream().findFirst().get();
     }
 
+    /**
+     * @param resource
+     * @param resources
+     * @return the occurrences of resource in resources list
+     */
+    public Integer occurrences(Resource resource, List<Resource> resources) {
+        return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
+    }
 
     @Override
     public String toString() {

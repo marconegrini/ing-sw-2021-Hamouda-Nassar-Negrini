@@ -12,12 +12,17 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class WhiteMarbleLeaderCard extends LeaderCard {
 
     private final HashMap<Resource, Integer> productionOut;
     private final List<LeaderCardCost> activationCost;
 
+    /**
+     * @param cardType          leader card type
+     * @param vp                victory points given
+     * @param activationCost    cost to activate the leader card, given as arraylist of activation costs
+     * @param productionOut     resources given when a white marble is picked
+     */
     public WhiteMarbleLeaderCard(CardType cardType, int vp, List<LeaderCardCost> activationCost, HashMap<Resource, Integer> productionOut) {
         this.Vp = vp;
         this.isActivated = false;
@@ -37,18 +42,27 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         return productionOut;
     }
 
-
-    //getters
+    /**
+     * @return the activation cost given as list of leader card cost
+     */
     public List<LeaderCardCost> getActivationCost() {
         return activationCost;
     }
 
+    /**
+     * @return power production of the leader card:
+     * - key value: resource type
+     * - object value: number of resources given when a white marble is picked
+     */
     @Override
     public HashMap<Resource, Integer> getLeaderCardPower() {
         return (HashMap<Resource, Integer>) productionOut.clone();
     }
 
-
+    /**
+     * @param developmentCards list of development cards held by the player
+     * @return true if available development cards are enough to activate the leader card, false otherwise
+     */
     public boolean isActivatable(List<DevelopmentCard> developmentCards) {
         boolean activatable = true;
 

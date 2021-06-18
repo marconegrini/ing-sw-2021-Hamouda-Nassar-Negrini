@@ -24,6 +24,10 @@ public class MultiPlayerGameHandler extends Thread {
     private final MultiPlayerGameInstance game;
     private boolean gameEnded;
 
+    /**
+     * Initialises game instance ad turn manager, setting it to multiplayer mode. Adds players to the game
+     * @param clientHandlers list of client handlers
+     */
     public MultiPlayerGameHandler(List<ClientHandler> clientHandlers) {
         this.clientHandlers = clientHandlers;
         game = new MultiPlayerGameInstance();
@@ -42,6 +46,10 @@ public class MultiPlayerGameHandler extends Thread {
         gameEnded = false;
     }
 
+    /**
+     * Administers the game, looping on players and checking at the ent of each turn of someone's reach
+     * the end of faith path or bought seven development cards
+     */
     @Override
     public void run() {
         System.out.println("Multiplayer game started");
@@ -103,11 +111,6 @@ public class MultiPlayerGameHandler extends Thread {
                 }
             }
         }
-/*
-        for(ClientHandler ch : clientHandlers)
-            ch.sendJson(new EndMessage());
-
- */
     }
 
     /**
@@ -130,21 +133,38 @@ public class MultiPlayerGameHandler extends Thread {
         }
     }
 
+    /**
+     * Sends message to the specified client handler
+     * @param clientHandler
+     * @param message
+     */
     public void sendToClient(ClientHandler clientHandler, ServerMessage message) {
         clientHandler.sendJson(message);
     }
 
+    /**
+     * Sends a broadcast message
+     * @param message
+     */
     public void sendToClients(ServerMessage message) {
         for (ClientHandler ch : clientHandlers)
             ch.sendJson(message);
     }
 
+    /**
+     * Sends a broadcast message except for one client
+     * @param message
+     * @param exception
+     */
     public void sendToClients(ServerMessage message, ClientHandler exception) {
         for (ClientHandler ch : clientHandlers)
             if (!ch.equals(exception))
                 ch.sendJson(message);
     }
 
+    /**
+     * Update clients' light models structures
+     */
     public void updateClients(){
         sendToClients(new UpdateMarketboardMessage(game.getMarketBoard()));
         sendToClients(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
@@ -158,6 +178,10 @@ public class MultiPlayerGameHandler extends Thread {
         }
     }
 
+    /**
+     *
+     * @return an HashMap containing users faith path positions
+     */
     public HashMap<String, Integer> getFaithPathPositions(){
         HashMap<String, Integer> faithPathPositions = new HashMap<>();
         for(ClientHandler ch : clientHandlers){
@@ -192,6 +216,9 @@ public class MultiPlayerGameHandler extends Thread {
     }
 
 
+    /**
+     * Takes a random user to assign calamaio and notify everyone about the status in turn order
+     */
     public void initialiseCalamaio() {
         Random rand = new Random();
         rand.setSeed(System.currentTimeMillis());

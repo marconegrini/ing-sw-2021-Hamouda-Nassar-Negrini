@@ -25,6 +25,10 @@ public class Coffer implements Deposit{
         this.coffer = coffer;
     }
 
+    /**
+     * Inserts specified resources in coffer
+     * @param resources to insert in coffer
+     */
     public void putResource(List<Resource> resources) {
         Integer coinOccurr = occurrences(Resource.COIN, resources);
         Integer stoneOccurr = occurrences(Resource.STONE, resources);
@@ -44,6 +48,10 @@ public class Coffer implements Deposit{
         coffer.put(Resource.SHIELD, shieldOccurr);
     }
 
+    /**
+     * Takes specified resources from coffer
+     * @param resourcesToTake resources to take from coffer
+     */
     @Override
     public void pullResource(List<Resource> resourcesToTake){
 
@@ -69,6 +77,11 @@ public class Coffer implements Deposit{
         }
     }
 
+    /**
+     * Checks wether specified resources are available or not in coffer
+     * @param resourcesToTake resources to check
+     * @return true if resources are available inside coffer, false otherwise
+     */
     @Override
     public boolean checkAvailability(List<Resource> resourcesToTake) {
 
@@ -85,6 +98,9 @@ public class Coffer implements Deposit{
         return true;
     }
 
+    /**
+     * @return total resources inside coffer
+     */
     @Override
     public List<Resource> getTotalResources() {
         List<Resource> totalResources = new ArrayList<>();
@@ -95,17 +111,27 @@ public class Coffer implements Deposit{
         return totalResources;
     }
 
-
-
+    /**
+     * @param resource
+     * @param resources
+     * @return occurrences of resource in resources list
+     */
     @Override
     public Integer occurrences(Resource resource, List<Resource> resources){
         return Math.toIntExact(resources.stream().filter(x -> x.equals(resource)).count());
     }
 
+    /**
+     * @param resource
+     * @return occurrences of resource in coffer
+     */
     public int resourceOccurrences(Resource resource){
         return coffer.get(resource);
     }
 
+    /**
+     * @return cloned coffer's hash map needed to update client's coffer in light model
+     */
     public HashMap<Resource, Integer> getClonedCoffer(){
         HashMap<Resource, Integer> clonedCoffer = new HashMap<>();
         for(Resource res : coffer.keySet())

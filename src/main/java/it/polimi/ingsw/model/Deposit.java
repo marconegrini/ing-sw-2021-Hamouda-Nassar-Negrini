@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.exceptions.InsufficientResourcesException;
 
 import java.util.List;
 
+/**
+ * interface implemented by warehouse and coffer
+ */
 public interface Deposit {
 
     void pullResource(List<Resource> resourcesToTake) throws InsufficientResourcesException;

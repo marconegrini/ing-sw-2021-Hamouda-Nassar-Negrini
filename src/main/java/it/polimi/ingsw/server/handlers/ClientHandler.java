@@ -30,11 +30,19 @@ public class ClientHandler extends Thread {
     private String nickname;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
 
-
+    /**
+     * Class constructor
+     * @param clientSocket
+     * @throws IOException
+     */
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
     }
 
+    /**
+     * Initializes I/O variables and sets up client's connection. Starts login process and call the method
+     * processClientMessages to start receiving client's messages.
+     */
     @Override
     public void run(){
         try{
@@ -68,6 +76,11 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /**
+     * Method that, independently from the message type (but it has to be a ClientMessage), receives
+     * messages and processes them.
+     * @throws IOException
+     */
     private void processClientMessages() throws IOException {
         ClientMessageFactory factory = new ClientMessageFactory();
         boolean stop = false;
@@ -87,17 +100,27 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /**
+     * Parse a ServerMessage in json format
+     * @param message
+     */
     public void sendJson(ServerMessage message){
         Gson gson = new Gson();
         String toSend = gson.toJson(message);
         out.println(toSend);
     }
 
+    /**
+     * Sends a login message to start the login process with client socket
+     */
     public void startLogin(){
         ServerMessage login = new ServerLoginMessage();
         this.sendJson(login);
     }
 
+    /**
+     * Used to stop process client messages' while loop
+     */
     public void setShouldStop(){
         shouldStop.set(true);
         try {
@@ -134,6 +157,9 @@ public class ClientHandler extends Thread {
         this.nickname = nickname;
     }
 
+    /**
+     * Invoked when a user exits from game while in waiting room
+     */
     public void exitFromGame(){
         System.out.println(nickname + " is exiting form the game");
         sendJson(new EndGameMessage("You exit from the game"));
