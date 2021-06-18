@@ -9,7 +9,7 @@ public enum ColorEnum {
     ANSI_BLUE("\u001B[34m"),
     ANSI_PURPLE("\u001B[35m"),
 
-    PURPLE_BACKGROUND("\u001b[41m"),
+    PURPLE_BACKGROUND("\u001b[45m"),
     GREEN_BACKGROUND("\u001b[42m"),
     YELLOW_BACKGROUND("\u001b[43m"),
     BLUE_BACKGROUND("\u001b[44m"),

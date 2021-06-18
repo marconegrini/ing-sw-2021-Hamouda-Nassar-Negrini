@@ -1,11 +1,15 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
+import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -13,7 +17,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SelectTwoResourceController {
 
@@ -36,17 +42,38 @@ public class SelectTwoResourceController {
     private HashMap<Integer, Resource> resourcesOnShelfs = new HashMap<>();
 
 
+    /**
+     * Manage the action on the button that allow the user to confirm the selected resources
+     * @param actionEvent
+     */
     public void ContinueToGame(ActionEvent actionEvent) {
+        if (insertedResource1 && insertedResource2) {
+            ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
 
-        System.out.println("Message:\nResource1: " + resourceConverter(selectedLabel1) + "\tResource2: " + resourceConverter(selectedLabel2) + "\nShelf1: " + selectedShelf1 + "\tShelf2:" + selectedShelf2);
-        System.out.println("HashMap: " + resourcesOnShelfs);
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/setcalamaio/waiting_game.fxml")));
+                SceneManager.setScene(new Scene(root, 1080, 720));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
-        //ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
+        }else{
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You should select two resource and put them on the shelf before continuing.");
+                alert.showAndWait();
+            });
+        }
     }
 
+    /**
+     * Manage the onClick event on the first shelf
+     * @param mouseEvent
+     */
     public void selectFirstShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -103,12 +130,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -146,8 +167,11 @@ public class SelectTwoResourceController {
         }
     }
 
+    /**
+     * Manage the onClick event on the second shelf
+     * @param mouseEvent
+     */
     public void selectSecondShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
 
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -162,12 +186,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource1()) {
             Label toPut = selectedLabel1;
-            toPut.setLayoutX(selectedLabel1.getLayoutX());
-            toPut.setLayoutY(selectedLabel1.getLayoutY());
-            toPut.setPrefHeight(selectedLabel1.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel1.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel1));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -207,12 +225,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -253,8 +265,11 @@ public class SelectTwoResourceController {
 
     }
 
+    /**
+     * Manage the onClick event on the third shelf.
+     * @param mouseEvent
+     */
     public void selectThirdShelf(MouseEvent mouseEvent) {
-        System.out.println("object: " + mouseEvent.getPickResult().getIntersectedNode());
 
         if (!isSelectedResource1() && !isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -269,12 +284,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource1()) {
             Label toPut = selectedLabel1;
-            toPut.setLayoutX(selectedLabel1.getLayoutX());
-            toPut.setLayoutY(selectedLabel1.getLayoutY());
-            toPut.setPrefHeight(selectedLabel1.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel1.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel1));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -314,12 +323,6 @@ public class SelectTwoResourceController {
 
         if (isSelectedResource2()) {
             Label toPut = selectedLabel2;
-            toPut.setLayoutX(selectedLabel2.getLayoutX());
-            toPut.setLayoutY(selectedLabel2.getLayoutY());
-            toPut.setPrefHeight(selectedLabel2.getPrefHeight());
-            toPut.setPrefWidth(selectedLabel2.getPrefWidth());
-            toPut.getStyleClass().add(getResource(selectedLabel2));
-            toPut.getStyleClass().add("notSelectedCard");
             Integer column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
             Integer row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
             if (column == null) column = 0;
@@ -357,6 +360,10 @@ public class SelectTwoResourceController {
         }
     }
 
+    /**
+     * Check if a resource of the first row is selected or not
+     * @return true if a resource is selected. False if there isn't a selected resource.
+     */
     private boolean isSelectedResource1() {
         if (selected1 == null) return false;
 
@@ -366,6 +373,10 @@ public class SelectTwoResourceController {
         return selected1.getText() != null;
     }
 
+    /**
+     * Check if a resource of the second row is selected or not
+     * @return true if a resource is selected. False if there isn't a selected resource.
+     */
     private boolean isSelectedResource2() {
         if (selected2 == null) return false;
 
@@ -376,6 +387,10 @@ public class SelectTwoResourceController {
     }
 
 
+    /**
+     * Manage the selection of the resource servant of the first row
+     * @param actionEvent
+     */
     public void selectServant1(MouseEvent actionEvent) {
         if (isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -408,6 +423,10 @@ public class SelectTwoResourceController {
         selected1 = (RadioButton) resource1.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource shield of the first row
+     * @param actionEvent
+     */
     public void selectShield1(MouseEvent actionEvent) {
         if (isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -440,6 +459,10 @@ public class SelectTwoResourceController {
 
     }
 
+    /**
+     * Manage the selection of the resource stone of the first row
+     * @param actionEvent
+     */
     public void selectStone1(MouseEvent actionEvent) {
         if (isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -470,6 +493,10 @@ public class SelectTwoResourceController {
         selected1 = (RadioButton) resource1.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource coin of the first row
+     * @param actionEvent
+     */
     public void selectCoin1(MouseEvent actionEvent) {
         if (isSelectedResource2()) {
             Platform.runLater(() -> {
@@ -501,6 +528,10 @@ public class SelectTwoResourceController {
         selected1 = (RadioButton) resource1.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource servant of the second row
+     * @param actionEvent
+     */
     public void selectServant2(MouseEvent actionEvent) {
         if (isSelectedResource1()) {
             Platform.runLater(() -> {
@@ -532,6 +563,10 @@ public class SelectTwoResourceController {
         selected2 = (RadioButton) resource2.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource shield of the second row
+     * @param actionEvent
+     */
     public void selectShield2(MouseEvent actionEvent) {
         if (isSelectedResource1()) {
             Platform.runLater(() -> {
@@ -565,6 +600,10 @@ public class SelectTwoResourceController {
 
     }
 
+    /**
+     * Manage the selection of the resource stone of the second row
+     * @param actionEvent
+     */
     public void selectStone2(MouseEvent actionEvent) {
         if (isSelectedResource1()) {
             Platform.runLater(() -> {
@@ -596,6 +635,10 @@ public class SelectTwoResourceController {
         selected2 = (RadioButton) resource2.getSelectedToggle();
     }
 
+    /**
+     * Manage the selection of the resource coin of the second row
+     * @param actionEvent
+     */
     public void selectCoin2(MouseEvent actionEvent) {
         if (isSelectedResource1()) {
             Platform.runLater(() -> {
@@ -628,6 +671,11 @@ public class SelectTwoResourceController {
         selected2 = (RadioButton) resource2.getSelectedToggle();
     }
 
+    /**
+     * Remove the selection from all the labels of the first row except the label in the parameter.
+     * It does remove the green frame around the labels and put a blue one.
+     * @param label  The label from which you didn't want to remove the green frame
+     */
     private void disSelectResources1(Label label) {
         if (!coin1.equals(label)) {
             coin1.getStyleClass().remove("selectedCard");
@@ -647,6 +695,11 @@ public class SelectTwoResourceController {
         }
     }
 
+    /**
+     * Remove the selection from all the labels of the second row except the label in the parameter.
+     * It does remove the green frame around the labels and put a blue one.
+     * @param label  The label from which you didn't want to remove the green frame
+     */
     private void disSelectResources2(Label label) {
         if (!coin2.equals(label)) {
             coin2.getStyleClass().remove("selectedCard");
@@ -666,6 +719,11 @@ public class SelectTwoResourceController {
         }
     }
 
+    /**
+     * This method is used to get a string from the styleSheet of a label
+     * @param label  is the label from which you want to retrieve the string
+     * @return  the string retrieved from the label
+     */
     private String getResource(Label label) {
         if (label.getStyleClass().contains("coin")) return "coin";
         if (label.getStyleClass().contains("shield")) return "shield";
@@ -674,6 +732,12 @@ public class SelectTwoResourceController {
         return "";
     }
 
+    /**
+     * This method is used to convert a label into a number that represent that label.
+     * This is necessary to use the same message standard that will be sent to the server.
+     * @param label  the label that should be converted in an integer
+     * @return  the integer that refers to the label
+     */
     private int resourceConverter(Label label) {
         if (label.getStyleClass().contains("shield")) return 1;
         if (label.getStyleClass().contains("coin")) return 2;
@@ -682,10 +746,22 @@ public class SelectTwoResourceController {
         return 0;
     }
 
+    /**
+     * Used to get a Resource from an index
+     * @param index  index of the resource that should be obtained
+     * @return  the Resource in that index
+     */
     private Resource getResourceFromIndex(Integer index) {
         return resourcesOnShelfs.get(index);
     }
 
+    /**
+     * Check if an insertion of a label is valid or not in that position. Checks the availability of that
+     * position and if there are other resources in other position in the warehouse.
+     * @param label  the label that you want to insert
+     * @param index  the index in which you want to insert the label
+     * @return  true if you can insert that label in that index. False in the other case
+     */
     private boolean insertionValid(Label label, Integer index) {
         Resource resource = Resource.getEnum(getResource(label));
         if (index >= 1 && index <= 3) {
@@ -706,25 +782,28 @@ public class SelectTwoResourceController {
         return resourceInAnotherShelf(resource, index);
     }
 
+    /**
+     * Checks if there is a resource in another shelf of the warehouse
+     * @param resource  the resource that you want to check the presence
+     * @param index  The index at which you want insert that resource
+     * @return  True if there is another resource of the same type on another shelf. False in the other case
+     */
     private boolean resourceInAnotherShelf(Resource resource, Integer index) {
         if (index >= 1 && index <= 3) {
-            for (int i=4; i<=6; i++){
+            for (int i = 4; i <= 6; i++) {
                 Resource res = resourcesOnShelfs.get(i);
-                if (resource.equals(res))   return false;
+                if (resource.equals(res)) return false;
             }
         } else if (index >= 4 && index <= 5) {
             for (int i = 1; i <= 3; i++) {
                 Resource res = resourcesOnShelfs.get(i);
-                if (resource.equals(res))   return false;
+                if (resource.equals(res)) return false;
             }
-            if (resource.equals(resourcesOnShelfs.get(6)))  return false;
-        } else for (int i = 1; i <=5; i++){
+            if (resource.equals(resourcesOnShelfs.get(6))) return false;
+        } else for (int i = 1; i <= 5; i++) {
             Resource res = resourcesOnShelfs.get(i);
-            if (resource.equals(res))   return false;
+            if (resource.equals(res)) return false;
         }
-
         return true;
     }
-
-
 }

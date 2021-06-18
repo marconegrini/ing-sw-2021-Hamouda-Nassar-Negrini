@@ -50,15 +50,32 @@ public class LeaderCardFactory {
                 DiscountLeaderCard leaderCard = new DiscountLeaderCard(cardType ,victoryPoints, activationCost, discountedResource);
                 leaderCards.add(leaderCard);
             }
-
+            Gson gson = new Gson();
             if(jsonObject.get("cardType").getAsString().equals("STORAGE")){
 
                 JsonObject jsonObject1 = jsonObject.get("activationCost").getAsJsonObject();
                 HashMap<Resource, Integer> activationCost = getCorrectHashMap(new Gson().fromJson(jsonObject1.toString(), HashMap.class));
                 JsonObject jsonObject2 = jsonObject.get("slots").getAsJsonObject();
                 HashMap<Resource, Integer> slots = getCorrectHashMap(new Gson().fromJson(jsonObject2.toString(), HashMap.class));
+                boolean isAvailable = jsonObject.get("isActivated").getAsBoolean();
+                boolean isDiscarded = jsonObject.get("isDiscarded").getAsBoolean();
+                Integer maxCapacity = jsonObject.get("maxCapacity").getAsInt();
+                JsonArray jsonArray1 = jsonObject.get("storage").getAsJsonArray();
 
-                StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, activationCost, slots);
+                ArrayList<Resource> storage = new ArrayList<>();
+                for (JsonElement jE:jsonArray1)
+                {
+                    if (!jE.isJsonNull()) {
+                        String resString = jE.getAsString();
+                        storage.add(Resource.getEnum(resString));
+                    }
+                }
+
+
+
+                System.out.println(storage);
+
+                StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, isAvailable, isDiscarded, maxCapacity, activationCost, slots, storage);
                 leaderCards.add(leaderCard);
             }
 

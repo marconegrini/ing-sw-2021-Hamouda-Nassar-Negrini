@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 
 import java.util.List;
 
@@ -24,5 +25,6 @@ public class UpdateLeaderCardStatusMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setLeaderCards(leaderCards);
+
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
 import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.model.exceptions.IllegalMoveException;
@@ -90,9 +91,9 @@ public class LightModel{
     }
 
     /**
-     * returns top cards in development cards slot. Used in the view to show possible cards where activate
+     *
+     * @return returns top cards in development cards slot. Used in the view to show possible cards where activate
      * production
-     * @return
      */
     public HashMap<Integer, DevelopmentCard> getPeekDevCardsInSlot() {
         return peekDevCardsInSlot;

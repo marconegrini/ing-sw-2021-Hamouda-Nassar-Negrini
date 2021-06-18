@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer.update;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.server.Server;
@@ -24,5 +25,8 @@ public class UpdateFaithPathMessage extends ServerMessage {
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setOtherPlayersFaithPathPosition(this.othersPositions);
         serverHandler.getLightModel().setFaithPathPosition(this.playerPosition);
+        if (!serverHandler.getIsCli()){
+            UpdateObjects.updateFaithPath(playerPosition);
+        }
     }
 }

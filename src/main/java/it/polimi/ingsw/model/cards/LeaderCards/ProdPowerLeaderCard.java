@@ -149,6 +149,10 @@ public class ProdPowerLeaderCard extends LeaderCard {
                 "\nActivation cost: " + activationCost.toString();
     }
 
+    /**
+     * This method transform a card to a String that represent the image name in the resources directory. It will be used to upload the image of the card in the GUI
+     * @return  a String that will be used for the path of the image
+     */
     @Override
     public String toPath() {
         return "production" +

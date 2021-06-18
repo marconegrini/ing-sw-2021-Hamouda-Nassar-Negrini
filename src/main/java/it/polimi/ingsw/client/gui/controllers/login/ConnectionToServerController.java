@@ -23,6 +23,11 @@ public class ConnectionToServerController {
 
     //private static ServerHandler serverHandler;
 
+    /**
+     * Invoked when the connect button is pressed. Tries to start the connection with the server
+     * @param actionEvent
+     * @throws Exception
+     */
     public void connectToTheServer(ActionEvent actionEvent) throws Exception {
 
         if (IPTextFiled.getText().isBlank() || IPTextFiled.getText().isEmpty()) {
@@ -54,8 +59,10 @@ public class ConnectionToServerController {
 
     }
 
+    /**
+     * Manage the closing of the window. If a user closes the window, it sent a ExitFromGameMessage to the server
+     */
     public void shutDown() {
-        System.out.println("Exiting GUI");
         if (ControllerGUI.getServerHandler() != null) {
             ControllerGUI.getServerHandler().sendJson(new ExitFromGameMessage());
         }

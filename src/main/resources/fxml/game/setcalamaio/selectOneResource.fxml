@@ -34,7 +34,7 @@
             </Label>
             <Label fx:id="servant" layoutX="62.0" layoutY="392.0" onMouseClicked="#selectServant" prefHeight="74.0" prefWidth="74.0">
                <stylesheets>
-                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
@@ -45,7 +45,7 @@
             </Label>
             <Label fx:id="coin" layoutX="203.0" layoutY="392.0" onMouseClicked="#selectCoin" prefHeight="74.0" prefWidth="74.0">
                <stylesheets>
-                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
@@ -56,7 +56,7 @@
             </Label>
             <Label fx:id="shield" layoutX="338.0" layoutY="392.0" onMouseClicked="#selectShield" prefHeight="74.0" prefWidth="74.0">
                <stylesheets>
-                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
@@ -72,7 +72,7 @@
             </Label>
             <Label fx:id="stone" layoutX="468.0" layoutY="392.0" onMouseClicked="#selectStone" prefHeight="74.0" prefWidth="74.0">
                <stylesheets>
-                  <URL value="@../../../css/game/gameStarted.css" />
+                  <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
@@ -135,6 +135,6 @@
    <stylesheets>
       <URL value="@../../../css/login/connectionPage.css" />
       <URL value="@../../../css/fonts.css" />
-      <URL value="@../../../css/game/gameStarted.css" />
+      <URL value="@../../../css/game/icons.css" />
    </stylesheets>
 </AnchorPane>

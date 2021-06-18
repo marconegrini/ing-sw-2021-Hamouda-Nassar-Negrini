@@ -18,7 +18,6 @@ import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
-import javax.swing.plaf.multi.MultiLabelUI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +85,24 @@ public class TurnManager {
      */
     public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum) {
         List<Marble> pickedMarbles;
+        ArrayList<Resource> recentlyResourcesFromWhiteMarble = new ArrayList<>();
+        Resource recentlyAddedRes = null;
+
+        List<LeaderCard> LeaderCardsPlayerOwns = new ArrayList<>();
+        List<StorageLeaderCard> storageCardsPlayerOwns = new ArrayList<>();
+        long howManyStorageCardAreThere = 0;
+
+        //filtering th storage leader cards
+        LeaderCardsPlayerOwns = player.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).filter(x-> x.isActivated()&&!x.isDiscarded()).collect(Collectors.toList());
+
+        //casting the cards into storage LCs
+        for (LeaderCard ld:LeaderCardsPlayerOwns)
+            storageCardsPlayerOwns.add((StorageLeaderCard)ld);
+
+        howManyStorageCardAreThere = storageCardsPlayerOwns.size();
+
+
+
         try {
             pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
         } catch (IndexOutOfBoundsException e){
@@ -94,11 +111,14 @@ public class TurnManager {
         System.out.println(pickedMarbles);
         boolean usedLeaderCard = false;
         List<Resource> resourcesToStore = new ArrayList<>();
+
         for(Marble marble : pickedMarbles){
             Color marbleColor = marble.getColor();
+
             switch(marbleColor){
                 case YELLOW:
                     resourcesToStore.add(Resource.COIN);
+                    recentlyAddedRes = Resource.COIN;
                     break;
                 case RED:
                     player.incrementFaithPathPosition();
@@ -115,15 +135,18 @@ public class TurnManager {
                     break;
                 case VIOLET:
                     resourcesToStore.add(Resource.SERVANT);
+                    recentlyAddedRes = Resource.SERVANT;
+
                     break;
                 case WHITE:
                     if(player.isLeaderCardActivated(CardType.MARBLE)){
-                        HashMap<Resource, Integer> resourcesFromLeaderCard = null;
+                        HashMap<Resource, Integer> resourcesFromLeaderCard ;
                         resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
                         Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
                         for(Resource resource : resourcesFromHashMap){
                             for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
                                 resourcesToStore.add(resource);
+                                recentlyResourcesFromWhiteMarble.add(resource); //copy the resources from white marble to a list
                             }
                         }
                         usedLeaderCard = true;
@@ -131,21 +154,65 @@ public class TurnManager {
                     break;
                 case GREY:
                     resourcesToStore.add(Resource.STONE);
+                    recentlyAddedRes = Resource.STONE;
+
                     break;
                 case BLUE:
                     resourcesToStore.add(Resource.SHIELD);
+                    recentlyAddedRes = Resource.SHIELD;
+
                     break;
                 default:
                     break;
             }
+
+            //add resources in LeaderCard-storage type if a resource matches a empty slot in a Leader card.
+            if (howManyStorageCardAreThere > 0){
+                //at least one SLC is activated..
+
+                if (recentlyResourcesFromWhiteMarble.size() != 0){
+                    //whiteMarble is used
+                    //add the resources that can be added to a Leader card's storage and remove them form the resources to restore
+                    for (Resource res : recentlyResourcesFromWhiteMarble){
+                        for (StorageLeaderCard sld:storageCardsPlayerOwns ) {
+                            if (sld.storageType().equals(res) && sld.hasAvailableSlots()) {
+                                try {
+                                    sld.putResourceInCardStorage(null,res);
+                                    resourcesToStore.remove(res);
+                                    break; //break teh inner for to go to the next resource;
+                                } catch (IllegalInsertionException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }else{ //white marble isn't used
+                    for ( StorageLeaderCard sld : storageCardsPlayerOwns ) {
+                        if(sld.storageType().equals(recentlyAddedRes) && sld.hasAvailableSlots()){
+                            try {
+                                sld.putResourceInCardStorage(null,recentlyAddedRes);
+                                resourcesToStore.remove(recentlyAddedRes);
+                                break; //break the for;
+                            } catch (IllegalInsertionException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                }
+            }
+            recentlyAddedRes = null;
+            recentlyResourcesFromWhiteMarble.clear();
         }
+
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
         if(resourcesToStore.isEmpty()){
+
             this.turnDone();
             return new OkMessage("You don't have resources to store!");
         } else {
-            if(usedLeaderCard)
+            if(!usedLeaderCard)
                 return new ResourcesToStoreMessage(false, resourcesToStore, "Obtained resources from market.", player.getClonedWarehouse());
             else return new ResourcesToStoreMessage(false, resourcesToStore, "Obtained resources from market. Leader card power used.", player.getClonedWarehouse());
         }
@@ -273,7 +340,6 @@ public class TurnManager {
                 usedLeaderCard = true;
             }
 
-            //tha name comes from the fact that: the rest of resources that don't exist in the wareHouse will be taken from the coffer
             if (containsNeededResources(player, devCardCost)) {
 
                 pullNeededResources(player, devCardCost);
@@ -299,11 +365,24 @@ public class TurnManager {
 
     /**
      * Method that checks if specified player contains selected resource cost in deposits
-     * @param player
+    * @param player
      * @param cost
      * @return true if needed resources are present, false otherwise.
      */
     public boolean containsNeededResources(Player player, List<Resource> cost){
+        List<LeaderCard> leaderCards = new ArrayList<>();
+        List<StorageLeaderCard> storageLeaderCards = new ArrayList<>();
+        List<Resource> sldResource = new ArrayList<>();
+
+        leaderCards = player.getLeaderCards();
+
+        //hasn't discarded 'em
+        if (leaderCards.stream().anyMatch(x->x.isActivated()))
+            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE
+                for (LeaderCard ld: leaderCards)
+                    if (ld.getCardType().equals(CardType.STORAGE)&&ld.isActivated())
+                        storageLeaderCards.add((StorageLeaderCard) ld);
+
 
         HashMap<Resource, Integer> checkCost = new HashMap<>();
         for (Resource res : cost) {
@@ -315,22 +394,37 @@ public class TurnManager {
         }
 
         List<Resource> playerResources = player.getTotalResource();
+
         boolean resourceContained = true;
+        OuterFor:
         for (Resource res : checkCost.keySet()) {
             Integer value = checkCost.get(res);
             for (int i = 0; i < value; i++) {
                 resourceContained = playerResources.remove(res);
+                //if the resource isn't present in the player resources --> check if it is present in one Storage LC.
                 if(!resourceContained)
-                    break;
+                    for (StorageLeaderCard sld: storageLeaderCards) {
+                        if (sld.getStoredResources().contains(res)){
+                            try {
+                                sld.pullResource();
+                                break;
+                            } catch (EmptySlotException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            break OuterFor;
+                        }
+                    }
             }
         }
+        
         return resourceContained;
     }
 
     /**
-     * Method that takes from deposits, first from warehouse, then from market, specified resources
-     * @param player
-     * @param cost
+     * Method that takes from deposits and leader cards, first from StorageLeaderCards, warehouse then from coffer, specified resources
+     * @param player the player in the turn
+     * @param cost the necessary resources needed
      */
     public void pullNeededResources(Player player, List<Resource> cost){
 
@@ -343,10 +437,10 @@ public class TurnManager {
         List<Resource> sldResource = new ArrayList<>();
 
         //hasn't discarded 'em
-        if (leaderCards.size()>0)
-            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE //I could have used the method is isLeaderCardActivated.
+        if (leaderCards.stream().anyMatch(x->x.isActivated()))
+            if (leaderCards.stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE)&&x.isActivated())) //if any card is of type STORAGE
                 for (LeaderCard ld: leaderCards)
-                    if (ld.getCardType().equals(CardType.STORAGE))
+                    if (ld.getCardType().equals(CardType.STORAGE)&&ld.isActivated())
                         storageLeaderCards.add((StorageLeaderCard) ld);
 
 
@@ -357,27 +451,27 @@ public class TurnManager {
                 for (StorageLeaderCard sld : storageLeaderCards) {
                     if (pulled)
                         break;
-
                     //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
                     if (sld.getStoredResources().contains(resource)) {
-                        /*for (int i = 0; i < storageLeaderCards.get(k).getStoredResources().size(); i++)*/
                         {
                             //pull one resource from any deposit/slot of teh card
                             try {
+                                System.out.println("Passed here 1 + Resource: "+resource); //testing
                                 sld.pullResource();
                                 pulled = true;
                             } catch (EmptySlotException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     }
                 }
 
                 if (warehouseResources.contains(resource) && !pulled) {
+                    System.out.println("Passed here 2 + Resource: "+resource);//testing
                     warehouseResources.remove(resource);
                     toTakeFromWarehouse.add(resource);
                 } else if (!pulled){
+                    System.out.println("Passed here 3 + Resource: "+resource);//testing
                     toTakeFromCoffer.add(resource);
                 }
 
@@ -603,6 +697,12 @@ public class TurnManager {
 
         return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
+
+
+
+
+
+
 
     /**
      * method called to select 2 leader cards out of the 4 given while setting up the game

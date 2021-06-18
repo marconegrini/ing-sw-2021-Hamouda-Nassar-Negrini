@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer.update;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -23,5 +24,8 @@ public class UpdateDevCardsSlotMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setPeekDevCardsInSlot(cardsInSlot);
+        if (serverHandler.getIsCli()){
+            UpdateObjects.updateDevCardsSlot(cardsInSlot);
+        }
     }
 }

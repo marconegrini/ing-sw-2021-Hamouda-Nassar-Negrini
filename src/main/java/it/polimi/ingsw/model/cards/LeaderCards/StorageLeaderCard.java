@@ -25,7 +25,27 @@ public class StorageLeaderCard extends LeaderCard {
      *                              the activation cost for this specific Leader card is an HashMap.
      * @param slots                 The hashmap containing as key value the resource type, and as object value the
      *                              available storage for that type of resource.
-     */
+     */    public StorageLeaderCard(
+            CardType cardType,
+            int victoryPoints,
+            boolean isActivated,
+            boolean isDiscarded,
+            Integer maxCapacity,
+            HashMap<Resource, Integer> activationCost,
+            HashMap<Resource, Integer> slots,
+            ArrayList<Resource> storage) {
+        this.cardType = cardType;
+        this.Vp = victoryPoints;
+        this.isActivated = isActivated;
+        this.isDiscarded = isDiscarded;
+        this.activationCost = activationCost;
+        this.slots = slots;
+        this.maxCapacity = maxCapacity;
+        this.storage = storage;
+    }
+
+
+    //first instantiation of the leader cards in the game,, is being used just at the beginning.
     public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
@@ -34,6 +54,7 @@ public class StorageLeaderCard extends LeaderCard {
         this.cardType = cardType;
         this.Vp = victoryPoints;
         this.isActivated = false;
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.slots = slots;
         for(Resource res : slots.keySet())
@@ -81,7 +102,7 @@ public class StorageLeaderCard extends LeaderCard {
      * @throws StorageOutOfBoundsException storage out of bound
      * @throws IllegalInsertionException   illegal insertion when the type of the card is different from the resource passed or when the
      */
-    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws StorageOutOfBoundsException, IllegalInsertionException {
+    public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws  IllegalInsertionException {
 
         if (resourceIn == null) {
             if (oneResourceIn != null)
@@ -156,7 +177,13 @@ public class StorageLeaderCard extends LeaderCard {
         }else tempResource = tempOpt.get();  //if there is at least one shelf non empty--> get tha=e resource in the shelf
 
         //clearing the resource in that shelf
-        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+//        storage.stream().filter(Objects::nonNull).findFirst().map(x -> x = null);
+        for (int i=0;i<maxCapacity; i++){
+            if (storage.get(i)!=null) {
+                storage.remove(i); //the last loop does not depend on the array's size
+                break;
+            }
+        }
         return tempResource;
 
     }
@@ -172,9 +199,6 @@ public class StorageLeaderCard extends LeaderCard {
         return activationCost;
     }
 
-    public HashMap<Resource, Integer> getSlots() {
-        return slots;
-    }
 
     /**
      * @return returns a hashMap with the resources saved in the leaderCard
@@ -205,6 +229,7 @@ public class StorageLeaderCard extends LeaderCard {
         return (int) storage.stream().filter(Objects::nonNull).count();
     }
 
+
     /**
      * @return a list containing stored resources in the leader card
      */
@@ -219,6 +244,10 @@ public class StorageLeaderCard extends LeaderCard {
      */
     public Resource storageType() {
         return slots.keySet().stream().findFirst().get();
+    }
+
+    public boolean hasAvailableSlots(){
+        return getOccupiedSlots() < maxCapacity;
     }
 
     /**
@@ -238,6 +267,10 @@ public class StorageLeaderCard extends LeaderCard {
                 "\nActivation cost: " + activationCost.toString();
     }
 
+    /**
+     * This method transform a card to a String that represent the image name in the resources directory. It will be used to upload the image of the card in the GUI
+     * @return  a String that will be used for the path of the image
+     */
     @Override
     public String toPath() {
         return "storage" +
