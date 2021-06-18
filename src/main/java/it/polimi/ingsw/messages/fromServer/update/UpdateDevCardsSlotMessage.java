@@ -24,7 +24,7 @@ public class UpdateDevCardsSlotMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setPeekDevCardsInSlot(cardsInSlot);
-        if (serverHandler.getIsCli()){
+        if (!serverHandler.getIsCli()){
             UpdateObjects.updateDevCardsSlot(cardsInSlot);
         }
     }
