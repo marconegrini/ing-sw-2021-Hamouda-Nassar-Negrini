@@ -3,8 +3,11 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.CLI.*;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
+import it.polimi.ingsw.model.Storage;
+import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.enumerations.ASCII_Resources;
 import it.polimi.ingsw.model.enumerations.CardType;
@@ -197,6 +200,8 @@ public class CLIView extends View {
         ClientMessage selection = null;
         boolean selected = false;
         boolean show = true;
+        boolean useStorageLCs = false;
+
 
         while (!selected) {
             if (!err) {
@@ -238,7 +243,7 @@ public class CLIView extends View {
                     //Take resources from market
                     marketTracer.marketTracer(clientLightModel.getMarketBoard());
                     boolean isRow = true;
-                    Integer rowOrColNum = 0;
+                    int rowOrColNum = 0;
                     System.out.println("\nInsert external marble in the market.");
                     boolean OK = false;
                     while (!OK) {
@@ -274,9 +279,24 @@ public class CLIView extends View {
                             OK = false;
                             System.out.println("Bad input format. Type again row or column number\n");
                         }
+
+                        String tempRead = "";
+                        List<StorageLeaderCard> slds = new ArrayList<>();
+                        if (clientLightModel.getLeaderCards().stream().anyMatch(x->x.getCardType().equals(CardType.STORAGE)&&x.isActivated())) {
+                            for (LeaderCard ld : clientLightModel.getLeaderCards()) {
+                                if(ld.getCardType().equals(CardType.STORAGE))
+                                    slds.add(((StorageLeaderCard) ld));
+                            }
+                            if (slds.stream().anyMatch(StorageLeaderCard::hasAvailableSlots)) {
+                                System.out.println("Do you want to use your storage leader cards power (y/n)? ");
+                                tempRead = secureReadString("(?i)(yes|no)|(y|n)(?-i)"); //recognizes y|Y|n|N|yes|Yes|YES|no|No|NO // (?i): opens the case insensitive read of input   //(?-i) ends the case insensitive read of input
+                                useStorageLCs = tempRead.matches("(?i)(yes)|(y)(?-i)"); //return true if yes and false if no.
+                            }
+                        }
+
                         show = false;
                         selected = true;
-                        selection = new PickResourcesMessage(isRow, rowOrColNum);
+                        selection = new PickResourcesMessage(isRow, rowOrColNum,useStorageLCs);
                     }
 
                 } else if (choice.equals("b")) {
@@ -428,22 +448,11 @@ public class CLIView extends View {
         //Needed to acquire shelf value.
         if (!discard) {
 
-            if (clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).count() > 0) {
-                System.out.println("Select shelf to insert resources (1 to 3) OR write \"store in LC\" to use the storage of a leader card: ");
-                leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-
-                returnedStr = secureReadString("(store in LC)|[1-3]");
-                if (returnedStr.length()<2)
-                    shelf = Integer.parseInt(returnedStr);
-                else shelf = -1;
-            }else {
                 System.out.println("Select shelf to insert resources (1 to 3)");
                 shelf = secureReadInt("[1-3]");
-            }
+
 //            leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).collect(Collectors.toList())).forEach(System.out::println);
 //            shelf = secureReadInt("[a-" + '`' + clientLightModel.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).count() + "]|[1-3]");
-
-
 
         }
 

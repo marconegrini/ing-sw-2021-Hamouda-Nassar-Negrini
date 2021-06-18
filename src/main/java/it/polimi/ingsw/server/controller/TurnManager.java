@@ -77,13 +77,12 @@ public class TurnManager {
     public void setPlayer(SinglePlayer player){
         this.player = player;
     }
-
     /**
      * pick resources from the market and add them to the player
      * @param player  The player is who will receive the picked resources
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
-    public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum) {
+    public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum,boolean useStorageLCs) {
         List<Marble> pickedMarbles;
         ArrayList<Resource> recentlyResourcesFromWhiteMarble = new ArrayList<>();
         Resource recentlyAddedRes = null;
@@ -112,23 +111,23 @@ public class TurnManager {
         boolean usedLeaderCard = false;
         List<Resource> resourcesToStore = new ArrayList<>();
 
-        for(Marble marble : pickedMarbles){
+        for(Marble marble : pickedMarbles) {
             Color marbleColor = marble.getColor();
 
-            switch(marbleColor){
+            switch (marbleColor) {
                 case YELLOW:
                     resourcesToStore.add(Resource.COIN);
                     recentlyAddedRes = Resource.COIN;
                     break;
                 case RED:
                     player.incrementFaithPathPosition();
-                    if(multiplayer){
+                    if (multiplayer) {
                         Integer newUserPos = player.getFaithPathPosition();
-                        for(Player p : players)
+                        for (Player p : players)
                             p.updateFaithPath(newUserPos);
-                        if(newUserPos.equals(player.faithPathEnd())){
+                        if (newUserPos.equals(player.faithPathEnd())) {
                             endedFaithPath = true;
-                            if(reachedFaithPathEnd == null)
+                            if (reachedFaithPathEnd == null)
                                 reachedFaithPathEnd = (MultiPlayer) player;
                         }
                     }
@@ -139,12 +138,12 @@ public class TurnManager {
 
                     break;
                 case WHITE:
-                    if(player.isLeaderCardActivated(CardType.MARBLE)){
-                        HashMap<Resource, Integer> resourcesFromLeaderCard ;
+                    if (player.isLeaderCardActivated(CardType.MARBLE)) {
+                        HashMap<Resource, Integer> resourcesFromLeaderCard;
                         resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);
                         Set<Resource> resourcesFromHashMap = resourcesFromLeaderCard.keySet();
-                        for(Resource resource : resourcesFromHashMap){
-                            for(int i = 0; i < resourcesFromLeaderCard.get(resource); i++){
+                        for (Resource resource : resourcesFromHashMap) {
+                            for (int i = 0; i < resourcesFromLeaderCard.get(resource); i++) {
                                 resourcesToStore.add(resource);
                                 recentlyResourcesFromWhiteMarble.add(resource); //copy the resources from white marble to a list
                             }
@@ -166,18 +165,19 @@ public class TurnManager {
                     break;
             }
 
+            if (useStorageLCs){
             //add resources in LeaderCard-storage type if a resource matches a empty slot in a Leader card.
-            if (howManyStorageCardAreThere > 0){
+            if (howManyStorageCardAreThere > 0) {
                 //at least one SLC is activated..
 
-                if (recentlyResourcesFromWhiteMarble.size() != 0){
+                if (recentlyResourcesFromWhiteMarble.size() != 0) {
                     //whiteMarble is used
                     //add the resources that can be added to a Leader card's storage and remove them form the resources to restore
-                    for (Resource res : recentlyResourcesFromWhiteMarble){
-                        for (StorageLeaderCard sld:storageCardsPlayerOwns ) {
+                    for (Resource res : recentlyResourcesFromWhiteMarble) {
+                        for (StorageLeaderCard sld : storageCardsPlayerOwns) {
                             if (sld.storageType().equals(res) && sld.hasAvailableSlots()) {
                                 try {
-                                    sld.putResourceInCardStorage(null,res);
+                                    sld.putResourceInCardStorage(null, res);
                                     resourcesToStore.remove(res);
                                     break; //break teh inner for to go to the next resource;
                                 } catch (IllegalInsertionException e) {
@@ -186,11 +186,11 @@ public class TurnManager {
                             }
                         }
                     }
-                }else{ //white marble isn't used
-                    for ( StorageLeaderCard sld : storageCardsPlayerOwns ) {
-                        if(sld.storageType().equals(recentlyAddedRes) && sld.hasAvailableSlots()){
+                } else { //white marble isn't used
+                    for (StorageLeaderCard sld : storageCardsPlayerOwns) {
+                        if (sld.storageType().equals(recentlyAddedRes) && sld.hasAvailableSlots()) {
                             try {
-                                sld.putResourceInCardStorage(null,recentlyAddedRes);
+                                sld.putResourceInCardStorage(null, recentlyAddedRes);
                                 resourcesToStore.remove(recentlyAddedRes);
                                 break; //break the for;
                             } catch (IllegalInsertionException e) {
@@ -201,8 +201,9 @@ public class TurnManager {
 
                 }
             }
-            recentlyAddedRes = null;
-            recentlyResourcesFromWhiteMarble.clear();
+                recentlyAddedRes = null;
+                recentlyResourcesFromWhiteMarble.clear();
+            }
         }
 
         this.resorucesToStore = resourcesToStore;
@@ -422,7 +423,7 @@ public class TurnManager {
     }
 
     /**
-     * Method that takes from deposits and leader cards, first from StorageLeaderCards, warehouse then from coffer, specified resources
+     * Method that takes from deposits and leader cards, first from warehouse, StorageLeaderCards then from coffer, specified resources
      * @param player the player in the turn
      * @param cost the necessary resources needed
      */
@@ -446,31 +447,39 @@ public class TurnManager {
 
         boolean pulled = false;
         if(containsNeededResources(player, cost)) {
-            for (Resource resource : cost) {
 
-                for (StorageLeaderCard sld : storageLeaderCards) {
-                    if (pulled)
-                        break;
-                    //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
-                    if (sld.getStoredResources().contains(resource)) {
-                        {
-                            //pull one resource from any deposit/slot of teh card
-                            try {
-                                System.out.println("Passed here 1 + Resource: "+resource); //testing
-                                sld.pullResource();
-                                pulled = true;
-                            } catch (EmptySlotException e) {
-                                e.printStackTrace();
+            for (Resource resource : cost) {
+                //warehouse
+                if (warehouseResources.contains(resource)) {
+                    System.out.println("Passed here 1 + Resource: "+resource);//testing
+                    warehouseResources.remove(resource);
+                    toTakeFromWarehouse.add(resource);
+                    pulled = true;
+                }
+
+                //leader storage cards
+                if (!pulled) {
+                    for (StorageLeaderCard sld : storageLeaderCards) {
+                        if (pulled)
+                            break; //go to the next resource
+                        //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
+                        if (sld.getStoredResources().contains(resource)) {
+                            {
+                                //pull one resource from any deposit/slot of teh card
+                                try {
+                                    System.out.println("Passed here 1 + Resource: " + resource); //testing
+                                    sld.pullResource();
+                                    pulled = true;
+                                } catch (EmptySlotException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
                 }
 
-                if (warehouseResources.contains(resource) && !pulled) {
-                    System.out.println("Passed here 2 + Resource: "+resource);//testing
-                    warehouseResources.remove(resource);
-                    toTakeFromWarehouse.add(resource);
-                } else if (!pulled){
+                //coffer
+                if (!pulled){
                     System.out.println("Passed here 3 + Resource: "+resource);//testing
                     toTakeFromCoffer.add(resource);
                 }

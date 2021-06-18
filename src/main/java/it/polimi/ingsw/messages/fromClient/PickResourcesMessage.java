@@ -16,18 +16,20 @@ public class PickResourcesMessage extends ClientMessage{
 
     private boolean isRow;
     private int rowOrColNum;
+    private boolean useStorageLCs;
 
-    public PickResourcesMessage(boolean isRow, int rowOrColNum) {
+    public PickResourcesMessage(boolean isRow, int rowOrColNum, boolean useStorageLCs) {
         super(ClientMessageType.PICKRESOURCES);
         this.rowOrColNum = rowOrColNum;
         this.isRow = isRow;
+        this.useStorageLCs = useStorageLCs;
     }
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
-        ServerMessage outcome = turnManager.pickResources(clientHandler.getPlayer(), isRow, rowOrColNum);
+        ServerMessage outcome = turnManager.pickResources(clientHandler.getPlayer(), isRow, rowOrColNum, useStorageLCs);
         clientHandler.sendJson(outcome);
 
         //clientHandler.sendJson(new UpdateMarketboardMessage(clientHandler.g));
