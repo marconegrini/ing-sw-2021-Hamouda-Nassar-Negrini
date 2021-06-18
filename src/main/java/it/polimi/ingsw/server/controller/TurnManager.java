@@ -95,9 +95,10 @@ public class TurnManager {
         LeaderCardsPlayerOwns = player.getLeaderCards().stream().filter(x->x.getCardType().equals(CardType.STORAGE)).filter(x-> x.isActivated()&&!x.isDiscarded()).collect(Collectors.toList());
 
         //casting the cards into storage LCs
-        for (LeaderCard ld:LeaderCardsPlayerOwns)
-            storageCardsPlayerOwns.add((StorageLeaderCard)ld);
-
+        for (LeaderCard ld:LeaderCardsPlayerOwns) {
+            if (ld.isActivated())
+             storageCardsPlayerOwns.add((StorageLeaderCard) ld);
+        }
         howManyStorageCardAreThere = storageCardsPlayerOwns.size();
 
 
@@ -188,6 +189,8 @@ public class TurnManager {
                     }
                 } else { //white marble isn't used
                     for (StorageLeaderCard sld : storageCardsPlayerOwns) {
+                        boolean temp = sld.hasAvailableSlots();
+                        System.out.println("sld.hasAvailableSlots(); ---*>"+temp);
                         if (sld.storageType().equals(recentlyAddedRes) && sld.hasAvailableSlots()) {
                             try {
                                 sld.putResourceInCardStorage(null, recentlyAddedRes);
