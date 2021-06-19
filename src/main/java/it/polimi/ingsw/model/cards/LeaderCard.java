@@ -107,5 +107,4 @@ public abstract class LeaderCard extends Card {
      * @return  a String that will be used for the path of the image
      */
     public abstract String toPath();
-
 }

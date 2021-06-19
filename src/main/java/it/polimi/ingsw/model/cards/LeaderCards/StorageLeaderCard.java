@@ -25,7 +25,9 @@ public class StorageLeaderCard extends LeaderCard {
      *                              the activation cost for this specific Leader card is an HashMap.
      * @param slots                 The hashmap containing as key value the resource type, and as object value the
      *                              available storage for that type of resource.
-     */    public StorageLeaderCard(
+     */
+
+    public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
             boolean isActivated,
