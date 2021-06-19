@@ -270,6 +270,7 @@ public class TurnManager {
                             }
                         }
                     }
+
                 } else {
                     SinglePlayer sp = (SinglePlayer) player;
                     sp.incrementLorenzoPosition();
@@ -285,8 +286,6 @@ public class TurnManager {
                 return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
             }
         }
-
-
     }
 
     /**
