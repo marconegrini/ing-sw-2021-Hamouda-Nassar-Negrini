@@ -129,6 +129,7 @@ public class MarketBoard {
 
     public Color getExternalMarbleColor () {return externalMarble.getColor();}
 
+    /*
     public List<Marble> getRowOrColumnMarbles(boolean isRow, Integer rowOrColNum){
         List<Marble> marblesToReturn = new ArrayList<>();
         if(isRow){
@@ -140,7 +141,9 @@ public class MarketBoard {
         }
         return marblesToReturn;
     }
+    */
 
+    /*
         //for testing purpose only
         public static void main(String[] args) {
             MarketBoard market = new MarketBoard();
@@ -160,5 +163,8 @@ public class MarketBoard {
                 System.out.println("\n");
             }
         }
+
+     */
+
 
 }

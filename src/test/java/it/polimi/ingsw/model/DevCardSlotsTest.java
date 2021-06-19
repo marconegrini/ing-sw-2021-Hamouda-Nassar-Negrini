@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class DevCardSlotsTest {
 
     private DevCardSlots test;
+    private DevelopmentCard dvTest;
     HashMap<Resource, Integer> cardCost;
     HashMap<Resource, Integer> prodIn;
     HashMap<Resource, Integer> prodOut;
@@ -36,6 +37,7 @@ public class DevCardSlotsTest {
 
         prodOut = new HashMap<>();
         prodOut.put(Resource.COIN, 1);
+
     }
 
     @Test
@@ -113,6 +115,23 @@ public class DevCardSlotsTest {
         test.addCard(0, card2);
         test.addCard(1, card1);
         assertEquals(6, test.getVictoryPoints());
+    }
+
+    @Test
+    public void testSevenDevCardsBought() throws IllegalInsertionException {
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+        test.addCard(0, card1);
+        test.addCard(1, card1);
+        test.addCard(2, card1);
+        assertEquals(false, test.sevenDevCardsBought());
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
+        test.addCard(0, card2);
+        test.addCard(1, card2);
+        test.addCard(2, card2);
+        assertEquals(false, test.sevenDevCardsBought());
+        DevelopmentCard card3 = new DevelopmentCard(2, CardColor.BLUE, Level.THIRD, cardCost, prodIn, prodOut);
+        test.addCard(0, card3);
+        assertEquals(true, test.sevenDevCardsBought());
     }
 
 

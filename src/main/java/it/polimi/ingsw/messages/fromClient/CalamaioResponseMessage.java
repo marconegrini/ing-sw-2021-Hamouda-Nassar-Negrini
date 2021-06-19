@@ -35,11 +35,13 @@ public class CalamaioResponseMessage extends ClientMessage {
     @Override
     public void serverProcess(ClientHandler clientHandler) {
         if (choice1 != 0) {
+            System.out.println("Here1");
             if (destStorage1 != 0) {
-
+                //
                 try {
                     clientHandler.getPlayer().putWarehouseResources(destStorage1, resourceConverter(choice1));
                     allIsWell =true; //will pass from here ONLY IF there no exception thrown
+                    System.out.println("Here2");
 
                 } catch (StorageOutOfBoundsException e) {
                     clientHandler.sendJson(new CalamaioErrorMessage("StorageOutOfBoundsException"));
@@ -55,16 +57,21 @@ public class CalamaioResponseMessage extends ClientMessage {
                         try {
                             clientHandler.getPlayer().putWarehouseResources(destStorage2, resourceConverter(choice2));
                             allIsWell =true; //will pass from here ONLY IF there no exception thrown
+                            System.out.println("Here3");
 
                         } catch (StorageOutOfBoundsException e) {
 
                             clientHandler.getPlayer().pullWarehouseResources( resourceConverter(choice1) );
+                            System.out.println("Here4");
+
                             clientHandler.sendJson(new CalamaioErrorMessage("StorageOutOfBoundsException"));
                             e.printStackTrace();
 
                         } catch (IllegalInsertionException e) {
 
                             clientHandler.getPlayer().pullWarehouseResources( resourceConverter(choice1) );
+                            System.out.println("Here5");
+
                             clientHandler.sendJson(new CalamaioErrorMessage("IllegalInsertionException"));
                             e.printStackTrace();
                         }

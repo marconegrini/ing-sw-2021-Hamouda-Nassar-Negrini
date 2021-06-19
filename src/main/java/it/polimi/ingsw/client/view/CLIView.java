@@ -690,9 +690,10 @@ public class CLIView extends View {
 
 
         char maxChar = (char) ('a' + devCards.size() - 1);
+
         String choice = secureReadString("(return|RETURN)|[a-" + maxChar + "]");
 
-        if (choice.length()>1){ //when the player chooses return
+        if (choice.matches("(?i)(return)(?-i)")){ //when the player chooses return
             return null;
         }
         else {

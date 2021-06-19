@@ -37,6 +37,7 @@ public class BuyDevCardMessage extends ClientMessage{
         TurnManager turnManager = clientHandler.getTurnManager();
 
         //TESTING
+        /*
         List<Resource> resourcesIn = new ArrayList<>();
         for (int i=0;i<8;i++)
             resourcesIn.add(Resource.SHIELD);
@@ -48,6 +49,8 @@ public class BuyDevCardMessage extends ClientMessage{
             resourcesIn.add(Resource.STONE);
 
         player.putCofferResources(resourcesIn);
+
+         */
 
         //for testing   -- full all leader cards storage
 //        if (player.getLeaderCards().get(0).isActivated()&&player.getLeaderCards().get(0).getCardType().equals(CardType.STORAGE)){

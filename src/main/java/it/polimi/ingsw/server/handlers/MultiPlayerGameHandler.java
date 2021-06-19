@@ -77,7 +77,7 @@ public class MultiPlayerGameHandler extends Thread {
                 turnManager.lock();
                 updateClients();
                 //enters last turn
-                if(turnManager.reachedFaithPathEnd()){
+                if(turnManager.reachedFaithPathEnd() || turnManager.isSevenDevCardsBought()){
                     gameEnded = true;
                     MultiPlayer player = turnManager.getFirstPlayerToEndFaithPath();
                     ClientHandler firstToFinish = null;
