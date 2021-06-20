@@ -150,7 +150,7 @@ public class GUIView extends View {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
 
-            GridPane resourcesGrid = (GridPane) scene.lookup("#resources");
+            GridPane resourcesGrid = (GridPane) scene.lookup("#resourcesGrid");
 
             AtomicInteger col = new AtomicInteger(0);
             for (Resource resource: resources){
