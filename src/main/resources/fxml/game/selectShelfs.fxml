@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -12,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.PutResourcesController">
    <children>
-      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <Label layoutX="36.0" layoutY="196.0" maxHeight="111.0" maxWidth="838.0" prefHeight="59.0" prefWidth="305.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" textAlignment="CENTER" textFill="#000d80">
                <font>
@@ -57,7 +58,7 @@
                   <Label prefHeight="123.0" prefWidth="208.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <GridPane fx:id="resources" layoutX="50.0" layoutY="208.0" prefHeight="51.0" prefWidth="277.0" AnchorPane.bottomAnchor="113.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="245.0" AnchorPane.topAnchor="208.0">
+            <GridPane fx:id="resourcesGrid" layoutX="50.0" layoutY="208.0" onMouseClicked="#selectResource" prefHeight="51.0" prefWidth="277.0" AnchorPane.bottomAnchor="113.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="245.0" AnchorPane.topAnchor="208.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -83,7 +84,16 @@
                   <Label prefHeight="132.0" prefWidth="121.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
+            <Button fx:id="discardButton" disable="true" layoutX="139.0" layoutY="295.0" mnemonicParsing="false" onAction="#discardResource" prefHeight="37.0" prefWidth="100.0" text="Discard">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
          </children>
+         <stylesheets>
+            <URL value="@../../css/game/chooseLeaderCard.css" />
+            <URL value="@../../css/buttons.css" />
+         </stylesheets>
       </AnchorPane>
    </children>
    <stylesheets>
