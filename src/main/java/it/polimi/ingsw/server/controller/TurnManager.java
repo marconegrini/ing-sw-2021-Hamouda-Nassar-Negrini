@@ -101,8 +101,6 @@ public class TurnManager {
         }
         howManyStorageCardAreThere = storageCardsPlayerOwns.size();
 
-
-
         try {
             pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);
         } catch (IndexOutOfBoundsException e){
@@ -212,7 +210,6 @@ public class TurnManager {
         this.resorucesToStore = resourcesToStore;
         System.out.println(resourcesToStore);
         if(resourcesToStore.isEmpty()){
-
             this.turnDone();
             return new OkMessage("You don't have resources to store!");
         } else {
@@ -405,19 +402,24 @@ public class TurnManager {
             for (int i = 0; i < value; i++) {
                 resourceContained = playerResources.remove(res);
                 //if the resource isn't present in the player resources --> check if it is present in one Storage LC.
-                if(!resourceContained)
-                    for (StorageLeaderCard sld: storageLeaderCards) {
-                        if (sld.getStoredResources().contains(res)){
-                            try {
-                                sld.pullResource();
-                                break;
-                            } catch (EmptySlotException e) {
-                                e.printStackTrace();
+                if(!resourceContained) {
+                    if(!storageLeaderCards.isEmpty()) {
+                        for (StorageLeaderCard sld : storageLeaderCards)
+                            if (sld.getStoredResources().contains(res)) {
+                                try {
+                                    sld.pullResource();
+                                    break;
+                                } catch (EmptySlotException e) {
+                                    e.printStackTrace();
+                                    break OuterFor;
+                                }
+                            } else {
+                                break OuterFor;
                             }
-                        } else {
-                            break OuterFor;
-                        }
+                    } else {
+                        break OuterFor;
                     }
+                }
             }
         }
         
@@ -501,7 +503,7 @@ public class TurnManager {
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as ServerMessage Object
      */
-    public ServerMessage activateProduction (Player player, List<Integer> slots,List<Resource> leaderResource){
+    public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
         System.out.println(slots.toString());
         System.out.println(player.getPeekCardsInDevCardSLots());
         if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true);
