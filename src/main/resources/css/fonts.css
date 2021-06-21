@@ -14,6 +14,10 @@
   -fx-font-family: 'Florence Regular';
 }
 
+.button {
+  -fx-font-family: 'Florence Regular';
+}
+
 #title {
   -fx-font-family: 'Rumburak';
 }

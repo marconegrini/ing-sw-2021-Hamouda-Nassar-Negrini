@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.EmptyMessage;
@@ -13,11 +15,16 @@ import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GUIView extends View {
@@ -97,19 +104,74 @@ public class GUIView extends View {
                     " -fx-background-size: 100% 100%;" +
                     "-fx-border-width: 5");
         }
-
         return new EmptyMessage();
     }
 
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
+        Platform.runLater(() ->{
+            Stage newStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //ConnectionToServerController controller = loader.getController();
+            newStage.setTitle("Select action");
+            Scene scene = new Scene(root, 500,390);
+            newStage.setScene(scene);
+            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.show();
+        });
+
         return new EmptyMessage();
     }
 
 
     @Override
     public ClientMessage storeResources(List<Resource> resources) {
-        return null;
+
+        Platform.runLater(() ->{
+            Stage newStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectShelfs.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            newStage.setTitle("Storage cards");
+            Scene scene = new Scene(root, 600,400);
+            newStage.setScene(scene);
+            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.show();
+
+            GridPane resourcesGrid = (GridPane) scene.lookup("#resourcesGrid");
+
+            AtomicInteger col = new AtomicInteger(0);
+            for (Resource resource: resources){
+                Label label = new Label();
+                label.getStyleClass().add(resource.toString().toLowerCase());
+                label.getStyleClass().add("notSelectedCard");
+                label.setPrefHeight(60.0);
+                label.setPrefWidth(60.0);
+                Platform.runLater(() -> {
+                    resourcesGrid.add(label, col.getAndIncrement(), 0);
+                });
+            }
+
+            try{
+                UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse(), scene);
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        });
+
+        return new EmptyMessage();
     }
 
     @Override

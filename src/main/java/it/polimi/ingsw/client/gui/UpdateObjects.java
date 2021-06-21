@@ -1,16 +1,18 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.model.Coffer;
-import it.polimi.ingsw.model.Storage;
-import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.client.CLI.MarketTracer;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,6 +32,34 @@ public class UpdateObjects {
 
         for (Integer shelf : keys) {
             GridPane gridShelf = (GridPane) SceneManager.getScene().lookup("#shelf" + shelf);
+            Storage storage = warehouse.getClonedWarehouse().get(shelf);
+            List<Resource> resources = storage.getResources();
+            if (resources == null) continue;
+
+            AtomicInteger col = new AtomicInteger(0);
+            for (Resource resource : resources) {
+                Label label = new Label();
+                label.getStyleClass().add(resource.toString().toLowerCase());
+                label.getStyleClass().add("notSelectedCard");
+                label.setPrefHeight(74.0);
+                label.setPrefWidth(74.0);
+                Platform.runLater(() -> {
+                    gridShelf.add(label, col.getAndIncrement(), 0);
+                });
+            }
+        }
+    }
+
+    /**
+     * This method updates the warehouse adding graphically the new resources received from the server.
+     *
+     * @param warehouse is the new warehouse that will be used to update the old one.
+     */
+    public static void updateWarehouse(Warehouse warehouse, Scene scene) {
+        Set<Integer> keys = warehouse.getClonedWarehouse().keySet();
+
+        for (Integer shelf : keys) {
+            GridPane gridShelf = (GridPane) scene.lookup("#shelf" + shelf);
             Storage storage = warehouse.getClonedWarehouse().get(shelf);
             List<Resource> resources = storage.getResources();
             if (resources == null) continue;
@@ -126,6 +156,38 @@ public class UpdateObjects {
                 devCardsSlotsGrid.add(card, index - 1, 0);
             }
         });
+    }
+
+    public static void updateMarketBoard(MarketBoard marketBoard, Scene scene){
+        GridPane marketboardGrid = (GridPane) scene.lookup("#marketboardGrid");
+        Label externalMarble = (Label) scene.lookup("#externalMarble");
+        externalMarble.setStyle("-fx-background-image: url(\"images/marbles/" +
+                marketBoard.getExternalMarbleColor().toString().toLowerCase() + ".png\");" +
+                " -fx-background-size: 100% 100%;");
+        Marble[][] marbles = marketBoard.getMarketBoardMarbles();
+        for (int i=0; i<3; i++){
+            for (int j=0; j<4; j++){
+                Label marble = new Label();
+                marble.setPrefWidth(55);
+                marble.setPrefHeight(55);
+                marble.setStyle("-fx-background-image: url(\"images/marbles/" +
+                        marbles[i][j].getColor().toString().toLowerCase() + ".png\");" +
+                        " -fx-background-size: 100% 100%;");
+                marketboardGrid.add(marble, j, i);
+            }
+        }
+        MarketTracer mr  = new MarketTracer();
+        mr.marketTracer(marketBoard);
+    }
+
+    public static void updateLeaderCards (List<LeaderCard> leaderCards, Scene scene){
+        for (int i=0; i<2; i++){
+            Label card = (Label) scene.lookup("#leaderCard"+(i+1));
+            card.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                    leaderCards.get(i).toPath() + ".png\");" +
+                    " -fx-background-size: 100% 100%;" +
+                    "-fx-border-width: 5");
+        }
     }
 }
 
