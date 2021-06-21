@@ -431,7 +431,7 @@ public class TurnManager {
      * @param player the player in the turn
      * @param cost the necessary resources needed
      */
-    public void pullNeededResources(Player player, List<Resource> cost){
+    public boolean pullNeededResources(Player player, List<Resource> cost){
 
         List<Resource> warehouseResources = player.getWarehouseResource();
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
@@ -484,7 +484,7 @@ public class TurnManager {
 
                 //coffer
                 if (!pulled){
-                    System.out.println("Passed here 3 + Resource: "+resource);//testing
+                    System.out.println("Passed here 3 + Resource: " + resource);//testing
                     toTakeFromCoffer.add(resource);
                 }
 
@@ -494,6 +494,8 @@ public class TurnManager {
             player.pullWarehouseResources(toTakeFromWarehouse);
             player.pullCofferResources(toTakeFromCoffer);
         }
+
+        return pulled;
     }
 
     /**
