@@ -211,6 +211,13 @@ public class CLIView extends View {
                 System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
             }
             while (show) {
+                if (return_)
+                {
+                    System.out.println("Select action to perform:\na) Take resources from market\nb) Buy development card\nc) Activate production");
+                    System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
+                    System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
+                }
+
                 //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
                 //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
                 System.out.println("\nMake a choice:");
@@ -320,6 +327,7 @@ public class CLIView extends View {
                             //Buy development card
                             show = false;
                             selected = true;
+                            return_ = false;
                         }
                         selection = buyDVCard(clientLightModel.getDevelopmentCardsDeck(), err);
                         if (selection == null)  //if == null --> means the player choosed to choose another action.
@@ -334,37 +342,53 @@ public class CLIView extends View {
                     case "c":
                         //Activate production
                         selection = activateProduction();
-                        show = false;
-                        selected = true;
-
+                        if (selection == null){
+                            show = true;
+                            selected = false;
+                            return_ = true;
+                        }else {
+                            show = false;
+                            selected = true;
+                            return_ = false;
+                        }
                         break;
                     case "d": {
                         //Activate Leader card
                         Integer index = 0;
                         depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer());
                         leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-                        System.out.println("Select a leader card to activate:");
+                        System.out.println("Select a leader card to activate:\n");
+                        System.out.println("or type \"return\" to choose another action\n");
                         boolean okCards = false;
                         while (!okCards) {
                             String selectedCard = scanner.nextLine();
-                            switch (selectedCard) {
-                                case "a":
-                                    index = 0;
-                                    okCards = true;
-                                    break;
-                                case "b":
-                                    index = 1;
-                                    okCards = true;
-                                    break;
-                                default:
-                                    System.out.println("Invalid input. Type again.");
-                                    break;
+                            if (selectedCard.toUpperCase().equals("RETURN"))
+                            {
+                                show = true;
+                                selected = false;
+                                return_ = true;
+                                okCards = true;
+                            }else {
+                                switch (selectedCard) {
+                                    case "a":
+                                        index = 0;
+                                        okCards = true;
+                                        break;
+                                    case "b":
+                                        index = 1;
+                                        okCards = true;
+                                        break;
+                                    default:
+                                        System.out.println("Invalid input. Type again.");
+                                        break;
+                                }
                             }
                         }
-                        selection = new ActivateLeaderCardMessage(index);
-                        show = false;
-                        selected = true;
-
+                        if (!return_) {
+                            selection = new ActivateLeaderCardMessage(index);
+                            show = false;
+                            selected = true;
+                        }
                         break;
                     }
                     case "e": {
@@ -372,26 +396,36 @@ public class CLIView extends View {
                         Integer index = 0;
                         leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
                         System.out.println("Select a leader card to discard:");
+                        System.out.println("or type \"return\" to choose another action\n");
                         boolean okCards = false;
                         while (!okCards) {
                             String selectedCard = scanner.nextLine();
-                            switch (selectedCard) {
-                                case "a":
-                                    index = 0;
-                                    okCards = true;
-                                    break;
-                                case "b":
-                                    index = 1;
-                                    okCards = true;
-                                    break;
-                                default:
-                                    System.out.println("Invalid input. Type again.");
-                                    break;
+                            if (selectedCard.toUpperCase().equals("RETURN")) {
+                                show = true;
+                                selected = false;
+                                return_ = true;
+                                okCards = true;
+                            } else {
+                                switch (selectedCard) {
+                                    case "a":
+                                        index = 0;
+                                        okCards = true;
+                                        break;
+                                    case "b":
+                                        index = 1;
+                                        okCards = true;
+                                        break;
+                                    default:
+                                        System.out.println("Invalid input. Type again.");
+                                        break;
+                                }
                             }
                         }
-                        selection = new DiscardLeaderCardMessage(index);
-                        show = false;
-                        selected = true;
+                        if (!return_) {
+                            selection = new DiscardLeaderCardMessage(index);
+                            show = false;
+                            selected = true;
+                        }
                         break;
                     }
                     case "f":
@@ -401,12 +435,21 @@ public class CLIView extends View {
                         Integer destStorage = 0;
                         Integer storage = 0;
                         for (int i = 0; i < 2; i++) {
-                            if (i == 0) ask = "source";
-                            if (i == 1) ask = "destination";
+                            if (i == 0) ask = "source shelf";
+                            if (i == 1) ask = "destination shelf";
                             boolean okStorage = false;
                             System.out.println("Select " + ask + " storage (1 to 3):");
+                            System.out.println("type \"return\" to choose another action");
                             try {
-                                storage = scanner.nextInt();
+                                String input = secureReadString("(?i)(return)(?-i)|[1-3]");
+                                if (input.matches("(?i)(return)(?-i)")){
+                                    return_ = true;
+                                    show = true;
+                                    selected = false;
+                                    break; //break the for loop
+                                }else{
+                                    storage = Integer.parseInt(input);
+                                }
                                 if (i == 0) sourceStorage = storage;
                                 if (i == 1) destStorage = storage;
                             } catch (InputMismatchException e) {
@@ -414,9 +457,11 @@ public class CLIView extends View {
                                 System.out.println("Invalid input. Type again.");
                             }
                         }
-                        selection = new MoveWarehouseResourcesMessage(sourceStorage, destStorage);
-                        show = false;
-                        selected = true;
+                        if (!return_) {
+                            selection = new MoveWarehouseResourcesMessage(sourceStorage, destStorage);
+                            show = false;
+                            selected = true;
+                        }
                         break;
                     default:
                         System.out.println("Invalid choice. Type again.");
@@ -554,13 +599,16 @@ public class CLIView extends View {
     public ClientMessage activateProduction(){
         ClientMessage toReturn = null;
         depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
-        System.out.println("Do you want to activate normal or personal production? Type NORMAL or PERSONAL to choose.");
+        System.out.println("Do you want to activate normal or personal production? Type NORMAL or PERSONAL to choose.\n");
+        System.out.println("or type \"return\" to choose another action:\n");
         List<Integer> slots = new ArrayList<>();
         List<Resource> leaderResource;
         boolean done = false;
         while(!done){
             String prodType = scanner.nextLine();
             prodType = prodType.toUpperCase();
+            if (prodType.equals("RETURN"))
+                return null;
             switch (prodType){
                 case ("NORMAL"):
                     showDevelopmentSlots();
