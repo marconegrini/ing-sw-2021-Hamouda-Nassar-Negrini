@@ -30,9 +30,10 @@ public class TurnManager {
     private MarketBoard marketBoard;
     private List<Resource> resorucesToStore;
     private boolean done;
-    private MultiPlayer reachedFaithPathEnd;
+    private Player firstPlayerToEnd;
     private boolean endedFaithPath;
     private boolean sevenDevCardsBought;
+    private boolean disconnected;
     private Integer accesses;
 
     /**
@@ -48,9 +49,10 @@ public class TurnManager {
         this.resorucesToStore = new ArrayList<>();
         this.done = false;
         this.sevenDevCardsBought = false;
-        this.reachedFaithPathEnd = null;
+        this.firstPlayerToEnd = null;
         this.endedFaithPath = false;
         this.accesses = 0;
+        this.disconnected = false;
     }
 
     /**
@@ -126,8 +128,8 @@ public class TurnManager {
                             p.updateFaithPath(newUserPos);
                         if (newUserPos.equals(player.faithPathEnd())) {
                             endedFaithPath = true;
-                            if (reachedFaithPathEnd == null)
-                                reachedFaithPathEnd = (MultiPlayer) player;
+                            if (firstPlayerToEnd == null)
+                                firstPlayerToEnd = (MultiPlayer) player;
                         }
                     }
                     break;
@@ -262,8 +264,8 @@ public class TurnManager {
                             }
                             if(newUserPos.equals(p.faithPathEnd())){
                                 endedFaithPath = true;
-                                if(reachedFaithPathEnd == null)
-                                    reachedFaithPathEnd = (MultiPlayer) player;
+                                if(firstPlayerToEnd == null)
+                                    firstPlayerToEnd = (MultiPlayer) player;
                             }
                         }
                     }
@@ -355,8 +357,10 @@ public class TurnManager {
                 }
                 turnDone();
 
-                if (player.sevenDevCardBought())
+                if (player.sevenDevCardBought()) {
                     sevenDevCardsBought = true;
+                    this.firstPlayerToEnd = player;
+                }
 
                 if (usedLeaderCard)
                     return new OkMessage("Bought development card and inserted in slot number " + (devCardSlot + 1) + ". Leader card power used.");
@@ -543,8 +547,8 @@ public class TurnManager {
                                 p.updateFaithPath(newPosition);
                         if(newPosition.equals(player.faithPathEnd())){
                             endedFaithPath = true;
-                            if(reachedFaithPathEnd == null)
-                                reachedFaithPathEnd = (MultiPlayer) player;
+                            if(firstPlayerToEnd == null)
+                                firstPlayerToEnd = (MultiPlayer) player;
                         }
                     }
                 }
@@ -632,8 +636,8 @@ public class TurnManager {
                             p.updateFaithPath(player.getFaithPathPosition());
                     if(newPlayerPosition.equals(player.faithPathEnd())){
                         endedFaithPath = true;
-                        if(reachedFaithPathEnd == null)
-                            reachedFaithPathEnd = (MultiPlayer) player;
+                        if(firstPlayerToEnd == null)
+                            firstPlayerToEnd = (MultiPlayer) player;
                     }
                 }
                 return true;
@@ -705,8 +709,8 @@ public class TurnManager {
             }
             if(newPlayerPos.equals(player.faithPathEnd())){
                 endedFaithPath = true;
-                if(reachedFaithPathEnd == null)
-                    reachedFaithPathEnd = (MultiPlayer) player;
+                if(firstPlayerToEnd == null)
+                    firstPlayerToEnd = (MultiPlayer) player;
             }
             faithPathPositions = this.getFaithPathPositions();
             faithPathPositions.remove(player.getNickname());
@@ -832,8 +836,8 @@ public class TurnManager {
      * @return the first player that ends the faith path. If during a turn more than one player reach the
      * end, the first one to reach it will be returned.
      */
-    public MultiPlayer getFirstPlayerToEndFaithPath(){
-        return this.reachedFaithPathEnd;
+    public Player getFirstPlayerToEnd(){
+        return this.firstPlayerToEnd;
     }
 
     /**
@@ -890,6 +894,13 @@ public class TurnManager {
         return accesses;
     }
 
+    public void setDisconnected(){
+        this.disconnected = true;
+    }
+
+    public boolean getDisconnected(){
+        return this.disconnected;
+    }
 }
 
 

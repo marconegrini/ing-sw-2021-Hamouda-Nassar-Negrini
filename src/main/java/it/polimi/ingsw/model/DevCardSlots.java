@@ -24,6 +24,34 @@ public class DevCardSlots {
             cardSlot.add(new Stack<>());
             cardSlotNumber--;
         }
+        /*
+        //debugging
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 2);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 2);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.COIN, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
+
+        cardSlot.get(0).push(card1);
+        cardSlot.get(1).push(card1);
+        cardSlot.get(2).push(card1);
+
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.BLUE, Level.SECOND, cardCost, prodIn, prodOut);
+        cardSlot.get(0).push(card2);
+        cardSlot.get(1).push(card2);
+        cardSlot.get(2).push(card2);
+
+         */
     }
 
     /**

@@ -79,7 +79,7 @@ public class MultiPlayerGameHandler extends Thread {
                 //enters last turn
                 if(turnManager.reachedFaithPathEnd() || turnManager.isSevenDevCardsBought()){
                     gameEnded = true;
-                    MultiPlayer player = turnManager.getFirstPlayerToEndFaithPath();
+                    MultiPlayer player = (MultiPlayer) turnManager.getFirstPlayerToEnd();
                     ClientHandler firstToFinish = null;
                     for(ClientHandler ch1 : clientHandlers)
                         if(ch1.getNickname().equals(player.getNickname()))
@@ -106,9 +106,13 @@ public class MultiPlayerGameHandler extends Thread {
                     }
                     for(ClientHandler ch3 : clientHandlers){
                         if(ch3.getPlayer().getNickname().equals(winner.getNickname())) {
-                            sendToClient(ch3, new EndGameMessage("You win! You made " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
-                        } else sendToClient(ch3, new EndGameMessage("You lost! " + winner.getNickname() + " made " + winner.getTotalVictoryPoints() + " victory points.\n You made instead " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
+                            sendToClient(ch3, new EndGameMessage("You won! You made " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
+                        } else sendToClient(ch3, new EndGameMessage("You lost! " + winner.getNickname() + " won and made " + winner.getTotalVictoryPoints() + " victory points.\n You made instead " + ch3.getPlayer().getTotalVictoryPoints() + " victory points."));
                     }
+                }
+                if(this.turnManager.getDisconnected()){
+                    gameEnded = true;
+                    sendToClients(new EndGameMessage("An unexpected disconnection ended the game"));
                 }
             }
         }
@@ -120,11 +124,11 @@ public class MultiPlayerGameHandler extends Thread {
      */
     public void sendLeaderCards() {
         LeaderCardParser parser = new LeaderCardParser();
-        Stack<LeaderCard> deck = new Stack<>();
+        Stack<LeaderCard> deck = new Stack();
         deck = parser.getLeaderCardsDeck();
         Collections.shuffle(deck);
         for (ClientHandler ch : clientHandlers) {
-            List<LeaderCard> leaderCards = new ArrayList<>();
+            List<LeaderCard> leaderCards = new ArrayList();
             for (int i = 0; i < 4; i++) {
                 if (!deck.isEmpty())
                     leaderCards.add(deck.pop());
@@ -185,7 +189,7 @@ public class MultiPlayerGameHandler extends Thread {
      * @return an HashMap containing users faith path positions
      */
     public HashMap<String, Integer> getFaithPathPositions(){
-        HashMap<String, Integer> faithPathPositions = new HashMap<>();
+        HashMap<String, Integer> faithPathPositions = new HashMap();
         for(ClientHandler ch : clientHandlers){
             String nickname = ch.getNickname();
             Integer fpPos = ch.getPlayer().getFaithPathPosition();
@@ -198,7 +202,7 @@ public class MultiPlayerGameHandler extends Thread {
      * puts the client with the calamaio at the beginning of the list
      */
     public void reOrdinateClientHandlers() {
-        ArrayList<ClientHandler> tempArr = new ArrayList<>();
+        ArrayList<ClientHandler> tempArr = new ArrayList();
         ClientHandler searchedCH = clientHandlers.stream().filter(x -> x.getPlayer().hasCalamaio()).findFirst().orElseGet(null);
         if(searchedCH==null){
             System.out.println("Null pointer Exception");
