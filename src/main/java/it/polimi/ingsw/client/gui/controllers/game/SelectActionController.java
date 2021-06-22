@@ -33,9 +33,9 @@ public class SelectActionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Market board");
             Scene scene = new Scene(root, 600,520);
+            SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -60,9 +60,9 @@ public class SelectActionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Activate production");
             Scene scene = new Scene(root, 400,520);
+            SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -84,9 +84,9 @@ public class SelectActionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Market board");
             Scene scene = new Scene(root, 400,520);
+            SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -108,9 +108,9 @@ public class SelectActionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Market board");
             Scene scene = new Scene(root, 400,520);
+            SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);

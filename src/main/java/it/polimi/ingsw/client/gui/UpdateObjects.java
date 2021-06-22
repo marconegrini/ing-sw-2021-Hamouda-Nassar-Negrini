@@ -32,6 +32,9 @@ public class UpdateObjects {
 
         for (Integer shelf : keys) {
             GridPane gridShelf = (GridPane) SceneManager.getScene().lookup("#shelf" + shelf);
+            Platform.runLater(() -> {
+                gridShelf.getChildren().clear();
+            });
             Storage storage = warehouse.getClonedWarehouse().get(shelf);
             List<Resource> resources = storage.getResources();
             if (resources == null) continue;
@@ -41,8 +44,8 @@ public class UpdateObjects {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
                 label.getStyleClass().add("notSelectedCard");
-                label.setPrefHeight(74.0);
-                label.setPrefWidth(74.0);
+                label.setPrefHeight(70.0);
+                label.setPrefWidth(70.0);
                 Platform.runLater(() -> {
                     gridShelf.add(label, col.getAndIncrement(), 0);
                 });
@@ -60,6 +63,9 @@ public class UpdateObjects {
 
         for (Integer shelf : keys) {
             GridPane gridShelf = (GridPane) scene.lookup("#shelf" + shelf);
+            Platform.runLater(() -> {
+                gridShelf.getChildren().clear();
+            });
             Storage storage = warehouse.getClonedWarehouse().get(shelf);
             List<Resource> resources = storage.getResources();
             if (resources == null) continue;
@@ -69,8 +75,8 @@ public class UpdateObjects {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
                 label.getStyleClass().add("notSelectedCard");
-                label.setPrefHeight(74.0);
-                label.setPrefWidth(74.0);
+                label.setPrefHeight(70.0);
+                label.setPrefWidth(70.0);
                 Platform.runLater(() -> {
                     gridShelf.add(label, col.getAndIncrement(), 0);
                 });
@@ -187,6 +193,10 @@ public class UpdateObjects {
                     leaderCards.get(i).toPath() + ".png\");" +
                     " -fx-background-size: 100% 100%;" +
                     "-fx-border-width: 5");
+            if (leaderCards.get(i).isActivated()) {
+                card.getStyleClass().add("selectedCard");
+                card.setOpacity(1.0);
+            } else  card.setOpacity(0.5);
         }
     }
 }

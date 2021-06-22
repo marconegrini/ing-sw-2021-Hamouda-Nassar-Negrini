@@ -1,6 +1,9 @@
 package it.polimi.ingsw.messages.fromServer.update;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -25,6 +28,8 @@ public class UpdateLeaderCardStatusMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setLeaderCards(leaderCards);
-
+        if (!ControllerGUI.getServerHandler().getIsCli()){
+            UpdateObjects.updateLeaderCards(leaderCards, SceneManager.getScene());
+        }
     }
 }
