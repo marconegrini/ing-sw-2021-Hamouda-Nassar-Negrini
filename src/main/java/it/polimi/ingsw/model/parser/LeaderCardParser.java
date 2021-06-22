@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonStreamParser;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
@@ -14,16 +15,15 @@ import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.io.InputStreamReader;
+import java.util.*;
 
 public class LeaderCardParser extends Parser{
 
 
-    public LeaderCardParser(String filePath) {
-        super(filePath);
+    public LeaderCardParser() {
+        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/LeaderCardJson.json")));
+        this.parser = new JsonStreamParser(this.reader);
     }
 
     public Stack<LeaderCard> getLeaderCardsDeck(){
@@ -202,7 +202,7 @@ public class LeaderCardParser extends Parser{
     }
 
     public static void main(String[] args) {
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser();
         Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
         parser.close();
     }

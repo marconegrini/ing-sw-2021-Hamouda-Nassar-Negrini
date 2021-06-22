@@ -26,7 +26,7 @@ public class SinglePlayerTest {
         player = new SinglePlayer("Marco");
         gameInstance = new SinglePlayerGameInstance();
         gameInstance.addPlayer(player);
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser();
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
         StorageLeaderCards = leaderCards.stream()

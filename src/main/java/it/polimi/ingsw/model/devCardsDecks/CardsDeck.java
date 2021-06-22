@@ -28,7 +28,7 @@ public class CardsDeck {
      * rows, and in each row cards are divided by colours.
      */
     public void initializeCardsDeck(){
-        DevelopmentCardParser parser = new DevelopmentCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/DevCardJson.json");
+        DevelopmentCardParser parser = new DevelopmentCardParser();
         ArrayList<DevelopmentCard> deck = parser.getDevelopmentCardsDeck();
         parser.close();
         for(DevelopmentCard card : deck){

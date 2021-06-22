@@ -162,7 +162,7 @@ public class DvCardsTracer {
     //for testing purpose
     public static void main(String[] args) {
 
-        DevelopmentCardParser parser = new DevelopmentCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/DevCardJson.json");
+        DevelopmentCardParser parser = new DevelopmentCardParser();
         ArrayList<DevelopmentCard> deck = parser.getDevelopmentCardsDeck();
         parser.close();
 

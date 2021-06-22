@@ -3,14 +3,18 @@ package it.polimi.ingsw.model.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonStreamParser;
 
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class WarehouseParser extends Parser{
 
-    public WarehouseParser(String filePath) {
-        super(filePath);
+    public WarehouseParser() {
+        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/CardSlotsWarehouse.json")));
+        this.parser = new JsonStreamParser(this.reader);
     }
 
     public Map<Integer, Integer> getStorageNumAndCapacity(){

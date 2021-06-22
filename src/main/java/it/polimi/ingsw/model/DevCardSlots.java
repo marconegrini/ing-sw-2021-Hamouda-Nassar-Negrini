@@ -17,7 +17,7 @@ public class DevCardSlots {
     private ArrayList<Stack<DevelopmentCard>> cardSlot;
 
     public DevCardSlots(){
-        CardSlotParser parser = new CardSlotParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlotsWarehouse.json");
+        CardSlotParser parser = new CardSlotParser();
         Integer cardSlotNumber = parser.getCardSlotsNumber();
         cardSlot = new ArrayList<>();
         while(cardSlotNumber != 0){

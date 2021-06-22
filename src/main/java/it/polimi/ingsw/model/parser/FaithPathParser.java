@@ -3,10 +3,13 @@ package it.polimi.ingsw.model.parser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonStreamParser;
 import it.polimi.ingsw.model.VaticanSection;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class FaithPathParser extends Parser{
 
@@ -16,8 +19,9 @@ public class FaithPathParser extends Parser{
 
     Integer end;
 
-    public FaithPathParser(String filePath) {
-        super(filePath);
+    public FaithPathParser() {
+        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/faithPathInfoJson.json")));
+        this.parser = new JsonStreamParser(this.reader);
 
         vaticanSections = new ArrayList<>();
 

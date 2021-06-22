@@ -10,13 +10,18 @@ import java.util.Locale;
 import java.util.Map;
 
 public abstract class Parser {
+    /*
     protected String filePath;
     protected InputStream inputStream;
     protected Reader reader;
     protected Gson gson;
     protected JsonStreamParser parser;
 
+     */
+    protected InputStreamReader reader;
+    protected JsonStreamParser parser;
 
+    /*
 
     public Parser(String filePath){
         this.filePath = filePath;
@@ -35,9 +40,11 @@ public abstract class Parser {
         }
     }
 
+     */
+
     public void close(){
         try {
-            this.inputStream.close();
+            this.reader.close();
         } catch (IOException e){
             System.out.println("Exception occured while closing file");
             e.printStackTrace();

@@ -42,7 +42,7 @@ public class PlayerTest {
     public void setUp(){
         playerMulti = new MultiPlayer("Marco");
         playerSingle = new SinglePlayer("Marco");
-        LeaderCardParser lcp = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser lcp = new LeaderCardParser();
         leaderCardList = new Stack();
         leaderCardsDeck = new ArrayList<>();
         leaderCardsDeck2 = new ArrayList<>();

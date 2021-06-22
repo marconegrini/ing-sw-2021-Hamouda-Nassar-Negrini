@@ -30,7 +30,7 @@ public class LeaderCardTest {
     @Before
     public void setUp() throws Exception {
 
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser();
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
 

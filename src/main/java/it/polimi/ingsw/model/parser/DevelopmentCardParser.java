@@ -6,13 +6,17 @@ import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class DevelopmentCardParser extends Parser {
 
-    public DevelopmentCardParser(String filePath){
-        super(filePath);
+    public DevelopmentCardParser(){
+        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/DevCardJson.json")));
+        this.parser = new JsonStreamParser(this.reader);
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCardsDeck() {

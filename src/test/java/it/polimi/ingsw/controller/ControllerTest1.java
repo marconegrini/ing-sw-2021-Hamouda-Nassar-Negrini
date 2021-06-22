@@ -66,7 +66,7 @@ public class ControllerTest1 {
         players.add(player2);
         players.add(player3);
         players.add(player4);
-        LeaderCardParser leaderCardParser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser leaderCardParser = new LeaderCardParser();
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
         StorageLeaderCards = leaderCards.stream()

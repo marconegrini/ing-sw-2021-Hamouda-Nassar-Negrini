@@ -20,7 +20,7 @@ public class FaithPath {
     public FaithPath(){
         this.userPosition = 0;
         this.vaticanSections = new ArrayList<>();
-        FaithPathParser parser = new FaithPathParser("src/main/java/it/polimi/ingsw/model/jsonFiles/faithPathInfoJson.json");
+        FaithPathParser parser = new FaithPathParser();
         this.vaticanSections.addAll(parser.getVaticanSections());
         this.victoryPoints = parser.getFaithPathVictoryPoints();
         this.end = parser.getEnd();

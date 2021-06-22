@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 
-import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;

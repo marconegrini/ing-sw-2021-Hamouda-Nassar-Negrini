@@ -15,7 +15,7 @@ public class Warehouse implements Deposit{
 
         warehouse = new HashMap<>();
         Map<Integer, Integer> storageNumAndCapacity = new HashMap();
-        WarehouseParser parser = new WarehouseParser("src/main/java/it/polimi/ingsw/model/jsonFiles/CardSlotsWarehouse.json");
+        WarehouseParser parser = new WarehouseParser();
         storageNumAndCapacity = parser.getStorageNumAndCapacity();
         parser.close();
 

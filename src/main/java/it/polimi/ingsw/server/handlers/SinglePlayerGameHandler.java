@@ -80,7 +80,7 @@ public class SinglePlayerGameHandler extends Thread{
      * ArrayList of 4 leader cards to all clients.
      */
     public void sendLeaderCards() {
-        LeaderCardParser parser = new LeaderCardParser("src/main/java/it/polimi/ingsw/model/jsonFiles/LeaderCardJson.json");
+        LeaderCardParser parser = new LeaderCardParser();
         Stack<LeaderCard> deck = new Stack<>();
         deck = parser.getLeaderCardsDeck();
         Collections.shuffle(deck);
