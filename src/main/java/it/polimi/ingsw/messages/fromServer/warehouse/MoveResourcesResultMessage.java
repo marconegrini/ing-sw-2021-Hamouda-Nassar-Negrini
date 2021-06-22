@@ -1,9 +1,13 @@
 package it.polimi.ingsw.messages.fromServer.warehouse;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
+import it.polimi.ingsw.messages.fromServer.update.UpdateWarehouseCofferMessage;
 
 /**
  * update message to update client's light model warehouse. Sent after a MoveWarehouseResourcesMessage
@@ -31,8 +35,12 @@ public class MoveResourcesResultMessage extends ServerMessage {
             serverHandler.getLightModel().moveWarehouseResources(sourceStorage, destStorage);
         else message = "Invalid action: " + message;
         System.out.println(message);
-        ClientMessage toSend = serverHandler.getView().selectAction(null, false);
-        serverHandler.sendJson(toSend);
+        if (serverHandler.getIsCli()) {
+            ClientMessage toSend = serverHandler.getView().selectAction(null, false);
+            serverHandler.sendJson(toSend);
+        } else{
+            UpdateObjects.updateWarehouse(serverHandler.getLightModel().getWarehouse(), SceneManager.getPopUpScene());
+        }
     }
 
     //needed for testing

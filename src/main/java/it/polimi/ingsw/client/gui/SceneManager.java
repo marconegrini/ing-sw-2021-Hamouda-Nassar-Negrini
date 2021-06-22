@@ -14,6 +14,7 @@ public class SceneManager {
 
     private static Stage primaryStage;
     private static Scene scene;
+    private static Scene popUpScene;
 
 
     /**
@@ -32,10 +33,18 @@ public class SceneManager {
 
     /**
      * Set a Scene from a Parent
-     * @param root  A Parent object that will be used to set the new Sceme
+     * @param root  A Parent object that will be used to set the new Scene
      */
     public static void setScene(Parent root){
         Platform.runLater(() -> { primaryStage.setScene(new Scene(root, 1080, 730)); });
+    }
+
+    /**
+     * Set the popUpScene from a scene
+     * @param sceneToSet  A Scene object that will be used to set the new popUpScene
+     */
+    public static void setPopUpScene(Scene sceneToSet){
+        popUpScene = sceneToSet;
     }
 
     /**
@@ -57,5 +66,14 @@ public class SceneManager {
     public static Scene getScene(){
         return scene;
     }
+
+    /**
+     * Method used to get the current popUpScene that is showed
+     * @return  The current showed popUpScene
+     */
+    public static Scene getPopUpScene(){
+        return popUpScene;
+    }
+
 
 }

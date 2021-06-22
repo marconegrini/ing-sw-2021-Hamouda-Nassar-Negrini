@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.gui.controllers.game;
 import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.InsertResourcesInWarehouseMessage;
-import it.polimi.ingsw.model.Warehouse;
+import it.polimi.ingsw.messages.fromClient.MoveWarehouseResourcesMessage;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
@@ -31,6 +31,7 @@ public class PutResourcesController {
     @FXML
     private Button discardButton;
     private Label selectedLabel;
+    private Label selectedShelf;
 
     public void selectedFirstShelf(MouseEvent mouseEvent) {
         if (selectedLabel == null) return;
@@ -66,12 +67,10 @@ public class PutResourcesController {
             return;
         }
 
-        System.out.println(resourcesGrid.getChildren().size());
+//        System.out.println(resourcesGrid.getChildren().size());
         Node source = (Node) mouseEvent.getSource();
         Window theStage = source.getScene().getWindow();
-        //if (resourcesGrid.getChildren().size() >= 1){
-            System.out.println("nascondi");
-            theStage.hide();
+        theStage.hide();
         //}
         ControllerGUI.getServerHandler().sendJson(new InsertResourcesInWarehouseMessage(false, resourceToInsert, 1));
         UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse(), source.getScene());
@@ -111,12 +110,10 @@ public class PutResourcesController {
             return;
         }
 
-        System.out.println(resourcesGrid.getChildren().size());
+  //      System.out.println(resourcesGrid.getChildren().size());
         Node source = (Node) mouseEvent.getSource();
         Window theStage = source.getScene().getWindow();
-       // if (resourcesGrid.getChildren().size() >= 1){
-            System.out.println("nascondi");
-            theStage.hide();
+        theStage.hide();
         //}
         ControllerGUI.getServerHandler().sendJson(new InsertResourcesInWarehouseMessage(false, resourceToInsert, 2));
         UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse(), source.getScene());
@@ -124,7 +121,6 @@ public class PutResourcesController {
     }
 
     public void selectedThirdShelf(MouseEvent mouseEvent) {
-        //System.out.println(resourcesGrid);
         if (selectedLabel == null) return;
         List<Resource> resourcesOnShelf = ControllerGUI.getServerHandler().getLightModel().getWarehouse().getWarehouseStorage(3);
         if (resourcesOnShelf.size() == 3) {
@@ -160,15 +156,12 @@ public class PutResourcesController {
         resourcesGrid.getChildren().remove(selectedLabel);
         Node source = (Node) mouseEvent.getSource();
         Window theStage = source.getScene().getWindow();
-       // if (resourcesGrid.getChildren().size() >= 1){
-            System.out.println("nascondi");
-            theStage.hide();
-        //}
+        theStage.hide();
 
         ControllerGUI.getServerHandler().sendJson(new InsertResourcesInWarehouseMessage(false, resourceToInsert, 3));
         UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse(), source.getScene());
 
-        System.out.println(resourcesGrid.getChildren().size());
+//        System.out.println(resourcesGrid.getChildren().size());
     }
 
 
@@ -190,13 +183,10 @@ public class PutResourcesController {
     private void disSelectResources(Label label) {
 
         if (resourcesGrid == null) return;
-        //System.out.println("selectedLabel = " + selectedLabel);
         ObservableList<Node> childrens = resourcesGrid.getChildren();
-        //System.out.println("");
         for (Node node : childrens) {
             Label lb = (Label) node;
             if (!lb.equals(label)) {
-                //System.out.println("disselected = " + lb);
                 if (lb.getStyleClass().contains("selectedCard")) {
                     lb.getStyleClass().remove("selectedCard");
                     lb.getStyleClass().add("notSelectedCard");
@@ -220,5 +210,42 @@ public class PutResourcesController {
     }
 
     public void discardResource(ActionEvent actionEvent) {
+        if (selectedLabel == null) return;
+        List<Resource> resourceToInsert = new ArrayList<>();
+        resourceToInsert.add(resourceConverter(selectedLabel));
+        System.out.println("Discarded resource:" + resourceToInsert);
+        ControllerGUI.getServerHandler().sendJson(new InsertResourcesInWarehouseMessage(true, resourceToInsert, 3));
+
+        resourcesGrid.getChildren().remove(selectedLabel);
+        Node source = (Node) actionEvent.getSource();
+        Window theStage = source.getScene().getWindow();
+        theStage.hide();
+
+    }
+
+    public void moveResources(MouseEvent mouseEvent) {
+        Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
+        disSelectResources(null);
+        selectedLabel = null;
+
+        if (selectedShelf == null) {
+            selectedShelf = label;
+            selectedShelf.getStyleClass().remove("notSelectedCard");
+            selectedShelf.getStyleClass().add("selectedCard");
+            return;
+        }
+
+        Integer firstShelf = Integer.parseInt(String.valueOf(label.getId().charAt(label.getId().length() - 1)));
+        Integer secondShelf = Integer.parseInt(String.valueOf(selectedShelf.getId().charAt(selectedShelf.getId().length() - 1)));
+
+        System.out.println("first:" + firstShelf);
+        System.out.println("second:" + secondShelf);
+
+        selectedShelf.getStyleClass().remove("selectedCard");
+        selectedShelf.getStyleClass().add("notSelectedCard");
+        selectedShelf = null;
+
+        ControllerGUI.getServerHandler().sendJson(new MoveWarehouseResourcesMessage(firstShelf, secondShelf));
+
     }
 }

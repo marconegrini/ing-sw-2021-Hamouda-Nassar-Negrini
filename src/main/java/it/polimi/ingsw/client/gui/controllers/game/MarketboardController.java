@@ -53,27 +53,6 @@ public class MarketboardController {
         isRow = false;
         System.out.println("before platform");
 
-        /*
-        Platform.runLater(() ->{
-            System.out.println("In platform");
-            Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/useStorageCards.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //ConnectionToServerController controller = loader.getController();
-            newStage.setTitle("Storage cards");
-            Scene scene = new Scene(root, 450,250);
-            newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.show();
-        });
-
-         */
 
         List<StorageLeaderCard> slds = new ArrayList<>();
         if (ControllerGUI.getServerHandler().getLightModel().getLeaderCards().stream().anyMatch(x->x.getCardType().equals(CardType.STORAGE)&&x.isActivated())) {
