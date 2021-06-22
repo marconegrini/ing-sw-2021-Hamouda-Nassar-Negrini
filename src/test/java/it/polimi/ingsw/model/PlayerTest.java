@@ -1,7 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.enumerations.CardColor;
 import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.model.enumerations.Level;
 import it.polimi.ingsw.model.enumerations.Resource;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
@@ -11,8 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,6 +31,11 @@ public class PlayerTest {
     List<LeaderCard> leaderCardsDeck2;
     List<LeaderCard> leaderCardsDeck3;
     List<LeaderCard> leaderCardsDeck4;
+    List<LeaderCard> storageLeaderCard;
+    private DevCardSlots test;
+    HashMap<Resource, Integer> cardCost;
+    HashMap<Resource, Integer> prodIn;
+    HashMap<Resource, Integer> prodOut;
 
 
     @Before
@@ -39,6 +49,10 @@ public class PlayerTest {
         leaderCardsDeck3 = new ArrayList<>();
         leaderCardsDeck4 = new ArrayList<>();
         leaderCardList = lcp.getLeaderCardsDeck();
+        storageLeaderCard = leaderCardList.stream()
+                .filter(card->(card.getCardType().equals(CardType.DISCOUNT)))
+                .collect(Collectors.toList());
+
         for(int i = 0; i < 4; i++)
             leaderCardsDeck.add(leaderCardList.pop());
         for(int i = 0; i < 4; i++)
@@ -47,6 +61,20 @@ public class PlayerTest {
             leaderCardsDeck3.add(leaderCardList.pop());
         for(int i = 0; i < 4; i++)
             leaderCardsDeck4.add(leaderCardList.pop());
+        playerMulti.setLeaderCards(leaderCardsDeck);
+
+        test = new DevCardSlots();
+
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 2);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 2);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.COIN, 1);
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.BLUE, Level.FIRST, cardCost, prodIn, prodOut);
 
     }
 
@@ -85,6 +113,18 @@ public class PlayerTest {
         assertEquals(resourcesIn, playerMulti.getWarehouseResource());
         resourcesIn.add(Resource.STONE);
         assertEquals(resourcesIn, playerMulti.getTotalResource());
+    }
 
+    @Test
+    public void testPlayer3() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
+        playerMulti.setLeaderCards(storageLeaderCard);
+        for(LeaderCard lc : playerMulti.getLeaderCards())
+            lc.activate();
+        HashMap<Resource, Integer> storage = new HashMap<>();
+        storage.put(Resource.SHIELD, 1);
+        storage.put(Resource.COIN, 1);
+        storage.put(Resource.SERVANT, 1);
+        storage.put(Resource.STONE, 1);
+        assertEquals(storage, playerMulti.getLeaderCardsPower(CardType.DISCOUNT));
     }
 }

@@ -19,4 +19,8 @@ public class OkMessage extends ServerMessage{
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getView().showMessage(message);
     }
+
+    public String getMessage(){
+        return message;
+    }
 }

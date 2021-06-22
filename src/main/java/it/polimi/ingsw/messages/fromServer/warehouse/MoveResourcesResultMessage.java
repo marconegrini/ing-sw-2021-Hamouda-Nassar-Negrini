@@ -34,4 +34,9 @@ public class MoveResourcesResultMessage extends ServerMessage {
         ClientMessage toSend = serverHandler.getView().selectAction(null, false);
         serverHandler.sendJson(toSend);
     }
+
+    //needed for testing
+    public boolean getError(){
+        return this.error;
+    }
 }

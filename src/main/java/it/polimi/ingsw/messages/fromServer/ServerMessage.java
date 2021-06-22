@@ -6,7 +6,7 @@ import it.polimi.ingsw.client.ServerHandler;
  * message sent from server TO CLIENT
  */
 
-public abstract class ServerMessage {
+public abstract class   ServerMessage {
 
     protected ServerMessageType type;
 

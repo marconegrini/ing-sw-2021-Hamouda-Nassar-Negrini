@@ -13,7 +13,7 @@ import java.util.List;
  * Super abstract class that is used to make it transparent to the client the using of cli or gui. Dynamically instantiated
  * as ClIView or GUIView in serverHandler, it will be called inside messages' clientProcess methods
  */
-public abstract class View {
+public abstract class   View {
 
     public abstract ClientMessage logClient();
 

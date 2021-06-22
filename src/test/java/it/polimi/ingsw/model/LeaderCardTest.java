@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
@@ -10,12 +8,8 @@ import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.WrongCardTypeException;
-import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,7 +49,7 @@ public class LeaderCardTest {
     }
 
     @Test
-    public void Test() throws WrongCardTypeException, AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
+    public void Test() throws WrongCardTypeException, AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException, IllegalInsertionException, EmptySlotException {
         List<Resource> resources = new ArrayList<>();
         resources.add(Resource.COIN);
         resources.add(Resource.COIN);
@@ -66,6 +60,9 @@ public class LeaderCardTest {
         HashMap<Resource, Integer> power = new HashMap<>();
         List<LeaderCardCost> leaderCardCosts = new ArrayList<>();
         List<DevelopmentCard> developmentCards = new ArrayList<>();
+        List<Resource> storeResource = new ArrayList();
+        storeResource.add(Resource.STONE);
+        storeResource.add(Resource.STONE);
 
         power.clear();
         power.put(Resource.STONE, 2);
@@ -75,11 +72,16 @@ public class LeaderCardTest {
                 assertEquals(true, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();
+                ((StorageLeaderCard) lc).putResourceInCardStorage(null, Resource.STONE);
+                assertEquals(Resource.STONE, ((StorageLeaderCard) lc).pullResource());
+                ((StorageLeaderCard) lc).putResourceInCardStorage(storeResource, null);
+                assertEquals(Resource.STONE, ((StorageLeaderCard) lc).pullResource());
             } else {
                 assertEquals(false, ((StorageLeaderCard) lc).isActivatable(resources));
                 //assertNotEquals("Test failed", power, lc.getLeaderCardPower());
                 lc.activate();
                 lc.getStorageCardActivationCostResources();
+                lc.getVictoryPoints();
             }
         }
 
@@ -98,6 +100,7 @@ public class LeaderCardTest {
             }
             lc.activate();
             lc.getCardActivationCostColours();
+            lc.getVictoryPoints();
         }
 
 
@@ -119,6 +122,7 @@ public class LeaderCardTest {
             }
             lc.activate();
             lc.getCardActivationCostColours();
+            lc.getVictoryPoints();
         }
 
         developmentCards.clear();
@@ -135,6 +139,7 @@ public class LeaderCardTest {
             }
             lc.activate();
             lc.getCardActivationCostColours();
+            lc.getVictoryPoints();
         }
     }
 }

@@ -58,4 +58,10 @@ public class ResourcesToStoreMessage extends ServerMessage {
 //            clientHandler.sendJson(outcome);
         }
     }
+
+    //needed for testing
+    public String getMessage(){
+        return this.okMessage;
+    }
 }
+

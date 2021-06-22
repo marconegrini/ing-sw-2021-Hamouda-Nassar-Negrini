@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.PutResourcesController">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <Label layoutX="36.0" layoutY="196.0" maxHeight="111.0" maxWidth="838.0" prefHeight="59.0" prefWidth="305.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" textAlignment="CENTER" textFill="#000d80">
+               <font>
+                  <Font size="59.0" />
+               </font>
+            </Label>
+            <Label fx:id="massageLabel" layoutX="79.0" layoutY="38.0" maxHeight="178.0" maxWidth="838.0" prefHeight="74.0" prefWidth="415.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Select one resource and put it on a shelf" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="79.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="38.0">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="372.0" layoutY="156.0" prefHeight="163.0" prefWidth="166.0" style="-fx-border-color: #1d1d2b; -fx-border-width: 5;" styleClass="warehouse" stylesheets="@../../css/game/warehouse.css" />
+            <RadioButton fx:id="servantRadio" layoutX="487.0" layoutY="330.0" mnemonicParsing="false" opacity="0.0" text="servant">
+               <toggleGroup>
+                  <ToggleGroup fx:id="resource" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="coinRadio" layoutX="495.0" layoutY="296.0" mnemonicParsing="false" opacity="0.0" text="coin" toggleGroup="$resource" />
+            <RadioButton fx:id="stoneRadio" layoutX="399.0" layoutY="305.0" mnemonicParsing="false" opacity="0.0" text="stone" toggleGroup="$resource" />
+            <RadioButton fx:id="shieldRadio" layoutX="408.0" layoutY="339.0" mnemonicParsing="false" opacity="0.0" text="shield" toggleGroup="$resource" />
+            <GridPane fx:id="shelf1" layoutX="439.0" layoutY="190.0" onMouseClicked="#selectedFirstShelf" prefHeight="37.0" prefWidth="53.0" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="439.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="190.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="108.0" prefWidth="144.0" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="shelf2" layoutX="420.0" layoutY="233.0" onMouseClicked="#selectedSecondShelf" prefHeight="37.0" prefWidth="90.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="420.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="233.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="122.0" prefWidth="183.0" />
+                  <Label prefHeight="123.0" prefWidth="208.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="resourcesGrid" layoutX="50.0" layoutY="208.0" onMouseClicked="#selectResource" prefHeight="51.0" prefWidth="277.0" AnchorPane.bottomAnchor="113.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="245.0" AnchorPane.topAnchor="208.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <GridPane fx:id="shelf3" layoutX="404.0" layoutY="270.0" onMouseClicked="#selectedThirdShelf" prefHeight="37.0" prefWidth="113.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="270.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="110.0" prefWidth="89.0" />
+                  <Label prefHeight="142.0" prefWidth="131.0" GridPane.columnIndex="1" />
+                  <Label prefHeight="132.0" prefWidth="121.0" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+            <Button fx:id="discardButton" disable="true" layoutX="139.0" layoutY="295.0" mnemonicParsing="false" onAction="#discardResource" prefHeight="37.0" prefWidth="100.0" text="Discard">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+         </children>
+         <stylesheets>
+            <URL value="@../../css/game/chooseLeaderCard.css" />
+            <URL value="@../../css/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../css/login/connectionPage.css" />
+      <URL value="@../../css/fonts.css" />
+      <URL value="@../../css/game/icons.css" />
+   </stylesheets>
+</AnchorPane>
