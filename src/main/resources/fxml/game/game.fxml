@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.GameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.GameController">
    <children>
-      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="1124.0" styleClass="boardbg" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="1000.0" styleClass="boardbg" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <GridPane fx:id="faithPathGrid" layoutX="38.0" layoutY="22.0" prefHeight="168.0" prefWidth="982.0">
               <columnConstraints>
@@ -132,6 +132,8 @@
             <URL value="@../../css/game/chooseLeaderCard.css" />
          </stylesheets>
       </AnchorPane>
+      <Label fx:id="leaderCard1" layoutX="14.0" layoutY="14.0" prefHeight="335.0" prefWidth="245.0" AnchorPane.bottomAnchor="371.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1041.0" AnchorPane.topAnchor="14.0" />
+      <Label fx:id="leaderCard2" layoutX="14.0" layoutY="371.0" prefHeight="335.0" prefWidth="245.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1041.0" AnchorPane.topAnchor="371.0" />
    </children>
    <stylesheets>
       <URL value="@../../css/login/connectionPage.css" />
