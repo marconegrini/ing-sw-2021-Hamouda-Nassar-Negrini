@@ -64,9 +64,8 @@ public class ClientHandler extends Thread {
             processClientMessages();
         } catch (IOException e){
             System.out.println("Client " + client.getInetAddress() + " connection drop");
-            //let the game continue
-            Server.removeClientHandler(this);
-            //this.getTurnManager().turnDone();
+            this.turnManager.turnDone();
+            this.turnManager.setDisconnected();
         }
 
         try {
