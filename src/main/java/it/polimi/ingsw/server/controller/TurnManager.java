@@ -279,7 +279,9 @@ public class TurnManager {
                 turnDone();
                 return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!", player.getClonedWarehouse());
             } else {
-                this.resorucesToStore.removeAll(resourcesIn);
+                for(Resource res : resourcesIn){
+                    this.resorucesToStore.remove(res);
+                }
                 return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
             }
         }
