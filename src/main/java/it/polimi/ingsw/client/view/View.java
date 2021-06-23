@@ -35,7 +35,7 @@ public abstract class   View {
 
     public abstract void startGame();
 
-    public abstract void showMessage(String message);
+    public abstract void showMessage(String message, boolean forGuiAlso, boolean error);
 
     public abstract void showLeaderCards(List<LeaderCard> leaderCards);
 

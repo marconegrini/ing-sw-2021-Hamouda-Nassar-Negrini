@@ -894,7 +894,7 @@ public class CLIView extends View {
 
     @Override
     public void startGame() {
-        this.showMessage("Game started!");
+        this.showMessage("Game started!", false, false);
     }
 
     /**
@@ -903,8 +903,9 @@ public class CLIView extends View {
      * @param message message to print
      */
     @Override
-    public void showMessage(String message) {
-        System.out.println(message);
+    public void showMessage(String message, boolean forGuiAlso, boolean error) {
+        if (error) System.err.println(message);
+        else System.out.println(message);
     }
 
     /**

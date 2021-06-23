@@ -24,7 +24,7 @@ public class ErrorWarehouseMessage extends ServerMessage {
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(error);
+        serverHandler.getView().showMessage(error, true, true);
         ClientMessage message = serverHandler.getView().storeResources(this.resourcesToStore);
         serverHandler.sendJson(message);
     }

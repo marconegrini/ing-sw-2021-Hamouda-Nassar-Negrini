@@ -34,12 +34,12 @@ public class ProductionResultMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         if(error){
-            serverHandler.getView().showMessage(resultMessage);
+            serverHandler.getView().showMessage(resultMessage, true, false);
             ClientMessage message = null;
             if(toMenu) message = serverHandler.getView().selectAction("",false);
             else message = serverHandler.getView().activateProduction();
             serverHandler.sendJson(message);
-        } else serverHandler.getView().showMessage(resultMessage);
+        } else serverHandler.getView().showMessage(resultMessage, true, false);
     }
 }
 

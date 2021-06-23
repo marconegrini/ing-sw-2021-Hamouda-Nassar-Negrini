@@ -30,7 +30,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GUIView extends View {
     /**
      * Shows a view in which the user can insert his nickname and the game modality.
-     * @return  EmptyMessage
+     *
+     * @return EmptyMessage
      */
     @Override
     public ClientMessage logClient() {
@@ -50,7 +51,7 @@ public class GUIView extends View {
         String source = "";
 
         //Define which view should be viewed
-        if (strIn.contains("first")){
+        if (strIn.contains("first")) {
             source = "fxml/game/setcalamaio/setCalamaio.fxml";
             try {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
@@ -59,9 +60,9 @@ public class GUIView extends View {
                 e.printStackTrace();
             }
             return new CalamaioResponseMessage(0, 0, 0, 0);
-        } else if(strIn.contains("second") || strIn.contains("third")){
+        } else if (strIn.contains("second") || strIn.contains("third")) {
             source = "fxml/game/setcalamaio/selectOneResource.fxml";
-        } else  source = "fxml/game/setcalamaio/selectTwoResources.fxml";
+        } else source = "fxml/game/setcalamaio/selectTwoResources.fxml";
 
         // set the correct Scene
         try {
@@ -76,15 +77,16 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage calamaioErrHandelr(String strIn) {
-        this.showMessage(strIn);
+        this.showMessage(strIn, true, false);
         return new EmptyMessage();
     }
 
 
     /**
      * this method show the four leader cards through the GUI
-     * @param leaderCards  List of LeaderCards to be shown
-     * @return  EmptyMessage
+     *
+     * @param leaderCards List of LeaderCards to be shown
+     * @return EmptyMessage
      */
     @Override
     public ClientMessage selectLeaderCards(List<LeaderCard> leaderCards) {
@@ -97,8 +99,8 @@ public class GUIView extends View {
         }
 
 //        for (LeaderCard leaderCard: leaderCards){ System.out.println(leaderCard.toPath());
-        for (int i=0; i<4; i++){
-            Label card = (Label) SceneManager.getScene().lookup("#card"+(i+1));
+        for (int i = 0; i < 4; i++) {
+            Label card = (Label) SceneManager.getScene().lookup("#card" + (i + 1));
             card.setStyle("-fx-background-image: url(\"images/leadercards/" +
                     leaderCards.get(i).toPath() + ".png\");" +
                     " -fx-background-size: 100% 100%;" +
@@ -109,7 +111,7 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
-        Platform.runLater(() ->{
+        Platform.runLater(() -> {
             Stage newStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
             Parent root = null;
@@ -120,7 +122,7 @@ public class GUIView extends View {
             }
             //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Select action");
-            Scene scene = new Scene(root, 500,390);
+            Scene scene = new Scene(root, 500, 390);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -134,7 +136,7 @@ public class GUIView extends View {
     @Override
     public ClientMessage storeResources(List<Resource> resources) {
 
-        Platform.runLater(() ->{
+        Platform.runLater(() -> {
             Stage newStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectShelfs.fxml"));
             Parent root = null;
@@ -144,7 +146,7 @@ public class GUIView extends View {
                 e.printStackTrace();
             }
             newStage.setTitle("Storage cards");
-            Scene scene = new Scene(root, 600,400);
+            Scene scene = new Scene(root, 600, 400);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
@@ -154,7 +156,7 @@ public class GUIView extends View {
             GridPane resourcesGrid = (GridPane) scene.lookup("#resourcesGrid");
 
             AtomicInteger col = new AtomicInteger(0);
-            for (Resource resource: resources){
+            for (Resource resource : resources) {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
                 label.getStyleClass().add("notSelectedCard");
@@ -165,9 +167,9 @@ public class GUIView extends View {
                 });
             }
 
-            try{
+            try {
                 UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse(), scene);
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         });
@@ -182,6 +184,7 @@ public class GUIView extends View {
 
     /**
      * Shows a view with a waiting room, in which the user can see how many other players are waiting
+     *
      * @return EmptyMessage
      */
     @Override
@@ -214,23 +217,38 @@ public class GUIView extends View {
 
     /**
      * Shows an alert with the message
-     * @param message  message is shown in the alert pop-up
+     *
+     * @param message message is shown in the alert pop-up
+     * @param forGuiAlso a boolean to indicate if the message is to be showed in the gui
+     * @param error a boolean to indicate if the message if a n error message or a normal one
      */
     @Override
-    public void showMessage(String message) {
+    public void showMessage(String message, boolean forGuiAlso, boolean error) {
+        if (error && !forGuiAlso) System.err.println("\nAn error is not visualised to the GUI client.\n");
+        if (forGuiAlso) {
+            if (error) {
 
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Error.");
-            alert.setContentText(message);
-            alert.showAndWait();
-        });
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("Error.");
+                    alert.setContentText(message);
+                    alert.showAndWait();
+                });
+            } else {
 
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Communication Message");
+                    alert.setHeaderText("Communication Message.");
+                    alert.setContentText(message);
+                    alert.showAndWait();
+                });
+            }
+        }else System.out.println(message); //print the message in the cli
     }
 
     /**
-     *
      * @param leaderCards List of LeaderCard that was chosen from the client
      */
     @Override
@@ -267,7 +285,8 @@ public class GUIView extends View {
 
     /**
      * updates the label that contains the number of players that are in waiting room
-     * @param s  String that represent number of players in waiting room
+     *
+     * @param s String that represent number of players in waiting room
      */
     @Override
     public void showParticipantsNumber(String s) {

@@ -17,7 +17,7 @@ public class OkMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(message);
+        serverHandler.getView().showMessage(message, false, false);
     }
 
     public String getMessage(){

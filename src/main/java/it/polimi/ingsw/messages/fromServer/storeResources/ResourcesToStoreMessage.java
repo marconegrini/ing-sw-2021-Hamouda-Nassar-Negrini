@@ -49,10 +49,10 @@ public class ResourcesToStoreMessage extends ServerMessage {
             System.out.println(resourcesToStore); //testing
             Warehouse newWarehouse = new Warehouse(warehouse);
             serverHandler.getLightModel().setWarehouse(newWarehouse);
-            serverHandler.getView().showMessage(this.okMessage);
+            serverHandler.getView().showMessage(this.okMessage, false, false);
             ClientMessage message = serverHandler.getView().storeResources(this.resourcesToStore);
             serverHandler.sendJson(message);
-        } else serverHandler.getView().showMessage(this.okMessage);
+        } else serverHandler.getView().showMessage(this.okMessage, false, false);
         if (updateLeaderCards){
 //            ClientMessage outcome =
 //            clientHandler.sendJson(outcome);
