@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-public class Client implements Runnable{
+public class ClientCLI implements Runnable{
 
     private ServerHandler serverHandler;
     private boolean shallTerminate;
 
-    public static void main(String[] args) throws IOException {
-        Client client = new Client();
-        client.run();
-    }
+    //public static void main(String[] args) throws IOException {
+    //    Client client = new Client();
+    //    client.run();
+    //}
 
     /**
      * run method that handles ServerHandler thread
