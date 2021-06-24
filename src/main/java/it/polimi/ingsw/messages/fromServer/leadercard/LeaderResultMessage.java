@@ -50,7 +50,8 @@ public class LeaderResultMessage extends ServerMessage {
         }
         if(activated && !error) serverHandler.getLightModel().activateLeaderCard(leaderCardIndex);
         if(error) message = "Invalid action: " + result;
-        serverHandler.getView().showMessage(message);
+        boolean alsoGui = error; //only if it's an error show it on the gui
+        serverHandler.getView().showMessage(message, alsoGui, error);
         ClientMessage toSend = serverHandler.getView().selectAction(null, false);
         serverHandler.sendJson(toSend);
     }

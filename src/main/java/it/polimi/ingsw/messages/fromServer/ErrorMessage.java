@@ -17,7 +17,7 @@ public class ErrorMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(errorMessage);
+        serverHandler.getView().showMessage(errorMessage,true, true);
     }
 
     @Override

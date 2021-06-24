@@ -16,7 +16,7 @@ public class ErrorStartGameMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(message);
+        serverHandler.getView().showMessage(message, true, true);
 
         if (serverHandler.getIsCli()) {
             Runnable runnable = () -> {

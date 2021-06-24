@@ -20,7 +20,7 @@ public class ServerLoginErrorMessage extends ServerMessage{
     public void clientProcess(ServerHandler serverHandler) {
 
 
-        serverHandler.getView().showMessage("Insert another nickname");
+        serverHandler.getView().showMessage("Insert another nickname",true , true);
 
         serverHandler.sendJson(serverHandler.getView().logClient());
         /*

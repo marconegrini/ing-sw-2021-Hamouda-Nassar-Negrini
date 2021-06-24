@@ -17,7 +17,7 @@ public class EndGameMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(this.endMessage);
+        serverHandler.getView().showMessage(this.endMessage,true, false);
         serverHandler.stop();
     }
 }
