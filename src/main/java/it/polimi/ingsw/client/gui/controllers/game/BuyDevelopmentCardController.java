@@ -23,7 +23,7 @@ public class BuyDevelopmentCardController {
 
     private Label selectedCard;
     private static int column, row;
-    private static int slot;
+    private static Integer slot;
 
     public void selectDevCard(ActionEvent actionEvent) {
 

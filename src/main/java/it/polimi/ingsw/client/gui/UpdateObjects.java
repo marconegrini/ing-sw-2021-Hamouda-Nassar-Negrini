@@ -148,11 +148,11 @@ public class UpdateObjects {
 
         for (Resource resource : totalResource){
             resourcesMap.computeIfPresent(resource, (k,v) -> v+1);
-            System.out.println("resource picked " + resource);
+            //System.out.println("resource picked " + resource);
         }
 
-        System.out.println("Total resources: " + totalResource);
-        System.out.println("Hashmap: " + resourcesMap);
+        //System.out.println("Total resources: " + totalResource);
+        //System.out.println("Hashmap: " + resourcesMap);
 
         Set<Resource> resourcesSet = resourcesMap.keySet();
 
@@ -245,10 +245,10 @@ public class UpdateObjects {
                 card.setPrefWidth(200);
                 card.setPrefHeight(400);
                 card.setStyle("-fx-background-image: url(\"images/devcards/" +
-                        cardsInSlot.get(index - 1).toPath() + ".png\");" +
+                        cardsInSlot.get(index).toPath() + ".png\");" +
                         " -fx-background-size: 100% 100%;" +
                         "-fx-border-width: 5");
-                devCardsSlotsGrid.add(card, index - 1, 0);
+                devCardsSlotsGrid.add(card, index, 0);
             }
         });
     }
@@ -271,8 +271,8 @@ public class UpdateObjects {
                 marketboardGrid.add(marble, j, i);
             }
         }
-        MarketTracer mr  = new MarketTracer();
-        mr.marketTracer(marketBoard);
+        //MarketTracer mr  = new MarketTracer();
+        //mr.marketTracer(marketBoard);
     }
 
     public static void updateLeaderCards (List<LeaderCard> leaderCards, Scene scene){
