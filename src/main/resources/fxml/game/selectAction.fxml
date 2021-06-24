@@ -19,7 +19,7 @@
                   <Font size="55.0" />
                </font>
             </Label>
-            <Button layoutX="14.0" layoutY="149.0" mnemonicParsing="false" onAction="#pickResources" prefHeight="83.0" prefWidth="223.0" text="Pick resources from marketboard" textFill="WHITE">
+            <Button layoutX="14.0" layoutY="149.0" mnemonicParsing="false" onAction="#pickResources" prefHeight="83.0" prefWidth="223.0" text="Show marketboard" textFill="WHITE">
                <font>
                   <Font name="Florence-Regular" size="22.0" />
                </font>
@@ -34,7 +34,7 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Button layoutX="259.0" layoutY="257.0" mnemonicParsing="false" onAction="#activateLeaderCard" prefHeight="83.0" prefWidth="223.0" text="Activate leader card" textFill="WHITE">
+            <Button layoutX="259.0" layoutY="257.0" mnemonicParsing="false" onAction="#activateLeaderCard" prefHeight="83.0" prefWidth="223.0" text="Activate/Discard leader card" textFill="WHITE">
                <font>
                   <Font size="22.0" />
                </font>
