@@ -28,7 +28,7 @@ public class UpdateLeaderCardStatusMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         serverHandler.getLightModel().setLeaderCards(leaderCards);
-        if (!ControllerGUI.getServerHandler().getIsCli()){
+        if (!serverHandler.getIsCli()){
             UpdateObjects.updateLeaderCards(leaderCards, SceneManager.getScene());
         }
     }
