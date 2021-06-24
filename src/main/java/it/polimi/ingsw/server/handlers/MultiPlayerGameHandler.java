@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.handlers;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;

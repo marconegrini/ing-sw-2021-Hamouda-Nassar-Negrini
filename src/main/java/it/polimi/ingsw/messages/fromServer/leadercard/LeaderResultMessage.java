@@ -55,4 +55,9 @@ public class LeaderResultMessage extends ServerMessage {
         ClientMessage toSend = serverHandler.getView().selectAction(null, false);
         serverHandler.sendJson(toSend);
     }
+
+    //for testing
+    public boolean getError(){
+        return this.error;
+    }
 }

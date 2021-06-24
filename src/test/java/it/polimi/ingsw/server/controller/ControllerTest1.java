@@ -1,13 +1,10 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.messages.fromServer.BuyDVCardError;
 import it.polimi.ingsw.messages.fromServer.OkMessage;
-import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
 import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
-import it.polimi.ingsw.model.LeaderCardTest;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -20,7 +17,7 @@ import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
-import it.polimi.ingsw.server.controller.TurnManager;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -415,36 +412,57 @@ public class ControllerTest1 {
         turnManager.discardDevelopmentCards(CardColor.VIOLET);
         assertEquals(true, turnManager.discardDevelopmentCards(CardColor.VIOLET));
     }
-/*
+
     @Test
-    public void activateLeaderCardProductionTest(){
-        List<Resource> leaderResources = new ArrayList();
-        leaderResources.add(Resource.COIN);
-        assertEquals(false, turnManager.activateLeaderCardProduction(player, leaderResources));
+    public void activtateLeaderCardTest(){
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        assertEquals(true, ((LeaderResultMessage) turnManager.activateLeaderCard(player1, 4)).getError());
     }
 
     @Test
-    public void activateLeaderCardTest(){
-        assertEquals(LeaderResultMessage.class, turnManager.activateLeaderCard(player, 0).getClass());
-        assertEquals(LeaderResultMessage.class, turnManager.activateLeaderCard(player, 1).getClass());
+    public void activtateLeaderCardTest2(){
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        assertEquals(true, ((LeaderResultMessage) turnManager.activateLeaderCard(player1, 0)).getError());
     }
 
     @Test
-    public void discardLeaderCardTest(){
-        assertEquals(LeaderResultMessage.class, turnManager.discardLeaderCard(player, 0).getClass());
-        assertEquals(LeaderResultMessage.class, turnManager.discardLeaderCard(player, 1).getClass());
+    public void activtateLeaderCardTest3() throws IndexOutOfBoundsException{
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        List<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        player1.putCofferResources(resourcesIn);
+        turnManager.discardLeaderCard(player1, 1);
+        assertEquals(true, ((LeaderResultMessage) turnManager.activateLeaderCard(player1, 1)).getError());
     }
 
     @Test
-    public void discardDevelopmentCard(){
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(false, turnManager.discardDevelopmentCards(CardColor.GREEN));
-        assertEquals(true, turnManager.discardDevelopmentCards(CardColor.GREEN));
+    public void activtateLeaderCardTest4() throws IndexOutOfBoundsException{
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        List<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        player1.putCofferResources(resourcesIn);
+        turnManager.activateLeaderCard(player1, 1);
+        assertEquals(true, ((LeaderResultMessage) turnManager.activateLeaderCard(player1, 1)).getError());
     }
 
-     */
 }

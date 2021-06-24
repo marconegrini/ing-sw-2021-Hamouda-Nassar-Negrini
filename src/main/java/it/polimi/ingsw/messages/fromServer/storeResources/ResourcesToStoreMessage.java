@@ -1,6 +1,5 @@
 package it.polimi.ingsw.messages.fromServer.storeResources;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
