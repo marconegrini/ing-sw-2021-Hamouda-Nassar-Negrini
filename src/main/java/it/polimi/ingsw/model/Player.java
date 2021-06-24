@@ -52,7 +52,7 @@ public abstract class Player {
     }
 
     /**
-     * @return total resources in warehouse and coffer
+     * @return total resources in warehouse and coffer and resources in storage leader card
      */
     public List<Resource> getTotalResource() {
         List<Resource> totalResource = personalBoard.getWarehouseResource();
