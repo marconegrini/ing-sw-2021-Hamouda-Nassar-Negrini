@@ -111,25 +111,53 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
-        Platform.runLater(() -> {
-            Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //ConnectionToServerController controller = loader.getController();
-            newStage.setTitle("Select action");
-            Scene scene = new Scene(root, 500, 390);
-            newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.show();
-        });
+
+        if (!err) {
+            Platform.runLater(() -> {
+                Stage newStage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //ConnectionToServerController controller = loader.getController();
+                newStage.setTitle("Select action");
+                Scene scene = new Scene(root, 500, 390);
+                newStage.setScene(scene);
+                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.show();
+            });
+
+            return new EmptyMessage();
+        }
+
+        if (choice.equalsIgnoreCase("b")){
+            Platform.runLater(() ->{
+                Stage newStage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                newStage.setTitle("Buy Development Card");
+                Scene scene = new Scene(root, 1080,720);
+                SceneManager.setPopUpScene(scene);
+                newStage.setScene(scene);
+                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
+                UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
+                newStage.show();
+            });
+        }
 
         return new EmptyMessage();
+
     }
 
 

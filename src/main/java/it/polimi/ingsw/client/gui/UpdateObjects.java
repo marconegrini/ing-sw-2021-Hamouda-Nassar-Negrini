@@ -1,20 +1,21 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.CLI.MarketTracer;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
+import it.polimi.ingsw.model.enumerations.CardType;
 import it.polimi.ingsw.model.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * This class is used to update the element of the GUI. Each method is responsible of updating a single element of the GUI.
@@ -101,6 +102,70 @@ public class UpdateObjects {
     }
 
     /**
+     * This method updates the coffer adding graphically the new resources received from the server.
+     *
+     * @param coffer is the new coffer that will be used to update the old one.
+     * @param scene  is the Scene to which you want to update the coffer.
+     */
+    public static void updateCoffer(Coffer coffer, Scene scene) {
+        Set<Resource> keys = coffer.getClonedCoffer().keySet();
+        for (Resource resource : keys) {
+            Label label = (Label) scene.lookup("#num" + resource.toString().toLowerCase());
+            Integer numResource = coffer.getClonedCoffer().get(resource);
+            Platform.runLater(() -> {
+                label.setText(numResource.toString());
+            });
+        }
+    }
+
+    /**
+     * This method updates the coffer adding graphically the new resources received from the server.
+     *
+     * @param coffer is the new coffer that will be used to update the view.
+     * @param warehouse  is the new warehouse that will be used to update the view.
+     * @param scene  is the Scene to which you want to update the objects.
+     */
+    public static void updateResources(Coffer coffer, Warehouse warehouse, Scene scene) {
+        HashMap<Resource, Integer> resourcesMap = new HashMap<>();
+        resourcesMap.put(Resource.COIN, 0);
+        resourcesMap.put(Resource.STONE, 0);
+        resourcesMap.put(Resource.SHIELD, 0);
+        resourcesMap.put(Resource.SERVANT, 0);
+
+        List<Resource> totalResource = warehouse.getTotalResources().stream().collect(Collectors.toList());
+        totalResource.addAll(coffer.getTotalResources().stream().collect(Collectors.toList()));
+        for(LeaderCard ld: ControllerGUI.getServerHandler().getLightModel().getLeaderCards()){
+            if (ld.getCardType().equals(CardType.STORAGE)) {
+                if (ld.isActivated()) {
+                    StorageLeaderCard sld = (StorageLeaderCard) ld;
+                    if (sld.getOccupiedSlots()>0){
+                        totalResource.addAll(sld.getStoredResources());
+                    }
+                }
+            }
+        }
+
+
+        for (Resource resource : totalResource){
+            resourcesMap.computeIfPresent(resource, (k,v) -> v+1);
+            System.out.println("resource picked " + resource);
+        }
+
+        System.out.println("Total resources: " + totalResource);
+        System.out.println("Hashmap: " + resourcesMap);
+
+        Set<Resource> resourcesSet = resourcesMap.keySet();
+
+        for (Resource resource : resourcesSet) {
+            Label label = (Label) scene.lookup("#num" + resource.toString().toLowerCase());
+            Integer numResource = resourcesMap.get(resource);
+            Platform.runLater(() -> {
+                label.setText(numResource.toString());
+            });
+        }
+    }
+
+    /**
      * This method updates the faith path moving graphically the roods.
      *
      * @param position the position of the player that received the update message
@@ -156,6 +221,30 @@ public class UpdateObjects {
                 card.setPrefWidth(200);
                 card.setPrefHeight(400);
                 card.setStyle("-fx-background-image: url(\"images/devcards/" +
+                        cardsInSlot.get(index).toPath() + ".png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
+                devCardsSlotsGrid.add(card, index, 0);
+            }
+        });
+    }
+
+    /**
+     * This method updates the grid of development cards in the GUI.
+     * @param cardsInSlot  Are the new cards that are on the top of the development cards slots
+     * @param scene  The Scene in which the update will be done
+     */
+    public static void updateDevCardsSlot(HashMap<Integer, DevelopmentCard> cardsInSlot, Scene scene) {
+
+        Set<Integer> keys = cardsInSlot.keySet();
+        GridPane devCardsSlotsGrid = (GridPane) scene.lookup("#devCardsSlots");
+
+        Platform.runLater(() -> {
+            for (Integer index : keys) {
+                Label card = new Label();
+                card.setPrefWidth(200);
+                card.setPrefHeight(400);
+                card.setStyle("-fx-background-image: url(\"images/devcards/" +
                         cardsInSlot.get(index - 1).toPath() + ".png\");" +
                         " -fx-background-size: 100% 100%;" +
                         "-fx-border-width: 5");
@@ -196,9 +285,23 @@ public class UpdateObjects {
             if (leaderCards.get(i).isActivated()) {
                 card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
-            } else  card.setOpacity(0.5);
+            } else  card.setOpacity(0.9);
         }
     }
+
+    public static void updateDevCardsDeck (ArrayList<DevelopmentCard> devCards, Scene scene){
+
+        int i=0;
+        for (DevelopmentCard card: devCards){
+            Label label = (Label) scene.lookup("#card"+i);
+            label.setStyle("-fx-background-image: url(\"images/devcards/" +
+                    card.toPath() + ".png\");" +
+                    " -fx-background-size: 100% 100%;" +
+                    "-fx-border-width: 5");;
+            i++;
+        }
+    }
+
 }
 
 

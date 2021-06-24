@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
+import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.PickResourcesMessage;
@@ -157,5 +158,29 @@ public class MarketboardController {
         Window theStage = source.getScene().getWindow();
         theStage.hide();
         ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, result+1, true));
+    }
+
+    public void back(ActionEvent actionEvent) {
+        Node source = (Node) actionEvent.getSource();
+        Window theStage = source.getScene().getWindow();
+        theStage.hide();
+
+        Platform.runLater(() -> {
+            Stage newStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            newStage.setTitle("Select action");
+            Scene scene = new Scene(root, 500, 390);
+            SceneManager.setPopUpScene(scene);
+            newStage.setScene(scene);
+            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.show();
+        });
     }
 }

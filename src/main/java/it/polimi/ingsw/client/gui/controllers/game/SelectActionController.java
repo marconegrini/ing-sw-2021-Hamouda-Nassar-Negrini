@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.gui.controllers.game;
 import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
+import it.polimi.ingsw.model.Coffer;
 import it.polimi.ingsw.model.MarketBoard;
+import it.polimi.ingsw.model.Warehouse;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +36,7 @@ public class SelectActionController {
                 e.printStackTrace();
             }
             newStage.setTitle("Market board");
-            Scene scene = new Scene(root, 600,520);
+            Scene scene = new Scene(root, 600,600);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
@@ -77,19 +79,22 @@ public class SelectActionController {
         theStage.hide();
         Platform.runLater(() ->{
             Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCards.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            newStage.setTitle("Market board");
-            Scene scene = new Scene(root, 400,520);
+            newStage.setTitle("Buy Development Card");
+            Scene scene = new Scene(root, 1080,720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
+            UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
+            //UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
+            UpdateObjects.updateResources(ControllerGUI.getServerHandler().getLightModel().getCoffer(), ControllerGUI.getServerHandler().getLightModel().getWarehouse(), scene);
             newStage.show();
         });
     }
@@ -99,6 +104,7 @@ public class SelectActionController {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
+
         Platform.runLater(() ->{
             Stage newStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateLeaderCard.fxml"));
@@ -108,13 +114,15 @@ public class SelectActionController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            newStage.setTitle("Market board");
-            Scene scene = new Scene(root, 400,520);
+
+            newStage.setTitle("Activate Leader Card");
+            Scene scene = new Scene(root, 1080,720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
         });
     }
 }
