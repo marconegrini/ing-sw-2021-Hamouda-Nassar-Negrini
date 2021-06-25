@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Level;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import org.junit.Before;
 import org.junit.Test;

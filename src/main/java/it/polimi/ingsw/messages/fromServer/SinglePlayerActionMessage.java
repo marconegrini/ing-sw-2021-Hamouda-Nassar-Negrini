@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
-import it.polimi.ingsw.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.enumerations.LorenzoCardType;
 
 /**
  * Message sent from server to client to notify about a single player action event. This event occurs

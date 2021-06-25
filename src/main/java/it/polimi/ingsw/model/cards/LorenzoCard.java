@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.cards;
-import it.polimi.ingsw.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.enumerations.LorenzoCardType;
 
 /**
  * Lorenzo's cards are the six action cards used during the single player game

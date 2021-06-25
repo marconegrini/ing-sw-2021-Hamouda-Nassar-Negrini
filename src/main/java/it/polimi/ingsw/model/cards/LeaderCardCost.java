@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Level;
 
 /**
  * This class is used to exemplify the cost of a development card, especially useful when checking the

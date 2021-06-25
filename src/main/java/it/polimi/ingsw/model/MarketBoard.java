@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enumerations.ASCII_Marbles;
-import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.enumerations.Color;
 
 import java.util.*;
 

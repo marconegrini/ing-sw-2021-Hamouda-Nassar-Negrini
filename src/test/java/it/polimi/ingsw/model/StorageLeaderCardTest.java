@@ -2,11 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.WrongCardTypeException;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.exceptions.WrongCardTypeException;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import org.junit.Before;
 import org.junit.Test;

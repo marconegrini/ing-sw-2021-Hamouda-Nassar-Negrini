@@ -3,11 +3,9 @@ package it.polimi.ingsw.messages.fromServer.update;
 import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.UpdateObjects;
-import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.ANSITextFormat;
 
 import java.util.List;
 

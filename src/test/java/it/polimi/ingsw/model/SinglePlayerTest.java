@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.model.multiplayer.MultiPlayer;
-import it.polimi.ingsw.model.multiplayer.MultiPlayerGameInstance;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;

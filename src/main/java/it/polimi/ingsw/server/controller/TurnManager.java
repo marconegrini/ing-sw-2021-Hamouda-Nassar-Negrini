@@ -8,8 +8,8 @@ import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
 import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.Player;
@@ -269,7 +269,6 @@ public class TurnManager {
                             }
                         }
                     }
-
                 } else {
                     SinglePlayer sp = (SinglePlayer) player;
                     sp.incrementLorenzoPosition();

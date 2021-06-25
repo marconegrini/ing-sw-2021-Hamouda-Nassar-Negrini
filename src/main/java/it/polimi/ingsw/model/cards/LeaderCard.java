@@ -4,17 +4,16 @@ import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.WrongCardTypeException;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
+import it.polimi.ingsw.exceptions.WrongCardTypeException;
 
 import java.util.HashMap;
 import java.util.List;
 
-import static it.polimi.ingsw.model.enumerations.CardType.*;
+import static it.polimi.ingsw.enumerations.CardType.*;
 
 /**
  * If the card is initially unflipped it means it's on its face at the begging, it can't be used, isFlipped=false;

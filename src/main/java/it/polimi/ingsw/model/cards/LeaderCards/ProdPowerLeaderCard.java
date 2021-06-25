@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.cards.LeaderCards;
 
-import it.polimi.ingsw.model.exceptions.InsufficientResourcesException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Level;
+import it.polimi.ingsw.enumerations.Resource;
 
 
 import java.util.HashMap;

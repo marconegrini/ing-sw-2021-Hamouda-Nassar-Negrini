@@ -3,12 +3,9 @@ package it.polimi.ingsw.model.singleplayer;
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.VaticanSection;
 import it.polimi.ingsw.model.cards.LorenzoCard;
-import it.polimi.ingsw.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.enumerations.LorenzoCardType;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.Collections;
 import java.util.Stack;
 

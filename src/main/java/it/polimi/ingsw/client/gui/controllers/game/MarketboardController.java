@@ -1,16 +1,13 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
 import it.polimi.ingsw.client.gui.SceneManager;
-import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.PickResourcesMessage;
-import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
+import it.polimi.ingsw.enumerations.CardType;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;

@@ -9,16 +9,17 @@ import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Level;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -370,7 +371,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void discardLeaderCardTest() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
+    public void discardLeaderCardTest() {
         List<LeaderCard> lc = new ArrayList();
         lc.add(prodPowerLeaderCard);
         lc.add(storageLeaderCard);
@@ -379,6 +380,42 @@ public class ControllerTest1 {
         turnManager.discardLeaderCard(player1, 0);
         turnManager.discardLeaderCard(player1, 1);
         assertEquals(java.util.Optional.of(2), java.util.Optional.of(player1.getFaithPathPosition()));
+    }
+
+    @Test
+    public void discardLeaderCardTest2() {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        List<Resource> resourcesIn = new ArrayList<>();
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        resourcesIn.add(Resource.COIN);
+        player1.putCofferResources(resourcesIn);
+        turnManager.activateLeaderCard(player1, 1);
+        assertEquals(true, ((LeaderResultMessage) turnManager.discardLeaderCard(player1, 1)).getError());
+    }
+
+    @Test
+    public void discardLeaderCardTest3() {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        turnManager.discardLeaderCard(player1, 1);
+        assertEquals(true, ((LeaderResultMessage) turnManager.discardLeaderCard(player1, 1)).getError());
+    }
+
+    @Test
+    public void discardLeaderCardTest4() {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        assertEquals(true, ((LeaderResultMessage) turnManager.discardLeaderCard(player1, 5)).getError());
     }
 
     @Test
@@ -414,7 +451,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void activtateLeaderCardTest(){
+    public void activateLeaderCardTest(){
         List<LeaderCard> lc = new ArrayList();
         lc.add(prodPowerLeaderCard);
         lc.add(storageLeaderCard);
@@ -423,7 +460,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void activtateLeaderCardTest2(){
+    public void activateLeaderCardTest2(){
         List<LeaderCard> lc = new ArrayList();
         lc.add(prodPowerLeaderCard);
         lc.add(storageLeaderCard);
@@ -432,7 +469,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void activtateLeaderCardTest3() throws IndexOutOfBoundsException{
+    public void activateLeaderCardTest3() throws IndexOutOfBoundsException{
         List<LeaderCard> lc = new ArrayList();
         lc.add(prodPowerLeaderCard);
         lc.add(storageLeaderCard);
@@ -449,7 +486,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void activtateLeaderCardTest4() throws IndexOutOfBoundsException{
+    public void activateLeaderCardTest4() throws IndexOutOfBoundsException{
         List<LeaderCard> lc = new ArrayList();
         lc.add(prodPowerLeaderCard);
         lc.add(storageLeaderCard);
@@ -463,6 +500,111 @@ public class ControllerTest1 {
         player1.putCofferResources(resourcesIn);
         turnManager.activateLeaderCard(player1, 1);
         assertEquals(true, ((LeaderResultMessage) turnManager.activateLeaderCard(player1, 1)).getError());
+    }
+
+    @Test
+    public void insertWarehouseResources(){
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        player2.setLeaderCards(lc);
+        player3.setLeaderCards(lc);
+        player4.setLeaderCards(lc);
+        List<Resource> resourceIn = new ArrayList<>();
+
+        for(int i = 0; i < 24; i++)
+            resourceIn.add(Resource.SERVANT);
+
+        turnManager.insertResourcesInWarehouse(player1, 1, resourceIn, true);
+        assertEquals(java.util.Optional.of(24), java.util.Optional.of(player2.getFaithPathPosition()));
+        assertEquals(java.util.Optional.of(24), java.util.Optional.of(player3.getFaithPathPosition()));
+        assertEquals(java.util.Optional.of(24), java.util.Optional.of(player4.getFaithPathPosition()));
+        assertEquals(java.util.Optional.of(0), java.util.Optional.of(player1.getFaithPathPosition()));
+        assertEquals(true, turnManager.reachedFaithPathEnd());
+    }
+
+    @Test
+    public void insertWarehouseResources2(){
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(prodPowerLeaderCard);
+        lc.add(storageLeaderCard);
+        player.setLeaderCards(lc);
+
+        List<Resource> resourceIn = new ArrayList<>();
+
+        for(int i = 0; i < 24; i++)
+            resourceIn.add(Resource.SERVANT);
+
+        singlePlayerTurnManager.insertResourcesInWarehouse(player, 1, resourceIn, true);
+        assertEquals(java.util.Optional.of(24), java.util.Optional.of(player.getLorenzoPosition()));
+        assertEquals(true, ((SinglePlayer) player).lorenzoWins());
+    }
+
+    @Test
+    public void threadingTest(){
+        Runnable r1 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.lock();
+            }
+        };
+        Runnable r2 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.clientDone();
+            }
+        };
+        Runnable r3 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.clientDone();
+            }
+        };
+        Runnable r4 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.clientDone();
+            }
+        };
+        Runnable r5 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.clientDone();
+            }
+        };
+        Thread t1 = new Thread(r1);
+        t1.start();
+        Thread t2 = new Thread(r2);
+        t2.start();
+        Thread t3 = new Thread(r3);
+        t3.start();
+        Thread t4 = new Thread(r4);
+        t4.start();
+        Thread t5 = new Thread(r5);
+        t5.start();
+    }
+
+    @Test
+    public void threadingTest2(){
+        Runnable r1 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.lock();
+            }
+        };
+        Runnable r2 = new Runnable() {
+            @Override
+            public void run() {
+                turnManager.turnDone();
+            }
+        };
+
+        Thread t1 = new Thread(r1);
+        t1.start();
+        Thread t2 = new Thread(r2);
+        t2.start();
+
     }
 
 }

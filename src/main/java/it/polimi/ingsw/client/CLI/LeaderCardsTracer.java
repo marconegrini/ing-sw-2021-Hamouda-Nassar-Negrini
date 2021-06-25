@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
-import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.model.enumerations.CardType.*;
+import static it.polimi.ingsw.enumerations.CardType.*;
 
 public class LeaderCardsTracer {
     public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) {

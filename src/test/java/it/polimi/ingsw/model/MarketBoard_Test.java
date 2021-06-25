@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enumerations.Color;
+import it.polimi.ingsw.enumerations.Color;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
