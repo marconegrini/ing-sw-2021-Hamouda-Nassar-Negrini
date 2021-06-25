@@ -43,7 +43,7 @@
                   <Label fx:id="rood" prefHeight="161.0" prefWidth="125.0" style="-fx-background-color: #800d0d; -fx-border-color: #000000; -fx-border-width: 2;" styleClass="rood" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <GridPane fx:id="devCardsSlots" layoutX="379.0" layoutY="282.0" onMouseClicked="#selectedDevCardSlot" prefHeight="362.0" prefWidth="624.0">
+            <GridPane fx:id="devCardsSlots" layoutX="379.0" layoutY="282.0" onMouseClicked="#selectedDevCardSlot" prefHeight="362.0" prefWidth="600.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="189.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="211.0" />
