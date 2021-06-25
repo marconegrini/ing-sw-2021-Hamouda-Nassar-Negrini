@@ -11,5 +11,9 @@
     -fx-border-color:  #1d1d2b;
 }
 
+.onMouseEntered{
+     -fx-border-color:  #c6c4c4;
+ }
+
 
 

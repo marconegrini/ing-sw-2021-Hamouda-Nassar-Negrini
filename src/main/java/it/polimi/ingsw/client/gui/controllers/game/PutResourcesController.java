@@ -166,7 +166,11 @@ public class PutResourcesController {
 
 
     public void selectResource(MouseEvent mouseEvent) {
-        selectedLabel = (Label) mouseEvent.getPickResult().getIntersectedNode();
+        try{
+            selectedLabel = (Label) mouseEvent.getPickResult().getIntersectedNode();
+        } catch (Exception e){
+            return;
+        }
         selectedLabel.getStyleClass().remove("notSelectedCard");
         selectedLabel.getStyleClass().add("selectedCard");
         disSelectResources(selectedLabel);
