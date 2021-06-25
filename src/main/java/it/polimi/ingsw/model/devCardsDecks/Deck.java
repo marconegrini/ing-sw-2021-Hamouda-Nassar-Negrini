@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.devCardsDecks;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.Collections;
 import java.util.HashMap;

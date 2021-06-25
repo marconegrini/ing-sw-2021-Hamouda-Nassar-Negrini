@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.DevCardSlots;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Level;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;

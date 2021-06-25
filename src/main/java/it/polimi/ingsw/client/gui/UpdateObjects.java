@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

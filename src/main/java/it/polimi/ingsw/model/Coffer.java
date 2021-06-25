@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.*;
 
@@ -21,7 +21,6 @@ public class Coffer implements Deposit{
         coffer.put(Resource.SERVANT, 5);
         coffer.put(Resource.SHIELD, 5);
         coffer.put(Resource.STONE, 5);
-
          */
     }
 

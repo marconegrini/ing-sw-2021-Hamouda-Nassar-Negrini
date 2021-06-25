@@ -3,11 +3,11 @@ package it.polimi.ingsw.client.CLI;
 
 import  it.polimi.ingsw.model.Coffer;
 import  it.polimi.ingsw.model.Warehouse;
-import it.polimi.ingsw.model.enumerations.ASCII_Resources;
-import  it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.enumerations.ASCII_Resources;
+import  it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.exceptions.IllegalMoveException;
+import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.List;

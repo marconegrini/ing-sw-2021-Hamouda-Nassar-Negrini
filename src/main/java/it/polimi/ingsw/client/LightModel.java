@@ -3,11 +3,10 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.ANSITextFormat;
-import it.polimi.ingsw.model.exceptions.AlreadyActivatedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.AlreadyDiscardedLeaderCardException;
-import it.polimi.ingsw.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
+import it.polimi.ingsw.exceptions.IllegalMoveException;
+import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

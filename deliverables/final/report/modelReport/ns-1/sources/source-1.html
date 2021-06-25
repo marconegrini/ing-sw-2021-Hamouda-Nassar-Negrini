@@ -1,0 +1,257 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Coffer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Coffer (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Coffer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (6/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86%
+  </span>
+  <span class="absValue">
+    (49/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.enumerations.Resource;
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;import java.util.*;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;public class Coffer implements Deposit{
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;    private Map&lt;Resource, Integer&gt; coffer;
+<i class="no-highlight">10</i>&nbsp;
+<b class="fc"><i class="no-highlight">11</i>&nbsp;    public Coffer(){</b>
+<b class="fc"><i class="no-highlight">12</i>&nbsp;        coffer = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">13</i>&nbsp;        coffer.put(Resource.COIN, 0);</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;        coffer.put(Resource.SERVANT, 0);</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;        coffer.put(Resource.SHIELD, 0);</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;        coffer.put(Resource.STONE, 0);</b>
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;        /*
+<i class="no-highlight">19</i>&nbsp;        //debugging
+<i class="no-highlight">20</i>&nbsp;        coffer.put(Resource.COIN, 5);
+<i class="no-highlight">21</i>&nbsp;        coffer.put(Resource.SERVANT, 5);
+<i class="no-highlight">22</i>&nbsp;        coffer.put(Resource.SHIELD, 5);
+<i class="no-highlight">23</i>&nbsp;        coffer.put(Resource.STONE, 5);
+<i class="no-highlight">24</i>&nbsp;         */
+<b class="fc"><i class="no-highlight">25</i>&nbsp;    }</b>
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    /**
+<i class="no-highlight">28</i>&nbsp;     * @param coffer custom constructor used to create a coffer object in the light model.
+<i class="no-highlight">29</i>&nbsp;     *               The Coffer object is build client side after receiving via json file the HashMap&lt;Resource, Integer&gt;
+<i class="no-highlight">30</i>&nbsp;     *               corresponding to the model&#39;s coffer content
+<i class="no-highlight">31</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">32</i>&nbsp;    public Coffer(Map&lt;Resource, Integer&gt; coffer){</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        this.coffer = coffer;</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;    }</b>
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    /**
+<i class="no-highlight">37</i>&nbsp;     * Inserts specified resources in coffer
+<i class="no-highlight">38</i>&nbsp;     * @param resources to insert in coffer
+<i class="no-highlight">39</i>&nbsp;     */
+<i class="no-highlight">40</i>&nbsp;    public void putResource(List&lt;Resource&gt; resources) {
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        Integer coinOccurr = occurrences(Resource.COIN, resources);</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        Integer stoneOccurr = occurrences(Resource.STONE, resources);</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;        Integer servantOccurr = occurrences(Resource.SERVANT, resources);</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        Integer shieldOccurr = occurrences(Resource.SHIELD, resources);</b>
+<i class="no-highlight">45</i>&nbsp;
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        coinOccurr += coffer.get(Resource.COIN);</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        coffer.put(Resource.COIN, coinOccurr);</b>
+<i class="no-highlight">48</i>&nbsp;
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        stoneOccurr += coffer.get(Resource.STONE);</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        coffer.put(Resource.STONE, stoneOccurr);</b>
+<i class="no-highlight">51</i>&nbsp;
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        servantOccurr += coffer.get(Resource.SERVANT);</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        coffer.put(Resource.SERVANT, servantOccurr);</b>
+<i class="no-highlight">54</i>&nbsp;
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        shieldOccurr += coffer.get(Resource.SHIELD);</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;        coffer.put(Resource.SHIELD, shieldOccurr);</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;    }</b>
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    /**
+<i class="no-highlight">60</i>&nbsp;     * Takes specified resources from coffer
+<i class="no-highlight">61</i>&nbsp;     * @param resourcesToTake resources to take from coffer
+<i class="no-highlight">62</i>&nbsp;     */
+<i class="no-highlight">63</i>&nbsp;    @Override
+<i class="no-highlight">64</i>&nbsp;    public void pullResource(List&lt;Resource&gt; resourcesToTake){
+<i class="no-highlight">65</i>&nbsp;
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;        Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);</b>
+<i class="no-highlight">70</i>&nbsp;
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        if(this.checkAvailability(resourcesToTake)){</b>
+<i class="no-highlight">72</i>&nbsp;
+<b class="fc"><i class="no-highlight">73</i>&nbsp;            coinOccurr = coffer.get(Resource.COIN) - coinOccurr;</b>
+<b class="fc"><i class="no-highlight">74</i>&nbsp;            coffer.put(Resource.COIN, coinOccurr);</b>
+<i class="no-highlight">75</i>&nbsp;
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            stoneOccurr = coffer.get(Resource.STONE) - stoneOccurr;</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;            coffer.put(Resource.STONE, stoneOccurr);</b>
+<i class="no-highlight">78</i>&nbsp;
+<b class="fc"><i class="no-highlight">79</i>&nbsp;            servantOccurr = coffer.get(Resource.SERVANT) - servantOccurr;</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;            coffer.put(Resource.SERVANT, servantOccurr);</b>
+<i class="no-highlight">81</i>&nbsp;
+<b class="fc"><i class="no-highlight">82</i>&nbsp;            shieldOccurr = coffer.get(Resource.SHIELD) - shieldOccurr;</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;            coffer.put(Resource.SHIELD, shieldOccurr);</b>
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">86</i>&nbsp;    }</b>
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    /**
+<i class="no-highlight">89</i>&nbsp;     * Checks wether specified resources are available or not in coffer
+<i class="no-highlight">90</i>&nbsp;     * @param resourcesToTake resources to check
+<i class="no-highlight">91</i>&nbsp;     * @return true if resources are available inside coffer, false otherwise
+<i class="no-highlight">92</i>&nbsp;     */
+<i class="no-highlight">93</i>&nbsp;    @Override
+<i class="no-highlight">94</i>&nbsp;    public boolean checkAvailability(List&lt;Resource&gt; resourcesToTake) {
+<i class="no-highlight">95</i>&nbsp;
+<b class="fc"><i class="no-highlight">96</i>&nbsp;        Integer coinOccurr = occurrences(Resource.COIN, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">97</i>&nbsp;        Integer stoneOccurr = occurrences(Resource.STONE, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">98</i>&nbsp;        Integer servantOccurr = occurrences(Resource.SERVANT, resourcesToTake);</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;        Integer shieldOccurr = occurrences(Resource.SHIELD, resourcesToTake);</b>
+<i class="no-highlight">100</i>&nbsp;
+<b class="fc"><i class="no-highlight">101</i>&nbsp;        if(coinOccurr &gt; coffer.get(Resource.COIN)) return false;</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;        if(stoneOccurr &gt; coffer.get(Resource.STONE)) return false;</b>
+<b class="fc"><i class="no-highlight">103</i>&nbsp;        if(servantOccurr &gt; coffer.get(Resource.SERVANT)) return false;</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;        if(shieldOccurr &gt; coffer.get(Resource.SHIELD)) return false;</b>
+<i class="no-highlight">105</i>&nbsp;
+<b class="fc"><i class="no-highlight">106</i>&nbsp;        return true;</b>
+<i class="no-highlight">107</i>&nbsp;    }
+<i class="no-highlight">108</i>&nbsp;
+<i class="no-highlight">109</i>&nbsp;    /**
+<i class="no-highlight">110</i>&nbsp;     * @return total resources inside coffer
+<i class="no-highlight">111</i>&nbsp;     */
+<i class="no-highlight">112</i>&nbsp;    @Override
+<i class="no-highlight">113</i>&nbsp;    public List&lt;Resource&gt; getTotalResources() {
+<b class="fc"><i class="no-highlight">114</i>&nbsp;        List&lt;Resource&gt; totalResources = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">115</i>&nbsp;        for (Resource resource : coffer.keySet())</b>
+<b class="fc"><i class="no-highlight">116</i>&nbsp;            for (int i = 0; i &lt; coffer.get(resource); i++)</b>
+<b class="fc"><i class="no-highlight">117</i>&nbsp;                totalResources.add(resource);</b>
+<i class="no-highlight">118</i>&nbsp;
+<b class="fc"><i class="no-highlight">119</i>&nbsp;        return totalResources;</b>
+<i class="no-highlight">120</i>&nbsp;    }
+<i class="no-highlight">121</i>&nbsp;
+<i class="no-highlight">122</i>&nbsp;    /**
+<i class="no-highlight">123</i>&nbsp;     * @param resource
+<i class="no-highlight">124</i>&nbsp;     * @param resources
+<i class="no-highlight">125</i>&nbsp;     * @return occurrences of resource in resources list
+<i class="no-highlight">126</i>&nbsp;     */
+<i class="no-highlight">127</i>&nbsp;    @Override
+<i class="no-highlight">128</i>&nbsp;    public Integer occurrences(Resource resource, List&lt;Resource&gt; resources){
+<b class="fc"><i class="no-highlight">129</i>&nbsp;        return Math.toIntExact(resources.stream().filter(x -&gt; x.equals(resource)).count());</b>
+<i class="no-highlight">130</i>&nbsp;    }
+<i class="no-highlight">131</i>&nbsp;
+<i class="no-highlight">132</i>&nbsp;    /**
+<i class="no-highlight">133</i>&nbsp;     * @param resource
+<i class="no-highlight">134</i>&nbsp;     * @return occurrences of resource in coffer
+<i class="no-highlight">135</i>&nbsp;     */
+<i class="no-highlight">136</i>&nbsp;    public int resourceOccurrences(Resource resource){
+<b class="nc"><i class="no-highlight">137</i>&nbsp;        return coffer.get(resource);</b>
+<i class="no-highlight">138</i>&nbsp;    }
+<i class="no-highlight">139</i>&nbsp;
+<i class="no-highlight">140</i>&nbsp;    /**
+<i class="no-highlight">141</i>&nbsp;     * @return cloned coffer&#39;s hash map needed to update client&#39;s coffer in light model
+<i class="no-highlight">142</i>&nbsp;     */
+<i class="no-highlight">143</i>&nbsp;    public HashMap&lt;Resource, Integer&gt; getClonedCoffer(){
+<b class="nc"><i class="no-highlight">144</i>&nbsp;        HashMap&lt;Resource, Integer&gt; clonedCoffer = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">145</i>&nbsp;        for(Resource res : coffer.keySet())</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;            clonedCoffer.put(res, coffer.get(res));</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;        return  clonedCoffer;</b>
+<i class="no-highlight">148</i>&nbsp;    }
+<i class="no-highlight">149</i>&nbsp;
+<i class="no-highlight">150</i>&nbsp;
+<i class="no-highlight">151</i>&nbsp;
+<i class="no-highlight">152</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-06-25 23:32</div>
+</div>
+</body>
+</html>

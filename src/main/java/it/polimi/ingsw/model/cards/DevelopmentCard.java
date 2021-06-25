@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.enumerations.*;
-import it.polimi.ingsw.model.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.*;
+import it.polimi.ingsw.enumerations.CardColor;
 
 import java.util.HashMap;
 

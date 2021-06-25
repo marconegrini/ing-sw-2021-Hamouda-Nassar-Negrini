@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

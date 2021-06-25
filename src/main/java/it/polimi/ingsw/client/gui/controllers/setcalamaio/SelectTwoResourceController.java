@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.gui.controllers.setcalamaio;
 import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.CalamaioResponseMessage;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

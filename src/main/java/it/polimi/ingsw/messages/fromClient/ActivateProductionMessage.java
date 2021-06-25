@@ -1,7 +1,7 @@
 package it.polimi.ingsw.messages.fromClient;
 
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.List;

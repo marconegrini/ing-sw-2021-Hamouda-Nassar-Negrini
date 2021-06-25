@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.Coffer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.InsufficientResourcesException;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.InsufficientResourcesException;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;

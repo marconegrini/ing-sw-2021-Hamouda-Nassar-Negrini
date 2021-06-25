@@ -4,10 +4,8 @@ import it.polimi.ingsw.model.GameInstance;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.MarketBoard;
-import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.exceptions.MaxPlayersException;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 

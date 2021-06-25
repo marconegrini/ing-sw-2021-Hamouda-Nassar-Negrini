@@ -2,11 +2,10 @@ package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LorenzoCard;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.LorenzoCardType;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.LorenzoCardType;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
