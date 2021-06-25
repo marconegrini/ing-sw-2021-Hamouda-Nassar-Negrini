@@ -19,11 +19,13 @@ public class BuyDVCardError extends ServerMessage{
     }
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().showMessage(errorCause+"\n", true, true);
+        //serverHandler.getView().showMessage(errorCause+"\n", false, true);
         if(toMenu){
+            serverHandler.getView().showMessage(errorCause+"\n", true, true);
             ClientMessage message = serverHandler.getView().selectAction(null, false);
             serverHandler.sendJson(message);
         } else {
+            serverHandler.getView().showMessage(errorCause+"\n", false, true);
             ClientMessage message = serverHandler.getView().selectAction("b", true);
             serverHandler.sendJson(message);
         }
