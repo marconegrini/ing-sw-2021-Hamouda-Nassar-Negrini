@@ -29,8 +29,6 @@ public class ClientCLI implements Runnable{
         serverHandler = new ServerHandler(server, true);
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
-
-        //serverHandler.stop();
     }
 
     /**

@@ -1,13 +1,12 @@
 package it.polimi.ingsw.messages.fromClient;
 
 import it.polimi.ingsw.messages.fromServer.CalamaioErrorMessage;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

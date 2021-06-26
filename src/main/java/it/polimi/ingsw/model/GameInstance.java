@@ -2,10 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
-import it.polimi.ingsw.model.exceptions.MaxPlayersException;
+import it.polimi.ingsw.exceptions.MaxPlayersException;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.ArrayList;
 
 public abstract class GameInstance {

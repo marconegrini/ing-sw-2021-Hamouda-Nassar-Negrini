@@ -92,10 +92,9 @@ public class SelectActionController {
             newStage.setScene(scene);
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
-            UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
-            //UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
-            UpdateObjects.updateResources(ControllerGUI.getServerHandler().getLightModel().getCoffer(), ControllerGUI.getServerHandler().getLightModel().getWarehouse(), scene);
             newStage.show();
+            UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
+            UpdateObjects.updateResources(ControllerGUI.getServerHandler().getLightModel().getCoffer(), ControllerGUI.getServerHandler().getLightModel().getWarehouse(), scene);
         });
     }
 

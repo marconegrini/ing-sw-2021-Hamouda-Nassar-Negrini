@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.InsufficientResourcesException;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.InsufficientResourcesException;
 
 import java.util.List;
 

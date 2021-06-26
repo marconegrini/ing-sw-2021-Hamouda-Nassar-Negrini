@@ -8,7 +8,7 @@ import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.EmptyMessage;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -64,7 +64,6 @@ public class GUIView extends View {
             source = "fxml/game/setcalamaio/selectOneResource.fxml";
         } else source = "fxml/game/setcalamaio/selectTwoResources.fxml";
 
-        // set the correct Scene
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
             SceneManager.setScene(new Scene(root, 1080, 720));
@@ -98,7 +97,6 @@ public class GUIView extends View {
             e.printStackTrace();
         }
 
-//        for (LeaderCard leaderCard: leaderCards){ System.out.println(leaderCard.toPath());
         for (int i = 0; i < 4; i++) {
             Label card = (Label) SceneManager.getScene().lookup("#card" + (i + 1));
             card.setStyle("-fx-background-image: url(\"images/leadercards/" +
@@ -122,7 +120,6 @@ public class GUIView extends View {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //ConnectionToServerController controller = loader.getController();
                 newStage.setTitle("Select action");
                 Scene scene = new Scene(root, 500, 390);
                 newStage.setScene(scene);
@@ -134,7 +131,7 @@ public class GUIView extends View {
             return new EmptyMessage();
         }
 
-        if (choice.equalsIgnoreCase("b")){
+        if ("b".equalsIgnoreCase(choice)){
             Platform.runLater(() ->{
                 Stage newStage = new Stage();
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
@@ -153,6 +150,13 @@ public class GUIView extends View {
                 UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
                 UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
                 newStage.show();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error: Development cards");
+                alert.setHeaderText("Error: Development cards");
+                alert.setContentText("You have insufficient resources or you cannot perform this action. Be sure to put a card on another card only if the new card is of the next level of the old one.");
+                alert.showAndWait();
+
             });
         }
 

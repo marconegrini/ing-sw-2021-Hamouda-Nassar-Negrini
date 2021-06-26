@@ -4,9 +4,6 @@ import it.polimi.ingsw.client.ServerHandler;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
-import it.polimi.ingsw.model.enumerations.Resource;
-
-import java.util.List;
 
 /**
  * Contains the outcome of the activate production action on certain development slots. If the action requested

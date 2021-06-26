@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client.gui;
 
-import it.polimi.ingsw.client.CLI.MarketTracer;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -145,14 +144,9 @@ public class UpdateObjects {
             }
         }
 
-
         for (Resource resource : totalResource){
             resourcesMap.computeIfPresent(resource, (k,v) -> v+1);
-            //System.out.println("resource picked " + resource);
         }
-
-        //System.out.println("Total resources: " + totalResource);
-        //System.out.println("Hashmap: " + resourcesMap);
 
         Set<Resource> resourcesSet = resourcesMap.keySet();
 
@@ -217,6 +211,7 @@ public class UpdateObjects {
 
         Platform.runLater(() -> {
             for (Integer index : keys) {
+                System.out.println("Inserted ");
                 Label card = new Label();
                 card.setPrefWidth(200);
                 card.setPrefHeight(400);
@@ -238,11 +233,35 @@ public class UpdateObjects {
 
         Set<Integer> keys = cardsInSlot.keySet();
         GridPane devCardsSlotsGrid = (GridPane) scene.lookup("#devCardsSlots");
+        //devCardsSlotsGrid.getChildren().clear();
 
         Platform.runLater(() -> {
+
+            for (int i = 0; i<3; i++){
+                if (keys.contains(i)){
+                    Label card = new Label();
+                    card.setId("card" + i);
+                    card.setPrefWidth(230);
+                    card.setPrefHeight(400);
+                    card.setStyle("-fx-background-image: url(\"images/devcards/" +
+                            cardsInSlot.get(i).toPath() + ".png\");" +
+                            " -fx-background-size: 100% 100%;" +
+                            "-fx-border-width: 5");
+                    devCardsSlotsGrid.add(card, i, 0);
+                } else {
+                    Label card = new Label();
+                    card.setId("card" + i);
+                    card.setPrefWidth(230);
+                    card.setPrefHeight(400);
+                    card.setStyle("-fx-border-width: 5; -fx-border-color: #1d1d2b");
+                    devCardsSlotsGrid.add(card, i, 0);
+                }
+            }
+
             for (Integer index : keys) {
                 Label card = new Label();
-                card.setPrefWidth(200);
+                card.setId("card" + index);
+                card.setPrefWidth(230);
                 card.setPrefHeight(400);
                 card.setStyle("-fx-background-image: url(\"images/devcards/" +
                         cardsInSlot.get(index).toPath() + ".png\");" +
@@ -283,6 +302,8 @@ public class UpdateObjects {
                     " -fx-background-size: 100% 100%;" +
                     "-fx-border-width: 5");
             if (leaderCards.get(i).isActivated()) {
+                card.getStyleClass().remove("notSelectedCard");
+                card.getStyleClass().add("selectedCard");
                 card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
             } else  card.setOpacity(0.9);

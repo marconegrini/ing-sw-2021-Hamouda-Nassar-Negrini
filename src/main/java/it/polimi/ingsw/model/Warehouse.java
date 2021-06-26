@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
-import it.polimi.ingsw.model.exceptions.IllegalMoveException;
-import it.polimi.ingsw.model.exceptions.StorageOutOfBoundsException;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.exceptions.IllegalMoveException;
+import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.model.parser.WarehouseParser;
 
 import java.util.*;

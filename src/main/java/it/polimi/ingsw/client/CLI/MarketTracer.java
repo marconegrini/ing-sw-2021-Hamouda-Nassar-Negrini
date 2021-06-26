@@ -3,10 +3,10 @@ package it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.enumerations.ASCII_Marbles;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.ASCII_Marbles;
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Level;
+import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,16 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.cards.LeaderCardCost;
-import it.polimi.ingsw.model.enumerations.CardColor;
-import it.polimi.ingsw.model.enumerations.Level;
-import it.polimi.ingsw.model.enumerations.Resource;
-import it.polimi.ingsw.model.exceptions.EmptySlotException;
-import it.polimi.ingsw.model.exceptions.IllegalInsertionException;
+import it.polimi.ingsw.enumerations.Level;
+import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.EmptySlotException;
+import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.parser.CardSlotParser;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DevCardSlots {
 
@@ -164,7 +161,6 @@ public class DevCardSlots {
         for(int i = 0; i < cardSlot.size(); i++)
             if (!cardSlot.get(i).isEmpty())
                 cardsInSlot.put(i, cardSlot.get(i).peek().clone());
-
         return cardsInSlot;
     }
 

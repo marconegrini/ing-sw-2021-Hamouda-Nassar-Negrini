@@ -3,22 +3,19 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.CLI.*;
 import it.polimi.ingsw.client.LightModel;
 import it.polimi.ingsw.messages.fromClient.*;
-import it.polimi.ingsw.model.Storage;
-import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
-import it.polimi.ingsw.model.enumerations.ANSITextFormat;
-import it.polimi.ingsw.model.enumerations.ASCII_Resources;
-import it.polimi.ingsw.model.enumerations.CardType;
-import it.polimi.ingsw.model.enumerations.Resource;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
+import it.polimi.ingsw.enumerations.ASCII_Resources;
+import it.polimi.ingsw.enumerations.CardType;
+import it.polimi.ingsw.enumerations.Resource;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Class that manages CLI interactions with users

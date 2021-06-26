@@ -1,0 +1,1036 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TurnManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.server.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: TurnManager (it.polimi.ingsw.server.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TurnManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,1%
+  </span>
+  <span class="absValue">
+    (23/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73,3%
+  </span>
+  <span class="absValue">
+    (337/460)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TurnManager$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    82,8%
+  </span>
+  <span class="absValue">
+    (24/29)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73,3%
+  </span>
+  <span class="absValue">
+    (338/461)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.server.controller;
+<i class="no-highlight">2</i>&nbsp;import it.polimi.ingsw.messages.fromServer.*;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.messages.fromServer.update.UpdateLeaderCardsMessage;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.messages.fromServer.warehouse.MoveResourcesResultMessage;
+<i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.model.cards.LeaderCard;
+<i class="no-highlight">10</i>&nbsp;import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
+<i class="no-highlight">11</i>&nbsp;import it.polimi.ingsw.enumerations.*;
+<i class="no-highlight">12</i>&nbsp;import it.polimi.ingsw.exceptions.*;
+<i class="no-highlight">13</i>&nbsp;import it.polimi.ingsw.model.Marble;
+<i class="no-highlight">14</i>&nbsp;import it.polimi.ingsw.model.MarketBoard;
+<i class="no-highlight">15</i>&nbsp;import it.polimi.ingsw.model.Player;
+<i class="no-highlight">16</i>&nbsp;import it.polimi.ingsw.model.cards.DevelopmentCard;
+<i class="no-highlight">17</i>&nbsp;import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
+<i class="no-highlight">18</i>&nbsp;import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+<i class="no-highlight">19</i>&nbsp;import it.polimi.ingsw.model.singleplayer.SinglePlayer;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;import java.util.*;
+<i class="no-highlight">22</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;public class TurnManager {
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    private boolean multiplayer;
+<i class="no-highlight">27</i>&nbsp;    private List&lt;MultiPlayer&gt; players;
+<i class="no-highlight">28</i>&nbsp;    private SinglePlayer player;
+<i class="no-highlight">29</i>&nbsp;    private CardsDeck cardsDeck;
+<i class="no-highlight">30</i>&nbsp;    private MarketBoard marketBoard;
+<i class="no-highlight">31</i>&nbsp;    private List&lt;Resource&gt; resorucesToStore;
+<i class="no-highlight">32</i>&nbsp;    private boolean done;
+<i class="no-highlight">33</i>&nbsp;    private Player firstPlayerToEnd;
+<i class="no-highlight">34</i>&nbsp;    private boolean endedFaithPath;
+<i class="no-highlight">35</i>&nbsp;    private boolean sevenDevCardsBought;
+<i class="no-highlight">36</i>&nbsp;    private boolean disconnected;
+<i class="no-highlight">37</i>&nbsp;    private Integer accesses;
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    /**
+<i class="no-highlight">40</i>&nbsp;     * This constructor will be used when a game is restored. It allows
+<i class="no-highlight">41</i>&nbsp;     * you to restore the turn class with old decks and market.
+<i class="no-highlight">42</i>&nbsp;     *
+<i class="no-highlight">43</i>&nbsp;     * @param cardsDeck  the decks is the old deck of a restored game
+<i class="no-highlight">44</i>&nbsp;     * @param marketBoard  the market is the old market of a restored game
+<i class="no-highlight">45</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">46</i>&nbsp;    public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){</b>
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        this.cardsDeck = cardsDeck;</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        this.marketBoard = marketBoard;</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        this.resorucesToStore = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;        this.done = false;</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        this.sevenDevCardsBought = false;</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        this.firstPlayerToEnd = null;</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        this.endedFaithPath = false;</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        this.accesses = 0;</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        this.disconnected = false;</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;    }</b>
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    /**
+<i class="no-highlight">59</i>&nbsp;     * used to set teh turn manager in multiplayer mode. Acting this way, there will be some cases when
+<i class="no-highlight">60</i>&nbsp;     * it will increment all players faith path instead of just one.
+<i class="no-highlight">61</i>&nbsp;     * @param isMultiplayer
+<i class="no-highlight">62</i>&nbsp;     */
+<i class="no-highlight">63</i>&nbsp;    public void setMultiplayer(boolean isMultiplayer){
+<b class="fc"><i class="no-highlight">64</i>&nbsp;        this.multiplayer = isMultiplayer;</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;    }</b>
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    /**
+<i class="no-highlight">68</i>&nbsp;     * sets multiplayer arrayList to manipulate them during the game
+<i class="no-highlight">69</i>&nbsp;     */
+<i class="no-highlight">70</i>&nbsp;    public void setPlayers(List&lt;MultiPlayer&gt; players){
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        if(this.multiplayer)</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;            this.players = players;</b>
+<b class="fc"><i class="no-highlight">73</i>&nbsp;    }</b>
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;    /**
+<i class="no-highlight">76</i>&nbsp;     * Sets the single player object to manipulate it during the game
+<i class="no-highlight">77</i>&nbsp;     * @param player
+<i class="no-highlight">78</i>&nbsp;     */
+<i class="no-highlight">79</i>&nbsp;    public void setPlayer(SinglePlayer player){
+<b class="fc"><i class="no-highlight">80</i>&nbsp;        this.player = player;</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;    }</b>
+<i class="no-highlight">82</i>&nbsp;    /**
+<i class="no-highlight">83</i>&nbsp;     * pick resources from the market and add them to the player
+<i class="no-highlight">84</i>&nbsp;     * @param player  The player is who will receive the picked resources
+<i class="no-highlight">85</i>&nbsp;     * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn&#39;t exists
+<i class="no-highlight">86</i>&nbsp;     */
+<i class="no-highlight">87</i>&nbsp;    public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum,boolean useStorageLCs) {
+<i class="no-highlight">88</i>&nbsp;        List&lt;Marble&gt; pickedMarbles;
+<b class="fc"><i class="no-highlight">89</i>&nbsp;        ArrayList&lt;Resource&gt; recentlyResourcesFromWhiteMarble = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">90</i>&nbsp;        Resource recentlyAddedRes = null;</b>
+<i class="no-highlight">91</i>&nbsp;
+<b class="fc"><i class="no-highlight">92</i>&nbsp;        List&lt;LeaderCard&gt; LeaderCardsPlayerOwns = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">93</i>&nbsp;        List&lt;StorageLeaderCard&gt; storageCardsPlayerOwns = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">94</i>&nbsp;        long howManyStorageCardAreThere = 0;</b>
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;        //filtering th storage leader cards
+<b class="fc"><i class="no-highlight">97</i>&nbsp;        LeaderCardsPlayerOwns = player.getLeaderCards().stream().filter(x-&gt;x.getCardType().equals(CardType.STORAGE)).filter(x-&gt; x.isActivated()&amp;&amp;!x.isDiscarded()).collect(Collectors.toList());</b>
+<i class="no-highlight">98</i>&nbsp;
+<i class="no-highlight">99</i>&nbsp;        //casting the cards into storage LCs
+<b class="fc"><i class="no-highlight">100</i>&nbsp;        for (LeaderCard ld:LeaderCardsPlayerOwns) {</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;            if (ld.isActivated())</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;             storageCardsPlayerOwns.add((StorageLeaderCard) ld);</b>
+<b class="fc"><i class="no-highlight">103</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">104</i>&nbsp;        howManyStorageCardAreThere = storageCardsPlayerOwns.size();</b>
+<i class="no-highlight">105</i>&nbsp;
+<i class="no-highlight">106</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">107</i>&nbsp;            pickedMarbles = marketBoard.insertMarble(isRow, rowOrColNum);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        } catch (IndexOutOfBoundsException e){</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            return new ErrorMessage(&quot;Selected row or column doesn&#39;t exists&quot;);</b>
+<b class="fc"><i class="no-highlight">110</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">111</i>&nbsp;        System.out.println(pickedMarbles);</b>
+<b class="fc"><i class="no-highlight">112</i>&nbsp;        boolean usedLeaderCard = false;</b>
+<b class="fc"><i class="no-highlight">113</i>&nbsp;        List&lt;Resource&gt; resourcesToStore = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">114</i>&nbsp;
+<b class="fc"><i class="no-highlight">115</i>&nbsp;        for(Marble marble : pickedMarbles) {</b>
+<b class="fc"><i class="no-highlight">116</i>&nbsp;            Color marbleColor = marble.getColor();</b>
+<i class="no-highlight">117</i>&nbsp;
+<b class="fc"><i class="no-highlight">118</i>&nbsp;            switch (marbleColor) {</b>
+<i class="no-highlight">119</i>&nbsp;                case YELLOW:
+<b class="nc"><i class="no-highlight">120</i>&nbsp;                    resourcesToStore.add(Resource.COIN);</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;                    recentlyAddedRes = Resource.COIN;</b>
+<b class="nc"><i class="no-highlight">122</i>&nbsp;                    break;</b>
+<i class="no-highlight">123</i>&nbsp;                case RED:
+<b class="nc"><i class="no-highlight">124</i>&nbsp;                    player.incrementFaithPathPosition();</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;                    if (multiplayer) {</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;                        Integer newUserPos = player.getFaithPathPosition();</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;                        for (Player p : players)</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;                            p.updateFaithPath(newUserPos);</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;                        if (newUserPos.equals(player.faithPathEnd())) {</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;                            endedFaithPath = true;</b>
+<b class="nc"><i class="no-highlight">131</i>&nbsp;                            if (firstPlayerToEnd == null)</b>
+<b class="nc"><i class="no-highlight">132</i>&nbsp;                                firstPlayerToEnd = (MultiPlayer) player;</b>
+<i class="no-highlight">133</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">134</i>&nbsp;                    }</b>
+<i class="no-highlight">135</i>&nbsp;                    break;
+<i class="no-highlight">136</i>&nbsp;                case VIOLET:
+<b class="fc"><i class="no-highlight">137</i>&nbsp;                    resourcesToStore.add(Resource.SERVANT);</b>
+<b class="fc"><i class="no-highlight">138</i>&nbsp;                    recentlyAddedRes = Resource.SERVANT;</b>
+<i class="no-highlight">139</i>&nbsp;
+<b class="fc"><i class="no-highlight">140</i>&nbsp;                    break;</b>
+<i class="no-highlight">141</i>&nbsp;                case WHITE:
+<b class="fc"><i class="no-highlight">142</i>&nbsp;                    if (player.isLeaderCardActivated(CardType.MARBLE)) {</b>
+<i class="no-highlight">143</i>&nbsp;                        HashMap&lt;Resource, Integer&gt; resourcesFromLeaderCard;
+<b class="nc"><i class="no-highlight">144</i>&nbsp;                        resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.MARBLE);</b>
+<b class="nc"><i class="no-highlight">145</i>&nbsp;                        Set&lt;Resource&gt; resourcesFromHashMap = resourcesFromLeaderCard.keySet();</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;                        for (Resource resource : resourcesFromHashMap) {</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;                            for (int i = 0; i &lt; resourcesFromLeaderCard.get(resource); i++) {</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;                                resourcesToStore.add(resource);</b>
+<b class="nc"><i class="no-highlight">149</i>&nbsp;                                recentlyResourcesFromWhiteMarble.add(resource); //copy the resources from white marble to a list</b>
+<i class="no-highlight">150</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">152</i>&nbsp;                        usedLeaderCard = true;</b>
+<b class="nc"><i class="no-highlight">153</i>&nbsp;                    }</b>
+<i class="no-highlight">154</i>&nbsp;                    break;
+<i class="no-highlight">155</i>&nbsp;                case GREY:
+<b class="fc"><i class="no-highlight">156</i>&nbsp;                    resourcesToStore.add(Resource.STONE);</b>
+<b class="fc"><i class="no-highlight">157</i>&nbsp;                    recentlyAddedRes = Resource.STONE;</b>
+<i class="no-highlight">158</i>&nbsp;
+<b class="fc"><i class="no-highlight">159</i>&nbsp;                    break;</b>
+<i class="no-highlight">160</i>&nbsp;                case BLUE:
+<b class="nc"><i class="no-highlight">161</i>&nbsp;                    resourcesToStore.add(Resource.SHIELD);</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;                    recentlyAddedRes = Resource.SHIELD;</b>
+<i class="no-highlight">163</i>&nbsp;
+<b class="nc"><i class="no-highlight">164</i>&nbsp;                    break;</b>
+<i class="no-highlight">165</i>&nbsp;                default:
+<i class="no-highlight">166</i>&nbsp;                    break;
+<i class="no-highlight">167</i>&nbsp;            }
+<i class="no-highlight">168</i>&nbsp;
+<b class="fc"><i class="no-highlight">169</i>&nbsp;            if (useStorageLCs){</b>
+<i class="no-highlight">170</i>&nbsp;            //add resources in LeaderCard-storage type if a resource matches a empty slot in a Leader card.
+<b class="fc"><i class="no-highlight">171</i>&nbsp;            if (howManyStorageCardAreThere &gt; 0) {</b>
+<i class="no-highlight">172</i>&nbsp;                //at least one SLC is activated..
+<i class="no-highlight">173</i>&nbsp;
+<b class="fc"><i class="no-highlight">174</i>&nbsp;                if (recentlyResourcesFromWhiteMarble.size() != 0) {</b>
+<i class="no-highlight">175</i>&nbsp;                    //whiteMarble is used
+<i class="no-highlight">176</i>&nbsp;                    //add the resources that can be added to a Leader card&#39;s storage and remove them form the resources to restore
+<b class="nc"><i class="no-highlight">177</i>&nbsp;                    for (Resource res : recentlyResourcesFromWhiteMarble) {</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;                        for (StorageLeaderCard sld : storageCardsPlayerOwns) {</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;                            if (sld.storageType().equals(res) &amp;&amp; sld.hasAvailableSlots()) {</b>
+<i class="no-highlight">180</i>&nbsp;                                try {
+<b class="nc"><i class="no-highlight">181</i>&nbsp;                                    sld.putResourceInCardStorage(null, res);</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;                                    resourcesToStore.remove(res);</b>
+<b class="nc"><i class="no-highlight">183</i>&nbsp;                                    break; //break teh inner for to go to the next resource;</b>
+<b class="nc"><i class="no-highlight">184</i>&nbsp;                                } catch (IllegalInsertionException e) {</b>
+<b class="nc"><i class="no-highlight">185</i>&nbsp;                                    e.printStackTrace();</b>
+<i class="no-highlight">186</i>&nbsp;                                }
+<i class="no-highlight">187</i>&nbsp;                            }
+<b class="nc"><i class="no-highlight">188</i>&nbsp;                        }</b>
+<b class="nc"><i class="no-highlight">189</i>&nbsp;                    }</b>
+<i class="no-highlight">190</i>&nbsp;                } else { //white marble isn&#39;t used
+<b class="fc"><i class="no-highlight">191</i>&nbsp;                    for (StorageLeaderCard sld : storageCardsPlayerOwns) {</b>
+<b class="fc"><i class="no-highlight">192</i>&nbsp;                        boolean temp = sld.hasAvailableSlots();</b>
+<b class="fc"><i class="no-highlight">193</i>&nbsp;                        System.out.println(&quot;sld.hasAvailableSlots(); ---*&gt;&quot;+temp);</b>
+<b class="fc"><i class="no-highlight">194</i>&nbsp;                        if (sld.storageType().equals(recentlyAddedRes) &amp;&amp; sld.hasAvailableSlots()) {</b>
+<i class="no-highlight">195</i>&nbsp;                            try {
+<b class="fc"><i class="no-highlight">196</i>&nbsp;                                sld.putResourceInCardStorage(null, recentlyAddedRes);</b>
+<b class="fc"><i class="no-highlight">197</i>&nbsp;                                resourcesToStore.remove(recentlyAddedRes);</b>
+<b class="fc"><i class="no-highlight">198</i>&nbsp;                                break; //break the for;</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;                            } catch (IllegalInsertionException e) {</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;                                e.printStackTrace();</b>
+<i class="no-highlight">201</i>&nbsp;                            }
+<i class="no-highlight">202</i>&nbsp;                        }
+<b class="fc"><i class="no-highlight">203</i>&nbsp;                    }</b>
+<i class="no-highlight">204</i>&nbsp;
+<i class="no-highlight">205</i>&nbsp;                }
+<i class="no-highlight">206</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">207</i>&nbsp;                recentlyAddedRes = null;</b>
+<b class="fc"><i class="no-highlight">208</i>&nbsp;                recentlyResourcesFromWhiteMarble.clear();</b>
+<i class="no-highlight">209</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">210</i>&nbsp;        }</b>
+<i class="no-highlight">211</i>&nbsp;
+<b class="fc"><i class="no-highlight">212</i>&nbsp;        this.resorucesToStore = resourcesToStore;</b>
+<b class="fc"><i class="no-highlight">213</i>&nbsp;        System.out.println(resourcesToStore);</b>
+<b class="fc"><i class="no-highlight">214</i>&nbsp;        if(resourcesToStore.isEmpty()){</b>
+<b class="nc"><i class="no-highlight">215</i>&nbsp;            this.turnDone();</b>
+<b class="nc"><i class="no-highlight">216</i>&nbsp;            return new OkMessage(&quot;You don&#39;t have resources to store!&quot;);</b>
+<i class="no-highlight">217</i>&nbsp;        } else {
+<b class="fc"><i class="no-highlight">218</i>&nbsp;            if(!usedLeaderCard)</b>
+<b class="fc"><i class="no-highlight">219</i>&nbsp;                return new ResourcesToStoreMessage(false, resourcesToStore, &quot;Obtained resources from market.&quot;, player.getClonedWarehouse());</b>
+<b class="nc"><i class="no-highlight">220</i>&nbsp;            else return new ResourcesToStoreMessage(false, resourcesToStore, &quot;Obtained resources from market. Leader card power used.&quot;, player.getClonedWarehouse());</b>
+<i class="no-highlight">221</i>&nbsp;        }
+<i class="no-highlight">222</i>&nbsp;    }
+<i class="no-highlight">223</i>&nbsp;
+<i class="no-highlight">224</i>&nbsp;    /**
+<i class="no-highlight">225</i>&nbsp;     * @param player player who performed pick resources choice
+<i class="no-highlight">226</i>&nbsp;     * @param destStorage destination storage in warehouse
+<i class="no-highlight">227</i>&nbsp;     * @param resourcesIn List of resources to insert
+<i class="no-highlight">228</i>&nbsp;     * @return OkMessage if everything worked fine, ErrorMessage instead
+<i class="no-highlight">229</i>&nbsp;     */
+<i class="no-highlight">230</i>&nbsp;    public ServerMessage insertResourcesInWarehouse(Player player, Integer destStorage, List&lt;Resource&gt; resourcesIn, boolean discard) {
+<b class="fc"><i class="no-highlight">231</i>&nbsp;        if (!discard) {</b>
+<i class="no-highlight">232</i>&nbsp;            try {
+<b class="fc"><i class="no-highlight">233</i>&nbsp;                player.putWarehouseResources(destStorage, resourcesIn);</b>
+<b class="fc"><i class="no-highlight">234</i>&nbsp;                if(this.resorucesToStore.equals(resourcesIn)){</b>
+<b class="nc"><i class="no-highlight">235</i>&nbsp;                    turnDone();</b>
+<b class="nc"><i class="no-highlight">236</i>&nbsp;                    return new ResourcesToStoreMessage(true, null, &quot;Resources correctly inserted!&quot;, player.getClonedWarehouse());</b>
+<i class="no-highlight">237</i>&nbsp;                } else {
+<b class="fc"><i class="no-highlight">238</i>&nbsp;                    for(Resource res : resourcesIn)</b>
+<b class="fc"><i class="no-highlight">239</i>&nbsp;                        this.resorucesToStore.remove(res);</b>
+<i class="no-highlight">240</i>&nbsp;                    //previous line wasn&#39;t correct. It removed all the occurrences of specified resource
+<i class="no-highlight">241</i>&nbsp;                    //this.resorucesToStore.removeAll(resourcesIn);
+<b class="fc"><i class="no-highlight">242</i>&nbsp;                    System.out.println(this.resorucesToStore.toString());</b>
+<b class="fc"><i class="no-highlight">243</i>&nbsp;                    return new ResourcesToStoreMessage(false, this.resorucesToStore, &quot;Insert or discard remaining resources.&quot;, player.getClonedWarehouse());</b>
+<i class="no-highlight">244</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">245</i>&nbsp;            } catch (StorageOutOfBoundsException e1) {</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                return new ErrorWarehouseMessage(&quot;Selected slot doesn&#39;t exists&quot;, this.resorucesToStore);</b>
+<b class="fc"><i class="no-highlight">247</i>&nbsp;            } catch (IllegalInsertionException e2) {</b>
+<b class="fc"><i class="no-highlight">248</i>&nbsp;                return new ErrorWarehouseMessage(&quot;\nInsertion not permitted. Insert again resources in warehouse.\n&quot;, this.resorucesToStore);</b>
+<i class="no-highlight">249</i>&nbsp;            }
+<i class="no-highlight">250</i>&nbsp;        } else {
+<i class="no-highlight">251</i>&nbsp;            //if the player chose to discard resources, others faith paths are updated and
+<i class="no-highlight">252</i>&nbsp;            // a check to see if rapporto in vaticano is activated starts. If activated, updates
+<i class="no-highlight">253</i>&nbsp;            //other users&#39; faith paths.
+<b class="fc"><i class="no-highlight">254</i>&nbsp;            for (Resource res : resourcesIn) {</b>
+<b class="fc"><i class="no-highlight">255</i>&nbsp;                if(multiplayer){</b>
+<b class="fc"><i class="no-highlight">256</i>&nbsp;                    for(Player p : players){</b>
+<b class="fc"><i class="no-highlight">257</i>&nbsp;                        if(!p.equals(player)){</b>
+<b class="fc"><i class="no-highlight">258</i>&nbsp;                            p.incrementFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">259</i>&nbsp;                            Integer newUserPos = p.getFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">260</i>&nbsp;                            if (p.isRapportoInVaticano(newUserPos)) {</b>
+<b class="fc"><i class="no-highlight">261</i>&nbsp;                                    for (MultiPlayer mp : players) {</b>
+<b class="fc"><i class="no-highlight">262</i>&nbsp;                                        mp.updateFaithPath(newUserPos);</b>
+<b class="fc"><i class="no-highlight">263</i>&nbsp;                                    }</b>
+<i class="no-highlight">264</i>&nbsp;                            }
+<b class="fc"><i class="no-highlight">265</i>&nbsp;                            if(newUserPos.equals(p.faithPathEnd())){</b>
+<b class="fc"><i class="no-highlight">266</i>&nbsp;                                endedFaithPath = true;</b>
+<b class="fc"><i class="no-highlight">267</i>&nbsp;                                if(firstPlayerToEnd == null)</b>
+<b class="fc"><i class="no-highlight">268</i>&nbsp;                                    firstPlayerToEnd = (MultiPlayer) player;</b>
+<i class="no-highlight">269</i>&nbsp;                            }
+<i class="no-highlight">270</i>&nbsp;                        }
+<b class="fc"><i class="no-highlight">271</i>&nbsp;                    }</b>
+<i class="no-highlight">272</i>&nbsp;                } else {
+<b class="fc"><i class="no-highlight">273</i>&nbsp;                    SinglePlayer sp = (SinglePlayer) player;</b>
+<b class="fc"><i class="no-highlight">274</i>&nbsp;                    sp.incrementLorenzoPosition();</b>
+<b class="fc"><i class="no-highlight">275</i>&nbsp;                    Integer lorenzoPosition = sp.getLorenzoPosition();</b>
+<b class="fc"><i class="no-highlight">276</i>&nbsp;                    sp.updateFaithPath(lorenzoPosition);</b>
+<i class="no-highlight">277</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">278</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">279</i>&nbsp;            if(resorucesToStore.equals(resourcesIn)) {</b>
+<b class="nc"><i class="no-highlight">280</i>&nbsp;                turnDone();</b>
+<b class="nc"><i class="no-highlight">281</i>&nbsp;                return new ResourcesToStoreMessage(true, null, &quot;Resources correctly discarded!&quot;, player.getClonedWarehouse());</b>
+<i class="no-highlight">282</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">283</i>&nbsp;                for(Resource res : resourcesIn){</b>
+<b class="fc"><i class="no-highlight">284</i>&nbsp;                    this.resorucesToStore.remove(res);</b>
+<b class="fc"><i class="no-highlight">285</i>&nbsp;                }</b>
+<b class="fc"><i class="no-highlight">286</i>&nbsp;                return new ResourcesToStoreMessage(false, this.resorucesToStore, &quot;Insert or discard remaining resources.&quot;, player.getClonedWarehouse());</b>
+<i class="no-highlight">287</i>&nbsp;            }
+<i class="no-highlight">288</i>&nbsp;        }
+<i class="no-highlight">289</i>&nbsp;    }
+<i class="no-highlight">290</i>&nbsp;
+<i class="no-highlight">291</i>&nbsp;    /**
+<i class="no-highlight">292</i>&nbsp;     * @param player the playing player
+<i class="no-highlight">293</i>&nbsp;     * @param sourceStorage
+<i class="no-highlight">294</i>&nbsp;     * @param destStorage
+<i class="no-highlight">295</i>&nbsp;     * @return a MoveResourcesResult message, containing a positive outcome if everything worked fine, a
+<i class="no-highlight">296</i>&nbsp;     * negative one instead.
+<i class="no-highlight">297</i>&nbsp;     */
+<i class="no-highlight">298</i>&nbsp;    public ServerMessage moveResourcesInWarehouse(Player player, Integer sourceStorage, Integer destStorage){
+<i class="no-highlight">299</i>&nbsp;        try{
+<b class="fc"><i class="no-highlight">300</i>&nbsp;            player.moveWarehouseResources(sourceStorage, destStorage);</b>
+<b class="nc"><i class="no-highlight">301</i>&nbsp;        } catch (IllegalMoveException e1){</b>
+<b class="nc"><i class="no-highlight">302</i>&nbsp;            return new MoveResourcesResultMessage(true, sourceStorage, destStorage, &quot;Warehouse move not permitted&quot;);</b>
+<b class="fc"><i class="no-highlight">303</i>&nbsp;        } catch (StorageOutOfBoundsException e2){</b>
+<b class="fc"><i class="no-highlight">304</i>&nbsp;            return new MoveResourcesResultMessage(true, sourceStorage, destStorage, &quot;Selected storage doesn&#39;t exists&quot;);</b>
+<b class="fc"><i class="no-highlight">305</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">306</i>&nbsp;        return new MoveResourcesResultMessage(false, sourceStorage, destStorage, &quot;Warehouse resources moved&quot;);</b>
+<i class="no-highlight">307</i>&nbsp;    }
+<i class="no-highlight">308</i>&nbsp;
+<i class="no-highlight">309</i>&nbsp;    /**
+<i class="no-highlight">310</i>&nbsp;     * @param player playing player
+<i class="no-highlight">311</i>&nbsp;     * @param row row inddex of development cards deck
+<i class="no-highlight">312</i>&nbsp;     * @param column column index of development cards deck
+<i class="no-highlight">313</i>&nbsp;     * @param devCardSlot slot index of development cards slots
+<i class="no-highlight">314</i>&nbsp;     * @return OkMessage if everything worked fine, ErrorMessage instead
+<i class="no-highlight">315</i>&nbsp;     */
+<i class="no-highlight">316</i>&nbsp;    public ServerMessage buyDevelopmentCard (Player player, Integer row, Integer column, Integer devCardSlot) {
+<i class="no-highlight">317</i>&nbsp;
+<b class="fc"><i class="no-highlight">318</i>&nbsp;        List&lt;Resource&gt; playerResources = player.getTotalResource();</b>
+<i class="no-highlight">319</i>&nbsp;
+<b class="fc"><i class="no-highlight">320</i>&nbsp;        if (!cardsDeck.isEmptyDeck(row, column)) {</b>
+<b class="fc"><i class="no-highlight">321</i>&nbsp;            List&lt;Resource&gt; devCardCost = null;</b>
+<i class="no-highlight">322</i>&nbsp;            try {
+<b class="fc"><i class="no-highlight">323</i>&nbsp;                devCardCost = cardsDeck.developmentCardCost(row, column);</b>
+<b class="nc"><i class="no-highlight">324</i>&nbsp;            } catch (EmptyDeckException e) {</b>
+<b class="nc"><i class="no-highlight">325</i>&nbsp;                e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">326</i>&nbsp;                return new BuyDVCardError(&quot;The cards deck is empty please choose another one&quot;, false);</b>
+<b class="fc"><i class="no-highlight">327</i>&nbsp;            }</b>
+<i class="no-highlight">328</i>&nbsp;
+<b class="fc"><i class="no-highlight">329</i>&nbsp;            System.out.println(&quot;playerResources: &quot; + playerResources + &quot;\n&quot;);</b>
+<b class="fc"><i class="no-highlight">330</i>&nbsp;            System.out.println(&quot;devCardCost: &quot; + devCardCost + &quot;\n&quot;);</b>
+<i class="no-highlight">331</i>&nbsp;
+<b class="fc"><i class="no-highlight">332</i>&nbsp;            boolean usedLeaderCard = false;</b>
+<i class="no-highlight">333</i>&nbsp;
+<b class="fc"><i class="no-highlight">334</i>&nbsp;            if (player.isLeaderCardActivated(CardType.DISCOUNT)) {</b>
+<b class="fc"><i class="no-highlight">335</i>&nbsp;                HashMap&lt;Resource, Integer&gt; resourcesFromLeaderCard = null;</b>
+<b class="fc"><i class="no-highlight">336</i>&nbsp;                resourcesFromLeaderCard = player.getLeaderCardsPower(CardType.DISCOUNT);</b>
+<b class="fc"><i class="no-highlight">337</i>&nbsp;                Set&lt;Resource&gt; discountedResource = resourcesFromLeaderCard.keySet();</b>
+<b class="fc"><i class="no-highlight">338</i>&nbsp;                for (Resource resource : discountedResource) {</b>
+<b class="fc"><i class="no-highlight">339</i>&nbsp;                    if (devCardCost.contains(resource))</b>
+<b class="nc"><i class="no-highlight">340</i>&nbsp;                        for (int i = 0; i &lt; resourcesFromLeaderCard.get(resource); i++)</b>
+<b class="nc"><i class="no-highlight">341</i>&nbsp;                            devCardCost.remove(resource);</b>
+<b class="fc"><i class="no-highlight">342</i>&nbsp;                }</b>
+<b class="fc"><i class="no-highlight">343</i>&nbsp;                usedLeaderCard = true;</b>
+<i class="no-highlight">344</i>&nbsp;            }
+<i class="no-highlight">345</i>&nbsp;
+<b class="fc"><i class="no-highlight">346</i>&nbsp;            if (containsNeededResources(player, devCardCost)) {</b>
+<i class="no-highlight">347</i>&nbsp;
+<b class="fc"><i class="no-highlight">348</i>&nbsp;                pullNeededResources(player, devCardCost);</b>
+<b class="fc"><i class="no-highlight">349</i>&nbsp;                DevelopmentCard devCard = cardsDeck.popCard(row, column);</b>
+<i class="no-highlight">350</i>&nbsp;                try {
+<b class="fc"><i class="no-highlight">351</i>&nbsp;                    player.addCardInDevCardSlot(devCardSlot, devCard);</b>
+<b class="nc"><i class="no-highlight">352</i>&nbsp;                } catch (IllegalInsertionException e1) {</b>
+<b class="nc"><i class="no-highlight">353</i>&nbsp;                    return new BuyDVCardError(&quot;Slot insertion not allowed&quot;, false);</b>
+<b class="nc"><i class="no-highlight">354</i>&nbsp;                } catch (IndexOutOfBoundsException e2) {</b>
+<b class="nc"><i class="no-highlight">355</i>&nbsp;                    return new BuyDVCardError(&quot;Invalid slot number&quot;, false);</b>
+<b class="fc"><i class="no-highlight">356</i>&nbsp;                }</b>
+<b class="fc"><i class="no-highlight">357</i>&nbsp;                turnDone();</b>
+<i class="no-highlight">358</i>&nbsp;
+<b class="fc"><i class="no-highlight">359</i>&nbsp;                if (player.sevenDevCardBought()) {</b>
+<b class="nc"><i class="no-highlight">360</i>&nbsp;                    sevenDevCardsBought = true;</b>
+<b class="nc"><i class="no-highlight">361</i>&nbsp;                    this.firstPlayerToEnd = player;</b>
+<i class="no-highlight">362</i>&nbsp;                }
+<i class="no-highlight">363</i>&nbsp;
+<b class="fc"><i class="no-highlight">364</i>&nbsp;                if (usedLeaderCard)</b>
+<b class="fc"><i class="no-highlight">365</i>&nbsp;                    return new OkMessage(&quot;Bought development card and inserted in slot number &quot; + (devCardSlot + 1) + &quot;. Leader card power used.&quot;);</b>
+<b class="nc"><i class="no-highlight">366</i>&nbsp;                else return new OkMessage(&quot;Bought development card and inserted in slot number &quot; + (devCardSlot + 1));</b>
+<b class="nc"><i class="no-highlight">367</i>&nbsp;            } else return new BuyDVCardError(&quot;Insufficient resources to buy selected development card&quot;, true);</b>
+<b class="nc"><i class="no-highlight">368</i>&nbsp;        } else return new BuyDVCardError(&quot;Empty deck! You cannot buy requested leader card!&quot;, true);</b>
+<i class="no-highlight">369</i>&nbsp;    }
+<i class="no-highlight">370</i>&nbsp;
+<i class="no-highlight">371</i>&nbsp;    /**
+<i class="no-highlight">372</i>&nbsp;     * Method that checks if specified player contains selected resource cost in deposits
+<i class="no-highlight">373</i>&nbsp;    * @param player
+<i class="no-highlight">374</i>&nbsp;     * @param cost
+<i class="no-highlight">375</i>&nbsp;     * @return true if needed resources are present, false otherwise.
+<i class="no-highlight">376</i>&nbsp;     */
+<i class="no-highlight">377</i>&nbsp;    public boolean containsNeededResources(Player player, List&lt;Resource&gt; cost){
+<b class="fc"><i class="no-highlight">378</i>&nbsp;        List&lt;LeaderCard&gt; leaderCards = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">379</i>&nbsp;        List&lt;StorageLeaderCard&gt; storageLeaderCards = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">380</i>&nbsp;        List&lt;Resource&gt; sldResource = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">381</i>&nbsp;
+<b class="fc"><i class="no-highlight">382</i>&nbsp;        leaderCards = player.getLeaderCards();</b>
+<i class="no-highlight">383</i>&nbsp;
+<i class="no-highlight">384</i>&nbsp;        //hasn&#39;t discarded &#39;em
+<b class="fc"><i class="no-highlight">385</i>&nbsp;        if (leaderCards.stream().anyMatch(x-&gt;x.isActivated()))</b>
+<b class="fc"><i class="no-highlight">386</i>&nbsp;            if (leaderCards.stream().anyMatch(x -&gt; x.getCardType().equals(CardType.STORAGE))) //if any card is of type STORAGE</b>
+<b class="fc"><i class="no-highlight">387</i>&nbsp;                for (LeaderCard ld: leaderCards)</b>
+<b class="fc"><i class="no-highlight">388</i>&nbsp;                    if (ld.getCardType().equals(CardType.STORAGE)&amp;&amp;ld.isActivated())</b>
+<b class="nc"><i class="no-highlight">389</i>&nbsp;                        storageLeaderCards.add((StorageLeaderCard) ld);</b>
+<i class="no-highlight">390</i>&nbsp;
+<i class="no-highlight">391</i>&nbsp;
+<b class="fc"><i class="no-highlight">392</i>&nbsp;        HashMap&lt;Resource, Integer&gt; checkCost = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">393</i>&nbsp;        for (Resource res : cost) {</b>
+<b class="fc"><i class="no-highlight">394</i>&nbsp;            if (checkCost.containsKey(res)) {</b>
+<b class="fc"><i class="no-highlight">395</i>&nbsp;                Integer newValue = checkCost.get(res);</b>
+<b class="fc"><i class="no-highlight">396</i>&nbsp;                newValue++;</b>
+<b class="fc"><i class="no-highlight">397</i>&nbsp;                checkCost.put(res, newValue);</b>
+<b class="fc"><i class="no-highlight">398</i>&nbsp;            } else checkCost.put(res, 1);</b>
+<b class="fc"><i class="no-highlight">399</i>&nbsp;        }</b>
+<i class="no-highlight">400</i>&nbsp;
+<b class="fc"><i class="no-highlight">401</i>&nbsp;        List&lt;Resource&gt; playerResources = player.getTotalResource();</b>
+<i class="no-highlight">402</i>&nbsp;
+<b class="fc"><i class="no-highlight">403</i>&nbsp;        boolean resourceContained = true;</b>
+<i class="no-highlight">404</i>&nbsp;        OuterFor:
+<b class="fc"><i class="no-highlight">405</i>&nbsp;        for (Resource res : checkCost.keySet()) {</b>
+<b class="fc"><i class="no-highlight">406</i>&nbsp;            Integer value = checkCost.get(res);</b>
+<b class="fc"><i class="no-highlight">407</i>&nbsp;            for (int i = 0; i &lt; value; i++) {</b>
+<b class="fc"><i class="no-highlight">408</i>&nbsp;                resourceContained = playerResources.remove(res);</b>
+<i class="no-highlight">409</i>&nbsp;                //if the resource isn&#39;t present in the player resources --&gt; check if it is present in one Storage LC.
+<b class="fc"><i class="no-highlight">410</i>&nbsp;                if(!resourceContained) {</b>
+<b class="fc"><i class="no-highlight">411</i>&nbsp;                    if(!storageLeaderCards.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">412</i>&nbsp;                        for (StorageLeaderCard sld : storageLeaderCards)</b>
+<b class="nc"><i class="no-highlight">413</i>&nbsp;                            if (sld.getStoredResources().contains(res)) {</b>
+<i class="no-highlight">414</i>&nbsp;                                try {
+<b class="nc"><i class="no-highlight">415</i>&nbsp;                                    sld.pullResource();</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;                                    break;</b>
+<b class="nc"><i class="no-highlight">417</i>&nbsp;                                } catch (EmptySlotException e) {</b>
+<b class="nc"><i class="no-highlight">418</i>&nbsp;                                    e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">419</i>&nbsp;                                    break OuterFor;</b>
+<i class="no-highlight">420</i>&nbsp;                                }
+<i class="no-highlight">421</i>&nbsp;                            } else {
+<i class="no-highlight">422</i>&nbsp;                                break OuterFor;
+<i class="no-highlight">423</i>&nbsp;                            }
+<i class="no-highlight">424</i>&nbsp;                    } else {
+<i class="no-highlight">425</i>&nbsp;                        break OuterFor;
+<i class="no-highlight">426</i>&nbsp;                    }
+<i class="no-highlight">427</i>&nbsp;                }
+<i class="no-highlight">428</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">429</i>&nbsp;        }</b>
+<i class="no-highlight">430</i>&nbsp;        
+<b class="fc"><i class="no-highlight">431</i>&nbsp;        return resourceContained;</b>
+<i class="no-highlight">432</i>&nbsp;    }
+<i class="no-highlight">433</i>&nbsp;
+<i class="no-highlight">434</i>&nbsp;    /**
+<i class="no-highlight">435</i>&nbsp;     * Method that takes from deposits and leader cards, first from warehouse, StorageLeaderCards then from coffer, specified resources
+<i class="no-highlight">436</i>&nbsp;     * @param player the player in the turn
+<i class="no-highlight">437</i>&nbsp;     * @param cost the necessary resources needed
+<i class="no-highlight">438</i>&nbsp;     */
+<i class="no-highlight">439</i>&nbsp;    public boolean pullNeededResources(Player player, List&lt;Resource&gt; cost){
+<i class="no-highlight">440</i>&nbsp;
+<b class="fc"><i class="no-highlight">441</i>&nbsp;        List&lt;Resource&gt; warehouseResources = player.getWarehouseResource();</b>
+<b class="fc"><i class="no-highlight">442</i>&nbsp;        List&lt;Resource&gt; toTakeFromWarehouse = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">443</i>&nbsp;        List&lt;Resource&gt; toTakeFromCoffer = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">444</i>&nbsp;        List&lt;Resource&gt; toTakeFromLeaderCard = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">445</i>&nbsp;        List&lt;LeaderCard&gt; leaderCards = player.getLeaderCards();</b>
+<b class="fc"><i class="no-highlight">446</i>&nbsp;        List&lt;StorageLeaderCard&gt; storageLeaderCards = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">447</i>&nbsp;        List&lt;Resource&gt; sldResource = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">448</i>&nbsp;
+<i class="no-highlight">449</i>&nbsp;        //hasn&#39;t discarded &#39;em
+<b class="fc"><i class="no-highlight">450</i>&nbsp;        if (leaderCards.stream().anyMatch(x-&gt;x.isActivated()))</b>
+<b class="fc"><i class="no-highlight">451</i>&nbsp;            if (leaderCards.stream().anyMatch(x -&gt; x.getCardType().equals(CardType.STORAGE)&amp;&amp;x.isActivated())) //if any card is of type STORAGE</b>
+<b class="nc"><i class="no-highlight">452</i>&nbsp;                for (LeaderCard ld: leaderCards)</b>
+<b class="nc"><i class="no-highlight">453</i>&nbsp;                    if (ld.getCardType().equals(CardType.STORAGE)&amp;&amp;ld.isActivated())</b>
+<b class="nc"><i class="no-highlight">454</i>&nbsp;                        storageLeaderCards.add((StorageLeaderCard) ld);</b>
+<i class="no-highlight">455</i>&nbsp;
+<i class="no-highlight">456</i>&nbsp;
+<b class="fc"><i class="no-highlight">457</i>&nbsp;        boolean pulled = false;</b>
+<b class="fc"><i class="no-highlight">458</i>&nbsp;        if(containsNeededResources(player, cost)) {</b>
+<i class="no-highlight">459</i>&nbsp;
+<b class="fc"><i class="no-highlight">460</i>&nbsp;            for (Resource resource : cost) {</b>
+<i class="no-highlight">461</i>&nbsp;                //warehouse
+<b class="fc"><i class="no-highlight">462</i>&nbsp;                if (warehouseResources.contains(resource)) {</b>
+<b class="fc"><i class="no-highlight">463</i>&nbsp;                    System.out.println(&quot;Passed here 1 + Resource: &quot;+resource);//testing</b>
+<b class="fc"><i class="no-highlight">464</i>&nbsp;                    warehouseResources.remove(resource);</b>
+<b class="fc"><i class="no-highlight">465</i>&nbsp;                    toTakeFromWarehouse.add(resource);</b>
+<b class="fc"><i class="no-highlight">466</i>&nbsp;                    pulled = true;</b>
+<i class="no-highlight">467</i>&nbsp;                }
+<i class="no-highlight">468</i>&nbsp;
+<i class="no-highlight">469</i>&nbsp;                //leader storage cards
+<b class="fc"><i class="no-highlight">470</i>&nbsp;                if (!pulled) {</b>
+<b class="fc"><i class="no-highlight">471</i>&nbsp;                    for (StorageLeaderCard sld : storageLeaderCards) {</b>
+<b class="nc"><i class="no-highlight">472</i>&nbsp;                        if (pulled)</b>
+<b class="nc"><i class="no-highlight">473</i>&nbsp;                            break; //go to the next resource</b>
+<i class="no-highlight">474</i>&nbsp;                        //if at least one deposit/slot of a StorageLeaderCard contains the searched resource
+<b class="nc"><i class="no-highlight">475</i>&nbsp;                        if (sld.getStoredResources().contains(resource)) {</b>
+<i class="no-highlight">476</i>&nbsp;                            {
+<i class="no-highlight">477</i>&nbsp;                                //pull one resource from any deposit/slot of teh card
+<i class="no-highlight">478</i>&nbsp;                                try {
+<b class="nc"><i class="no-highlight">479</i>&nbsp;                                    System.out.println(&quot;Passed here 1 + Resource: &quot; + resource); //testing</b>
+<b class="nc"><i class="no-highlight">480</i>&nbsp;                                    sld.pullResource();</b>
+<b class="nc"><i class="no-highlight">481</i>&nbsp;                                    pulled = true;</b>
+<b class="nc"><i class="no-highlight">482</i>&nbsp;                                } catch (EmptySlotException e) {</b>
+<b class="nc"><i class="no-highlight">483</i>&nbsp;                                    e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">484</i>&nbsp;                                }</b>
+<i class="no-highlight">485</i>&nbsp;                            }
+<i class="no-highlight">486</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">487</i>&nbsp;                    }</b>
+<i class="no-highlight">488</i>&nbsp;                }
+<i class="no-highlight">489</i>&nbsp;
+<i class="no-highlight">490</i>&nbsp;                //coffer
+<b class="fc"><i class="no-highlight">491</i>&nbsp;                if (!pulled){</b>
+<b class="fc"><i class="no-highlight">492</i>&nbsp;                    System.out.println(&quot;Passed here 3 + Resource: &quot; + resource);//testing</b>
+<b class="fc"><i class="no-highlight">493</i>&nbsp;                    toTakeFromCoffer.add(resource);</b>
+<i class="no-highlight">494</i>&nbsp;                }
+<i class="no-highlight">495</i>&nbsp;
+<b class="fc"><i class="no-highlight">496</i>&nbsp;                pulled = false;</b>
+<b class="fc"><i class="no-highlight">497</i>&nbsp;            }</b>
+<i class="no-highlight">498</i>&nbsp;
+<b class="fc"><i class="no-highlight">499</i>&nbsp;            player.pullWarehouseResources(toTakeFromWarehouse);</b>
+<b class="fc"><i class="no-highlight">500</i>&nbsp;            player.pullCofferResources(toTakeFromCoffer);</b>
+<i class="no-highlight">501</i>&nbsp;        }
+<i class="no-highlight">502</i>&nbsp;
+<b class="fc"><i class="no-highlight">503</i>&nbsp;        return pulled;</b>
+<i class="no-highlight">504</i>&nbsp;    }
+<i class="no-highlight">505</i>&nbsp;
+<i class="no-highlight">506</i>&nbsp;    /**
+<i class="no-highlight">507</i>&nbsp;     * @param player playing player
+<i class="no-highlight">508</i>&nbsp;     * @param slots List of integers between 0 and 2: they are the indexes of development card slots
+<i class="no-highlight">509</i>&nbsp;     * @param leaderResource is chosen by the user as a result of the activation of the production power leader card.
+<i class="no-highlight">510</i>&nbsp;     *                       The chosen resource will be added to the production output, together with a faith point.
+<i class="no-highlight">511</i>&nbsp;     * @return outcome message encoded as ServerMessage Object
+<i class="no-highlight">512</i>&nbsp;     */
+<i class="no-highlight">513</i>&nbsp;    public ServerMessage activateProduction (Player player, List&lt;Integer&gt; slots, List&lt;Resource&gt; leaderResource){
+<b class="fc"><i class="no-highlight">514</i>&nbsp;        System.out.println(slots.toString());</b>
+<b class="fc"><i class="no-highlight">515</i>&nbsp;        System.out.println(player.getPeekCardsInDevCardSLots());</b>
+<b class="fc"><i class="no-highlight">516</i>&nbsp;        if(slots.isEmpty()) return new ProductionResultMessage(true, &quot;Empty development card slots!&quot;, true);</b>
+<b class="fc"><i class="no-highlight">517</i>&nbsp;        if (slots.size() &gt; 3) return new ProductionResultMessage(true,&quot;From server: Already selected the maximum of 3 slots!&quot;, false);</b>
+<b class="fc"><i class="no-highlight">518</i>&nbsp;        List&lt;Resource&gt; productionInCost = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">519</i>&nbsp;        //collects the resources needed to activate production in selected slots/slots
+<b class="fc"><i class="no-highlight">520</i>&nbsp;        for (Integer slotNum : slots) {</b>
+<i class="no-highlight">521</i>&nbsp;            try {
+<b class="fc"><i class="no-highlight">522</i>&nbsp;                productionInCost.addAll(player.devCardSlotProductionIn(slotNum));</b>
+<b class="nc"><i class="no-highlight">523</i>&nbsp;            } catch (EmptySlotException e1) {</b>
+<b class="nc"><i class="no-highlight">524</i>&nbsp;                return new ProductionResultMessage(true,&quot;Selected an empty slot&quot;, false);</b>
+<b class="nc"><i class="no-highlight">525</i>&nbsp;            } catch (IndexOutOfBoundsException e2) {</b>
+<b class="nc"><i class="no-highlight">526</i>&nbsp;                return new ProductionResultMessage(true, &quot;Selected invalid slot number&quot;, false);</b>
+<b class="fc"><i class="no-highlight">527</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">528</i>&nbsp;        }</b>
+<i class="no-highlight">529</i>&nbsp;
+<i class="no-highlight">530</i>&nbsp;        //checks if resources needed for production are satisfied by warehouse and/or coffer
+<b class="fc"><i class="no-highlight">531</i>&nbsp;        if (containsNeededResources(player, productionInCost)) {</b>
+<i class="no-highlight">532</i>&nbsp;
+<b class="fc"><i class="no-highlight">533</i>&nbsp;            pullNeededResources(player, productionInCost);</b>
+<i class="no-highlight">534</i>&nbsp;
+<b class="fc"><i class="no-highlight">535</i>&nbsp;            List&lt;Resource&gt; resourcesProductionOut = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">536</i>&nbsp;            for (Integer slotNum : slots)</b>
+<b class="fc"><i class="no-highlight">537</i>&nbsp;                resourcesProductionOut.addAll(player.devCardSlotProductionOut(slotNum));</b>
+<i class="no-highlight">538</i>&nbsp;            //increment user&#39;s faith path position and updates other users (if multiplayer) if Resource.FAITH is/are present
+<b class="fc"><i class="no-highlight">539</i>&nbsp;            for(Resource resource : resourcesProductionOut){</b>
+<b class="fc"><i class="no-highlight">540</i>&nbsp;                if(resource.equals(Resource.FAITH)){</b>
+<b class="fc"><i class="no-highlight">541</i>&nbsp;                    player.incrementFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">542</i>&nbsp;                    if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">543</i>&nbsp;                        Integer newPosition = player.getFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">544</i>&nbsp;                        if(player.isRapportoInVaticano(newPosition))</b>
+<b class="nc"><i class="no-highlight">545</i>&nbsp;                            for (Player p : players)</b>
+<b class="nc"><i class="no-highlight">546</i>&nbsp;                                p.updateFaithPath(newPosition);</b>
+<b class="fc"><i class="no-highlight">547</i>&nbsp;                        if(newPosition.equals(player.faithPathEnd())){</b>
+<b class="nc"><i class="no-highlight">548</i>&nbsp;                            endedFaithPath = true;</b>
+<b class="nc"><i class="no-highlight">549</i>&nbsp;                            if(firstPlayerToEnd == null)</b>
+<b class="nc"><i class="no-highlight">550</i>&nbsp;                                firstPlayerToEnd = (MultiPlayer) player;</b>
+<i class="no-highlight">551</i>&nbsp;                        }
+<i class="no-highlight">552</i>&nbsp;                    }
+<i class="no-highlight">553</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">554</i>&nbsp;            }</b>
+<i class="no-highlight">555</i>&nbsp;            //removes faith resources
+<b class="fc"><i class="no-highlight">556</i>&nbsp;            while(resourcesProductionOut.contains(Resource.FAITH))</b>
+<b class="fc"><i class="no-highlight">557</i>&nbsp;                resourcesProductionOut.remove(Resource.FAITH);</b>
+<i class="no-highlight">558</i>&nbsp;            //adds production out resources in coffer
+<b class="fc"><i class="no-highlight">559</i>&nbsp;            player.putCofferResources(resourcesProductionOut);</b>
+<i class="no-highlight">560</i>&nbsp;            //checks if production power leader card is activated
+<b class="fc"><i class="no-highlight">561</i>&nbsp;            boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);</b>
+<b class="fc"><i class="no-highlight">562</i>&nbsp;            turnDone();</b>
+<b class="fc"><i class="no-highlight">563</i>&nbsp;            if(usedLC) {</b>
+<b class="nc"><i class="no-highlight">564</i>&nbsp;                return new ProductionResultMessage(false,&quot;Activated production and resources inserted in coffer. Leader card power used.&quot;, true);</b>
+<i class="no-highlight">565</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">566</i>&nbsp;                return new ProductionResultMessage(false, &quot;Activated production and resources inserted in coffer&quot;, true);</b>
+<i class="no-highlight">567</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">568</i>&nbsp;        } else return new ProductionResultMessage(true, &quot;Insufficient resources to activate production on selected slots&quot;, true);</b>
+<i class="no-highlight">569</i>&nbsp;    }
+<i class="no-highlight">570</i>&nbsp;
+<i class="no-highlight">571</i>&nbsp;    /**
+<i class="no-highlight">572</i>&nbsp;     * @param player the playing player that chose to activate the basic personal board&#39;s production
+<i class="no-highlight">573</i>&nbsp;     * @param prodIn1 the first resource needed to activate production
+<i class="no-highlight">574</i>&nbsp;     * @param prodIn2 the second resource needed to activate production
+<i class="no-highlight">575</i>&nbsp;     * @param prodOut production result
+<i class="no-highlight">576</i>&nbsp;     * @param leaderResource resource selected if a production power leader card is activated
+<i class="no-highlight">577</i>&nbsp;     * @return
+<i class="no-highlight">578</i>&nbsp;     */
+<i class="no-highlight">579</i>&nbsp;    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List&lt;Resource&gt; leaderResource) {
+<b class="fc"><i class="no-highlight">580</i>&nbsp;        List&lt;Resource&gt; productionCost = new ArrayList();</b>
+<b class="fc"><i class="no-highlight">581</i>&nbsp;        productionCost.add(prodIn1);</b>
+<b class="fc"><i class="no-highlight">582</i>&nbsp;        productionCost.add(prodIn2);</b>
+<i class="no-highlight">583</i>&nbsp;
+<b class="fc"><i class="no-highlight">584</i>&nbsp;        if (containsNeededResources(player, productionCost)) {</b>
+<i class="no-highlight">585</i>&nbsp;
+<b class="fc"><i class="no-highlight">586</i>&nbsp;            pullNeededResources(player, productionCost);</b>
+<b class="fc"><i class="no-highlight">587</i>&nbsp;            List&lt;Resource&gt; resourceOut = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">588</i>&nbsp;            resourceOut.add(prodOut);</b>
+<b class="fc"><i class="no-highlight">589</i>&nbsp;            player.putCofferResources(resourceOut);</b>
+<i class="no-highlight">590</i>&nbsp;
+<b class="fc"><i class="no-highlight">591</i>&nbsp;            boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);</b>
+<b class="fc"><i class="no-highlight">592</i>&nbsp;            turnDone();</b>
+<b class="fc"><i class="no-highlight">593</i>&nbsp;            if(usedLC) {</b>
+<b class="nc"><i class="no-highlight">594</i>&nbsp;                return new ProductionResultMessage(false, &quot;Activated personal production and resources inserted in coffer. Leader card power used.&quot;, true);</b>
+<i class="no-highlight">595</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">596</i>&nbsp;                return new ProductionResultMessage(false, &quot;Activated personal production and resources inserted in coffer&quot;, true);</b>
+<i class="no-highlight">597</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">598</i>&nbsp;        } else return new ProductionResultMessage(true,&quot;Insufficient resources to activate personal production&quot;, true);</b>
+<i class="no-highlight">599</i>&nbsp;    }
+<i class="no-highlight">600</i>&nbsp;
+<i class="no-highlight">601</i>&nbsp;    /**
+<i class="no-highlight">602</i>&nbsp;     * @param player the playing player
+<i class="no-highlight">603</i>&nbsp;     * @param leaderResource is != null if a leader card is activated and the user selected the resource to activate production
+<i class="no-highlight">604</i>&nbsp;     * @return The following method returns true if at least 1 production power leader card is activated and inside warehouse
+<i class="no-highlight">605</i>&nbsp;     *      * or coffer there are sufficient resources to activate leader card production. In this case, the production is
+<i class="no-highlight">606</i>&nbsp;     *      * activated, inserting the selected leaderResource inside warehouse, incrementing user&#39;s faith path and updating
+<i class="no-highlight">607</i>&nbsp;     *      * other users&#39; faith paths. Else, it returns false.
+<i class="no-highlight">608</i>&nbsp;     */
+<i class="no-highlight">609</i>&nbsp;    public boolean activateLeaderCardProduction(Player player, List&lt;Resource&gt; leaderResource) {
+<b class="fc"><i class="no-highlight">610</i>&nbsp;        if(player.isLeaderCardActivated(CardType.PRODUCTION)){</b>
+<b class="fc"><i class="no-highlight">611</i>&nbsp;            HashMap&lt;Resource, Integer&gt; prodInCost = null;</b>
+<b class="fc"><i class="no-highlight">612</i>&nbsp;            prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);</b>
+<b class="fc"><i class="no-highlight">613</i>&nbsp;            List&lt;Resource&gt; productionInputCost = new ArrayList();</b>
+<b class="fc"><i class="no-highlight">614</i>&nbsp;            for(Resource r : prodInCost.keySet()){</b>
+<b class="fc"><i class="no-highlight">615</i>&nbsp;                for(int i = 0; i &lt; prodInCost.get(r); i++){</b>
+<b class="fc"><i class="no-highlight">616</i>&nbsp;                    productionInputCost.add(r);</b>
+<i class="no-highlight">617</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">618</i>&nbsp;            }</b>
+<i class="no-highlight">619</i>&nbsp;
+<i class="no-highlight">620</i>&nbsp;            //checks if there are enough resources in warehouse and/or coffer to activate leader card production
+<b class="fc"><i class="no-highlight">621</i>&nbsp;            if (containsNeededResources(player, productionInputCost)) {</b>
+<i class="no-highlight">622</i>&nbsp;
+<b class="fc"><i class="no-highlight">623</i>&nbsp;                pullNeededResources(player, productionInputCost);</b>
+<i class="no-highlight">624</i>&nbsp;
+<b class="fc"><i class="no-highlight">625</i>&nbsp;                List&lt;Resource&gt; clientChoice = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">626</i>&nbsp;                clientChoice.addAll(leaderResource);</b>
+<i class="no-highlight">627</i>&nbsp;                //inserts in coffer chosen resource
+<b class="fc"><i class="no-highlight">628</i>&nbsp;                player.putCofferResources(clientChoice);</b>
+<i class="no-highlight">629</i>&nbsp;                //increments user faith position and updates other user&#39;s faith paths
+<b class="fc"><i class="no-highlight">630</i>&nbsp;                player.incrementFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">631</i>&nbsp;                if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">632</i>&nbsp;                    Integer newPlayerPosition = player.getFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">633</i>&nbsp;                    if(player.isRapportoInVaticano(newPlayerPosition))</b>
+<b class="nc"><i class="no-highlight">634</i>&nbsp;                        for (Player p : players)</b>
+<b class="nc"><i class="no-highlight">635</i>&nbsp;                            p.updateFaithPath(player.getFaithPathPosition());</b>
+<b class="fc"><i class="no-highlight">636</i>&nbsp;                    if(newPlayerPosition.equals(player.faithPathEnd())){</b>
+<b class="nc"><i class="no-highlight">637</i>&nbsp;                        endedFaithPath = true;</b>
+<b class="nc"><i class="no-highlight">638</i>&nbsp;                        if(firstPlayerToEnd == null)</b>
+<b class="nc"><i class="no-highlight">639</i>&nbsp;                            firstPlayerToEnd = (MultiPlayer) player;</b>
+<i class="no-highlight">640</i>&nbsp;                    }
+<i class="no-highlight">641</i>&nbsp;                }
+<b class="fc"><i class="no-highlight">642</i>&nbsp;                return true;</b>
+<i class="no-highlight">643</i>&nbsp;            }
+<i class="no-highlight">644</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">645</i>&nbsp;        return false;</b>
+<i class="no-highlight">646</i>&nbsp;    }
+<i class="no-highlight">647</i>&nbsp;
+<i class="no-highlight">648</i>&nbsp;    /**
+<i class="no-highlight">649</i>&nbsp;     * activates leader card of specified index
+<i class="no-highlight">650</i>&nbsp;     * @param player playing player
+<i class="no-highlight">651</i>&nbsp;     * @param indexNumber leader card&#39;s index number in player&#39;s arraylist leaderCards
+<i class="no-highlight">652</i>&nbsp;     * @return ErrorMessage if it is not possible to activate selected leader card, OkMessage instead.
+<i class="no-highlight">653</i>&nbsp;     */
+<i class="no-highlight">654</i>&nbsp;    public ServerMessage activateLeaderCard (Player player, Integer indexNumber){
+<b class="fc"><i class="no-highlight">655</i>&nbsp;        HashMap&lt;String, Integer&gt; faithPathPositions = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">656</i>&nbsp;        if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">657</i>&nbsp;            faithPathPositions = this.getFaithPathPositions();</b>
+<b class="fc"><i class="no-highlight">658</i>&nbsp;            faithPathPositions.remove(player.getNickname());</b>
+<i class="no-highlight">659</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">660</i>&nbsp;            Integer lorenzoPosition = ((SinglePlayer) player).getLorenzoPosition();</b>
+<b class="nc"><i class="no-highlight">661</i>&nbsp;            faithPathPositions.put(&quot;Lorenzo&quot;, lorenzoPosition);</b>
+<i class="no-highlight">662</i>&nbsp;        }
+<i class="no-highlight">663</i>&nbsp;        try{
+<b class="fc"><i class="no-highlight">664</i>&nbsp;            player.activateLeaderCard(indexNumber);</b>
+<b class="fc"><i class="no-highlight">665</i>&nbsp;        } catch(IndexOutOfBoundsException e1){</b>
+<b class="fc"><i class="no-highlight">666</i>&nbsp;            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +&quot;-&gt;Selected index for leader card is out of bounds\n&quot;+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">667</i>&nbsp;        } catch(AlreadyActivatedLeaderCardException e2){</b>
+<b class="fc"><i class="no-highlight">668</i>&nbsp;            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +&quot;-&gt;Selected leader card already activated\n&quot;+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">669</i>&nbsp;        } catch(InsufficientResourcesException e3){</b>
+<b class="fc"><i class="no-highlight">670</i>&nbsp;            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +&quot;-&gt;Insufficient resources to activate selected leader card\n&quot;+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">671</i>&nbsp;        } catch(AlreadyDiscardedLeaderCardException e4){</b>
+<b class="fc"><i class="no-highlight">672</i>&nbsp;            return new LeaderResultMessage(true, false, true, ANSITextFormat.BOLD_ITALIC +&quot;-&gt;Selected leader card was discarded\n&quot;+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">673</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">674</i>&nbsp;        return new LeaderResultMessage(false, false, true, ANSITextFormat.BOLD_ITALIC +&quot;-&gt;Selected leader card activated\n&quot;+ANSITextFormat.RESET, indexNumber, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<i class="no-highlight">675</i>&nbsp;    }
+<i class="no-highlight">676</i>&nbsp;
+<i class="no-highlight">677</i>&nbsp;    /**
+<i class="no-highlight">678</i>&nbsp;     * Discards selected leader card from leadecards arraylist. OkMessage is returned ad everything worked fine, it also increments user&#39;s faith path position.
+<i class="no-highlight">679</i>&nbsp;     * @param player
+<i class="no-highlight">680</i>&nbsp;     * @param indexNum
+<i class="no-highlight">681</i>&nbsp;     * @return a OkMessage notifying the successful discard action
+<i class="no-highlight">682</i>&nbsp;     */
+<i class="no-highlight">683</i>&nbsp;    public ServerMessage discardLeaderCard (Player player, Integer indexNum){
+<b class="fc"><i class="no-highlight">684</i>&nbsp;        HashMap&lt;String, Integer&gt; faithPathPositions = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">685</i>&nbsp;        if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">686</i>&nbsp;            faithPathPositions = this.getFaithPathPositions();</b>
+<b class="fc"><i class="no-highlight">687</i>&nbsp;            faithPathPositions.remove(player.getNickname());</b>
+<i class="no-highlight">688</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">689</i>&nbsp;            Integer lorenzoPosition = ((SinglePlayer) player).getLorenzoPosition();</b>
+<b class="nc"><i class="no-highlight">690</i>&nbsp;            faithPathPositions.put(&quot;Lorenzo&quot;, lorenzoPosition);</b>
+<i class="no-highlight">691</i>&nbsp;        }
+<i class="no-highlight">692</i>&nbsp;
+<i class="no-highlight">693</i>&nbsp;        try{
+<b class="fc"><i class="no-highlight">694</i>&nbsp;            player.discardLeaderCard(indexNum);</b>
+<b class="fc"><i class="no-highlight">695</i>&nbsp;        } catch (IndexOutOfBoundsException e1){</b>
+<b class="fc"><i class="no-highlight">696</i>&nbsp;            return new LeaderResultMessage(true, true, false, &quot;Selected leader card index is out of bounds&quot;, indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">697</i>&nbsp;        } catch (AlreadyActivatedLeaderCardException e2){</b>
+<b class="fc"><i class="no-highlight">698</i>&nbsp;            return new LeaderResultMessage(true, true, false, &quot;Selected leader card is activated: you cannot discard it&quot;, indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">699</i>&nbsp;        } catch (AlreadyDiscardedLeaderCardException e3){</b>
+<b class="fc"><i class="no-highlight">700</i>&nbsp;            return new LeaderResultMessage(true, true, false, &quot;Selected leader card was already discarded&quot;, indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<b class="fc"><i class="no-highlight">701</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">702</i>&nbsp;        player.incrementFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">703</i>&nbsp;        if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">704</i>&nbsp;            Integer newPlayerPos = player.getFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">705</i>&nbsp;            if (player.isRapportoInVaticano(newPlayerPos)) {</b>
+<b class="nc"><i class="no-highlight">706</i>&nbsp;                for (Player p : players)</b>
+<b class="nc"><i class="no-highlight">707</i>&nbsp;                    p.updateFaithPath(newPlayerPos);</b>
+<i class="no-highlight">708</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">709</i>&nbsp;            if(newPlayerPos.equals(player.faithPathEnd())){</b>
+<b class="nc"><i class="no-highlight">710</i>&nbsp;                endedFaithPath = true;</b>
+<b class="nc"><i class="no-highlight">711</i>&nbsp;                if(firstPlayerToEnd == null)</b>
+<b class="nc"><i class="no-highlight">712</i>&nbsp;                    firstPlayerToEnd = (MultiPlayer) player;</b>
+<i class="no-highlight">713</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">714</i>&nbsp;            faithPathPositions = this.getFaithPathPositions();</b>
+<b class="fc"><i class="no-highlight">715</i>&nbsp;            faithPathPositions.remove(player.getNickname());</b>
+<i class="no-highlight">716</i>&nbsp;        }
+<i class="no-highlight">717</i>&nbsp;
+<b class="fc"><i class="no-highlight">718</i>&nbsp;        return new LeaderResultMessage(false, true, false, &quot;Leader card correctly discarded: received 1 faith point&quot;, indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());</b>
+<i class="no-highlight">719</i>&nbsp;    }
+<i class="no-highlight">720</i>&nbsp;
+<i class="no-highlight">721</i>&nbsp;
+<i class="no-highlight">722</i>&nbsp;
+<i class="no-highlight">723</i>&nbsp;
+<i class="no-highlight">724</i>&nbsp;
+<i class="no-highlight">725</i>&nbsp;
+<i class="no-highlight">726</i>&nbsp;
+<i class="no-highlight">727</i>&nbsp;    /**
+<i class="no-highlight">728</i>&nbsp;     * method called to select 2 leader cards out of the 4 given while setting up the game
+<i class="no-highlight">729</i>&nbsp;     * @param player playing player
+<i class="no-highlight">730</i>&nbsp;     * @param index1 first leader card index in arraylist
+<i class="no-highlight">731</i>&nbsp;     * @param index2 second leader card index in arraylist
+<i class="no-highlight">732</i>&nbsp;     * @return ErrorMessage if specified indexes are out of bounds, OkMessage instead.
+<i class="no-highlight">733</i>&nbsp;     */
+<i class="no-highlight">734</i>&nbsp;    public ServerMessage selectLeaderCard(Player player, Integer index1, Integer index2){
+<i class="no-highlight">735</i>&nbsp;        try{
+<b class="fc"><i class="no-highlight">736</i>&nbsp;            player.chooseLeaderCard(index1, index2);</b>
+<b class="nc"><i class="no-highlight">737</i>&nbsp;        } catch(IndexOutOfBoundsException e){</b>
+<b class="nc"><i class="no-highlight">738</i>&nbsp;            return new ErrorMessage(&quot;Selected indexes for leader cards are out of bounds&quot;);</b>
+<b class="fc"><i class="no-highlight">739</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">740</i>&nbsp;        return new UpdateLeaderCardsMessage(index1, index2);</b>
+<i class="no-highlight">741</i>&nbsp;    }
+<i class="no-highlight">742</i>&nbsp;
+<i class="no-highlight">743</i>&nbsp;    /**
+<i class="no-highlight">744</i>&nbsp;     * @return an hashMap containing the players position in faith path. Needed to send an update version
+<i class="no-highlight">745</i>&nbsp;     * of the model to clients.
+<i class="no-highlight">746</i>&nbsp;     */
+<i class="no-highlight">747</i>&nbsp;    public HashMap&lt;String, Integer&gt; getFaithPathPositions(){
+<b class="fc"><i class="no-highlight">748</i>&nbsp;        HashMap&lt;String, Integer&gt; faithPathPositions = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">749</i>&nbsp;        for(Player p : players){</b>
+<b class="fc"><i class="no-highlight">750</i>&nbsp;            String nickname = p.getNickname();</b>
+<b class="fc"><i class="no-highlight">751</i>&nbsp;            Integer fpPos = p.getFaithPathPosition();</b>
+<b class="fc"><i class="no-highlight">752</i>&nbsp;            faithPathPositions.put(nickname, fpPos);</b>
+<b class="fc"><i class="no-highlight">753</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">754</i>&nbsp;        return faithPathPositions;</b>
+<i class="no-highlight">755</i>&nbsp;    }
+<i class="no-highlight">756</i>&nbsp;
+<i class="no-highlight">757</i>&nbsp;    /**
+<i class="no-highlight">758</i>&nbsp;     * Method called to check wether a player bought seven development cards or not
+<i class="no-highlight">759</i>&nbsp;     * @return
+<i class="no-highlight">760</i>&nbsp;     */
+<i class="no-highlight">761</i>&nbsp;    public boolean isSevenDevCardsBought(){
+<b class="nc"><i class="no-highlight">762</i>&nbsp;        return sevenDevCardsBought;</b>
+<i class="no-highlight">763</i>&nbsp;    }
+<i class="no-highlight">764</i>&nbsp;
+<i class="no-highlight">765</i>&nbsp;    /**
+<i class="no-highlight">766</i>&nbsp;     * The method discards a development card of the specified color from the deck
+<i class="no-highlight">767</i>&nbsp;     * @param color
+<i class="no-highlight">768</i>&nbsp;     * @return false if the game is not ended, true otherwise. The game ends when all cards of a colour have
+<i class="no-highlight">769</i>&nbsp;     * been removed.
+<i class="no-highlight">770</i>&nbsp;     */
+<i class="no-highlight">771</i>&nbsp;    public boolean discardDevelopmentCards(CardColor color) {
+<b class="fc"><i class="no-highlight">772</i>&nbsp;        String cardColor = color.toString();</b>
+<i class="no-highlight">773</i>&nbsp;        DevelopmentCard toPop;
+<b class="fc"><i class="no-highlight">774</i>&nbsp;        boolean end = false;</b>
+<b class="fc"><i class="no-highlight">775</i>&nbsp;        for (int i = 0; i &lt; 2; i++){</b>
+<b class="fc"><i class="no-highlight">776</i>&nbsp;            switch (cardColor) {</b>
+<i class="no-highlight">777</i>&nbsp;                case (&quot;GREEN&quot;):
+<b class="fc"><i class="no-highlight">778</i>&nbsp;                    toPop = cardsDeck.popCard(0, 0);</b>
+<b class="fc"><i class="no-highlight">779</i>&nbsp;                    if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">780</i>&nbsp;                        toPop = cardsDeck.popCard(1, 0);</b>
+<b class="fc"><i class="no-highlight">781</i>&nbsp;                        if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">782</i>&nbsp;                            toPop = cardsDeck.popCard(2, 0);</b>
+<b class="fc"><i class="no-highlight">783</i>&nbsp;                            if(toPop.getVictoryPoints() == 0)</b>
+<b class="fc"><i class="no-highlight">784</i>&nbsp;                                end = true;</b>
+<i class="no-highlight">785</i>&nbsp;                        }
+<i class="no-highlight">786</i>&nbsp;                    }
+<i class="no-highlight">787</i>&nbsp;                    break;
+<i class="no-highlight">788</i>&nbsp;                case (&quot;BLUE&quot;):
+<b class="fc"><i class="no-highlight">789</i>&nbsp;                    toPop = cardsDeck.popCard(0, 1);</b>
+<b class="fc"><i class="no-highlight">790</i>&nbsp;                    if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">791</i>&nbsp;                        toPop = cardsDeck.popCard(1, 1);</b>
+<b class="fc"><i class="no-highlight">792</i>&nbsp;                        if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">793</i>&nbsp;                            toPop = cardsDeck.popCard(2, 1);</b>
+<b class="fc"><i class="no-highlight">794</i>&nbsp;                            if(toPop.getVictoryPoints() == 0)</b>
+<b class="fc"><i class="no-highlight">795</i>&nbsp;                                end = true;</b>
+<i class="no-highlight">796</i>&nbsp;                        }
+<i class="no-highlight">797</i>&nbsp;                    }
+<i class="no-highlight">798</i>&nbsp;                    break;
+<i class="no-highlight">799</i>&nbsp;                case (&quot;YELLOW&quot;):
+<b class="fc"><i class="no-highlight">800</i>&nbsp;                    toPop = cardsDeck.popCard(0, 2);</b>
+<b class="fc"><i class="no-highlight">801</i>&nbsp;                    if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">802</i>&nbsp;                        toPop = cardsDeck.popCard(1, 2);</b>
+<b class="fc"><i class="no-highlight">803</i>&nbsp;                        if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">804</i>&nbsp;                            toPop = cardsDeck.popCard(1, 2);</b>
+<b class="fc"><i class="no-highlight">805</i>&nbsp;                            if(toPop.getVictoryPoints() == 0)</b>
+<b class="fc"><i class="no-highlight">806</i>&nbsp;                                end = true;</b>
+<i class="no-highlight">807</i>&nbsp;                        }
+<i class="no-highlight">808</i>&nbsp;                    }
+<i class="no-highlight">809</i>&nbsp;                    break;
+<i class="no-highlight">810</i>&nbsp;                case (&quot;VIOLET&quot;):
+<b class="fc"><i class="no-highlight">811</i>&nbsp;                    toPop = cardsDeck.popCard(0, 3);</b>
+<b class="fc"><i class="no-highlight">812</i>&nbsp;                    if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">813</i>&nbsp;                        toPop = cardsDeck.popCard(1, 3);</b>
+<b class="fc"><i class="no-highlight">814</i>&nbsp;                        if (toPop.getVictoryPoints() == 0) {</b>
+<b class="fc"><i class="no-highlight">815</i>&nbsp;                            toPop = cardsDeck.popCard(1, 3);</b>
+<b class="fc"><i class="no-highlight">816</i>&nbsp;                            if(toPop.getVictoryPoints() == 0)</b>
+<b class="fc"><i class="no-highlight">817</i>&nbsp;                                end = true;</b>
+<i class="no-highlight">818</i>&nbsp;                        }
+<i class="no-highlight">819</i>&nbsp;                    }
+<i class="no-highlight">820</i>&nbsp;                    break;
+<i class="no-highlight">821</i>&nbsp;            }
+<i class="no-highlight">822</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">823</i>&nbsp;        return end;</b>
+<i class="no-highlight">824</i>&nbsp;    }
+<i class="no-highlight">825</i>&nbsp;
+<i class="no-highlight">826</i>&nbsp;    /**
+<i class="no-highlight">827</i>&nbsp;     * return true if a player reached the end of the faith path
+<i class="no-highlight">828</i>&nbsp;     * @return
+<i class="no-highlight">829</i>&nbsp;     */
+<i class="no-highlight">830</i>&nbsp;    public boolean reachedFaithPathEnd(){
+<b class="fc"><i class="no-highlight">831</i>&nbsp;        return this.endedFaithPath;</b>
+<i class="no-highlight">832</i>&nbsp;    }
+<i class="no-highlight">833</i>&nbsp;
+<i class="no-highlight">834</i>&nbsp;    /**
+<i class="no-highlight">835</i>&nbsp;     * @return the first player that ends the faith path. If during a turn more than one player reach the
+<i class="no-highlight">836</i>&nbsp;     * end, the first one to reach it will be returned.
+<i class="no-highlight">837</i>&nbsp;     */
+<i class="no-highlight">838</i>&nbsp;    public Player getFirstPlayerToEnd(){
+<b class="nc"><i class="no-highlight">839</i>&nbsp;        return this.firstPlayerToEnd;</b>
+<i class="no-highlight">840</i>&nbsp;    }
+<i class="no-highlight">841</i>&nbsp;
+<i class="no-highlight">842</i>&nbsp;    /**
+<i class="no-highlight">843</i>&nbsp;     * Method invoked to reset done variable, used with locks.
+<i class="no-highlight">844</i>&nbsp;     */
+<i class="no-highlight">845</i>&nbsp;    public synchronized void resetDone(){
+<b class="fc"><i class="no-highlight">846</i>&nbsp;        this.done = false;</b>
+<b class="fc"><i class="no-highlight">847</i>&nbsp;    }</b>
+<i class="no-highlight">848</i>&nbsp;
+<i class="no-highlight">849</i>&nbsp;    /**
+<i class="no-highlight">850</i>&nbsp;     * this method enables to unlock the multiplayer handler while
+<i class="no-highlight">851</i>&nbsp;     * is waiting for a user to finish his turn.
+<i class="no-highlight">852</i>&nbsp;     */
+<i class="no-highlight">853</i>&nbsp;    public synchronized void turnDone(){
+<b class="fc"><i class="no-highlight">854</i>&nbsp;        this.done = true;</b>
+<b class="fc"><i class="no-highlight">855</i>&nbsp;        notifyAll();</b>
+<b class="fc"><i class="no-highlight">856</i>&nbsp;    }</b>
+<i class="no-highlight">857</i>&nbsp;
+<i class="no-highlight">858</i>&nbsp;    /**
+<i class="no-highlight">859</i>&nbsp;     * called by MultiplayerGameHandler to wait one or all users to perform a certain action. Unlocked by
+<i class="no-highlight">860</i>&nbsp;     * turnDone (when the game is waiting for a player only) or clientDone (when the game is waiting for all players)
+<i class="no-highlight">861</i>&nbsp;     */
+<i class="no-highlight">862</i>&nbsp;    public synchronized void lock() {
+<b class="fc"><i class="no-highlight">863</i>&nbsp;        while(this.done == false)</b>
+<i class="no-highlight">864</i>&nbsp;            try {
+<b class="fc"><i class="no-highlight">865</i>&nbsp;                wait();</b>
+<b class="nc"><i class="no-highlight">866</i>&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc"><i class="no-highlight">867</i>&nbsp;                e.printStackTrace();</b>
+<b class="fc"><i class="no-highlight">868</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">869</i>&nbsp;        resetDone();</b>
+<b class="fc"><i class="no-highlight">870</i>&nbsp;        return;</b>
+<i class="no-highlight">871</i>&nbsp;    }
+<i class="no-highlight">872</i>&nbsp;
+<i class="no-highlight">873</i>&nbsp;
+<i class="no-highlight">874</i>&nbsp;    /**
+<i class="no-highlight">875</i>&nbsp;     * Used by players to notify to the game they finished their action.
+<i class="no-highlight">876</i>&nbsp;     * If all players terminated their action, the MultiplayerGameHandler will be unlocked.
+<i class="no-highlight">877</i>&nbsp;     */
+<i class="no-highlight">878</i>&nbsp;    public synchronized void clientDone(){
+<b class="fc"><i class="no-highlight">879</i>&nbsp;        if(multiplayer) {</b>
+<b class="fc"><i class="no-highlight">880</i>&nbsp;            accesses++;</b>
+<b class="fc"><i class="no-highlight">881</i>&nbsp;            if (accesses.equals(players.size())) {</b>
+<b class="fc"><i class="no-highlight">882</i>&nbsp;                accesses = 0;</b>
+<b class="fc"><i class="no-highlight">883</i>&nbsp;                this.done = true;</b>
+<b class="fc"><i class="no-highlight">884</i>&nbsp;                notifyAll();</b>
+<i class="no-highlight">885</i>&nbsp;            }
+<i class="no-highlight">886</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">887</i>&nbsp;            this.turnDone();</b>
+<i class="no-highlight">888</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">889</i>&nbsp;    }</b>
+<i class="no-highlight">890</i>&nbsp;
+<i class="no-highlight">891</i>&nbsp;//for debugging
+<i class="no-highlight">892</i>&nbsp;    public Integer getAccesses() {
+<b class="nc"><i class="no-highlight">893</i>&nbsp;        return accesses;</b>
+<i class="no-highlight">894</i>&nbsp;    }
+<i class="no-highlight">895</i>&nbsp;
+<i class="no-highlight">896</i>&nbsp;    public void setDisconnected(){
+<b class="nc"><i class="no-highlight">897</i>&nbsp;        this.disconnected = true;</b>
+<b class="nc"><i class="no-highlight">898</i>&nbsp;    }</b>
+<i class="no-highlight">899</i>&nbsp;
+<i class="no-highlight">900</i>&nbsp;    public boolean getDisconnected(){
+<b class="nc"><i class="no-highlight">901</i>&nbsp;        return this.disconnected;</b>
+<i class="no-highlight">902</i>&nbsp;    }
+<i class="no-highlight">903</i>&nbsp;}
+<i class="no-highlight">904</i>&nbsp;
+<i class="no-highlight">905</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-06-25 23:33</div>
+</div>
+</body>
+</html>
