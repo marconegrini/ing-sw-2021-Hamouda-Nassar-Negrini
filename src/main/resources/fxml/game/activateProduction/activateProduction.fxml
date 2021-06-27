@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1300.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.ActivateProductionController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="1000.0" styleClass="activateProduction" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <stylesheets>
+            <URL value="@../../../css/game/icons.css" />
+            <URL value="@../../../css/game/chooseLeaderCard.css" />
+         </stylesheets>
+         <children>
+            <GridPane fx:id="devCardsSlots" layoutX="198.0" layoutY="69.0" onMouseClicked="#selectedDevCardSlot" prefHeight="530.0" prefWidth="764.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <Label layoutX="21.0" layoutY="392.0" prefHeight="126.0" prefWidth="158.0" style="-fx-border-width: 5;" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="leaderCard1" layoutX="23.0" layoutY="22.0" prefHeight="302.0" prefWidth="236.0" AnchorPane.bottomAnchor="396.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="1041.0" AnchorPane.topAnchor="22.0" />
+      <Label fx:id="leaderCard2" layoutX="23.0" layoutY="339.0" prefHeight="302.0" prefWidth="236.0" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="23.0" AnchorPane.rightAnchor="1041.0" AnchorPane.topAnchor="339.0" />
+      <Button layoutX="27.0" layoutY="650.0" mnemonicParsing="false" onAction="#back" prefHeight="56.0" prefWidth="229.0" stylesheets="@../../../css/buttons.css" text="Back">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+   </children>
+   <stylesheets>
+      <URL value="@../../../css/login/connectionPage.css" />
+      <URL value="@../../../css/fonts.css" />
+      <URL value="@../../../css/game/chooseLeaderCard.css" />
+      <URL value="@../../../css/game/bakgrounds.css" />
+   </stylesheets>
+</AnchorPane>
