@@ -290,8 +290,6 @@ public class UpdateObjects {
                 marketboardGrid.add(marble, j, i);
             }
         }
-        //MarketTracer mr  = new MarketTracer();
-        //mr.marketTracer(marketBoard);
     }
 
     public static void updateLeaderCards (List<LeaderCard> leaderCards, Scene scene){
@@ -304,9 +302,10 @@ public class UpdateObjects {
             if (leaderCards.get(i).isActivated()) {
                 card.getStyleClass().remove("notSelectedCard");
                 card.getStyleClass().add("selectedCard");
-                card.getStyleClass().add("selectedCard");
+                //card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
             } else  card.setOpacity(0.9);
+            System.out.println("Label leader: " + card);
         }
     }
 
