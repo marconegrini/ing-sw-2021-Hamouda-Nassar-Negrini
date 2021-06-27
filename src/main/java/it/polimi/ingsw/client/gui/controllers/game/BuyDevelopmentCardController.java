@@ -53,7 +53,8 @@ public class BuyDevelopmentCardController {
             Scene scene = new Scene(root, 1080, 720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
             Label label = (Label) scene.lookup("#cardToInsert");

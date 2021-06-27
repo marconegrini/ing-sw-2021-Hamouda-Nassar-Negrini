@@ -90,11 +90,9 @@ public class MarketboardController {
     public void selectRow(MouseEvent mouseEvent) {
         row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (row == null)     row = 0;
-        //System.out.println(row.intValue() + 1);
 
         Node source = (Node) mouseEvent.getSource();
         Window theStage = source.getScene().getWindow();
-        //ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(true, row, false));
         theStage.hide();
         isRow = true;
 
@@ -117,7 +115,6 @@ public class MarketboardController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    //ConnectionToServerController controller = loader.getController();
                     newStage.setTitle("Storage cards");
                     Scene scene = new Scene(root, 450,250);
                     newStage.setScene(scene);
@@ -125,11 +122,8 @@ public class MarketboardController {
                     newStage.initModality(Modality.APPLICATION_MODAL);
                     newStage.show();
                 });
-                return;
             }
-        }
-
-        ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, row+1, false));
+        } else ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, row+1, false));
 
     }
 
