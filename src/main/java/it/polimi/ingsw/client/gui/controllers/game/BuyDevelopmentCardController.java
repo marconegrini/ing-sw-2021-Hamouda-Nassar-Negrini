@@ -23,12 +23,14 @@ public class BuyDevelopmentCardController {
 
     private Label selectedCard;
     private static int column, row;
-    private static Integer slot;
+    //private Integer slot;
 
     public void selectDevCard(ActionEvent actionEvent) {
 
         int id = Integer.parseInt(selectedCard.getId().substring(4));
-        slot = Integer.parseInt(selectedCard.getId().substring(4));
+        //slot = Integer.parseInt(selectedCard.getId().substring(4));
+
+        //System.out.println("slot before: " + slot);
 
         row = id / 4;
         column = id % 4;
@@ -51,17 +53,14 @@ public class BuyDevelopmentCardController {
             Scene scene = new Scene(root, 1080, 720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
             Label label = (Label) scene.lookup("#cardToInsert");
-            //label.setPrefHeight(400);
-            //label.setPrefWidth(200);
             label.setBackground(selectedCard.getBackground());
-            //label.getStyleClass().addAll(selectedCard.getStyleClass());
 
             System.out.println("Label to insert: " + label);
-            //System.out.println("old Label: " + selectedCard.getStyleClass());
             UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene);
         });
 
@@ -116,9 +115,11 @@ public class BuyDevelopmentCardController {
     public void selectSlot(MouseEvent mouseEvent) {
         System.out.println("selected card:" + ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck());
         System.out.println("row: "+ row + " col: "+ column);
-        System.out.println("slot: " + slot);
+        Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
+        Integer slot = Integer.parseInt(label.getId().substring(4));
+        System.out.println("slot after: " + slot);
 
-        ControllerGUI.getServerHandler().sendJson(new BuyDevCardMessage(row, column, slot-1));
+        ControllerGUI.getServerHandler().sendJson(new BuyDevCardMessage(row, column, slot));
         Node source = (Node) mouseEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();

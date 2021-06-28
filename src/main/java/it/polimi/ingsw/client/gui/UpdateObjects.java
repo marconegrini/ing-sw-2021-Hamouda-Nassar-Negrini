@@ -120,9 +120,9 @@ public class UpdateObjects {
     /**
      * This method updates the coffer adding graphically the new resources received from the server.
      *
-     * @param coffer is the new coffer that will be used to update the view.
-     * @param warehouse  is the new warehouse that will be used to update the view.
-     * @param scene  is the Scene to which you want to update the objects.
+     * @param coffer    is the new coffer that will be used to update the view.
+     * @param warehouse is the new warehouse that will be used to update the view.
+     * @param scene     is the Scene to which you want to update the objects.
      */
     public static void updateResources(Coffer coffer, Warehouse warehouse, Scene scene) {
         HashMap<Resource, Integer> resourcesMap = new HashMap<>();
@@ -133,25 +133,20 @@ public class UpdateObjects {
 
         List<Resource> totalResource = warehouse.getTotalResources().stream().collect(Collectors.toList());
         totalResource.addAll(coffer.getTotalResources().stream().collect(Collectors.toList()));
-        for(LeaderCard ld: ControllerGUI.getServerHandler().getLightModel().getLeaderCards()){
+        for (LeaderCard ld : ControllerGUI.getServerHandler().getLightModel().getLeaderCards()) {
             if (ld.getCardType().equals(CardType.STORAGE)) {
                 if (ld.isActivated()) {
                     StorageLeaderCard sld = (StorageLeaderCard) ld;
-                    if (sld.getOccupiedSlots()>0){
+                    if (sld.getOccupiedSlots() > 0) {
                         totalResource.addAll(sld.getStoredResources());
                     }
                 }
             }
         }
 
-
-        for (Resource resource : totalResource){
-            resourcesMap.computeIfPresent(resource, (k,v) -> v+1);
-            //System.out.println("resource picked " + resource);
+        for (Resource resource : totalResource) {
+            resourcesMap.computeIfPresent(resource, (k, v) -> v + 1);
         }
-
-        //System.out.println("Total resources: " + totalResource);
-        //System.out.println("Hashmap: " + resourcesMap);
 
         Set<Resource> resourcesSet = resourcesMap.keySet();
 
@@ -207,7 +202,8 @@ public class UpdateObjects {
 
     /**
      * This method updates the grid of development cards in the GUI.
-     * @param cardsInSlot  Are the new cards that are on the top of the development cards slots
+     *
+     * @param cardsInSlot Are the new cards that are on the top of the development cards slots
      */
     public static void updateDevCardsSlot(HashMap<Integer, DevelopmentCard> cardsInSlot) {
 
@@ -216,6 +212,7 @@ public class UpdateObjects {
 
         Platform.runLater(() -> {
             for (Integer index : keys) {
+                System.out.println("Inserted ");
                 Label card = new Label();
                 card.setPrefWidth(200);
                 card.setPrefHeight(400);
@@ -230,8 +227,9 @@ public class UpdateObjects {
 
     /**
      * This method updates the grid of development cards in the GUI.
-     * @param cardsInSlot  Are the new cards that are on the top of the development cards slots
-     * @param scene  The Scene in which the update will be done
+     *
+     * @param cardsInSlot Are the new cards that are on the top of the development cards slots
+     * @param scene       The Scene in which the update will be done
      */
     public static void updateDevCardsSlot(HashMap<Integer, DevelopmentCard> cardsInSlot, Scene scene) {
 
@@ -239,9 +237,32 @@ public class UpdateObjects {
         GridPane devCardsSlotsGrid = (GridPane) scene.lookup("#devCardsSlots");
 
         Platform.runLater(() -> {
+
+            for (int i = 0; i < 3; i++) {
+                if (keys.contains(i)) {
+                    Label card = new Label();
+                    card.setId("card" + i);
+                    card.setPrefWidth(230);
+                    card.setPrefHeight(400);
+                    card.setStyle("-fx-background-image: url(\"images/devcards/" +
+                            cardsInSlot.get(i).toPath() + ".png\");" +
+                            " -fx-background-size: 100% 100%;" +
+                            "-fx-border-width: 5");
+                    devCardsSlotsGrid.add(card, i, 0);
+                } else {
+                    Label card = new Label();
+                    card.setId("card" + i);
+                    card.setPrefWidth(230);
+                    card.setPrefHeight(400);
+                    card.setStyle("-fx-border-width: 5; -fx-border-color: #1d1d2b");
+                    devCardsSlotsGrid.add(card, i, 0);
+                }
+            }
+
             for (Integer index : keys) {
                 Label card = new Label();
-                card.setPrefWidth(200);
+                card.setId("card" + index);
+                card.setPrefWidth(230);
                 card.setPrefHeight(400);
                 card.setStyle("-fx-background-image: url(\"images/devcards/" +
                         cardsInSlot.get(index).toPath() + ".png\");" +
@@ -252,15 +273,15 @@ public class UpdateObjects {
         });
     }
 
-    public static void updateMarketBoard(MarketBoard marketBoard, Scene scene){
+    public static void updateMarketBoard(MarketBoard marketBoard, Scene scene) {
         GridPane marketboardGrid = (GridPane) scene.lookup("#marketboardGrid");
         Label externalMarble = (Label) scene.lookup("#externalMarble");
         externalMarble.setStyle("-fx-background-image: url(\"images/marbles/" +
                 marketBoard.getExternalMarbleColor().toString().toLowerCase() + ".png\");" +
                 " -fx-background-size: 100% 100%;");
         Marble[][] marbles = marketBoard.getMarketBoardMarbles();
-        for (int i=0; i<3; i++){
-            for (int j=0; j<4; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
                 Label marble = new Label();
                 marble.setPrefWidth(55);
                 marble.setPrefHeight(55);
@@ -270,36 +291,42 @@ public class UpdateObjects {
                 marketboardGrid.add(marble, j, i);
             }
         }
-        //MarketTracer mr  = new MarketTracer();
-        //mr.marketTracer(marketBoard);
     }
 
-    public static void updateLeaderCards (List<LeaderCard> leaderCards, Scene scene){
-        for (int i=0; i<2; i++){
-            Label card = (Label) scene.lookup("#leaderCard"+(i+1));
+    public static void updateLeaderCards(List<LeaderCard> leaderCards, Scene scene) {
+        for (int i = 0; i < 2; i++) {
+            Label card = (Label) scene.lookup("#leaderCard" + (i + 1));
             card.setStyle("-fx-background-image: url(\"images/leadercards/" +
                     leaderCards.get(i).toPath() + ".png\");" +
                     " -fx-background-size: 100% 100%;" +
                     "-fx-border-width: 5");
             if (leaderCards.get(i).isActivated()) {
+                card.getStyleClass().remove("notSelectedCard");
                 card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
-            } else  card.setOpacity(0.9);
+            } else card.setOpacity(0.9);
+            System.out.println("Label leader: " + card);
         }
     }
 
-    public static void updateDevCardsDeck (ArrayList<DevelopmentCard> devCards, Scene scene){
+    public static void updateDevCardsDeck(ArrayList<DevelopmentCard> devCards, Scene scene) {
 
-        int i=0;
-        for (DevelopmentCard card: devCards){
-            Label label = (Label) scene.lookup("#card"+i);
-            label.setStyle("-fx-background-image: url(\"images/devcards/" +
-                    card.toPath() + ".png\");" +
-                    " -fx-background-size: 100% 100%;" +
-                    "-fx-border-width: 5");;
-            i++;
+        int i = 0;
+        for (DevelopmentCard card : devCards) {
+            Label label = (Label) scene.lookup("#card" + i);
+            try {
+                label.setStyle("-fx-background-image: url(\"images/devcards/" +
+                        card.toPath() + ".png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
+            } catch(NullPointerException e){
+                label.setStyle("-fx-background-image: url(\"images/devcards/backCard.png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
         }
+        i++;
     }
+}
 
 }
 

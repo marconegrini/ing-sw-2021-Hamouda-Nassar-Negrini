@@ -56,6 +56,7 @@ public class SinglePlayerGameHandler extends Thread{
 
         sendLeaderCards();
         turnManager.lock();
+        sendToClient(new GameStartedMessage());
         updateClient();
 
         while(!gameEnded){

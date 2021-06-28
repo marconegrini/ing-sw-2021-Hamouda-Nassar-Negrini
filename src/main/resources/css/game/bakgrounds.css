@@ -22,3 +22,8 @@
  -fx-background-image: url('../../images/game/buyDevCard/slots.png');
  -fx-background-size: 100% 100%;
 }
+
+.activateProduction{
+ -fx-background-image: url('../../images/game/activateProduction.png');
+ -fx-background-size: 100% 100%;
+}
