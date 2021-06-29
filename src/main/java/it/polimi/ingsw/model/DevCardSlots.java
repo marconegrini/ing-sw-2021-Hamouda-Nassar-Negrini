@@ -22,7 +22,7 @@ public class DevCardSlots {
             cardSlot.add(new Stack<>());
             cardSlotNumber--;
         }
-
+/*
         //debugging
         HashMap<Resource, Integer> cardCost;
         HashMap<Resource, Integer> prodIn;
@@ -49,6 +49,8 @@ public class DevCardSlots {
         cardSlot.get(1).push(card2);
         cardSlot.get(2).push(card2);
 
+
+ */
 
     }
 

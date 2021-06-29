@@ -201,280 +201,273 @@ public class CLIView extends View {
         boolean return_ = false;
         boolean useStorageLCs = false;
 
-        try {
-            while (!selected) {
-                if (!err || return_) {
+        while (!selected) {
+            if (!err || return_) {
+                System.out.println(ANSITextFormat.BOLD+"Select action to perform:\n"+ANSITextFormat.RESET+"a) Take resources from market\nb) Buy development card\nc) Activate production");
+                System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
+                System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/leader cards to see eventual updates]");
+            }
+            while (show) {
+                if (return_) {
                     System.out.println(ANSITextFormat.BOLD+"Select action to perform:\n"+ANSITextFormat.RESET+"a) Take resources from market\nb) Buy development card\nc) Activate production");
                     System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-                    System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/leader cards to see eventual updates]");
+                    System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
                 }
-                while (show) {
-                    if (return_) {
-                        System.out.println(ANSITextFormat.BOLD+"Select action to perform:\n"+ANSITextFormat.RESET+"a) Take resources from market\nb) Buy development card\nc) Activate production");
-                        System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
-                        System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/slots/leader cards to see eventual updates]");
-                    }
 
-                    //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
-                    //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
-                    System.out.println("\nMake a choice:");
-                    //if it's a normal read from user's input
-                    if (!err || return_) {
-                        choice = scanner.nextLine();
-                    }//otherwise use the input passed as argument, it's the case when it's an error message and a client has already choosed what he wants.
-                    switch (choice) {
-                        case "show market":
-                            marketTracer.marketTracer(clientLightModel.getMarketBoard());
-                            show = true;
-                            break;
-                        case "show deposits":
-                            depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
-                            show = true;
-                            break;
-                        case "show faith path":
-                            System.out.println(ANSITextFormat.BOLD_ITALIC+"\n\t # Faith Path # \t\n"+ANSITextFormat.RESET);
-                            faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
-                            vaticanSectionsTracer.showVaticanSections(clientLightModel.getVaticanSections());
-                            show = true;
-                            break;
-                        case "show development deck":
-                            System.out.println("\n\t # Development Cards Deck # \t");
-                            dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
-                            show = true;
-                            break;
-                        case "show slots":
-                            showDevelopmentSlots();
-                            show = true;
-                            break;
-                        case "show leader cards":
-                            leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-
-                            show = true;
-                            break;
-                        case "a":
-                            //Take resources from market
-                            marketTracer.marketTracer(clientLightModel.getMarketBoard());
-                            boolean isRow = true;
-                            int rowOrColNum = 0;
-                            System.out.println("\nInsert external marble in the market.");
-                            boolean OK = false;
-                            while (!OK) {
-                                System.out.println("Row or column?\ntype \"return\" to select another action\n");
-                                String rowOrCol = scanner.nextLine();
-                                if (rowOrCol.equalsIgnoreCase("COLUMN")) {
-                                    OK = true;
-                                    isRow = false;
-                                } else if (rowOrCol.equalsIgnoreCase("ROW")) {
-                                    OK = true;
-                                    isRow = true;
-                                } else if (rowOrCol.equalsIgnoreCase("RETURN")) {
-                                    OK = false;
-                                    selected = false;
-                                    show = true;
-                                    return_ = true;
-                                    break;
-                                }
-
-                            }
-
-                            while (OK) {
-                                try {
-                                    if (isRow) {
-                                        System.out.println("Insert row number:");
-                                        rowOrColNum = secureReadInt("[1-3]");
-                                    } else {
-                                        System.out.println("Insert column number:");
-                                        rowOrColNum = secureReadInt("[1-4]");
-                                    }
-                                    OK = false;
-                                } catch (InputMismatchException e) {
-                                    OK = false;
-                                    System.out.println("Bad input format. Type again row or column number\n");
-                                }
-
-                                String tempRead = "";
-                                List<StorageLeaderCard> slds = new ArrayList<>();
-                                if (clientLightModel.getLeaderCards().stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE) && x.isActivated())) {
-                                    for (LeaderCard ld : clientLightModel.getLeaderCards()) {
-                                        if (ld.getCardType().equals(CardType.STORAGE))
-                                            slds.add(((StorageLeaderCard) ld));
-                                    }
-                                    if (slds.stream().anyMatch(StorageLeaderCard::hasAvailableSlots)) {
-                                        System.out.println("Do you want to use your storage leader cards power (y/n)? ");
-                                        tempRead = secureReadString("(?i)(yes|no)|(y|n)(?-i)"); //recognizes y|Y|n|N|yes|Yes|YES|no|No|NO // (?i): opens the case insensitive read of input   //(?-i) ends the case insensitive read of input
-                                        useStorageLCs = tempRead.matches("(?i)(yes)|(y)(?-i)"); //return true if yes and false if no.
-                                    }
-                                }
-
-                                show = false;
-                                selected = true;
-                                selection = new PickResourcesMessage(isRow, rowOrColNum, useStorageLCs);
-                            }
-
+                //if the user selects a show command, he will remain inside this WHILE and the scanner will be ready for a second
+                //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
+                System.out.println("\nMake a choice:");
+                //if it's a normal read from user's input
+                if (!err || return_) {
+                    choice = scanner.nextLine();
+                }//otherwise use the input passed as argument, it's the case when it's an error message and a client has already choosed what he wants.
+                switch (choice) {
+                    case "show market":
+                        marketTracer.marketTracer(clientLightModel.getMarketBoard());
+                        show = true;
                         break;
-                    case "b":
-                        if (err) {
-                            System.out.println("Please check if you have sufficient resources to buy the card\n" +
-                                    "Check also if you have inserted a wrong slot or an occupied slot number\n" +
-                                    "Then try insert again a valid input: \n");
-                            show = true;
-                            selected = false;
-                        } else {
-                            //Buy development card
-                            show = false;
-                            selected = true;
-                            return_ = false;
-                        }
-                        selection = buyDVCard(clientLightModel.getDevelopmentCardsDeck(), err);
-                        err = false;
-                        if (selection == null)  //if == null --> means the player choosed to choose another action.
-                        {
-                            selected = false;
-                            show = true;
-                            return_ = true;
-//                            System.out.println("Make a choice: ");
-//                            choice = secureReadString("[a-z]*");
-                        }else{
-                            show = false;
-                            selected = true;
-                            return_ = false;
-                        }
+                    case "show deposits":
+                        depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer()).forEach(System.out::println);
+                        show = true;
                         break;
-                    case "c":
-                        //Activate production
-                        selection = activateProduction();
-                        if (selection == null){
-                            show = true;
-                            selected = false;
-                            return_ = true;
-                        }else {
-                            show = false;
-                            selected = true;
-                            return_ = false;
-                        }
+                    case "show faith path":
+                        System.out.println(ANSITextFormat.BOLD_ITALIC+"\n\t # Faith Path # \t\n"+ANSITextFormat.RESET);
+                        faithPathTracer.faithPathTracer(clientLightModel.getOtherPlayersFaithPathPosition(), clientLightModel.getFaithPathPosition()).forEach(System.out::println);
+                        vaticanSectionsTracer.showVaticanSections(clientLightModel.getVaticanSections());
+                        show = true;
                         break;
-                    case "d": {
-                        //Activate Leader card
-                        Integer index = 0;
-                        depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer());
+                    case "show development deck":
+                        System.out.println("\n\t # Development Cards Deck # \t");
+                        dvCardsTracer.printDVCard(clientLightModel.getDevelopmentCardsDeck()).forEach(System.out::println);
+                        show = true;
+                        break;
+                    case "show slots":
+                        showDevelopmentSlots();
+                        show = true;
+                        break;
+                    case "show leader cards":
                         leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-                        System.out.println("Select a leader card to activate:\n");
-                        System.out.println("or type \"return\" to choose another action\n");
-                        boolean okCards = false;
-                        while (!okCards) {
-                            String selectedCard = scanner.nextLine();
-                            if (selectedCard.toUpperCase().equals("RETURN"))
-                            {
-                                show = true;
-                                selected = false;
-                                return_ = true;
-                                okCards = true;
-                            }else {
-                                switch (selectedCard) {
-                                    case "a":
-                                        index = 0;
-                                        okCards = true;
-                                        break;
-                                    case "b":
-                                        index = 1;
-                                        okCards = true;
-                                        break;
-                                    default:
-                                        System.out.println("Invalid input. Type again.");
-                                        break;
-                                }
-                            }
-                        }
-                        if (!return_) {
-                            selection = new ActivateLeaderCardMessage(index);
-                            show = false;
-                            selected = true;
-                        }
+
+                        show = true;
                         break;
-                    }
-                    case "e": {
-                        //Discard leader card
-                        Integer index = 0;
-                        leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-                        System.out.println("Select a leader card to discard:");
-                        System.out.println("or type \"return\" to choose another action\n");
-                        boolean okCards = false;
-                        while (!okCards) {
-                            String selectedCard = scanner.nextLine();
-                            if (selectedCard.toUpperCase().equals("RETURN")) {
-                                show = true;
+                    case "a":
+                        //Take resources from market
+                        marketTracer.marketTracer(clientLightModel.getMarketBoard());
+                        boolean isRow = true;
+                        int rowOrColNum = 0;
+                        System.out.println("\nInsert external marble in the market.");
+                        boolean OK = false;
+                        while (!OK) {
+                            System.out.println("Row or column?\ntype \"return\" to select another action\n");
+                            String rowOrCol = scanner.nextLine();
+                            if (rowOrCol.equalsIgnoreCase("COLUMN")) {
+                                OK = true;
+                                isRow = false;
+                            } else if (rowOrCol.equalsIgnoreCase("ROW")) {
+                                OK = true;
+                                isRow = true;
+                            } else if (rowOrCol.equalsIgnoreCase("RETURN")) {
+                                OK = false;
                                 selected = false;
+                                show = true;
                                 return_ = true;
-                                okCards = true;
-                            } else {
-                                switch (selectedCard) {
-                                    case "a":
-                                        index = 0;
-                                        okCards = true;
-                                        break;
-                                    case "b":
-                                        index = 1;
-                                        okCards = true;
-                                        break;
-                                    default:
-                                        System.out.println("Invalid input. Type again.");
-                                        break;
-                                }
+                                break;
                             }
+
                         }
-                        if (!return_) {
-                            selection = new DiscardLeaderCardMessage(index);
-                            show = false;
-                            selected = true;
-                        }
-                        break;
-                    }
-                    case "f":
-                        //Move warehouse resources
-                        String ask = "";
-                        Integer sourceStorage = 0;
-                        Integer destStorage = 0;
-                        Integer storage = 0;
-                        for (int i = 0; i < 2; i++) {
-                            if (i == 0) ask = "source shelf";
-                            if (i == 1) ask = "destination shelf";
-                            boolean okStorage = false;
-                            System.out.println("Select " + ask + " storage (1 to 3):");
-                            System.out.println("type \"return\" to choose another action");
+
+                        while (OK) {
                             try {
-                                String input = secureReadString("(?i)(return)(?-i)|[1-3]");
-                                if (input.matches("(?i)(return)(?-i)")){
-                                    return_ = true;
-                                    show = true;
-                                    selected = false;
-                                    break; //break the for loop
-                                }else{
-                                    storage = Integer.parseInt(input);
+                                if (isRow) {
+                                    System.out.println("Insert row number:");
+                                    rowOrColNum = secureReadInt("[1-3]");
+                                } else {
+                                    System.out.println("Insert column number:");
+                                    rowOrColNum = secureReadInt("[1-4]");
                                 }
-                                if (i == 0) sourceStorage = storage;
-                                if (i == 1) destStorage = storage;
+                                OK = false;
                             } catch (InputMismatchException e) {
-                                scanner.nextLine();
-                                System.out.println("Invalid input. Type again.");
+                                OK = false;
+                                System.out.println("Bad input format. Type again row or column number\n");
                             }
-                        }
-                        if (!return_) {
-                            selection = new MoveWarehouseResourcesMessage(sourceStorage, destStorage);
+
+                            String tempRead = "";
+                            List<StorageLeaderCard> slds = new ArrayList<>();
+                            if (clientLightModel.getLeaderCards().stream().anyMatch(x -> x.getCardType().equals(CardType.STORAGE) && x.isActivated())) {
+                                for (LeaderCard ld : clientLightModel.getLeaderCards()) {
+                                    if (ld.getCardType().equals(CardType.STORAGE))
+                                        slds.add(((StorageLeaderCard) ld));
+                                }
+                                if (slds.stream().anyMatch(StorageLeaderCard::hasAvailableSlots)) {
+                                    System.out.println("Do you want to use your storage leader cards power (y/n)? ");
+                                    tempRead = secureReadString("(?i)(yes|no)|(y|n)(?-i)"); //recognizes y|Y|n|N|yes|Yes|YES|no|No|NO // (?i): opens the case insensitive read of input   //(?-i) ends the case insensitive read of input
+                                    useStorageLCs = tempRead.matches("(?i)(yes)|(y)(?-i)"); //return true if yes and false if no.
+                                }
+                            }
+
                             show = false;
                             selected = true;
+                            selection = new PickResourcesMessage(isRow, rowOrColNum, useStorageLCs);
                         }
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Type again.");
-                        break;
 
+                    break;
+                case "b":
+                    if (err) {
+                        System.out.println("Please check if you have sufficient resources to buy the card\n" +
+                                "Check also if you have inserted a wrong slot or an occupied slot number\n" +
+                                "Then try insert again a valid input: \n");
+                        show = true;
+                        selected = false;
+                    } else {
+                        //Buy development card
+                        show = false;
+                        selected = true;
+                        return_ = false;
                     }
-
+                    selection = buyDVCard(clientLightModel.getDevelopmentCardsDeck(), err);
+                    err = false;
+                    if (selection == null)  //if == null --> means the player choosed to choose another action.
+                    {
+                        selected = false;
+                        show = true;
+                        return_ = true;
+//                        System.out.println("Make a choice: ");
+//                        choice = secureReadString("[a-z]*");
+                    }else{
+                        show = false;
+                        selected = true;
+                        return_ = false;
+                    }
+                    break;
+                case "c":
+                    //Activate production
+                    selection = activateProduction();
+                    if (selection == null){
+                        show = true;
+                        selected = false;
+                        return_ = true;
+                    }else {
+                        show = false;
+                        selected = true;
+                        return_ = false;
+                    }
+                    break;
+                case "d": {
+                    //Activate Leader card
+                    Integer index = 0;
+                    depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer());
+                    leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    System.out.println("Select a leader card to activate:\n");
+                    System.out.println("or type \"return\" to choose another action\n");
+                    boolean okCards = false;
+                    while (!okCards) {
+                        String selectedCard = scanner.nextLine();
+                        if (selectedCard.toUpperCase().equals("RETURN"))
+                        {
+                            show = true;
+                            selected = false;
+                            return_ = true;
+                            okCards = true;
+                        }else {
+                            switch (selectedCard) {
+                                case "a":
+                                    index = 0;
+                                    okCards = true;
+                                    break;
+                                case "b":
+                                    index = 1;
+                                    okCards = true;
+                                    break;
+                                default:
+                                    System.out.println("Invalid input. Type again.");
+                                    break;
+                            }
+                        }
+                    }
+                    if (!return_) {
+                        selection = new ActivateLeaderCardMessage(index);
+                        show = false;
+                        selected = true;
+                    }
+                    break;
+                }
+                case "e": {
+                    //Discard leader card
+                    Integer index = 0;
+                    leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
+                    System.out.println("Select a leader card to discard:");
+                    System.out.println("or type \"return\" to choose another action\n");
+                    boolean okCards = false;
+                    while (!okCards) {
+                        String selectedCard = scanner.nextLine();
+                        if (selectedCard.toUpperCase().equals("RETURN")) {
+                            show = true;
+                            selected = false;
+                            return_ = true;
+                            okCards = true;
+                        } else {
+                            switch (selectedCard) {
+                                case "a":
+                                    index = 0;
+                                    okCards = true;
+                                    break;
+                                case "b":
+                                    index = 1;
+                                    okCards = true;
+                                    break;
+                                default:
+                                    System.out.println("Invalid input. Type again.");
+                                    break;
+                            }
+                        }
+                    }
+                    if (!return_) {
+                        selection = new DiscardLeaderCardMessage(index);
+                        show = false;
+                        selected = true;
+                    }
+                    break;
+                }
+                case "f":
+                    //Move warehouse resources
+                    String ask = "";
+                    Integer sourceStorage = 0;
+                    Integer destStorage = 0;
+                    Integer storage = 0;
+                    for (int i = 0; i < 2; i++) {
+                        if (i == 0) ask = "source shelf";
+                        if (i == 1) ask = "destination shelf";
+                        boolean okStorage = false;
+                        System.out.println("Select " + ask + " storage (1 to 3):");
+                        System.out.println("type \"return\" to choose another action");
+                        try {
+                            String input = secureReadString("(?i)(return)(?-i)|[1-3]");
+                            if (input.matches("(?i)(return)(?-i)")){
+                                return_ = true;
+                                show = true;
+                                selected = false;
+                                break; //break the for loop
+                            }else{
+                                storage = Integer.parseInt(input);
+                            }
+                            if (i == 0) sourceStorage = storage;
+                            if (i == 1) destStorage = storage;
+                        } catch (InputMismatchException e) {
+                            scanner.nextLine();
+                            System.out.println("Invalid input. Type again.");
+                        }
+                    }
+                    if (!return_) {
+                        selection = new MoveWarehouseResourcesMessage(sourceStorage, destStorage);
+                        show = false;
+                        selected = true;
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid choice. Type again.");
+                    break;
                 }
             }
-        } catch(NoSuchElementException | IllegalStateException e){
-            System.out.println("Scanner closed");
-            selection = new EmptyMessage();
         }
 
         return selection;
