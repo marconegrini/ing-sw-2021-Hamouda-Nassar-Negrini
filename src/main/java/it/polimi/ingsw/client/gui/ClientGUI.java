@@ -20,6 +20,7 @@ public class ClientGUI extends Application {
         primaryStage.setTitle("Master of Renaissance");
         Scene scene = new Scene(root, 1080, 720);
         primaryStage.setScene(scene);
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.setOnHidden(e -> controller.shutDown());
         primaryStage.show();
     }

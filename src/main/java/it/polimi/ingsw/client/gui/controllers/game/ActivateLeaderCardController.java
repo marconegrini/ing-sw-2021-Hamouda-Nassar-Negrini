@@ -39,6 +39,7 @@ public class ActivateLeaderCardController {
     }
 
     public void activate(ActionEvent actionEvent) {
+        if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));
         System.out.println("index: " + index);
         ControllerGUI.getServerHandler().sendJson(new ActivateLeaderCardMessage(index-1));
@@ -67,7 +68,8 @@ public class ActivateLeaderCardController {
             Scene scene = new Scene(root, 500, 390);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
         });

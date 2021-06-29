@@ -123,7 +123,8 @@ public class GUIView extends View {
                 newStage.setTitle("Select action");
                 Scene scene = new Scene(root, 500, 390);
                 newStage.setScene(scene);
-                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.resizableProperty().setValue(Boolean.FALSE);
+                newStage.setOnCloseRequest( event ->{ event.consume();});
                 newStage.initModality(Modality.APPLICATION_MODAL);
                 newStage.show();
             });

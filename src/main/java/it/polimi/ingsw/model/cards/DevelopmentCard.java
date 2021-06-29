@@ -88,7 +88,7 @@ public class DevelopmentCard extends Card{
      * This method transform a card to a String that represent the image name in the resources directory. It will be used to upload the image of the card in the GUI
      * @return  a String that will be used for the path of the image
      */
-    public String toPath(){
+    public String toPath() throws NullPointerException{
         return this.color.toString() + this.Vp;
     }
 

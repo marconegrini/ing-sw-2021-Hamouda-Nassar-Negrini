@@ -39,7 +39,8 @@ public class SelectActionController {
             Scene scene = new Scene(root, 600,600);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             MarketBoard marketBoard = ControllerGUI.getServerHandler().getLightModel().getMarketBoard();
             newStage.show();
@@ -55,7 +56,7 @@ public class SelectActionController {
         theStage.hide();
         Platform.runLater(() ->{
             Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/activateProduction.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
@@ -63,12 +64,15 @@ public class SelectActionController {
                 e.printStackTrace();
             }
             newStage.setTitle("Activate production");
-            Scene scene = new Scene(root, 400,520);
+            Scene scene = new Scene(root, 1300,720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+            UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene);
         });
     }
 
@@ -90,7 +94,8 @@ public class SelectActionController {
             Scene scene = new Scene(root, 1080,720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
             UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
@@ -118,7 +123,8 @@ public class SelectActionController {
             Scene scene = new Scene(root, 1080,720);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
             UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
