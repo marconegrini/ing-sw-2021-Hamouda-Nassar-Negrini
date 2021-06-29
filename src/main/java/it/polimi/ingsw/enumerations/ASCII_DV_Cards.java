@@ -5,10 +5,7 @@ public enum ASCII_DV_Cards {
     GREEN("\u001B[32m" + "⛊" + "\u001B[0m"),
     YELLOW("\u001B[33m" + "⛊" + "\u001B[0m"),
     BLUE("\u001B[34m" + "⛊" + "\u001B[0m"),
-    VIOLET("\u001B[35m" + "⛊" + "\u001B[0m"),
-
-
-    RESET("\u001B[0m");
+    VIOLET("\u001B[35m" + "⛊" + "\u001B[0m");
 
     private final String shape;
 

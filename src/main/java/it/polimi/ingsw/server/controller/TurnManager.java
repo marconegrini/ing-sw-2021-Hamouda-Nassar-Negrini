@@ -326,7 +326,7 @@ public class TurnManager {
                 return new BuyDVCardError("The cards deck is empty please choose another one", false);
             }
 
-            System.out.println("playerResources: " + playerResources + "\n");
+//            System.out.println("playerResources: " + playerResources + "\n");
             System.out.println("devCardCost: " + devCardCost + "\n");
 
             boolean usedLeaderCard = false;

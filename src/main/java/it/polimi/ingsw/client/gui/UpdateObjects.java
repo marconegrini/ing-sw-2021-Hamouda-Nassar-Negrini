@@ -167,6 +167,10 @@ public class UpdateObjects {
     public static void updateFaithPath(Integer position) {
         Platform.runLater(() -> {
             Label rood = (Label) SceneManager.getScene().lookup("#rood");
+            System.out.println(rood);
+            System.out.println(position);
+            System.out.println(getFaithPathRow(position));
+            System.out.println(getFaithPathCol(position));
             GridPane.setRowIndex(rood, getFaithPathRow(position));
             GridPane.setColumnIndex(rood, getFaithPathCol(position));
         });
