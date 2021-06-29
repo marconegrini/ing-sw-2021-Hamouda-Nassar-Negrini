@@ -5,6 +5,7 @@ import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.client.view.CLIView;
 import it.polimi.ingsw.client.view.GUIView;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
@@ -76,7 +77,7 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("\nWaiting for a json message from server...");
+                System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
                 try {
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);

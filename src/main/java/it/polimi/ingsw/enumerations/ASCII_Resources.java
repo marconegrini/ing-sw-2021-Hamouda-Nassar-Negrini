@@ -4,8 +4,8 @@ package it.polimi.ingsw.enumerations;
 public enum ASCII_Resources {
 
     COIN("\u001B[33m" + "⛂" +  "\u001B[0m"),
-    SHIELD("\u001b[34;1m" + "\uD83D\uDEE1️" + "\u001B[0m"),
-    STONE("\u001b[37;1m" + "⛘" + "\u001B[0m"),
+    SHIELD("\u001b[34;1m" + "⛉" + "\u001B[0m"),
+    STONE("\u001b[38;5;245m" + "⛘" + "\u001B[0m"),
     SERVANT("\u001B[35m" + "⛹" + "\u001B[0m"),
     FAITH_POINT("\u001b[31m" + "✢" +"\u001B[0m");
 

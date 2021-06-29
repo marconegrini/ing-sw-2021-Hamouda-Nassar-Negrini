@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.handlers;
 
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -13,7 +14,7 @@ import it.polimi.ingsw.server.controller.TurnManager;
 
 import java.util.*;
 
-public class SinglePlayerGameHandler extends Thread{
+public class SinglePlayerGameHandler extends Thread {
 
     private ClientHandler clientHandler;
     private TurnManager turnManager;
@@ -26,15 +27,13 @@ public class SinglePlayerGameHandler extends Thread{
     /**
      * @param clientHandler
      */
-    public SinglePlayerGameHandler(ClientHandler clientHandler){
-        System.out.println("dentro costruttore");
+    public SinglePlayerGameHandler(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         game = new SinglePlayerGameInstance();
         turnManager = new TurnManager(game.getCardsDeck(), game.getMarketBoard());
         turnManager.setMultiplayer(false);
         SinglePlayer player = new SinglePlayer(clientHandler.getNickname());
         turnManager.setPlayer(player);
-        player.printPlayer();
         game.addPlayer(player);
         clientHandler.setPlayer(player);
         clientHandler.setTurnManager(turnManager);
@@ -49,8 +48,8 @@ public class SinglePlayerGameHandler extends Thread{
      * or Lorenzo reached the end of faith path or the player bought seven development cards.
      */
     @Override
-    public void run(){
-        System.out.println("Single player game started");
+    public void run() {
+        System.out.println(ANSITextFormat.BOLD + "\nSingle player game started\n" + ANSITextFormat.RESET);
         SinglePlayer player = (SinglePlayer) clientHandler.getPlayer();
         player.printPlayer();
 
@@ -59,16 +58,16 @@ public class SinglePlayerGameHandler extends Thread{
         sendToClient(new GameStartedMessage());
         updateClient();
 
-        while(!gameEnded){
+        while (!gameEnded) {
             sendToClient(new SelectActionMessage());
             turnManager.lock();
             clientHandler.sendJson(pickActionCard());
             updateClient();
-            if(player.lorenzoWins()){
+            if (player.lorenzoWins()) {
                 gameEnded = true;
                 clientHandler.sendJson(new EndGameMessage("Lorenzo reached the end of the faith path! You lost!"));
             }
-            if(player.getFaithPathPosition().equals(player.faithPathEnd()) || player.sevenDevCardBought()) {
+            if (player.getFaithPathPosition().equals(player.faithPathEnd()) || player.sevenDevCardBought()) {
                 gameEnded = true;
                 clientHandler.sendJson(new EndGameMessage("You win!\nTotal Victory points: " + player.getTotalVictoryPoints() + " victory points."));
             }
@@ -95,6 +94,7 @@ public class SinglePlayerGameHandler extends Thread{
 
     /**
      * Send a ServerMessage to client
+     *
      * @param message
      */
     public void sendToClient(ServerMessage message) {
@@ -104,7 +104,7 @@ public class SinglePlayerGameHandler extends Thread{
     /**
      * Update client's light model structures
      */
-    public void updateClient(){
+    public void updateClient() {
         sendToClient(new UpdateMarketboardMessage(game.getMarketBoard()));
         sendToClient(new UpdateDevCardsDeckMessage(game.peekCardsDeck()));
         HashMap<String, Integer> faithPathPositions = this.getLorenzoPosition();
@@ -116,9 +116,10 @@ public class SinglePlayerGameHandler extends Thread{
 
     /**
      * returns lorenzo position in faith path.
+     *
      * @return
      */
-    public HashMap<String, Integer> getLorenzoPosition(){
+    public HashMap<String, Integer> getLorenzoPosition() {
         HashMap<String, Integer> faithPathPositions = new HashMap<>();
         String nickname = "Lorenzo";
         Integer lorenzoPosition = ((SinglePlayer) clientHandler.getPlayer()).getLorenzoPosition();
@@ -128,101 +129,102 @@ public class SinglePlayerGameHandler extends Thread{
 
     /**
      * Pick a card from action cards deck to perform a 'Lorenzo' action.
+     *
      * @return
      */
-    public ServerMessage pickActionCard(){
+    public ServerMessage pickActionCard() {
 
         LorenzoCard lorenzoCard = actionCards.pop();
         Integer lorenzoPosition;
         ServerMessage messageToReturn = null;
         boolean ended = false;
 
-        switch (lorenzoCard.getType()){
+        switch (lorenzoCard.getType()) {
 
             case DISCARD2BLUEDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2BLUEDVCARDS);
+                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2BLUEDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.BLUE);
-                if(ended) {
+                if (ended) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("You picked all Blue cards! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "You picked all Blue cards!" + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n You discarded 2 Blue development cards.", LorenzoCardType.DISCARD2BLUEDVCARDS);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nYou discarded 2 Blue development cards." + ANSITextFormat.RESET, LorenzoCardType.DISCARD2BLUEDVCARDS);
                 break;
 
             case DISCARD2GREENDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2GREENDVCARDS);
+                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2GREENDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.GREEN);
-                if(ended){
+                if (ended) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("You picked all Green cards! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "You picked all Green cards!" + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n You discarded 2 Green development cards.", LorenzoCardType.DISCARD2GREENDVCARDS);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nYou discarded 2 Green development cards." + ANSITextFormat.RESET, LorenzoCardType.DISCARD2GREENDVCARDS);
                 break;
 
             case DISCARD2VIOLETDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2VIOLETDVCARDS);
+                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2VIOLETDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.VIOLET);
-                if(ended){
+                if (ended) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("You picked all Violet cards! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "You picked all Violet cards!" + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n You discarded 2 Violet development cards.", LorenzoCardType.DISCARD2VIOLETDVCARDS);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nYou discarded 2 Violet development cards." + ANSITextFormat.RESET, LorenzoCardType.DISCARD2VIOLETDVCARDS);
                 break;
 
             case DISCARD2YELLOWDVCARDS:
-                System.out.println("Picked Up a "+ LorenzoCardType.DISCARD2YELLOWDVCARDS);
+                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2YELLOWDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.YELLOW);
-                if(ended){
+                if (ended) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("You picked all Yellow cards! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "You picked all Yellow cards!" + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n You discarded 2 Yellow development cards.", LorenzoCardType.DISCARD2YELLOWDVCARDS);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nYou discarded 2 Yellow development cards." + ANSITextFormat.RESET, LorenzoCardType.DISCARD2YELLOWDVCARDS);
                 break;
 
             case TWOFAITHPOINTSCARD:
-                System.out.println("Picked Up a "+ LorenzoCardType.TWOFAITHPOINTSCARD);
+                System.out.println("Picked Up a " + LorenzoCardType.TWOFAITHPOINTSCARD);
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
-                if(player.lorenzoWins()) {
+                if (player.lorenzoWins()) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("Lorenzo reached the end of the faith path! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "Lorenzo reached the end of the faith path!" + ANSITextFormat.RED_COLOR + " You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
-                if(player.lorenzoWins()) {
+                if (player.lorenzoWins()) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("Lorenzo reached the end of the faith path! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "Lorenzo reached the end of the faith path! " + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n Lorenzo has advanced of two positions in faith path.", LorenzoCardType.TWOFAITHPOINTSCARD);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nLorenzo has advanced of two positions in faith path." + ANSITextFormat.RESET, LorenzoCardType.TWOFAITHPOINTSCARD);
                 break;
 
             case FAITHANDSHUFFLECARD:
-                System.out.println("Picked Up a "+ LorenzoCardType.FAITHANDSHUFFLECARD);
+                System.out.println("Picked Up a " + LorenzoCardType.FAITHANDSHUFFLECARD);
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
                 actionCards.addAll(poppedActionsCard);
                 poppedActionsCard.clear();
                 Collections.shuffle(this.actionCards);
-                if(player.lorenzoWins()) {
+                if (player.lorenzoWins()) {
                     gameEnded = true;
-                    messageToReturn = new EndGameMessage("Lorenzo reached the end of the faith path! You lost!");
+                    messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "Lorenzo reached the end of the faith path! " + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
                     break;
                 }
-                messageToReturn = new SinglePlayerActionMessage("Action card picked:\n Lorenzo advanced of one position in faith path. Action cards have been reshuffled.", LorenzoCardType.FAITHANDSHUFFLECARD);
+                messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nLorenzo advanced of one position in faith path. Action cards have been reshuffled.\n" + ANSITextFormat.RESET, LorenzoCardType.FAITHANDSHUFFLECARD);
                 break;
         }
         poppedActionsCard.push(lorenzoCard);
 
-        return  messageToReturn;
+        return messageToReturn;
     }
 
 }

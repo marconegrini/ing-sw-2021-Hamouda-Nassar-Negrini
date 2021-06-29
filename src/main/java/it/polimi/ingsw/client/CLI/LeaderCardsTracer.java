@@ -32,7 +32,7 @@ public class LeaderCardsTracer {
         String stringFormat = "%-6s %-18s %-22s %-12d %-33s %-30s"; // "CARD", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"
 
         String tempStr = "";
-        results.add("\n\t\t \u001b[1m # Leader Cards #  \u001B[0m \t");
+        results.add("\n\t\t" + ANSITextFormat.BOLD_ITALIC +"# Leader Cards #"+ ANSITextFormat.RESET +"\t");
 
         results.add(String.format("%-6s %-18s %-12s %-13s %-27s %-15s", "CARD", "STATUS", "TYPE", "V_POINTS", "*_COST_*", "LEADER_POWER"));
 
@@ -215,7 +215,7 @@ public class LeaderCardsTracer {
 
 
     //for testing
-    public static void main(String[] args) throws EmptySlotException, StorageOutOfBoundsException, IllegalInsertionException {
+    public void main()  {
         LeaderCardParser leaderCardParser = new LeaderCardParser();
         List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
         leaderCardParser.close();
@@ -230,14 +230,16 @@ public class LeaderCardsTracer {
                 .filter(x -> (x.getCardType().equals(CardType.STORAGE)))
                 .collect(Collectors.toList());
 
+        try {
+            Optional<StorageLeaderCard> st = leaderCards2.stream().filter(x -> x.storageType().equals(Resource.COIN)).findFirst();
+            st.get().putResourceInCardStorage(null, Resource.COIN);
 
-        Optional<StorageLeaderCard> st =leaderCards2.stream().filter(x->x.storageType().equals(Resource.COIN)).findFirst();
-               st.get().putResourceInCardStorage(null,Resource.COIN);
-
-        Optional<StorageLeaderCard> st2 =leaderCards2.stream().filter(x->x.storageType().equals(Resource.SHIELD)).findFirst();
-        st2.get().putResourceInCardStorage(null,Resource.SHIELD);
-        st2.get().putResourceInCardStorage(null,Resource.SHIELD);
-
+            Optional<StorageLeaderCard> st2 = leaderCards2.stream().filter(x -> x.storageType().equals(Resource.SHIELD)).findFirst();
+            st2.get().putResourceInCardStorage(null, Resource.SHIELD);
+            st2.get().putResourceInCardStorage(null, Resource.SHIELD);
+        }catch(IllegalInsertionException ex){
+            ex.printStackTrace();
+        }
 
 
 

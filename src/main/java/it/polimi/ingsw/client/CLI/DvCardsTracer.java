@@ -35,7 +35,7 @@ public class DvCardsTracer {
             cardLetter = String.valueOf(cardChar);  //convert char to string
             if (dvCard.getColor() != null) {
                 ColorEnum colorCard = ColorEnum.getBackgroundEnum(dvCard.getColor().toString());
-                String stringFormat = "%-6s" + colorCard + "\u001b[30m" + "%-8s" + "\t" + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
+                String stringFormat = "%-6s" + colorCard + "\u001b[38;5;255m" + "%-8s" + "\t" + ANSITextFormat.BOLD + "%-9s %-12d" + ColorEnum.RESET; //+ "\t%-30"+ // %30.30s %20.30s";
 
 
                 //add a number next to (card letter) and start from 'a' when reach the letter 'z' //...,x,y,z,a1,b1,...

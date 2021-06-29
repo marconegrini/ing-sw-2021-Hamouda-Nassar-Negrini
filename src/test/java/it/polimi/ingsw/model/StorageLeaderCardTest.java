@@ -47,17 +47,19 @@ public class StorageLeaderCardTest {
         }
     }
 
-    @Test (expected = IllegalInsertionException.class)
-    public void Test1() throws WrongCardTypeException, IllegalInsertionException {
+
+        @Test(expected = IllegalInsertionException.class)
+        public void Test1 () throws WrongCardTypeException, IllegalInsertionException {
         resourceIn.add(Resource.COIN);
         resourceIn.add(Resource.SERVANT);
         resourceIn.add(Resource.COIN);
-        for(LeaderCard lc : StorageLeaderCards){
+        for (LeaderCard lc : StorageLeaderCards) {
             if (lc.getStorageCardActivationCostResources().containsKey(Resource.COIN)) {
                 ((StorageLeaderCard) lc).putResourceInCardStorage(resourceIn, null);
             }
         }
     }
+
 
     @Test (expected = IllegalInsertionException.class)
     public void Test2() throws WrongCardTypeException, IllegalInsertionException {
