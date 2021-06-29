@@ -78,7 +78,6 @@ public class ServerHandler implements Runnable{
             while(!stop) {
                 System.out.println("\nWaiting for a json message from server...");
                 try {
-                        if(shouldStop.get()) break;
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);
                         if(jsonMessage != null) {
@@ -87,6 +86,7 @@ public class ServerHandler implements Runnable{
                             System.out.println("\n");
                             message.clientProcess(this);
                         }
+
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {
@@ -97,8 +97,10 @@ public class ServerHandler implements Runnable{
                         throw e;
                     }
                 }
-                if (shouldStop.get())
+                if (shouldStop.get()) {
                     stop = true;
+                    //this.getView().closeScanner();
+                }
             }
         } catch (MalformedJsonException e){
             System.out.println("Invalid json object from server");

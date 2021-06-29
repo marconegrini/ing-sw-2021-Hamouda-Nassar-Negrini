@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 import it.polimi.ingsw.messages.fromServer.*;
+import it.polimi.ingsw.messages.fromServer.activateProduction.PersonalProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
@@ -29,6 +30,8 @@ public class TurnManager {
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
     private List<Resource> resorucesToStore;
+    private List<Resource> resourcesFromFirstProduction;
+    private boolean obtainedFaithPointsFromProduction;
     private boolean done;
     private Player firstPlayerToEnd;
     private boolean endedFaithPath;
@@ -53,6 +56,8 @@ public class TurnManager {
         this.endedFaithPath = false;
         this.accesses = 0;
         this.disconnected = false;
+        this.resourcesFromFirstProduction = new ArrayList<>();
+        this.obtainedFaithPointsFromProduction = false;
     }
 
     /**
@@ -513,22 +518,23 @@ public class TurnManager {
     public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
         System.out.println(slots.toString());
         System.out.println(player.getPeekCardsInDevCardSLots());
-        if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true);
-        if (slots.size() > 3) return new ProductionResultMessage(true,"From server: Already selected the maximum of 3 slots!", false);
+        if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true, player.getClonedWarehouse(), player.getClonedCoffer());
+        if (slots.size() > 3) return new ProductionResultMessage(true,"From server: Already selected the maximum of 3 slots!", false, null, null);
         List<Resource> productionInCost = new ArrayList<>();
         //collects the resources needed to activate production in selected slots/slots
         for (Integer slotNum : slots) {
             try {
                 productionInCost.addAll(player.devCardSlotProductionIn(slotNum));
             } catch (EmptySlotException e1) {
-                return new ProductionResultMessage(true,"Selected an empty slot", false);
+                return new ProductionResultMessage(true,"Selected an empty slot", false, null, null);
             } catch (IndexOutOfBoundsException e2) {
-                return new ProductionResultMessage(true, "Selected invalid slot number", false);
+                return new ProductionResultMessage(true, "Selected invalid slot number", false, null, null);
             }
         }
 
         //checks if resources needed for production are satisfied by warehouse and/or coffer
         if (containsNeededResources(player, productionInCost)) {
+            System.out.println(productionInCost);
 
             pullNeededResources(player, productionInCost);
 
@@ -538,6 +544,7 @@ public class TurnManager {
             //increment user's faith path position and updates other users (if multiplayer) if Resource.FAITH is/are present
             for(Resource resource : resourcesProductionOut){
                 if(resource.equals(Resource.FAITH)){
+                    obtainedFaithPointsFromProduction = true;
                     player.incrementFaithPathPosition();
                     if(multiplayer) {
                         Integer newPosition = player.getFaithPathPosition();
@@ -555,17 +562,17 @@ public class TurnManager {
             //removes faith resources
             while(resourcesProductionOut.contains(Resource.FAITH))
                 resourcesProductionOut.remove(Resource.FAITH);
-            //adds production out resources in coffer
-            player.putCofferResources(resourcesProductionOut);
+
+            //player.putCofferResources(resourcesProductionOut);
+            this.resourcesFromFirstProduction.addAll(resourcesProductionOut);
             //checks if production power leader card is activated
             boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
-            turnDone();
             if(usedLC) {
-                return new ProductionResultMessage(false,"Activated production and resources inserted in coffer. Leader card power used.", true);
+                return new ProductionResultMessage(false,"Activated production and resources brought from coffer. Leader card power used.", true, player.getClonedWarehouse(), player.getClonedCoffer());
             } else {
-                return new ProductionResultMessage(false, "Activated production and resources inserted in coffer", true);
+                return new ProductionResultMessage(false, "Activated production and resources brought coffer", true, player.getClonedWarehouse(), player.getClonedCoffer());
             }
-        } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true);
+        } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true, player.getClonedWarehouse(), player.getClonedCoffer());
     }
 
     /**
@@ -576,26 +583,76 @@ public class TurnManager {
      * @param leaderResource resource selected if a production power leader card is activated
      * @return
      */
-    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource) {
-        List<Resource> productionCost = new ArrayList();
-        productionCost.add(prodIn1);
-        productionCost.add(prodIn2);
+    public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource, boolean asSecondProduction, boolean activate) {
+        if(activate) {
+            List<Resource> productionCost = new ArrayList();
+            productionCost.add(prodIn1);
+            productionCost.add(prodIn2);
 
-        if (containsNeededResources(player, productionCost)) {
+            if (containsNeededResources(player, productionCost)) {
+                //the player does have needed resources
 
-            pullNeededResources(player, productionCost);
-            List<Resource> resourceOut = new ArrayList<>();
-            resourceOut.add(prodOut);
-            player.putCofferResources(resourceOut);
+                pullNeededResources(player, productionCost);
+                List<Resource> resourceOut = new ArrayList<>();
+                resourceOut.add(prodOut);
+                if(asSecondProduction){
+                    //it's the second production, add resources to the previously obtained. Terminate turn.
+                    resourcesFromFirstProduction.addAll(resourceOut);
+                    player.putCofferResources(resourcesFromFirstProduction);
+                    resourcesFromFirstProduction.clear();
+                    obtainedFaithPointsFromProduction = false;
+                    turnDone();
+                    return new PersonalProductionResultMessage(false, "Obtained the resource from personal production",  true);
+                } else {
+                    //It's the first production of the player. Try to activate leader production and terminate turn.
+                    player.putCofferResources(resourceOut);
+                    boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
+                    turnDone();
+                    if (usedLC) {
+                        return new PersonalProductionResultMessage(false, "Activated personal production and resources inserted in coffer. Leader card power used.", false);
+                    } else {
+                        return new PersonalProductionResultMessage(false, "Activated personal production and resources inserted in coffer", false);
+                    }
+                }
 
-            boolean usedLC = this.activateLeaderCardProduction(player, leaderResource);
-            turnDone();
-            if(usedLC) {
-                return new ProductionResultMessage(false, "Activated personal production and resources inserted in coffer. Leader card power used.", true);
             } else {
-                return new ProductionResultMessage(false, "Activated personal production and resources inserted in coffer", true);
+                //the player doesn't have needed resources
+
+                if (asSecondProduction) {
+                    //It's the second production activated by the user.
+                    //Checks whether the player has previously obtained something.
+                    if(!resourcesFromFirstProduction.isEmpty() || obtainedFaithPointsFromProduction){
+                        //the player obtained something before. Terminate turn.
+                        player.putCofferResources(resourcesFromFirstProduction);
+                        resourcesFromFirstProduction.clear();
+                        obtainedFaithPointsFromProduction = false;
+                        turnDone();
+                        return new PersonalProductionResultMessage(false, "Insufficient resources to activate personal production.\n Previously obtained resources inserted in coffer.", true);
+                    } else {
+                        //the player didn't obtained anything before. The turn is not done.
+                        return new PersonalProductionResultMessage(true, "Insufficient resources to activate personal production. \n You haven't obtained anything previously.", false);
+                    }
+                } else {
+                    //it's the only production activated by the user. He doesn't have needed resources. The turn is not done.
+                    return new PersonalProductionResultMessage(true, "Insufficient resources to activate personal production.", false);
+                }
             }
-        } else return new ProductionResultMessage(true,"Insufficient resources to activate personal production", true);
+
+        } else {
+            //It's the second production made by the user and the player decided not to activate it.
+            //Checks whether the player has obtained something previously
+            if(!resourcesFromFirstProduction.isEmpty() || obtainedFaithPointsFromProduction){
+                //the player has obtained resources or faith points from main production. The turn is done
+                player.putCofferResources(resourcesFromFirstProduction);
+                resourcesFromFirstProduction.clear();
+                obtainedFaithPointsFromProduction = false;
+                turnDone();
+                return new PersonalProductionResultMessage(false, "Personal production not activated. Added resources previously obtained.", true);
+            } else {
+                //the player hasn't obtained anything before.
+                return new PersonalProductionResultMessage(true, "Personal production not activated. You haven't obtained resources or faith points previously.", false);
+            }
+        }
     }
 
     /**

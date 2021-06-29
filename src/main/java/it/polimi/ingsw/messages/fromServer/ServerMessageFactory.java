@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.messages.fromServer.activateProduction.PersonalProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.update.*;
@@ -127,6 +128,9 @@ public class ServerMessageFactory {
                     break;
                 case PRODUCTIONRESULT:
                     returnMessage = gson.fromJson(receivedMessage, ProductionResultMessage.class);
+                    break;
+                case PERSONALPRODUCTIONRESULT:
+                    returnMessage = gson.fromJson(receivedMessage, PersonalProductionResultMessage.class);
                     break;
                 case MOVERESOURCESRESULT:
                     returnMessage = gson.fromJson(receivedMessage, MoveResourcesResultMessage.class);

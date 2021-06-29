@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.enumerations.Level;
 import it.polimi.ingsw.enumerations.Resource;
@@ -21,7 +22,7 @@ public class DevCardSlots {
             cardSlot.add(new Stack<>());
             cardSlotNumber--;
         }
-        /*
+
         //debugging
         HashMap<Resource, Integer> cardCost;
         HashMap<Resource, Integer> prodIn;
@@ -48,7 +49,7 @@ public class DevCardSlots {
         cardSlot.get(1).push(card2);
         cardSlot.get(2).push(card2);
 
-         */
+
     }
 
     /**
