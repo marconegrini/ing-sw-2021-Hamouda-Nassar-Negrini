@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.BuyDevelopmentCardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.BuyDevelopmentCardController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="692.0" prefWidth="948.0" styleClass="renaissanceBackground" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -18,12 +18,12 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Label fx:id="title" layoutX="32.0" layoutY="28.0" maxHeight="102.0" maxWidth="537.0" prefHeight="90.0" prefWidth="537.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Buy Development Cards" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="574.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="483.0" AnchorPane.topAnchor="28.0">
+            <Label fx:id="title" layoutX="32.0" layoutY="28.0" maxHeight="102.0" maxWidth="537.0" prefHeight="92.0" prefWidth="537.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Buy Development Cards" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="522.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="483.0" AnchorPane.topAnchor="28.0">
                <font>
                   <Font size="59.0" />
                </font>
             </Label>
-            <Button fx:id="playButton" layoutX="578.0" layoutY="590.0" mnemonicParsing="false" onAction="#selectDevCard" prefHeight="62.0" prefWidth="401.0" text="Select" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="578.0" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="590.0">
+            <Button fx:id="playButton" layoutX="551.0" layoutY="556.0" mnemonicParsing="false" onAction="#selectDevCard" prefHeight="62.0" prefWidth="401.0" text="Select" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="551.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="556.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -32,18 +32,18 @@
             <CheckBox fx:id="selectedSecond" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
             <CheckBox fx:id="selectedThird" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
             <CheckBox fx:id="selectedFourth" layoutX="156.0" layoutY="9.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
-            <Label fx:id="card1" layoutX="370.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="199.0" AnchorPane.topAnchor="132.0" />
-            <Label fx:id="card2" layoutX="370.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="132.0" />
-            <Label fx:id="card3" layoutX="537.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="537.0" AnchorPane.topAnchor="132.0" />
-            <Label fx:id="card4" layoutX="703.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="703.0" AnchorPane.topAnchor="132.0" />
-            <Label fx:id="card5" layoutX="866.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="866.0" AnchorPane.topAnchor="132.0" />
-            <Label fx:id="card6" layoutX="32.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="359.0" />
-            <Label fx:id="card7" layoutX="199.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="199.0" AnchorPane.topAnchor="359.0" />
-            <Label fx:id="card8" layoutX="370.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="359.0" />
-            <Label fx:id="card9" layoutX="537.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="537.0" AnchorPane.topAnchor="359.0" />
-            <Label fx:id="card10" layoutX="703.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="703.0" AnchorPane.topAnchor="359.0" />
-            <Label fx:id="card11" layoutX="866.0" layoutY="359.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="866.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="359.0" />
-            <Button fx:id="backButton" layoutX="74.0" layoutY="590.0" mnemonicParsing="false" onAction="#back" prefHeight="62.0" prefWidth="401.0" stylesheets="@../../css/buttons.css" text="Back">
+            <Label fx:id="card1" layoutX="370.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="311.0" AnchorPane.leftAnchor="199.0" AnchorPane.topAnchor="132.0" />
+            <Label fx:id="card2" layoutX="370.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="311.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="132.0" />
+            <Label fx:id="card3" layoutX="537.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="311.0" AnchorPane.leftAnchor="537.0" AnchorPane.topAnchor="132.0" />
+            <Label fx:id="card4" layoutX="703.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="311.0" AnchorPane.leftAnchor="703.0" AnchorPane.topAnchor="132.0" />
+            <Label fx:id="card5" layoutX="866.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="311.0" AnchorPane.leftAnchor="866.0" AnchorPane.topAnchor="132.0" />
+            <Label fx:id="card6" layoutX="32.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="349.0" />
+            <Label fx:id="card7" layoutX="199.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="199.0" AnchorPane.topAnchor="349.0" />
+            <Label fx:id="card8" layoutX="370.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="349.0" />
+            <Label fx:id="card9" layoutX="537.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="537.0" AnchorPane.topAnchor="349.0" />
+            <Label fx:id="card10" layoutX="703.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="703.0" AnchorPane.topAnchor="349.0" />
+            <Label fx:id="card11" layoutX="866.0" layoutY="349.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="866.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="349.0" />
+            <Button fx:id="backButton" layoutX="74.0" layoutY="559.0" mnemonicParsing="false" onAction="#back" prefHeight="62.0" prefWidth="401.0" stylesheets="@../../css/buttons.css" text="Back">
                <font>
                   <Font size="30.0" />
                </font>
@@ -88,7 +88,7 @@
                <font>
                   <Font size="30.0" />
                </font></Label>
-            <Label fx:id="card0" layoutX="32.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="221.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" />
+            <Label fx:id="card0" layoutX="32.0" layoutY="132.0" onMouseClicked="#selectCard" prefHeight="199.0" prefWidth="151.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" />
          </children>
          <stylesheets>
             <URL value="@../../css/game/chooseLeaderCard.css" />

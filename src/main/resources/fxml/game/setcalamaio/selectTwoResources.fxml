@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.setcalamaio.SelectTwoResourceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.setcalamaio.SelectTwoResourceController">
    <children>
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="renaissanceBackground" stylesheets="@../../../css/game/chooseLeaderCard.css" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -22,7 +22,7 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Button fx:id="playButton" layoutX="288.0" layoutY="590.0" mnemonicParsing="false" onAction="#ContinueToGame" prefHeight="69.0" prefWidth="478.0" text="Select" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="590.0">
+            <Button fx:id="playButton" layoutX="288.0" layoutY="578.0" mnemonicParsing="false" onAction="#ContinueToGame" prefHeight="53.0" prefWidth="478.0" text="Select" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="286.0" AnchorPane.topAnchor="578.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -81,7 +81,7 @@
                   <String fx:value="notSelectedCard" />
                </styleClass>
             </Label>
-            <Label layoutX="666.0" layoutY="286.0" prefHeight="287.0" prefWidth="278.0" style="-fx-border-color: #1d1d2b; -fx-border-width: 5;" styleClass="warehouse" stylesheets="@../../../css/game/warehouse.css" />
+            <Label layoutX="665.0" layoutY="257.0" prefHeight="287.0" prefWidth="278.0" style="-fx-border-color: #1d1d2b; -fx-border-width: 5;" styleClass="warehouse" stylesheets="@../../../css/game/warehouse.css" />
             <RadioButton fx:id="servantRadio1" layoutX="132.0" layoutY="413.0" mnemonicParsing="false" opacity="0.0" text="servant">
                <toggleGroup>
                   <ToggleGroup fx:id="resource1" />
@@ -90,7 +90,7 @@
             <RadioButton fx:id="coinRadio1" layoutX="281.0" layoutY="446.0" mnemonicParsing="false" opacity="0.0" text="coin" toggleGroup="$resource1" />
             <RadioButton fx:id="stoneRadio1" layoutX="421.0" layoutY="446.0" mnemonicParsing="false" opacity="0.0" text="stone" toggleGroup="$resource1" />
             <RadioButton fx:id="shieldRadio1" layoutX="411.0" layoutY="392.0" mnemonicParsing="false" opacity="0.0" text="shield" toggleGroup="$resource1" />
-            <GridPane fx:id="thirdShelf" layoutX="775.0" layoutY="346.0" onMouseClicked="#selectThirdShelf" prefHeight="60.0" prefWidth="87.0" AnchorPane.bottomAnchor="286.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="346.0">
+            <GridPane fx:id="thirdShelf" layoutX="770.0" layoutY="316.0" onMouseClicked="#selectThirdShelf" prefHeight="69.0" prefWidth="97.0" AnchorPane.bottomAnchor="257.0" AnchorPane.leftAnchor="770.0" AnchorPane.rightAnchor="185.0" AnchorPane.topAnchor="316.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -101,7 +101,7 @@
                   <Label prefHeight="94.0" prefWidth="88.0" />
                </children>
             </GridPane>
-            <GridPane fx:id="secondShelf" layoutX="746.0" layoutY="416.0" onMouseClicked="#selectSecondShelf" prefHeight="60.0" prefWidth="144.0" AnchorPane.bottomAnchor="216.0" AnchorPane.leftAnchor="746.0" AnchorPane.rightAnchor="162.0" AnchorPane.topAnchor="416.0">
+            <GridPane fx:id="secondShelf" layoutX="743.0" layoutY="398.0" onMouseClicked="#selectSecondShelf" prefHeight="47.0" prefWidth="142.0" AnchorPane.bottomAnchor="197.0" AnchorPane.leftAnchor="743.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="398.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -114,7 +114,7 @@
                   <Label prefHeight="77.0" prefWidth="87.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <GridPane fx:id="firstShelf" layoutX="713.0" layoutY="487.0" onMouseClicked="#selectFirstShelf" prefHeight="60.0" prefWidth="201.0" AnchorPane.bottomAnchor="145.0" AnchorPane.leftAnchor="713.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="487.0">
+            <GridPane fx:id="firstShelf" layoutX="718.0" layoutY="472.0" onMouseClicked="#selectFirstShelf" prefHeight="47.0" prefWidth="185.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="718.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="472.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
