@@ -32,7 +32,7 @@ public abstract class   View {
 
     public abstract void endWaitingRoom();
 
-    public abstract void startGame();
+    public abstract void startGame(boolean isMultiplayer);
 
     public abstract void showMessage(String message, boolean forGuiAlso, boolean error);
 
