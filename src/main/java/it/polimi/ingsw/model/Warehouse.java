@@ -28,7 +28,7 @@ public class Warehouse implements Deposit{
 
     /**
      * @param wh custom constructor used to create a warehouse object in the light model.
-     *               The Warehouse object is build client side after receiving via json file the HashMap<Integer, Storage>
+     *               The Warehouse object is build client side after receiving via json file the HashMap Integer, Storage
      *               corresponding to the model's warehouse content
      */
     public Warehouse(HashMap<Integer, Storage> wh){

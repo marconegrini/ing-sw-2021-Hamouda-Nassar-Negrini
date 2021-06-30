@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.messages.fromServer.OkMessage;
+import it.polimi.ingsw.messages.fromServer.activateProduction.PersonalProductionResultMessage;
+import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ErrorWarehouseMessage;
 import it.polimi.ingsw.messages.fromServer.storeResources.ResourcesToStoreMessage;
@@ -178,7 +180,7 @@ public class ControllerTest1 {
     }
 
     @Test
-    public void buyDEvCardTest() throws IllegalInsertionException, AlreadyActivatedLeaderCardException, InsufficientResourcesException, AlreadyDiscardedLeaderCardException {
+    public void buyDevCardTest() throws IllegalInsertionException, AlreadyActivatedLeaderCardException, InsufficientResourcesException, AlreadyDiscardedLeaderCardException {
         HashMap<Resource, Integer> cardCost;
         HashMap<Resource, Integer> prodIn;
         HashMap<Resource, Integer> prodOut;
@@ -303,12 +305,46 @@ public class ControllerTest1 {
         resources.add(Resource.SERVANT);
         resources.add(Resource.SERVANT);
         player1.putWarehouseResources(3, resources);
-        turnManager.activateProduction(player1, slots, null);
-        resources.clear();
-        resources.add(Resource.SHIELD);
-        resources.add(Resource.SHIELD);
-        //assertEquals(resources, player1.getCofferResource());
+        assertEquals(false,((ProductionResultMessage) turnManager.activateProduction(player1, slots, null)).getError());
         assertEquals(java.util.Optional.of(2), java.util.Optional.of(player1.getFaithPathPosition()));
+    }
+
+    @Test
+    public void activateProductionTest1() throws IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 1);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 1);
+        prodIn.put(Resource.COIN, 1);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.SHIELD, 1);
+        prodOut.put(Resource.FAITH, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.YELLOW, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.GREEN, Level.FIRST, cardCost, prodIn, prodOut);
+        player1.addCardInDevCardSlot(1, card1);
+        player1.addCardInDevCardSlot(2, card2);
+
+        List<Integer> slots = new ArrayList<>();
+        slots.add(0);
+
+        assertEquals(true, ((ProductionResultMessage) turnManager.activateProduction(player1, slots, null)).getError());
+
+        slots.clear();
+        slots.add(4);
+        assertEquals(true, ((ProductionResultMessage) turnManager.activateProduction(player1, slots, null)).getError());
+
     }
 
     @Test
@@ -329,8 +365,205 @@ public class ControllerTest1 {
         resources.add(Resource.COIN);
         turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, false, true);
         assertEquals(resources, player1.getTotalResource());
-
     }
+
+    @Test
+    public void activatePersonalProductionTest2() throws StorageOutOfBoundsException, IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+        List<Resource> resources = new ArrayList<>();
+        resources.add(Resource.SHIELD);
+        player1.putWarehouseResources(1, resources);
+        resources.clear();
+        resources.add(Resource.STONE);
+        player1.putWarehouseResources(2, resources);
+        resources.clear();
+        resources.add(Resource.COIN);
+        player1.putWarehouseResources(3, resources);
+        resources.add(Resource.COIN);
+        turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, true, true);
+        assertEquals(resources, player1.getTotalResource());
+    }
+
+    @Test
+    public void activatePersonalProductionTest3() throws StorageOutOfBoundsException, IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 1);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 1);
+        prodIn.put(Resource.COIN, 1);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.SHIELD, 1);
+        prodOut.put(Resource.FAITH, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.YELLOW, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.GREEN, Level.FIRST, cardCost, prodIn, prodOut);
+        player1.addCardInDevCardSlot(1, card1);
+        player1.addCardInDevCardSlot(2, card2);
+
+        List<Integer> slots = new ArrayList<>();
+        slots.add(1);
+        slots.add(2);
+        List<Resource> resources = new ArrayList();
+        resources.add(Resource.COIN);
+        resources.add(Resource.COIN);
+        player1.putWarehouseResources(2, resources);
+        resources.clear();
+        resources.add(Resource.SERVANT);
+        resources.add(Resource.SERVANT);
+        player1.putWarehouseResources(3, resources);
+        turnManager.activateProduction(player1, slots, null);
+        //in the personal production the player is not going to obtain anything
+        String resultMessage = "Insufficient resources to activate personal production.\n Previously obtained resources inserted in coffer.";
+        assertEquals(resultMessage, ((PersonalProductionResultMessage) turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, true, true)).getMessage());
+    }
+
+    @Test
+    public void activatePersonalProductionTest4() throws StorageOutOfBoundsException, IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 2);
+        cardCost.put(Resource.COIN, 2);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 2);
+        prodIn.put(Resource.COIN, 2);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.SHIELD, 1);
+        prodOut.put(Resource.FAITH, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.YELLOW, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.GREEN, Level.FIRST, cardCost, prodIn, prodOut);
+        player1.addCardInDevCardSlot(1, card1);
+        player1.addCardInDevCardSlot(2, card2);
+
+        List<Integer> slots = new ArrayList<>();
+        slots.add(1);
+        slots.add(2);
+        List<Resource> resources = new ArrayList();
+        resources.add(Resource.COIN);
+        resources.add(Resource.COIN);
+        player1.putWarehouseResources(2, resources);
+        resources.clear();
+        resources.add(Resource.SERVANT);
+        resources.add(Resource.SERVANT);
+        player1.putWarehouseResources(3, resources);
+        turnManager.activateProduction(player1, slots, null);
+        //in the personal production the player is not going to obtain anything
+        String resultMessage = "Insufficient resources to activate personal production. \n You haven't obtained anything previously.";
+        assertEquals(resultMessage, ((PersonalProductionResultMessage) turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, true, true)).getMessage());
+    }
+
+    @Test
+    public void activatePersonalProductionTest5() throws StorageOutOfBoundsException, IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 1);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 1);
+        prodIn.put(Resource.COIN, 1);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.SHIELD, 1);
+        prodOut.put(Resource.FAITH, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.YELLOW, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.GREEN, Level.FIRST, cardCost, prodIn, prodOut);
+        player1.addCardInDevCardSlot(1, card1);
+        player1.addCardInDevCardSlot(2, card2);
+
+        List<Integer> slots = new ArrayList<>();
+        slots.add(1);
+        slots.add(2);
+        List<Resource> resources = new ArrayList();
+        resources.add(Resource.COIN);
+        resources.add(Resource.COIN);
+        player1.putWarehouseResources(2, resources);
+        resources.clear();
+        resources.add(Resource.SERVANT);
+        resources.add(Resource.SERVANT);
+        player1.putWarehouseResources(3, resources);
+        turnManager.activateProduction(player1, slots, null);
+        //in the personal production the player is not going to obtain anything
+        String resultMessage = "Personal production not activated. Added resources previously obtained.";
+        assertEquals(resultMessage, ((PersonalProductionResultMessage) turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, true, false)).getMessage());
+    }
+
+    @Test
+    public void activatePersonalProductionTest6() throws StorageOutOfBoundsException, IllegalInsertionException {
+        List<LeaderCard> lc = new ArrayList();
+        lc.add(discountLeaderCard);
+        lc.add(storageLeaderCard);
+        player1.setLeaderCards(lc);
+
+        HashMap<Resource, Integer> cardCost;
+        HashMap<Resource, Integer> prodIn;
+        HashMap<Resource, Integer> prodOut;
+        cardCost = new HashMap<>();
+        cardCost.put(Resource.SERVANT, 1);
+        cardCost.put(Resource.COIN, 1);
+
+        prodIn = new HashMap<>();
+        prodIn.put(Resource.SERVANT, 4);
+        prodIn.put(Resource.COIN, 2);
+
+        prodOut = new HashMap<>();
+        prodOut.put(Resource.SHIELD, 1);
+        prodOut.put(Resource.FAITH, 1);
+
+        DevelopmentCard card1 = new DevelopmentCard(2, CardColor.YELLOW, Level.FIRST, cardCost, prodIn, prodOut);
+        DevelopmentCard card2 = new DevelopmentCard(2, CardColor.GREEN, Level.FIRST, cardCost, prodIn, prodOut);
+        player1.addCardInDevCardSlot(1, card1);
+        player1.addCardInDevCardSlot(2, card2);
+
+        List<Integer> slots = new ArrayList<>();
+        slots.add(1);
+        slots.add(2);
+        List<Resource> resources = new ArrayList();
+        resources.add(Resource.COIN);
+        resources.add(Resource.COIN);
+        player1.putWarehouseResources(2, resources);
+        resources.clear();
+        resources.add(Resource.SERVANT);
+        resources.add(Resource.SERVANT);
+        player1.putWarehouseResources(3, resources);
+        turnManager.activateProduction(player1, slots, null);
+        //in the personal production the player is not going to obtain anything
+        String resultMessage = "Personal production not activated. You haven't obtained resources or faith points previously.";
+        assertEquals(resultMessage, ((PersonalProductionResultMessage) turnManager.activatePersonalProduction(player1, Resource.SHIELD, Resource.STONE, Resource.COIN, null, true, false)).getMessage());
+    }
+
+
 
     @Test
     public void activateLeaderCardProductionTest() throws AlreadyActivatedLeaderCardException, InsufficientResourcesException, AlreadyDiscardedLeaderCardException, IllegalInsertionException, StorageOutOfBoundsException {

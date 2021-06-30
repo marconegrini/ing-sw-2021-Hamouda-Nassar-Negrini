@@ -12,10 +12,16 @@ import it.polimi.ingsw.model.Warehouse;
 import java.util.HashMap;
 
 /**
- * Contains the outcome of the activate production action on certain development slots. If the action requested
- * was not possible to be perform, the flag error is set to true and a redirection to the activateProduction method is
- * performed. If the player can't proceed with the action for unsufficient resources, the flag toMenu is set to true
- * and the player is redirected to the actions main menu.
+ * The playing user has the possibility to:
+ * 1) activate normal production and eventually activate the personal later.
+ * 2) activate personal production instead of the normal one
+ * In the first case this message is the first to be sent: if the production fails due to parameters integrity errors,
+ * the player is requested to perform again the normal production. If the production fails due to insufficient resources or
+ * if the production succeed, the player will be requested from turn manager to perform the personal production.
+ * The production routine can have three different endings:
+ * - if the normal production fails and the personal one succeeds, the player terminates the turn.
+ * - if the normal production fails and the personal one fails, the player is requested to select another action to perform.
+ * - if the normal production succeeds, with any outcome of the personal production the player will terminate the turn.
  */
 public class ProductionResultMessage extends ServerMessage {
 
@@ -63,6 +69,11 @@ public class ProductionResultMessage extends ServerMessage {
             message = serverHandler.getView().activatePersonalProduction();
         }
         serverHandler.sendJson(message);
+    }
+
+    //for debugging
+    public boolean getError(){
+        return this.error;
     }
 }
 

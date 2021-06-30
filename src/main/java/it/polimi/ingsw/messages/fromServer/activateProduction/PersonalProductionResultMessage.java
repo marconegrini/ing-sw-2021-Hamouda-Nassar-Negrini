@@ -9,6 +9,17 @@ import it.polimi.ingsw.server.Server;
 
 import java.util.List;
 
+/**
+ * The playing user has the possibility to:
+ * 1) activate personal production instead of the normal one
+ * 2) activate normal production and eventually activate the personal later.
+ * In the first case this message is the only one sent: if the production fails the player is requested to select another action,
+ * otherwise terminates the turn.
+ * In the second case this message is sent from turn manager after a normal production has been performed:
+ * - if the normal production failed and the personal one succeeds, the player terminates the turn.
+ * - if the normal production failed and the personal one fails, the player is requested to select another action to perform.
+ * - if the normal production succeeded, with any outcome of the personal production the player will terminate the turn.
+ */
 public class PersonalProductionResultMessage extends ServerMessage {
     private boolean error;
     private String resultMessage;
@@ -38,6 +49,11 @@ public class PersonalProductionResultMessage extends ServerMessage {
                 serverHandler.getView().showMessage(resultMessage, true, false);
             }
         }
+    }
+
+    //for testing
+    public String getMessage(){
+        return this.resultMessage;
     }
 
 }

@@ -28,7 +28,7 @@ public class Coffer implements Deposit{
 
     /**
      * @param coffer custom constructor used to create a coffer object in the light model.
-     *               The Coffer object is build client side after receiving via json file the HashMap<Resource, Integer>
+     *               The Coffer object is build client side after receiving via json file the HashMap Resource, Integer
      *               corresponding to the model's coffer content
      */
     public Coffer(Map<Resource, Integer> coffer){
