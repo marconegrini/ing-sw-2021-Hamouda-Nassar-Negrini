@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 
 public class ClientCLI implements Runnable{
@@ -16,19 +18,36 @@ public class ClientCLI implements Runnable{
     /**
      * run method that handles ServerHandler thread
      */
+    String defaultServerIP = "127.0.0.1";
+
     @Override
-    public void run(){
-        Socket server;
-        try {
-            server = new Socket("127.0.0.1", 5056);
-        } catch (IOException e){
-            System.out.println("Server unreachable");
-            return;
+    public void run() {
+        String userInput = "";
+        Socket server = null;
+        System.out.println("Insert the server IP (type \"exit\" to exit): ");
+        Scanner scanner = new Scanner(System.in);
+        boolean ok = false;
+        while (!ok && server == null) {
+            userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("EXIT")) {
+                break;
+            } else {
+                if (userInput.equals("localhost") || userInput.equals("\n") || userInput.equals("")){
+                    userInput = defaultServerIP;
+                    ok = true;
+            }
+                try {
+                    server = new Socket(userInput, 5056);
+                    ok = true;
+                } catch (IOException e) {
+                    System.out.println("Server unreachable, Try another ip address: ");
+                }
+            }
         }
-        serverHandler = new ServerHandler(server, true);
-        Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
-        serverHandlerThread.start();
-    }
+                serverHandler = new ServerHandler(server, true);
+                Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+                serverHandlerThread.start();
+            }
 
 }
 

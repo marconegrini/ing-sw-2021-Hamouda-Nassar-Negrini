@@ -21,6 +21,12 @@ public class InsertResourcesInWarehouseMessage extends ClientMessage{
     private List<Resource> resources;
     private Integer shelf;
 
+    /**
+     *
+     *  @param discard a boolean that indicate the operation to do in the resources chosen buy the player since this message is sent in the both cases of INSERT or DISCARD resources of the client
+     * @param resources a list of resources chosen by the player
+     * @param shelf the shelf chosen by the player
+     */
     public InsertResourcesInWarehouseMessage(boolean discard, List<Resource> resources, Integer shelf){
         super(ClientMessageType.INSERTRESOURCESINWAREHOUSE);
         this.discard = discard;

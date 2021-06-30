@@ -14,7 +14,6 @@ public class ClientApp {
         boolean cliParam = false; // default value
 
 
-//         cliParam = true; //temporary //TODO to delete the line
 
         System.out.println(Arrays.toString(ASCII_Resources.values()));
         System.out.println(Arrays.toString(ASCII_DV_Cards.values()));
@@ -26,11 +25,11 @@ public class ClientApp {
 
 
         for (String arg : args) {
-//            if (arg.equals("--cli") || arg.equals("-c")) {
+            if (arg.equals("--cli") || arg.equals("-c")) {
                 cliParam = true;
                 break;
             }
-
+        }
 
         if (cliParam) {
             ClientCLI clientCLI = new ClientCLI();

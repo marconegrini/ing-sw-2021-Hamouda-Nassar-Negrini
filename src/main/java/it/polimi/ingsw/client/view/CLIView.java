@@ -554,11 +554,13 @@ public class CLIView extends View {
                                 yn = scanner.nextLine();
                                 yn = yn.toUpperCase(Locale.ROOT);
                                 switch (yn) {
-                                    case ("NO|N"):
+                                    case ("NO"):
+                                    case ("N"):
                                         resourceOK = true;
                                         done = true;
                                         break;
-                                    case ("YES|Y"):
+                                    case ("YES"):
+                                    case ("Y"):
                                         resourceOK = false;
                                         done = true;
                                         break;
