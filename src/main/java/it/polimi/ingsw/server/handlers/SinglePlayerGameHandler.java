@@ -112,6 +112,7 @@ public class SinglePlayerGameHandler extends Thread {
         sendToClient(new UpdateWarehouseCofferMessage(clientHandler.getPlayer().getClonedWarehouse(), clientHandler.getPlayer().getClonedCoffer()));
         sendToClient(new UpdateDevCardsSlotMessage(clientHandler.getPlayer().getPeekCardsInDevCardSLots()));
         sendToClient(new UpdateVaticanSectionsMessage(clientHandler.getPlayer().getVaticanSections()));
+        sendToClient(new UpdateLeaderCardStatusMessage(clientHandler.getPlayer().getLeaderCards()));
     }
 
     /**
