@@ -16,7 +16,7 @@ import java.util.List;
  * Class that contains only necessary data structures to save user's current state. There are no integrity rules since structures are
  * updated with model data. At the end of each turn, all Light Model classes associated with users will be updated through Update Messages (ServerMessageType)
  */
-public class    LightModel{
+public class LightModel{
 
     private List<LeaderCard> leaderCards;
     private ArrayList<DevelopmentCard> developmentCardsDeck;

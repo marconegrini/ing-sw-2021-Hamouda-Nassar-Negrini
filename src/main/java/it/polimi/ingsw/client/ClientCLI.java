@@ -19,6 +19,7 @@ public class ClientCLI implements Runnable{
     @Override
     public void run(){
         Socket server;
+
         try {
             server = new Socket("127.0.0.1", 5056);
         } catch (IOException e){
