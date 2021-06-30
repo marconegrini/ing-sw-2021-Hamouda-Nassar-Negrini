@@ -61,7 +61,7 @@ public class BuyDevelopmentCardController {
             label.setBackground(selectedCard.getBackground());
 
             System.out.println("Label to insert: " + label);
-            UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene);
+            UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene, true);
         });
 
         //System.out.println(selectedCard.getId());
@@ -113,11 +113,11 @@ public class BuyDevelopmentCardController {
     }
 
     public void selectSlot(MouseEvent mouseEvent) {
-        System.out.println("selected card:" + ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck());
-        System.out.println("row: "+ row + " col: "+ column);
+        //System.out.println("selected card:" + ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck());
+        //System.out.println("row: "+ row + " col: "+ column);
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         Integer slot = Integer.parseInt(label.getId().substring(4));
-        System.out.println("slot after: " + slot);
+        //System.out.println("slot after: " + slot);
 
         ControllerGUI.getServerHandler().sendJson(new BuyDevCardMessage(row, column, slot));
         Node source = (Node) mouseEvent.getSource();
