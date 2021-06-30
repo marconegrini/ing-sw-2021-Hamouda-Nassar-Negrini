@@ -38,7 +38,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/loginInformation.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 720));
+            SceneManager.setScene(new Scene(root, 1080, 670));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class GUIView extends View {
             source = "fxml/game/setcalamaio/setCalamaio.fxml";
             try {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
-                SceneManager.setScene(new Scene(root, 1080, 720));
+                SceneManager.setScene(new Scene(root, 1080, 670));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -66,7 +66,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(source)));
-            SceneManager.setScene(new Scene(root, 1080, 720));
+            SceneManager.setScene(new Scene(root, 1080, 670));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/chooseLeaderCards.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 720));
+            SceneManager.setScene(new Scene(root, 1080, 670));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,7 +143,7 @@ public class GUIView extends View {
                     e.printStackTrace();
                 }
                 newStage.setTitle("Buy Development Card");
-                Scene scene = new Scene(root, 1080,720);
+                Scene scene = new Scene(root, 1080,670);
                 SceneManager.setPopUpScene(scene);
                 newStage.setScene(scene);
                 newStage.initStyle(StageStyle.TRANSPARENT);
@@ -225,7 +225,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/login/waitingRoom.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 720));
+            SceneManager.setScene(new Scene(root, 1080, 670));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -242,7 +242,7 @@ public class GUIView extends View {
     public void startGame() {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game.fxml")));
-            SceneManager.setScene(new Scene(root, 1300, 720));
+            SceneManager.setScene(new Scene(root, 1300, 670));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -289,7 +289,7 @@ public class GUIView extends View {
 
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/showLeaderCard.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 720));
+            SceneManager.setScene(new Scene(root, 1080, 670));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.login.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.login.LoginController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="titlebg" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Label fx:id="nicknameLabel" layoutX="111.0" layoutY="273.0" maxHeight="80.0" prefHeight="80.0" prefWidth="300.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Nickname" textFill="WHITE" AnchorPane.bottomAnchor="339.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="641.0" AnchorPane.topAnchor="273.0">
+            <Label fx:id="nicknameLabel" layoutX="111.0" layoutY="273.0" maxHeight="81.0" prefHeight="81.0" prefWidth="300.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Nickname" textFill="WHITE" AnchorPane.bottomAnchor="288.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="641.0" AnchorPane.topAnchor="273.0">
                <font>
                   <Font size="48.0" />
                </font>
@@ -24,12 +24,12 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Label fx:id="title" layoutX="104.0" layoutY="27.0" maxHeight="112.0" maxWidth="837.0" prefHeight="112.0" prefWidth="837.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Login" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="553.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="27.0">
+            <Label fx:id="title" layoutX="104.0" layoutY="27.0" maxHeight="101.0" maxWidth="837.0" prefHeight="101.0" prefWidth="837.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Login" textAlignment="CENTER" textFill="#000d80" AnchorPane.bottomAnchor="514.0" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="27.0">
                <font>
                   <Font size="59.0" />
                </font>
             </Label>
-            <Button fx:id="playButton" layoutX="287.0" layoutY="564.0" mnemonicParsing="false" onAction="#askLogin" prefHeight="80.0" prefWidth="478.0" text="Play" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="287.0" AnchorPane.topAnchor="564.0">
+            <Button fx:id="playButton" layoutX="287.0" layoutY="532.0" mnemonicParsing="false" onAction="#askLogin" prefHeight="62.0" prefWidth="478.0" text="Play" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="287.0" AnchorPane.topAnchor="532.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <RadioButton fx:id="noRadioButton" layoutX="810.0" layoutY="424.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="106.0" style="-fx-background-color: #1d1d2b; -fx-alignment: center; -fx-padding: 7; -fx-border-radius: 10; -fx-background-radius: 10;" text="NO" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="216.0" AnchorPane.leftAnchor="810.0" AnchorPane.rightAnchor="136.0" AnchorPane.topAnchor="424.0">
+            <RadioButton fx:id="noRadioButton" layoutX="808.0" layoutY="401.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="106.0" style="-fx-background-color: #1d1d2b; -fx-alignment: center; -fx-padding: 7; -fx-border-radius: 10; -fx-background-radius: 10;" text="NO" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="179.0" AnchorPane.leftAnchor="808.0" AnchorPane.rightAnchor="138.0" AnchorPane.topAnchor="401.0">
                <font>
                   <Font name="Florence-Regular" size="27.0" />
                </font>
@@ -47,12 +47,12 @@
                   <ToggleGroup fx:id="multiplayer" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="yesRadioButton" layoutX="649.0" layoutY="424.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="106.0" style="-fx-background-color: #1d1d2b; -fx-alignment: center; -fx-padding: 7; -fx-background-radius: 10;" text="YES" textAlignment="CENTER" textFill="WHITE" toggleGroup="$multiplayer" AnchorPane.bottomAnchor="216.0" AnchorPane.leftAnchor="649.0" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="424.0">
+            <RadioButton fx:id="yesRadioButton" layoutX="649.0" layoutY="401.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="106.0" style="-fx-background-color: #1d1d2b; -fx-alignment: center; -fx-padding: 7; -fx-background-radius: 10;" text="YES" textAlignment="CENTER" textFill="WHITE" toggleGroup="$multiplayer" AnchorPane.bottomAnchor="179.0" AnchorPane.leftAnchor="649.0" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="401.0">
                <font>
                   <Font name="Florence-Regular" size="27.0" />
                </font>
             </RadioButton>
-            <Label fx:id="multiplayerLabel" layoutX="111.0" layoutY="410.0" maxHeight="80.0" prefHeight="80.0" prefWidth="300.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Multiplayer" textFill="WHITE" AnchorPane.bottomAnchor="202.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="641.0" AnchorPane.topAnchor="410.0">
+            <Label fx:id="multiplayerLabel" layoutX="111.0" layoutY="391.0" maxHeight="81.0" prefHeight="81.0" prefWidth="300.0" style="-fx-alignment: center; -fx-background-color: #6e6e80; -fx-border-width: 5; -fx-border-color: #1d1d2b; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Multiplayer" textFill="WHITE" AnchorPane.bottomAnchor="170.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="641.0" AnchorPane.topAnchor="391.0">
                <font>
                   <Font size="48.0" />
                </font>

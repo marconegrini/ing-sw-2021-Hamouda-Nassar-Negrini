@@ -7,11 +7,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.login.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1080.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.login.LoginController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="14.0" prefHeight="468.0" prefWidth="719.0" styleClass="titlebg" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <Label fx:id="nicknameLabel" layoutX="136.0" layoutY="321.0" maxHeight="116.0" maxWidth="356.0" prefHeight="116.0" prefWidth="320.0" style="-fx-alignment: center; -fx-background-color: #603944; -fx-border-width: 5; -fx-border-color: #201317; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Players in waiting room:" textFill="WHITE" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="136.0" AnchorPane.topAnchor="321.0">
+            <Label fx:id="nicknameLabel" layoutX="136.0" layoutY="321.0" maxHeight="75.0" maxWidth="356.0" prefHeight="75.0" prefWidth="330.0" style="-fx-alignment: center; -fx-background-color: #603944; -fx-border-width: 5; -fx-border-color: #201317; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="Players in waiting room:" textFill="WHITE" AnchorPane.bottomAnchor="246.0" AnchorPane.leftAnchor="136.0" AnchorPane.topAnchor="321.0">
                <font>
                   <Font size="40.0" />
                </font>
@@ -21,17 +21,17 @@
                   <Font size="52.0" />
                </font>
             </Text>
-            <Label fx:id="title" layoutX="96.0" layoutY="27.0" maxHeight="125.0" maxWidth="860.0" prefHeight="125.0" prefWidth="860.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #201317; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Waiting room" textAlignment="CENTER" textFill="#40262d" AnchorPane.bottomAnchor="540.0" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="27.0">
+            <Label fx:id="title" layoutX="96.0" layoutY="27.0" maxHeight="108.0" maxWidth="860.0" prefHeight="108.0" prefWidth="860.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #201317; -fx-border-width: 5; -fx-max-width: 500; -fx-max-height: 100;" text="Waiting room" textAlignment="CENTER" textFill="#40262d" AnchorPane.bottomAnchor="507.0" AnchorPane.leftAnchor="96.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="27.0">
                <font>
                   <Font size="59.0" />
                </font>
             </Label>
-            <Button fx:id="startGameButton" layoutX="241.0" layoutY="550.0" mnemonicParsing="false" onAction="#startGame" prefHeight="69.0" prefWidth="243.0" text="Start game" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="241.0">
+            <Button fx:id="startGameButton" layoutX="241.0" layoutY="550.0" mnemonicParsing="false" onAction="#startGame" prefHeight="75.0" prefWidth="570.0" text="Start game" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="241.0">
                <font>
                   <Font size="30.0" />
                </font>
             </Button>
-            <Label fx:id="playersNumber" layoutX="739.0" layoutY="345.0" maxHeight="69.0" maxWidth="356.0" prefHeight="69.0" prefWidth="72.0" style="-fx-alignment: center; -fx-background-color: #603944; -fx-border-width: 5; -fx-border-color: #201317; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="0" textFill="WHITE" AnchorPane.bottomAnchor="278.0" AnchorPane.leftAnchor="739.0" AnchorPane.rightAnchor="241.0" AnchorPane.topAnchor="345.0">
+            <Label fx:id="playersNumber" layoutX="717.0" layoutY="321.0" maxHeight="75.0" maxWidth="356.0" prefHeight="75.0" prefWidth="94.0" style="-fx-alignment: center; -fx-background-color: #603944; -fx-border-width: 5; -fx-border-color: #201317; -fx-border-radius: 10; -fx-max-height: 50; -fx-max-width: 350; -fx-background-radius: 15;" text="0" textFill="WHITE" AnchorPane.bottomAnchor="246.0" AnchorPane.leftAnchor="717.0" AnchorPane.rightAnchor="241.0" AnchorPane.topAnchor="321.0">
                <font>
                   <Font size="40.0" />
                </font>

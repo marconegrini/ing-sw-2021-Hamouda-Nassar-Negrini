@@ -18,7 +18,7 @@ public class ClientGUI extends Application {
         SceneManager.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle("Master of Renaissance");
-        Scene scene = new Scene(root, 1080, 720);
+        Scene scene = new Scene(root, 1080, 670);
         primaryStage.setScene(scene);
         primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.setOnHidden(e -> controller.shutDown());
