@@ -230,8 +230,9 @@ public class UpdateObjects {
      *
      * @param cardsInSlot Are the new cards that are on the top of the development cards slots
      * @param scene       The Scene in which the update will be done
+     * @param putFrame    Is used to put a blue frame in the empty slots
      */
-    public static void updateDevCardsSlot(HashMap<Integer, DevelopmentCard> cardsInSlot, Scene scene) {
+    public static void updateDevCardsSlot(HashMap<Integer, DevelopmentCard> cardsInSlot, Scene scene, boolean putFrame) {
 
         Set<Integer> keys = cardsInSlot.keySet();
         GridPane devCardsSlotsGrid = (GridPane) scene.lookup("#devCardsSlots");
@@ -249,7 +250,7 @@ public class UpdateObjects {
                             " -fx-background-size: 100% 100%;" +
                             "-fx-border-width: 5");
                     devCardsSlotsGrid.add(card, i, 0);
-                } else {
+                } else if (putFrame) {
                     Label card = new Label();
                     card.setId("card" + i);
                     card.setPrefWidth(230);
@@ -319,14 +320,31 @@ public class UpdateObjects {
                         card.toPath() + ".png\");" +
                         " -fx-background-size: 100% 100%;" +
                         "-fx-border-width: 5");
-            } catch(NullPointerException e){
+            } catch (NullPointerException e) {
                 label.setStyle("-fx-background-image: url(\"images/devcards/backCard.png\");" +
                         " -fx-background-size: 100% 100%;" +
                         "-fx-border-width: 5");
+            }
+            i++;
         }
-        i++;
     }
-}
+
+    public static void updatePopeCards (List<VaticanSection> vaticanSections, Scene scene){
+        for (int i=0; i<3; i++){
+            Label card = (Label) scene.lookup("#popeCard" + i);
+            if (vaticanSections.get(i).isCardFlipped()){
+                card.getStyleClass().add("popeCardFront" + (i+2));
+                if (vaticanSections.get(i).isActivated()){
+                    card.getStyleClass().add("selectedCard");
+                }
+            } else {
+                card.getStyleClass().add("popeCardBack" + (i+2));
+                if(vaticanSections.get(i).isActivated()){
+                    card.getStyleClass().add("redFrame");
+                }
+            }
+        }
+    }
 
 }
 
