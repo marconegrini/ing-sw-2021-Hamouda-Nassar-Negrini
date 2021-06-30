@@ -1,12 +1,9 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.enumerations.ASCII_Marbles;
-import it.polimi.ingsw.enumerations.CardColor;
-import it.polimi.ingsw.enumerations.Level;
-import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +22,7 @@ public class MarketTracer{
         ArrayList<String> result = new ArrayList<>();
 
 
-        result.add("\n-------------# MARKET BOARD #-------------\n");
+        result.add(ANSITextFormat.BOLD_ITALIC +"\n-------------# MARKET BOARD #-------------\n"+ ANSITextFormat.RESET);
 
         marbles = marketBoard.getMarketBoardMarbles();
 
@@ -49,8 +46,8 @@ public class MarketTracer{
 
         result.add("\n");
         result.add                ("\t  ╔═══➞═════════════➞══════╗  \n");
-        result.add( String.format ("\t  ║                       %s║ \n", ASCII_Marbles.getShape(marketBoard.getExternalMarbleColor().toString()) ) );
-        result.add                ("\t  ⬆    ╔═⏫════⏫═══⏫════⏫═╗        \n");
+        result.add( String.format ("\t  ║                       %s〙 \n", ASCII_Marbles.getShape(marketBoard.getExternalMarbleColor().toString()) ) );
+        result.add                ("\t  ⬆    ╔═ ════ ═══ ════ ═╗        \n");
 
 
         //getting and adding the single marbles of a selected row to the string to be printed.
@@ -71,6 +68,10 @@ public class MarketTracer{
 /*
  *
  *
+ *         result.add                ("\t  ⬆    ╔═⏫════⏫═══⏫════⏫═╗        \n");
+
+*
+*
  *     ╔════════════════════════╗              ▀ ▀ ══➞══════▂▂▂▂▂▂➞══════╗
  *     ║                      ⬤║
  *     ║     ╔═⏫════⏫═══⏫═══⏫═╗

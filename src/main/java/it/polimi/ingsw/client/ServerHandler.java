@@ -5,6 +5,7 @@ import com.google.gson.stream.MalformedJsonException;
 import it.polimi.ingsw.client.view.CLIView;
 import it.polimi.ingsw.client.view.GUIView;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
@@ -76,9 +77,8 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println("\nWaiting for a json message from server...");
+                System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
                 try {
-                        if(shouldStop.get()) break;
                         String jsonMessage = reader.readLine();
                         System.out.println(jsonMessage);
                         if(jsonMessage != null) {
@@ -87,6 +87,7 @@ public class ServerHandler implements Runnable{
                             System.out.println("\n");
                             message.clientProcess(this);
                         }
+
                 } catch (IOException e) {
                     /* Check if we were interrupted because another thread has asked us to stop */
                     if (shouldStop.get()) {
@@ -97,8 +98,10 @@ public class ServerHandler implements Runnable{
                         throw e;
                     }
                 }
-                if (shouldStop.get())
+                if (shouldStop.get()) {
                     stop = true;
+                    //this.getView().closeScanner();
+                }
             }
         } catch (MalformedJsonException e){
             System.out.println("Invalid json object from server");

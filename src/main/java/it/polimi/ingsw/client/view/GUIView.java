@@ -326,4 +326,9 @@ public class GUIView extends View {
         Label participantsNumber = (Label) SceneManager.getScene().lookup("#playersNumber");
         Platform.runLater(() -> participantsNumber.setText(s));
     }
+
+    @Override
+    public ClientMessage activatePersonalProduction(){
+        return null;
+    }
 }

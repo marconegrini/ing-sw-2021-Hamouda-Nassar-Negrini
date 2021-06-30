@@ -43,5 +43,7 @@ public abstract class   View {
     public abstract ClientMessage activateProduction();
 
     public abstract void showParticipantsNumber(String s);
+
+    public abstract ClientMessage activatePersonalProduction();
 }
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.CLI;
 
 
+import it.polimi.ingsw.enumerations.ANSITextFormat;
+
 import java.util.*;
 
 
@@ -30,7 +32,7 @@ public class FaithPathTracer {
         NavigableSet<Map.Entry<String, Integer>> treeReverse = sortedEntries.descendingSet();
 
         String stringFormatOthers = "%s is in position: %d";
-        String stringFormatPlayer = "You are in position: %d";
+        String stringFormatPlayer = ANSITextFormat.BOLD + "->" + ANSITextFormat.RESET +"You are in position: %d";
 
 
 
@@ -55,7 +57,7 @@ public class FaithPathTracer {
 
         HashMap<String, Integer> othersPositions = new HashMap<>();
         othersPositions.put("Marco", 2);
-        othersPositions.put("Paolo", 2);
+        othersPositions.put("Adel", 2);
         othersPositions.put("Amir", 2);
 
         FaithPathTracer faithPathTracer = new FaithPathTracer();

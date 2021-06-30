@@ -22,9 +22,5 @@ public class SelectActionMessage extends ServerMessage{
 
         Thread selectAction = new Thread (runnable);
         selectAction.start();
-
-
-        //ClientMessage message = serverHandler.getView().selectAction();
-        //serverHandler.sendJson(message);
     }
 }

@@ -21,20 +21,26 @@ public class ActivatePersonalProductionMessage extends ClientMessage{
     private Resource prodIn2;
     private Resource prodOut;
     private List<Resource> leaderResource;
+    boolean activate;
+    boolean asSecondProduction;
 
-    public ActivatePersonalProductionMessage(Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource) {
+
+    public ActivatePersonalProductionMessage(Resource prodIn1, Resource prodIn2, Resource prodOut,
+                                             List<Resource> leaderResource,
+                                             boolean asSecondProduction, boolean activate) {
         super(ClientMessageType.ACTIVATEPERSONALPRODUCTION);
         this.prodIn1 = prodIn1;
         this.prodIn2 = prodIn2;
         this.prodOut = prodOut;
         this.leaderResource = leaderResource;
+        this.asSecondProduction = asSecondProduction;
+        this.activate = activate;
     }
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
-        Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
-        ServerMessage outcome = turnManager.activatePersonalProduction(clientHandler.getPlayer(), prodIn1, prodIn2, prodOut, leaderResource);
+        ServerMessage outcome = turnManager.activatePersonalProduction(clientHandler.getPlayer(), prodIn1, prodIn2, prodOut, leaderResource, asSecondProduction, activate);
         clientHandler.sendJson(outcome);
     }
 }

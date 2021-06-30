@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.CLI;
 
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.model.VaticanSection;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class VaticanSectionsTracer {
 
     public void showVaticanSections(List<VaticanSection> vaticanSections){
-        System.out.println("\n\t # Vatican Sections # \t");
+        System.out.println(ANSITextFormat.BOLD+"\n\t # Vatican Sections # \t"+ ANSITextFormat.RESET);
         for(int i = 0; i < vaticanSections.size(); i++){
             String isActivated = "";
             if(vaticanSections.get(i).isActivated())
