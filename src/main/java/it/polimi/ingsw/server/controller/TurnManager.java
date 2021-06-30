@@ -511,7 +511,7 @@ public class TurnManager {
     /**
      * @param player playing player
      * @param slots List of integers between 0 and 2: they are the indexes of development card slots
-     * @param leaderResource is chosen by the user as a result of the activation of the production power leader card.
+     * @param leaderResource is chosen by the user as result of the activation of the production power leader card.
      *                       The chosen resource will be added to the production output, together with a faith point.
      * @return outcome message encoded as ServerMessage Object
      */
@@ -581,6 +581,9 @@ public class TurnManager {
      * @param prodIn2 the second resource needed to activate production
      * @param prodOut production result
      * @param leaderResource resource selected if a production power leader card is activated
+     * @param asSecondProduction if the personal production is going to be performed after a normal one
+     * @param activate if the personal production is performed as second production after the normal one, the player has
+     *                 the possibility to choose if activate or not the personal production.
      * @return
      */
     public ServerMessage activatePersonalProduction(Player player, Resource prodIn1, Resource prodIn2, Resource prodOut, List<Resource> leaderResource, boolean asSecondProduction, boolean activate) {
@@ -774,12 +777,6 @@ public class TurnManager {
 
         return new LeaderResultMessage(false, true, false, "Leader card correctly discarded: received 1 faith point", indexNum, faithPathPositions, player.getFaithPathPosition(), player.getVaticanSections());
     }
-
-
-
-
-
-
 
     /**
      * method called to select 2 leader cards out of the 4 given while setting up the game

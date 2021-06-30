@@ -100,7 +100,6 @@ public class StorageLeaderCard extends LeaderCard {
      *
      * @param resourceIn    a list of resources, when used the second argument should be "null"  .if want to add single resource --> "null" instead and put the single resource as the second argument.
      * @param oneResourceIn a single resource passed to the method to be added when used the first argument should be "null"
-     * @throws StorageOutOfBoundsException storage out of bound
      * @throws IllegalInsertionException   illegal insertion when the type of the card is different from the resource passed or when the
      */
     public void putResourceInCardStorage(List<Resource> resourceIn, Resource oneResourceIn) throws  IllegalInsertionException {
