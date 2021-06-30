@@ -19,6 +19,9 @@ import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * GUI controller class invoked while selecting the initial resource during calamaio setup
+ */
 public class SelectOneResourceController {
 
     @FXML

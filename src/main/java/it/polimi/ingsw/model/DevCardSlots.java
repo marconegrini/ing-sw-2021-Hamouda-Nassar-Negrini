@@ -10,6 +10,10 @@ import it.polimi.ingsw.model.parser.CardSlotParser;
 
 import java.util.*;
 
+/**
+ * Slots containing development cards bought from development cards deck. Development cards are stored
+ * within three different slots.
+ */
 public class DevCardSlots {
 
     private ArrayList<Stack<DevelopmentCard>> cardSlot;

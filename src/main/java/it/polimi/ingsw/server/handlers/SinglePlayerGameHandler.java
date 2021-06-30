@@ -14,6 +14,9 @@ import it.polimi.ingsw.server.controller.TurnManager;
 
 import java.util.*;
 
+/**
+ * Class that handles the execution of the single player game
+ */
 public class SinglePlayerGameHandler extends Thread {
 
     private ClientHandler clientHandler;

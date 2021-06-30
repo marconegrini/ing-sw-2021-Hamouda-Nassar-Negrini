@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Color;
 
+/**
+ * Enum class for marbles used in market board
+ */
 public class Marble {
 
     private final Color color;

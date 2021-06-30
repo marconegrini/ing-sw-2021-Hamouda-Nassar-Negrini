@@ -9,6 +9,9 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * GUI class invoked when players are waiting in waiting room
+ */
 public class WaitingToGame {
 
     @FXML

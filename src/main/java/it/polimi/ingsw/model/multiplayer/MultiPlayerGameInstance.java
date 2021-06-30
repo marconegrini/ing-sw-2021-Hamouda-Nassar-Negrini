@@ -9,6 +9,9 @@ import it.polimi.ingsw.exceptions.MaxPlayersException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that extends game instance and overwrites methods for multiplayer game
+ */
 public class MultiPlayerGameInstance extends GameInstance {
 
     private List<MultiPlayer> players;

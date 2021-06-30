@@ -15,6 +15,9 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Class that tests development card slots.
+ */
 public class DevCardSlotsTest {
 
     private DevCardSlots test;

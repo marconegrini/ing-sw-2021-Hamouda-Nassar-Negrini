@@ -16,6 +16,10 @@ import java.util.Random;
 
 import java.util.*;
 
+/**
+ * Class that handles the multiplayer game. Contains references to all participants and manages
+ * turns and clients updates.
+ */
 public class MultiPlayerGameHandler extends Thread {
 
     private List<ClientHandler> clientHandlers;

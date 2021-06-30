@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
 import java.util.ArrayList;
 
+/**
+ * Class that traces development cards for the CLI
+ */
 public class DvCardsTracer {
     /**
      * Method that takes any dvCards ArrayList and gives bake a list of Strings to be printed consequently as every string is a dv Card for the CLI

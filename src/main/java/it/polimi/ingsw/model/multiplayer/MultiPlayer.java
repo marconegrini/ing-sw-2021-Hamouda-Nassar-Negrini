@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 
+/**
+ * Class that extends player object and overwrites methods for the multiplayer game.
+ */
 public class MultiPlayer extends Player {
 
     public MultiPlayer(String nickname){

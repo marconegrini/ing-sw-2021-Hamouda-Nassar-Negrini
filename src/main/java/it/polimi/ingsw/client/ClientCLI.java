@@ -3,7 +3,9 @@ package it.polimi.ingsw.client;
 import java.io.IOException;
 import java.net.Socket;
 
-
+/**
+ * Class that contains methods to interact with the user in the CLI game
+ */
 public class ClientCLI implements Runnable{
 
     private ServerHandler serverHandler;

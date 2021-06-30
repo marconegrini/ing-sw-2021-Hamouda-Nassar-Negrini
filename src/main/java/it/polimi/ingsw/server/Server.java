@@ -9,6 +9,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 
+/**
+ * Class that starts single or multiplayer games.
+ * Contains waiting room for players that choose the multiplayer game.
+ */
 public class Server {
 
     /**

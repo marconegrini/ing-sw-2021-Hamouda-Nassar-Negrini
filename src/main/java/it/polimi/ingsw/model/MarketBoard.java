@@ -4,6 +4,9 @@ import it.polimi.ingsw.enumerations.Color;
 
 import java.util.*;
 
+/**
+ * Class that contains marbles. Inserting a marble in the market board generates a list of resources.
+ */
 public class MarketBoard {
 
     private Marble[][] marbles;

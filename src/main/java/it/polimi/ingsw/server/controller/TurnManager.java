@@ -22,6 +22,10 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class that contains methods invoked by client message's server process methods.
+ * Controller's methods modify Model classes and return Server Messages for the client.
+ */
 public class TurnManager {
 
     private boolean multiplayer;

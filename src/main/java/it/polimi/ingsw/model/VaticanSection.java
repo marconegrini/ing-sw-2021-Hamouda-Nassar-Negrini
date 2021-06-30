@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+/**
+ * Class implemented by faith path. Vatican Sections classes specify an initial and end position, and contain
+ * information about the status (activated or not) of the papal favor card.
+ */
 public class VaticanSection {
 
     //start pos

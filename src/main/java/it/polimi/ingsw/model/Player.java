@@ -11,12 +11,12 @@ import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.*;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Abstract class that contains method for the player
+ */
 public abstract class Player {
 
     protected String nickname;
@@ -133,6 +133,11 @@ public abstract class Player {
                     }
                 }
             }
+        }
+        if(lcType.equals(CardType.MARBLE) && resourcesToReturn.size()==2) {
+            Random r = new Random();
+            Integer randomIndex = r.nextInt(2);
+            resourcesToReturn.remove(randomIndex);
         }
         return resourcesToReturn;
     }

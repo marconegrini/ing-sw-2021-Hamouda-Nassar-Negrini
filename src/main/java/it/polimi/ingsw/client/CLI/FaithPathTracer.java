@@ -5,7 +5,9 @@ import it.polimi.ingsw.enumerations.ANSITextFormat;
 
 import java.util.*;
 
-
+/**
+ * Class that traces faith path for the CLI
+ */
 public class FaithPathTracer {
     /**
      * @param othersPositions HashMap that contains the nickNames of the other players and their positions
