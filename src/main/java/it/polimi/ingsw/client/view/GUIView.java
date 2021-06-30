@@ -124,7 +124,9 @@ public class GUIView extends View {
                 Scene scene = new Scene(root, 500, 390);
                 newStage.setScene(scene);
                 newStage.resizableProperty().setValue(Boolean.FALSE);
-                newStage.setOnCloseRequest( event ->{ event.consume();});
+                newStage.setOnCloseRequest(event -> {
+                    event.consume();
+                });
                 newStage.initModality(Modality.APPLICATION_MODAL);
                 newStage.show();
             });
@@ -132,8 +134,8 @@ public class GUIView extends View {
             return new EmptyMessage();
         }
 
-        if ("b".equalsIgnoreCase(choice)){
-            Platform.runLater(() ->{
+        if ("b".equalsIgnoreCase(choice)) {
+            Platform.runLater(() -> {
                 Stage newStage = new Stage();
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
                 Parent root = null;
@@ -143,7 +145,7 @@ public class GUIView extends View {
                     e.printStackTrace();
                 }
                 newStage.setTitle("Buy Development Card");
-                Scene scene = new Scene(root, 1080,670);
+                Scene scene = new Scene(root, 1080, 670);
                 SceneManager.setPopUpScene(scene);
                 newStage.setScene(scene);
                 newStage.initStyle(StageStyle.TRANSPARENT);
@@ -239,21 +241,31 @@ public class GUIView extends View {
     }
 
     @Override
-    public void startGame() {
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game.fxml")));
-            SceneManager.setScene(new Scene(root, 1300, 670));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void startGame(boolean isMultiPlayer) {
+        if (isMultiPlayer) {
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/game.fxml")));
+                SceneManager.setScene(new Scene(root, 1300, 670));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else{
+            try {
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/singleplayer/singlePlayerGame.fxml")));
+                SceneManager.setScene(new Scene(root, 1480, 670));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     /**
      * Shows an alert with the message
      *
-     * @param message message is shown in the alert pop-up
+     * @param message    message is shown in the alert pop-up
      * @param forGuiAlso a boolean to indicate if the message is to be showed in the gui
-     * @param error a boolean to indicate if the message if a n error message or a normal one
+     * @param error      a boolean to indicate if the message if a n error message or a normal one
      */
     @Override
     public void showMessage(String message, boolean forGuiAlso, boolean error) {
@@ -278,7 +290,7 @@ public class GUIView extends View {
                     alert.showAndWait();
                 });
             }
-        }else System.out.println(message); //print the message in the cli
+        } else System.out.println(message); //print the message in the cli
     }
 
     /**
@@ -328,7 +340,7 @@ public class GUIView extends View {
     }
 
     @Override
-    public ClientMessage activatePersonalProduction(){
+    public ClientMessage activatePersonalProduction() {
         return null;
     }
 }

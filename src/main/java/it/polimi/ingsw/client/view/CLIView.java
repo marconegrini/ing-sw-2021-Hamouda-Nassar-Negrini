@@ -972,7 +972,7 @@ public class CLIView extends View {
     }
 
     @Override
-    public void startGame() {
+    public void startGame(boolean isMultiPlayer) {
         this.showMessage("Game started!", false, false);
     }
 

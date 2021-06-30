@@ -64,7 +64,7 @@ public class MultiPlayerGameHandler extends Thread {
         turnManager.lock();
         initialiseCalamaio();
         turnManager.lock();
-        sendToClients(new GameStartedMessage());
+        sendToClients(new GameStartedMessage(true));
         updateClients();
 
         //sendToClients(new SelectActionMessage());

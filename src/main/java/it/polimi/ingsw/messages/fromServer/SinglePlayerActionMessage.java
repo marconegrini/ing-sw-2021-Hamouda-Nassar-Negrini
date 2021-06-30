@@ -1,6 +1,9 @@
 package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.enumerations.LorenzoCardType;
 
 /**
@@ -20,6 +23,9 @@ public class SinglePlayerActionMessage extends ServerMessage{
 
     @Override
     public void clientProcess(ServerHandler serverHandler) {
+        if (!serverHandler.getIsCli()){
+            UpdateObjects.updateLorenzoCard(lorenzoCard, SceneManager.getScene());
+        }
         serverHandler.getView().showMessage(actionPerformed, true, false);
     }
 }

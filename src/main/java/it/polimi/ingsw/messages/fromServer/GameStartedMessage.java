@@ -8,9 +8,11 @@ import it.polimi.ingsw.client.ServerHandler;
 
 public class GameStartedMessage extends ServerMessage{
 
+    private boolean isMultiPlayer;
 
-    public GameStartedMessage() {
+    public GameStartedMessage(boolean isMultiPlayer) {
         super(ServerMessageType.GAMESTARTED);
+        this.isMultiPlayer = isMultiPlayer;
     }
 
     /**
@@ -20,6 +22,6 @@ public class GameStartedMessage extends ServerMessage{
      */
     @Override
     public void clientProcess(ServerHandler serverHandler) {
-        serverHandler.getView().startGame();
+        serverHandler.getView().startGame(isMultiPlayer);
     }
 }
