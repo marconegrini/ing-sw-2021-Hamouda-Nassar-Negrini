@@ -1,13 +1,21 @@
 package it.polimi.ingsw.messages.fromClient;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.messages.fromServer.CalamaioErrorMessage;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * message sent by the client TO THE SERVER, in response of the initialiseCalamaio message
@@ -33,8 +41,16 @@ public class CalamaioResponseMessage extends ClientMessage {
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
+
+        Logger logger = Logger.getLogger(ClientApp.class.getName());
+        try {
+            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
+
         if (choice1 != 0) {
-            System.out.println("Here1");
+            logger.log(INFO,"Here1");
             if (destStorage1 != 0) {
                 //
                 try {
