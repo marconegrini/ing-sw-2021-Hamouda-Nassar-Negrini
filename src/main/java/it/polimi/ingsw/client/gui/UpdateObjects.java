@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui;
 
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
+import it.polimi.ingsw.enumerations.LorenzoCardType;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -348,6 +349,14 @@ public class UpdateObjects {
                 }
             }
         }
+    }
+
+    public static void updateLorenzoCard (LorenzoCardType lorenzoCardType, Scene scene){
+        Label card = (Label) scene.lookup("#lorenzoCard");
+        card.setStyle("-fx-background-image: url(\"images/singleplayer/" +
+                lorenzoCardType.toString().toLowerCase() + ".png\");" +
+                " -fx-background-size: 100% 100%;" +
+                "-fx-border-width: 5");
     }
 
 }
