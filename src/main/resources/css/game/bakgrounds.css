@@ -27,3 +27,33 @@
  -fx-background-image: url('../../images/game/activateProduction.png');
  -fx-background-size: 100% 100%;
 }
+
+.popeCardBack2{
+    -fx-background-image: url('../../images/popecards/back2.png');
+    -fx-background-size: 100% 100%;
+}
+
+.popeCardBack3{
+    -fx-background-image: url('../../images/popecards/back3.png');
+    -fx-background-size: 100% 100%;
+}
+
+.popeCardBack4{
+    -fx-background-image: url('../../images/popecards/back4.png');
+    -fx-background-size: 100% 100%;
+}
+
+.popeCardFront2{
+    -fx-background-image: url('../../images/popecards/front2.png');
+    -fx-background-size: 100% 100%;
+}
+
+.popeCardFront3{
+    -fx-background-image: url('../../images/popecards/front3.png');
+    -fx-background-size: 100% 100%;
+}
+
+.popeCardFront4{
+    -fx-background-image: url('../../images/popecards/front4.png');
+    -fx-background-size: 100% 100%;
+}
