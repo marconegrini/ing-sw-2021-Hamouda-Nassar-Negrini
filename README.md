@@ -18,10 +18,11 @@ I test sono stati effettuati con junit e sono consultabili all'interno del perco
 Regole complete + CLI + GUI + Socket + 1 Funzionalità aggiuntiva
 
 ##Jar ed esecuzione
-I file jar del progetto sono posizionati all'interno del percorso deliverables\final\jar.
-Il jar PSP32-server eseguirà il server.
-PSP32-client se avviato invece eseguirà automaticamente il gioco in GUI. 
-Digitando l'argomento -c o --cli come opzione di esecuzione per PSP32-client è possibile poi eseguire il gioco in CLI.
+I file jar del progetto sono posizionati all'interno del percorso deliverables\final\jar. Posizionandosi con il terminale
+windows sul jar del server, digitando 'java -jar PSP32-server' verrà eseguito il server. 
+Allo stesso modo, avviando PSP32-client inizierà di default il gioco in GUI.
+Per avviare il gioco da linea di comando è necessario installare WSL (Windows Subsystem for Linux), posizionarsi sulla 
+cartella di PSP32-client ed eseguire il jar (sempre con 'java -jar PSP32-client') digitando come opzione di esecuzione -c o --cli.
 
 ##Componenti del gruppo
 Adel Nassar
