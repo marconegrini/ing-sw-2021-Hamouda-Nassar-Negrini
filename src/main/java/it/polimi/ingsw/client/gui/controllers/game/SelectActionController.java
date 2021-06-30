@@ -3,9 +3,7 @@ package it.polimi.ingsw.client.gui.controllers.game;
 import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
-import it.polimi.ingsw.model.Coffer;
 import it.polimi.ingsw.model.MarketBoard;
-import it.polimi.ingsw.model.Warehouse;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -64,7 +61,7 @@ public class SelectActionController {
                 e.printStackTrace();
             }
             newStage.setTitle("Activate production");
-            Scene scene = new Scene(root, 1300,720);
+            Scene scene = new Scene(root, 1300,670);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.resizableProperty().setValue(Boolean.FALSE);
@@ -72,7 +69,7 @@ public class SelectActionController {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
             UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
-            UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene);
+            UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene, false);
         });
     }
 
@@ -91,7 +88,7 @@ public class SelectActionController {
                 e.printStackTrace();
             }
             newStage.setTitle("Buy Development Card");
-            Scene scene = new Scene(root, 1080,720);
+            Scene scene = new Scene(root, 1080,670);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.resizableProperty().setValue(Boolean.FALSE);
@@ -120,7 +117,7 @@ public class SelectActionController {
             }
 
             newStage.setTitle("Activate Leader Card");
-            Scene scene = new Scene(root, 1080,720);
+            Scene scene = new Scene(root, 1080,670);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
             newStage.resizableProperty().setValue(Boolean.FALSE);
