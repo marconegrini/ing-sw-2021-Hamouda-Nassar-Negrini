@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1480.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.GameController">
+   <children>
+      <AnchorPane layoutX="286.0" layoutY="14.0" prefHeight="468.0" prefWidth="1000.0" styleClass="boardbg" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <GridPane fx:id="faithPathGrid" alignment="CENTER" layoutX="31.0" layoutY="30.0" prefHeight="137.0" prefWidth="943.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="rood" prefHeight="161.0" prefWidth="125.0" style="-fx-background-color: #800d0d; -fx-border-color: #000000; -fx-border-width: 2;" styleClass="rood" GridPane.rowIndex="2" />
+                  <Label alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="34.0" styleClass="lorenzoRood" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="devCardsSlots" layoutX="379.0" layoutY="282.0" onMouseClicked="#selectedDevCardSlot" prefHeight="335.0" prefWidth="600.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="189.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="211.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="400.0" prefWidth="222.0" />
+                  <Label prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                  <Label prefHeight="400.0" prefWidth="200.0" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="shelf1" layoutX="98.0" layoutY="255.0" onMouseClicked="#selectedFirstShelf" prefHeight="55.0" prefWidth="74.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="82.0" prefWidth="110.0" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="shelf2" layoutX="61.0" layoutY="321.0" onMouseClicked="#selectedSecondShelf" prefHeight="55.0" prefWidth="147.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="122.0" prefWidth="183.0" />
+                  <Label prefHeight="123.0" prefWidth="208.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <GridPane fx:id="shelf3" layoutX="50.0" layoutY="376.0" onMouseClicked="#selectedThirdShelf" prefHeight="55.0" prefWidth="170.0" AnchorPane.bottomAnchor="211.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="800.0" AnchorPane.topAnchor="376.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="110.0" prefWidth="89.0" />
+                  <Label prefHeight="142.0" prefWidth="131.0" GridPane.columnIndex="1" />
+                  <Label prefHeight="132.0" prefWidth="121.0" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+            <Label layoutX="31.0" layoutY="475.0" opacity="0.63" prefHeight="126.0" prefWidth="177.0" style="-fx-background-color: #7f8581; -fx-border-color: #1d1d2b; -fx-border-width: 5;" />
+            <Label layoutX="119.0" layoutY="490.0" prefHeight="36.0" prefWidth="42.0">
+               <styleClass>
+                  <String fx:value="stone" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label layoutX="119.0" layoutY="550.0" prefHeight="36.0" prefWidth="42.0">
+               <styleClass>
+                  <String fx:value="shield" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label layoutX="36.0" layoutY="545.0" prefHeight="36.0" prefWidth="42.0">
+               <styleClass>
+                  <String fx:value="notSelectedCard" />
+                  <String fx:value="servant" />
+               </styleClass>
+            </Label>
+            <Label layoutX="36.0" layoutY="490.0" prefHeight="36.0" prefWidth="42.0">
+               <styleClass>
+                  <String fx:value="coin" />
+                  <String fx:value="notSelectedCard" />
+               </styleClass>
+            </Label>
+            <Label fx:id="numcoin" layoutX="90.0" layoutY="495.0" prefHeight="27.0" prefWidth="19.0" style="-fx-border-width: 3; -fx-alignment: center; -fx-border-color: #1d1d2b; -fx-background-color: #603944; -fx-border-radius: 5; -fx-background-radius: 7; -fx-font-weight: bold;" text="0" textFill="WHITE" />
+            <Label fx:id="numservant" layoutX="90.0" layoutY="550.0" prefHeight="27.0" prefWidth="19.0" style="-fx-border-width: 3; -fx-alignment: center; -fx-border-color: #1d1d2b; -fx-background-color: #603944; -fx-border-radius: 5; -fx-background-radius: 7; -fx-font-weight: bold;" text="0" textFill="WHITE" />
+            <Label fx:id="numstone" layoutX="171.0" layoutY="495.0" prefHeight="27.0" prefWidth="19.0" style="-fx-border-width: 3; -fx-alignment: center; -fx-border-color: #1d1d2b; -fx-background-color: #603944; -fx-border-radius: 5; -fx-background-radius: 7; -fx-font-weight: bold;" text="0" textFill="WHITE" />
+            <Label fx:id="numshield" layoutX="171.0" layoutY="550.0" prefHeight="27.0" prefWidth="19.0" style="-fx-border-width: 3; -fx-alignment: center; -fx-border-color: #1d1d2b; -fx-background-color: #603944; -fx-border-radius: 5; -fx-background-radius: 7; -fx-font-weight: bold;" text="0" textFill="WHITE" />
+            <Label fx:id="popeCard0" layoutX="246.0" layoutY="86.0" prefHeight="69.0" prefWidth="67.0" />
+            <Label fx:id="popeCard1" layoutX="492.0" layoutY="47.0" prefHeight="69.0" prefWidth="67.0" />
+            <Label fx:id="popeCard2" layoutX="787.0" layoutY="92.0" prefHeight="69.0" prefWidth="67.0" />
+         </children>
+         <stylesheets>
+            <URL value="@../../../css/game/icons.css" />
+            <URL value="@../../../css/game/chooseLeaderCard.css" />
+         </stylesheets>
+      </AnchorPane>
+      <Label fx:id="leaderCard1" layoutX="20.0" layoutY="14.0" prefHeight="313.0" prefWidth="243.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1218.0" AnchorPane.topAnchor="14.0" />
+      <Label fx:id="leaderCard2" layoutX="20.0" layoutY="335.0" prefHeight="313.0" prefWidth="243.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1218.0" AnchorPane.topAnchor="335.0" />
+      <Button layoutX="1306.0" layoutY="353.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="136.0" text="Show MarketBoard" />
+      <Button layoutX="1306.0" layoutY="429.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="136.0" text="Activate Production" />
+      <Button layoutX="1306.0" layoutY="511.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="136.0" text="Activate/Discard Leader Card" />
+      <Label fx:id="lorenzoCard" layoutX="1300.0" layoutY="95.0" prefHeight="155.0" prefWidth="167.0" styleClass="backLorenzoCard" />
+      <Button layoutX="1306.0" layoutY="587.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="136.0" text="Buy Development Card" />
+   </children>
+   <stylesheets>
+      <URL value="@../../../css/login/connectionPage.css" />
+      <URL value="@../../../css/fonts.css" />
+      <URL value="@../../../css/game/chooseLeaderCard.css" />
+      <URL value="@../../../css/game/bakgrounds.css" />
+      <URL value="@../../../css/buttons.css" />
+      <URL value="@../../../css/game/icons.css" />
+   </stylesheets>
+</AnchorPane>

@@ -43,3 +43,15 @@
     -fx-background-color: linear-gradient( #392228, #603944);
 
 }
+
+.lorenzoRood{
+    -fx-background-image: url('../../images/singlePlayer/lorenzoRood.png');
+    -fx-background-size: 100% 100%;
+}
+
+.backLorenzoCard{
+    -fx-background-image:  url("../../images/singleplayer/backCard.png");
+    -fx-background-size: 100% 100%;
+}
+
+ url("images/singleplayer/backCard.png"
