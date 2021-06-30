@@ -43,8 +43,7 @@ public class ActivateProductionController {
         } else{
             selectedSlots.add(slot);
         }
-        //System.out.println("Label: " + label + " slot: " + slot);
-        //System.out.println("selection: " + selectedSlots);
+
         if (label.getStyleClass().contains("selectedCard")) label.getStyleClass().remove("selectedCard");
         else    label.getStyleClass().add("selectedCard");
     }
@@ -87,5 +86,6 @@ public class ActivateProductionController {
     }
 
     public void activate(ActionEvent actionEvent) {
+        System.out.println(selectedSlots);
     }
 }
