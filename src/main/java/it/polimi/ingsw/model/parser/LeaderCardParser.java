@@ -18,6 +18,9 @@ import it.polimi.ingsw.model.cards.LeaderCardCost;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Parser class that initialises leader card deck from json file.
+ */
 public class LeaderCardParser extends Parser{
 
 

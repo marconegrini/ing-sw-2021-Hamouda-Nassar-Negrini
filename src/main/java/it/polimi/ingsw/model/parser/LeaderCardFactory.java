@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class that builds client side leader cards from json files sent from server.
+ */
 public class LeaderCardFactory {
 
     public List<LeaderCard> create(JsonArray jsonLeaderCardsArray){

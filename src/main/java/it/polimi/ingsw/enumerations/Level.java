@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * Enumeration class for Level
+ */
 public enum Level {
     FIRST, SECOND, THIRD, ANY;
 

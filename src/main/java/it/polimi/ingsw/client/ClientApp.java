@@ -8,21 +8,19 @@ import javafx.application.Application;
 
 import java.util.Arrays;
 
+/**
+ * Main Client class that launches the CLI game or the GUI one
+ */
 public class ClientApp {
     public static void main(String[] args) {
 
         boolean cliParam = false; // default value
-
-
 
         System.out.println(Arrays.toString(ASCII_Resources.values()));
         System.out.println(Arrays.toString(ASCII_DV_Cards.values()));
 
         LeaderCardsTracer leaderCardTracer = new LeaderCardsTracer();
         leaderCardTracer.main();
-
-
-
 
         for (String arg : args) {
             if (arg.equals("--cli") || arg.equals("-c")) {

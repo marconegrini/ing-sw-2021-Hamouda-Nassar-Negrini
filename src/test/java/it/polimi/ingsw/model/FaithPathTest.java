@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class that tests faith path methods
+ */
 public class FaithPathTest {
 
     private FaithPath faithPath;

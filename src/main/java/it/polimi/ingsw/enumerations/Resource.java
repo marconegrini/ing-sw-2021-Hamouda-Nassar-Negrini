@@ -2,6 +2,9 @@ package it.polimi.ingsw.enumerations;
 
 import java.util.function.Predicate;
 
+/**
+ * Enumeration class for resources
+ */
 public enum Resource implements Predicate<Resource> {
     COIN, SERVANT, SHIELD, STONE, FAITH;
 

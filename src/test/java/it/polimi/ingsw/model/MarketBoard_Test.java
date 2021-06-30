@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class that tests market board methods
+ */
 public class MarketBoard_Test {
 
     private MarketBoard market;

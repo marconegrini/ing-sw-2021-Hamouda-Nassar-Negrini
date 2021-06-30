@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * Class that contains special characters to trace marbles
+ */
 public enum ASCII_Marbles {
 
 

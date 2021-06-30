@@ -10,6 +10,9 @@ import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Storage leader card class.
+ */
 public class StorageLeaderCard extends LeaderCard {
 
     private final HashMap<Resource, Integer> activationCost;

@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+/**
+ * Class that tests multi player and single player methods
+ */
 public class PlayerTest {
 
     Player playerMulti;

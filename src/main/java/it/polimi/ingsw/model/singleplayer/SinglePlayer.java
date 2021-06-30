@@ -9,6 +9,9 @@ import it.polimi.ingsw.enumerations.LorenzoCardType;
 import java.util.Collections;
 import java.util.Stack;
 
+/**
+ * Class that extends Player main class and contains methods for the single player game
+ */
 public class SinglePlayer extends Player {
 
     private Stack<LorenzoCard> lorenzoCardsDeck;

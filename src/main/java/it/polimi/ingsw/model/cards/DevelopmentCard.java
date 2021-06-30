@@ -5,6 +5,9 @@ import it.polimi.ingsw.enumerations.CardColor;
 
 import java.util.HashMap;
 
+/**
+ * Development card class
+ */
 public class DevelopmentCard extends Card{
 
     private final CardColor color;

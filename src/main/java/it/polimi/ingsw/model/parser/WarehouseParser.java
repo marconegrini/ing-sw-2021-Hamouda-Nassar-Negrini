@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Parser class that initialises warehouse from json file.
+ */
 public class WarehouseParser extends Parser{
 
     public WarehouseParser() {

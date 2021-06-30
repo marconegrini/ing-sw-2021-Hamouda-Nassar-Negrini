@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Parser class that initialises the development cards deck from json file.
+ */
 public class DevelopmentCardParser extends Parser {
 
     public DevelopmentCardParser(){

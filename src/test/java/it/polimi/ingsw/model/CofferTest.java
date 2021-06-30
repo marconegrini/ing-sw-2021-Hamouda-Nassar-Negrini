@@ -11,6 +11,9 @@ import org.junit.Before;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class that tests coffer methods.
+ */
 public class CofferTest {
 
     private Coffer test;

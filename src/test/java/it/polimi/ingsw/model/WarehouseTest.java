@@ -14,6 +14,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class that tests warehouse methods
+ */
 public class WarehouseTest{
 
     private Warehouse test;

@@ -22,7 +22,9 @@ import javafx.stage.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * GUI controller class invoked when the user wants to put resources in deposits
+ */
 public class PutResourcesController {
 
 
