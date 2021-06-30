@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -110,57 +111,70 @@ public class GUIView extends View {
     @Override
     public ClientMessage selectAction(String choice, boolean err) {
 
-        if (!err) {
-            Platform.runLater(() -> {
-                Stage newStage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                newStage.setTitle("Select action");
-                Scene scene = new Scene(root, 500, 390);
-                newStage.setScene(scene);
-                newStage.resizableProperty().setValue(Boolean.FALSE);
-                newStage.setOnCloseRequest(event -> {
-                    event.consume();
+        if (ControllerGUI.getServerHandler().getIsMultiplayer()) {
+            if (!err) {
+                Platform.runLater(() -> {
+                    Stage newStage = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    newStage.setTitle("Select action");
+                    Scene scene = new Scene(root, 500, 390);
+                    newStage.setScene(scene);
+                    newStage.resizableProperty().setValue(Boolean.FALSE);
+                    newStage.setOnCloseRequest(event -> {
+                        event.consume();
+                    });
+                    newStage.initModality(Modality.APPLICATION_MODAL);
+                    newStage.show();
                 });
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                newStage.show();
-            });
 
-            return new EmptyMessage();
-        }
+                return new EmptyMessage();
+            }
 
-        if ("b".equalsIgnoreCase(choice)) {
-            Platform.runLater(() -> {
-                Stage newStage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                newStage.setTitle("Buy Development Card");
-                Scene scene = new Scene(root, 1080, 670);
-                SceneManager.setPopUpScene(scene);
-                newStage.setScene(scene);
-                newStage.initStyle(StageStyle.TRANSPARENT);
-                newStage.initModality(Modality.APPLICATION_MODAL);
-                UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
-                UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
-                newStage.show();
+            if ("b".equalsIgnoreCase(choice)) {
+                Platform.runLater(() -> {
+                    Stage newStage = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/buyDevCard.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    newStage.setTitle("Buy Development Card");
+                    Scene scene = new Scene(root, 1080, 670);
+                    SceneManager.setPopUpScene(scene);
+                    newStage.setScene(scene);
+                    newStage.initStyle(StageStyle.TRANSPARENT);
+                    newStage.initModality(Modality.APPLICATION_MODAL);
+                    UpdateObjects.updateDevCardsDeck(ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck(), scene);
+                    UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer(), scene);
+                    newStage.show();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error: Development cards");
-                alert.setHeaderText("Error: Development cards");
-                alert.setContentText("You have insufficient resources or you cannot perform this action. Be sure to put a card on another card only if the new card is of the next level of the old one.");
-                alert.showAndWait();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error: Development cards");
+                    alert.setHeaderText("Error: Development cards");
+                    alert.setContentText("You have insufficient resources or you cannot perform this action. Be sure to put a card on another card only if the new card is of the next level of the old one.");
+                    alert.showAndWait();
 
-            });
+                });
+            }
+        } else{
+            Button market = (Button) SceneManager.getScene().lookup("#showMarket");
+            Button production = (Button) SceneManager.getScene().lookup("#activateProduction");
+            Button leaderCard = (Button) SceneManager.getScene().lookup("#activateLeaderCard");
+            Button devCard = (Button) SceneManager.getScene().lookup("#buyDevCard");
+
+            market.setDisable(false);
+            production.setDisable(false);
+            leaderCard.setDisable(false);
+            devCard.setDisable(false);
+
         }
 
         return new EmptyMessage();
@@ -250,14 +264,14 @@ public class GUIView extends View {
                 e.printStackTrace();
             }
         } else{
+            System.out.println("viewing the single home");
             try {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/singleplayer/singlePlayerGame.fxml")));
-                SceneManager.setScene(new Scene(root, 1480, 670));
+                SceneManager.setScene(new Scene(root, 1360, 670));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
