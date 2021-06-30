@@ -59,7 +59,7 @@ public class LightModel{
 
     /**
      * activates selected leader card
-     * @param index
+     * @param index index of leader card to activate
      */
     public void activateLeaderCard(Integer index){
         try {
@@ -71,7 +71,7 @@ public class LightModel{
 
     /**
      * discards selected leader card
-     * @param index
+     * @param index index of the leader card to discard
      */
     public void discardLeaderCard(Integer index){
         try{
@@ -100,7 +100,7 @@ public class LightModel{
 
     /**
      * invoked after a development card has been bought. Sets new top leader cards in deck
-     * @param peekDevCardsInSlot
+     * @param peekDevCardsInSlot top cards in development card slots
      */
     public void setPeekDevCardsInSlot(HashMap<Integer, DevelopmentCard> peekDevCardsInSlot) {
         this.peekDevCardsInSlot = peekDevCardsInSlot;
@@ -149,8 +149,8 @@ public class LightModel{
     /**
      * invoked after a positive request of moving resources in warehouse. Called in the process method of a
      * ServerMessage.
-     * @param sourceStorage
-     * @param destStorage
+     * @param sourceStorage source storage
+     * @param destStorage destination storage
      */
     public void moveWarehouseResources(Integer sourceStorage, Integer destStorage){
         try {

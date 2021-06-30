@@ -6,6 +6,8 @@ it.polimi.ingsw.client.gui.controllers.game
 it.polimi.ingsw.client.gui.controllers.login
 it.polimi.ingsw.client.gui.controllers.setcalamaio
 it.polimi.ingsw.client.view
+it.polimi.ingsw.enumerations
+it.polimi.ingsw.exceptions
 it.polimi.ingsw.messages.fromClient
 it.polimi.ingsw.messages.fromServer
 it.polimi.ingsw.messages.fromServer.activateProduction
@@ -17,8 +19,6 @@ it.polimi.ingsw.model
 it.polimi.ingsw.model.cards
 it.polimi.ingsw.model.cards.LeaderCards
 it.polimi.ingsw.model.devCardsDecks
-it.polimi.ingsw.model.enumerations
-it.polimi.ingsw.model.exceptions
 it.polimi.ingsw.model.multiplayer
 it.polimi.ingsw.model.parser
 it.polimi.ingsw.model.singleplayer

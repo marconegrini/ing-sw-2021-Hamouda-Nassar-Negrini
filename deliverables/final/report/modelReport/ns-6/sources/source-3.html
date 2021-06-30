@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FaithPathParser</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.parser</a>
+</div>
+
+<h1>Coverage Summary for Class: FaithPathParser (it.polimi.ingsw.model.parser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FaithPathParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (33/33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.parser;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.google.gson.JsonArray;
+<i class="no-highlight">4</i>&nbsp;import com.google.gson.JsonElement;
+<i class="no-highlight">5</i>&nbsp;import com.google.gson.JsonObject;
+<i class="no-highlight">6</i>&nbsp;import com.google.gson.JsonStreamParser;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.VaticanSection;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.io.InputStreamReader;
+<i class="no-highlight">10</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">11</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">12</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;public class FaithPathParser extends Parser{
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    ArrayList&lt;VaticanSection&gt; vaticanSections;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    HashMap&lt;Integer, Integer&gt; victoryPoints;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    Integer end;
+<i class="no-highlight">21</i>&nbsp;
+<b class="fc"><i class="no-highlight">22</i>&nbsp;    public FaithPathParser() {</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream(&quot;/faithPathInfoJson.json&quot;)));</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        this.parser = new JsonStreamParser(this.reader);</b>
+<i class="no-highlight">25</i>&nbsp;
+<b class="fc"><i class="no-highlight">26</i>&nbsp;        vaticanSections = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">27</i>&nbsp;
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        victoryPoints = new HashMap&lt;&gt;();</b>
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        while (parser.hasNext()) {</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;            JsonElement element = parser.next();</b>
+<i class="no-highlight">32</i>&nbsp;
+<b class="fc"><i class="no-highlight">33</i>&nbsp;            if (element.isJsonObject()) {</b>
+<i class="no-highlight">34</i>&nbsp;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;                JsonObject fileObject = element.getAsJsonObject();</b>
+<i class="no-highlight">36</i>&nbsp;
+<b class="fc"><i class="no-highlight">37</i>&nbsp;                JsonArray jsonRapportiVaticano = fileObject.get(&quot;rapportiVaticano&quot;).getAsJsonArray();</b>
+<i class="no-highlight">38</i>&nbsp;
+<b class="fc"><i class="no-highlight">39</i>&nbsp;                end = 0;</b>
+<i class="no-highlight">40</i>&nbsp;
+<b class="fc"><i class="no-highlight">41</i>&nbsp;                for (JsonElement jsonElement : jsonRapportiVaticano) {</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;                    JsonObject object = jsonElement.getAsJsonObject();</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;                    Integer startPos = object.get(&quot;start&quot;).getAsInt();</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;                    Integer spazioPapa = object.get(&quot;end&quot;).getAsInt();</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;                    Integer victoryPoints = object.get(&quot;vp&quot;).getAsInt();</b>
+<i class="no-highlight">46</i>&nbsp;
+<b class="fc"><i class="no-highlight">47</i>&nbsp;                    if(spazioPapa &gt; end)</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;                        end = spazioPapa;</b>
+<i class="no-highlight">49</i>&nbsp;
+<b class="fc"><i class="no-highlight">50</i>&nbsp;                    VaticanSection vaticanSection = new VaticanSection(startPos, spazioPapa, victoryPoints);</b>
+<i class="no-highlight">51</i>&nbsp;
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                    vaticanSections.add(vaticanSection);</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;                }</b>
+<i class="no-highlight">54</i>&nbsp;
+<b class="fc"><i class="no-highlight">55</i>&nbsp;                JsonArray jsonVictoryPoints = fileObject.get(&quot;victoryPoints&quot;).getAsJsonArray();</b>
+<i class="no-highlight">56</i>&nbsp;
+<b class="fc"><i class="no-highlight">57</i>&nbsp;                for(JsonElement jsonElement : jsonVictoryPoints){</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;                    JsonObject object = jsonElement.getAsJsonObject();</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;                    Integer position = object.get(&quot;pos&quot;).getAsInt();</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;                    Integer vp = object.get(&quot;vp&quot;).getAsInt();</b>
+<i class="no-highlight">61</i>&nbsp;
+<b class="fc"><i class="no-highlight">62</i>&nbsp;                    victoryPoints.put(position, vp);</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;                }</b>
+<i class="no-highlight">64</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">65</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;    }</b>
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    //public VaticanSection(Integer startPos, Integer spazioPapa, Integer victoryPoints)
+<i class="no-highlight">69</i>&nbsp;    public ArrayList&lt;VaticanSection&gt; getVaticanSections(){
+<b class="fc"><i class="no-highlight">70</i>&nbsp;        return this.vaticanSections;</b>
+<i class="no-highlight">71</i>&nbsp;    }
+<i class="no-highlight">72</i>&nbsp;
+<i class="no-highlight">73</i>&nbsp;    public HashMap&lt;Integer, Integer&gt; getFaithPathVictoryPoints(){
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        return this.victoryPoints;</b>
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    public Integer getEnd(){
+<b class="fc"><i class="no-highlight">78</i>&nbsp;        return this.end;</b>
+<i class="no-highlight">79</i>&nbsp;    }
+<i class="no-highlight">80</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-06-30 13:17</div>
+</div>
+</body>
+</html>

@@ -12,7 +12,7 @@ public class FaithPathTracer {
     /**
      * @param othersPositions HashMap that contains the nickNames of the other players and their positions
      * @param playerPosition  the player (client)'s position
-     * @return returns a list of strings of all player to be printed, every string is a player nickname & his position
+     * @return returns a list of strings of all player to be printed, every string is a player nickname and his position
      */
     public ArrayList<String> faithPathTracer(HashMap<String, Integer> othersPositions, Integer playerPosition) {
 

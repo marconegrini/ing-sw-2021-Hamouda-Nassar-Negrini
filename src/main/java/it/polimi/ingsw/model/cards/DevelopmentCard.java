@@ -18,8 +18,8 @@ public class DevelopmentCard extends Card{
 
     /**
      * @param Vp            victory points given
-     * @param cardColor
-     * @param level
+     * @param cardColor     card color
+     * @param level         card level
      * @param cardCost      development card cost specified as HashMap
      * @param productionIn  resources needed to activate production on the development card
      * @param productionOut resources given as production output by the development card
@@ -77,7 +77,7 @@ public class DevelopmentCard extends Card{
 
     /**
      * Ad hoc clone method to copy a development card
-     * @return
+     * @return  a cloned development card
      */
     public DevelopmentCard clone(){
         HashMap<Resource, Integer> cost = this.getCardCost();
