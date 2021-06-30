@@ -441,7 +441,7 @@ public class TurnManager {
     }
 
     /**
-     * Method that takes from deposits and leader cards, first from warehouse, StorageLeaderCards then from coffer, specified resources
+     * Method that takes from deposits and leader cards, first from warehouse,from StorageLeaderCards then from coffer, specified resources
      * @param player the player in the turn
      * @param cost the necessary resources needed
      */

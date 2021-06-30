@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.net.InetAddress;
 
 /**
  * Class that starts single or multiplayer games.
@@ -21,6 +22,8 @@ public class Server {
     private static final LinkedList<ClientHandler> clientHandlers = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        System.out.println("IP Address:- " + inetAddress.getHostAddress());
         ServerSocket serverSocket = new ServerSocket(5056);
         System.out.println("Server On listening with port: " + serverSocket);
         System.out.println("-------------");

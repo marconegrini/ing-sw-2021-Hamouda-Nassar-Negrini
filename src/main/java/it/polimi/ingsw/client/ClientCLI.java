@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Class that contains methods to interact with the user in the CLI game
@@ -18,20 +20,36 @@ public class ClientCLI implements Runnable{
     /**
      * run method that handles ServerHandler thread
      */
-    @Override
-    public void run(){
-        Socket server;
+    String defaultServerIP = "127.0.0.1";
 
-        try {
-            server = new Socket("127.0.0.1", 5056);
-        } catch (IOException e){
-            System.out.println("Server unreachable");
-            return;
+    @Override
+    public void run() {
+        String userInput = "";
+        Socket server = null;
+        System.out.println("Insert the server IP (type \"exit\" to exit): ");
+        Scanner scanner = new Scanner(System.in);
+        boolean ok = false;
+        while (!ok && server == null) {
+            userInput = scanner.nextLine();
+            if (userInput.equalsIgnoreCase("EXIT")) {
+                break;
+            } else {
+                if (userInput.equals("localhost") || userInput.equals("\n") || userInput.equals("")){
+                    userInput = defaultServerIP;
+                    ok = true;
+            }
+                try {
+                    server = new Socket(userInput, 5056);
+                    ok = true;
+                } catch (IOException e) {
+                    System.out.println("Server unreachable, Try another ip address: ");
+                }
+            }
         }
-        serverHandler = new ServerHandler(server, true);
-        Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
-        serverHandlerThread.start();
-    }
+                serverHandler = new ServerHandler(server, true);
+                Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+                serverHandlerThread.start();
+            }
 
 }
 
