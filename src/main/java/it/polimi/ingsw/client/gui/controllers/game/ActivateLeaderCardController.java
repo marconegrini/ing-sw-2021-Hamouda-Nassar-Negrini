@@ -55,6 +55,8 @@ public class ActivateLeaderCardController {
         Window theStage = source.getScene().getWindow();
         theStage.hide();
 
+        if (!ControllerGUI.getServerHandler().getIsMultiplayer())   return;
+
         Platform.runLater(() -> {
             Stage newStage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectAction.fxml"));

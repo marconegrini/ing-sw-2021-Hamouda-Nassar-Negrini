@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
 import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,6 +53,8 @@ public class ActivateProductionController {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
+
+        if (!ControllerGUI.getServerHandler().getIsMultiplayer())   return;
 
         Platform.runLater(() -> {
             Stage newStage = new Stage();
