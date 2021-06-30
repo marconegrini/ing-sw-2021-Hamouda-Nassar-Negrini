@@ -9,9 +9,15 @@ import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,6 +28,8 @@ import java.util.stream.Collectors;
  */
 
 public class UpdateObjects {
+
+    private static boolean firstTime = true;
 
     /**
      * This method updates the warehouse adding graphically the new resources received from the server.
@@ -150,7 +158,6 @@ public class UpdateObjects {
         }
 
         Set<Resource> resourcesSet = resourcesMap.keySet();
-
         for (Resource resource : resourcesSet) {
             Label label = (Label) scene.lookup("#num" + resource.toString().toLowerCase());
             Integer numResource = resourcesMap.get(resource);
@@ -165,15 +172,53 @@ public class UpdateObjects {
      *
      * @param position the position of the player that received the update message
      */
-    public static void updateFaithPath(Integer position) {
+    public static void updateFaithPath(HashMap<String, Integer> othersPositions, Integer position) {
         Platform.runLater(() -> {
             Label rood = (Label) SceneManager.getScene().lookup("#rood");
-            System.out.println(rood);
-            System.out.println(position);
-            System.out.println(getFaithPathRow(position));
-            System.out.println(getFaithPathCol(position));
             GridPane.setRowIndex(rood, getFaithPathRow(position));
             GridPane.setColumnIndex(rood, getFaithPathCol(position));
+        });
+
+        Set<String> players = othersPositions.keySet();
+
+        Platform.runLater(() -> {
+            if (ControllerGUI.getServerHandler().getIsMultiplayer()) {
+                if (firstTime) {
+                    firstTime = false;
+                    GridPane faithPathGrid = (GridPane) SceneManager.getScene().lookup("#faithPathGrid");
+                    for (String player : players) {
+                        Label rood = new Label();
+                        rood.setId("rood" + player);
+                        rood.setPrefWidth(50);
+                        rood.setPrefHeight(50);
+
+                        /*
+                        rood.setText(player);
+                        rood.setAlignment(Pos.TOP_CENTER);
+                        rood.setTextFill(Color.web("#ffffff"));
+                        rood.setFont(new Font("Arial", 15));
+                         */
+
+                        String zeros = "000000";
+                        Random random = new Random();
+                        String s = Integer.toString(random.nextInt(0X1000000), 16);
+                        s = zeros.substring(s.length()) + s;
+                        rood.setStyle("-fx-shape: \"M 300 100 Q 400 100 400 150 Q 400 200 300 200 Q 300 200 300 250 L 300 300 L 300 350 Q 300 400 250 400 L 250 400 Q 200 400 200 350 L 200 250 L 200 200 Q 200 200 150 200 Q 100 200 100 150 L 100 150 Q 100 100 200 100 Q 200 100 200 50 Q 200 0 250 0 L 250 0 Q 300 0 300 50 L 300 100 \";"
+                                + "-fx-border-width: 1;" + "-fx-background-color: #" + s + ";-fx-border-color: #000000;" +
+                                "-fx-stroke: firebrick;-fx-stroke-width: 2px;"
+                        );
+
+                            faithPathGrid.add(rood, 0, 2);
+                        rood.getStyleClass().add("outline");
+                    }
+                }
+            }
+
+            for (String player : players){
+                Label rood = (Label) SceneManager.getScene().lookup("#rood"+player);
+                    GridPane.setColumnIndex(rood, getFaithPathCol(othersPositions.get(player)));
+                    GridPane.setRowIndex(rood, getFaithPathRow(othersPositions.get(player)));;
+            }
         });
     }
 
@@ -311,7 +356,7 @@ public class UpdateObjects {
                 card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
             } else card.setOpacity(0.9);
-            System.out.println("Label leader: " + card);
+            //System.out.println("Label leader: " + card);
         }
     }
 
@@ -340,7 +385,7 @@ public class UpdateObjects {
             if (vaticanSections.get(i).isCardFlipped()){
                 card.getStyleClass().add("popeCardFront" + (i+2));
                 if (vaticanSections.get(i).isActivated()){
-                    card.getStyleClass().add("selectedCard");
+                    card.getStyleClass().add("greenFrame");
                 }
             } else {
                 card.getStyleClass().add("popeCardBack" + (i+2));
