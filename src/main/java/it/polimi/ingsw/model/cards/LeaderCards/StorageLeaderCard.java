@@ -8,10 +8,13 @@ import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class StorageLeaderCard extends LeaderCard {
 
+    private static final Logger logger = Logger.getLogger(StorageLeaderCard.class.getName());
     private final HashMap<Resource, Integer> activationCost;
     private final HashMap<Resource, Integer> slots;
     private Integer maxCapacity = 0;
@@ -127,11 +130,11 @@ public class StorageLeaderCard extends LeaderCard {
             if (storage.stream().anyMatch(Objects::nonNull)) {
 
                 //checking that resource type in the storage is the same of resourceIn
-                System.out.println("LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get(): "  + slots.keySet().stream().findAny().get());
-                System.out.println("LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get().getClass(): " + slots.keySet().stream().findAny().get().getClass());
+                logger.log(Level.INFO,"LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get(): "  + slots.keySet().stream().findAny().get().toString());
+                logger.log(Level.INFO,"LeaderCard/StorageLeaderCard  slots.keySet().stream().findAny().get().getClass(): " + slots.keySet().stream().findAny().get().getClass());
 
-                System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny(): " + resourceIn.stream().findAny());
-                System.out.println("LeaderCard/StorageLeaderCard  resourceIn.stream().findAny().getClass(): " + resourceIn.stream().findAny().getClass());
+                logger.log(Level.INFO,"LeaderCard/StorageLeaderCard  resourceIn.stream().findAny(): " + resourceIn.stream().findAny().toString());
+                logger.log(Level.INFO,"LeaderCard/StorageLeaderCard  resourceIn.stream().findAny().getClass(): " + resourceIn.stream().findAny().getClass());
 
                 if (!(slots.keySet().stream().filter(Objects::nonNull).findAny().get().equals(resourceIn.stream().findAny().get())))
                     throw new IllegalInsertionException();

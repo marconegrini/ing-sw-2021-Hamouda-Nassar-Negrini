@@ -46,7 +46,7 @@ public abstract class Parser {
         try {
             this.reader.close();
         } catch (IOException e){
-            System.out.println("Exception occured while closing file");
+            System.err.println("Exception occured while closing file");
             e.printStackTrace();
         }
     }

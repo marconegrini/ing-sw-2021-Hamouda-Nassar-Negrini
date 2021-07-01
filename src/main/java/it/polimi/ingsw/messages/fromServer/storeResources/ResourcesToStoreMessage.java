@@ -10,6 +10,8 @@ import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Message sent from server containing resources take from market first, resources remaining to be inserted then.
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public class ResourcesToStoreMessage extends ServerMessage {
 
+    private static final Logger logger = Logger.getLogger(ResourcesToStoreMessage.class.getName());
     private List<Resource> resourcesToStore;
     String okMessage;
     HashMap<Integer, Storage> warehouse;
@@ -45,7 +48,7 @@ public class ResourcesToStoreMessage extends ServerMessage {
     @Override
     public void clientProcess(ServerHandler serverHandler) {
         if (!turnDone) {
-            System.out.println(resourcesToStore); //testing
+            logger.log(Level.INFO,resourcesToStore.toString()); //testing
             Warehouse newWarehouse = new Warehouse(warehouse);
             serverHandler.getLightModel().setWarehouse(newWarehouse);
             serverHandler.getView().showMessage(this.okMessage, false, false);

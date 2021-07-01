@@ -18,8 +18,11 @@ import it.polimi.ingsw.enumerations.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class LeaderCardFactory {
+
+    private static final Logger logger = Logger.getLogger(LeaderCardFactory.class.getName());
 
     public List<LeaderCard> create(JsonArray jsonLeaderCardsArray){
         List<LeaderCard> leaderCards= new ArrayList<>();
@@ -72,8 +75,7 @@ public class LeaderCardFactory {
                 }
 
 
-
-                System.out.println(storage);
+                logger.log(java.util.logging.Level.INFO,storage.toString());
 
                 StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, isAvailable, isDiscarded, maxCapacity, activationCost, slots, storage);
                 leaderCards.add(leaderCard);

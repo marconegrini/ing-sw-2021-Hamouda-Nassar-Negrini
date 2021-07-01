@@ -8,9 +8,12 @@ import it.polimi.ingsw.exceptions.MaxPlayersException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MultiPlayerGameInstance extends GameInstance {
 
+    private static final Logger logger = Logger.getLogger(MultiPlayerGameInstance.class.getName());
     private List<MultiPlayer> players;
 
     public MultiPlayerGameInstance(){
@@ -37,7 +40,7 @@ public class MultiPlayerGameInstance extends GameInstance {
 
     public void printGamePlayers(){
         for(MultiPlayer player : players){
-            //System.out.println("\nPlayer: " + player.getNickname() + "\nUserId: " + player.getUserId());
+            logger.log(Level.CONFIG,"\nPlayer: " + player.getNickname());
             player.printPlayer();
         }
     }

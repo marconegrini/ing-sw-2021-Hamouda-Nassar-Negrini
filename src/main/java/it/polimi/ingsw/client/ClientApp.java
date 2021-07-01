@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.Logger.LogFormatter;
 import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.enumerations.ASCII_DV_Cards;
@@ -23,27 +24,17 @@ public class ClientApp {
 * */
     public static void main(String[] args) {
 
-
-
         Logger logger = Logger.getLogger(ClientApp.class.getName());
         try {
             LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }
-//        logger.setLevel(Level.ALL);
 
-//        consoleHandler.setLevel(Level.FINE); //
 
-            //logging messages
-            logger.log(Level.SEVERE, "INFO MGS num:");
 
-            logger.log(Level.CONFIG, "Config data");
 
-//
         boolean cliParam = false; // default value
-
-
 
 //        System.out.println(Arrays.toString(ASCII_Resources.values()));
 //        System.out.println(Arrays.toString(ASCII_DV_Cards.values()));

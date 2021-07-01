@@ -9,12 +9,16 @@ import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageType;
 import it.polimi.ingsw.messages.fromServer.update.UpdateWarehouseCofferMessage;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * update message to update client's light model warehouse. Sent after a MoveWarehouseResourcesMessage
  * has been sent from the client
  */
 public class MoveResourcesResultMessage extends ServerMessage {
 
+    private static final Logger logger = Logger.getLogger(MoveResourcesResultMessage.class.getName());
     private boolean error;
     private Integer sourceStorage;
     private Integer destStorage;
@@ -34,7 +38,7 @@ public class MoveResourcesResultMessage extends ServerMessage {
         if(!error)
             serverHandler.getLightModel().moveWarehouseResources(sourceStorage, destStorage);
         else message = "Invalid action: " + message;
-        System.out.println(message);
+        logger.log(Level.INFO,message.toString());
         if (serverHandler.getIsCli()) {
             ClientMessage toSend = serverHandler.getView().selectAction(null, false);
             serverHandler.sendJson(toSend);

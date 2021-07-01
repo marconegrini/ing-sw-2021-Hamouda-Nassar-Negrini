@@ -8,9 +8,12 @@ import it.polimi.ingsw.enumerations.LorenzoCardType;
 
 import java.util.Collections;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SinglePlayer extends Player {
 
+    private static final Logger logger = Logger.getLogger(SinglePlayer.class.getName());
     private Stack<LorenzoCard> lorenzoCardsDeck;
 
     //private Stack<LorenzoCard> temporaryDeck;
@@ -93,12 +96,11 @@ public class SinglePlayer extends Player {
     }
 
     public void printPlayer(){
-        System.out.println("calamaio: " + this.hasCalamaio);
-        //System.out.println("leader cards: " + this.leaderCards.toString());
-        System.out.println("faithPath: " + this.userFaithPath);
-        System.out.println("personalBoard: " + this.personalBoard);
-        System.out.println("Lorenzo Cards deck: " + this.lorenzoCardsDeck);
-        System.out.println("Croce nera Pos: " + croceNera);
+        logger.log(Level.INFO,"calamaio: " + this.hasCalamaio);
+        logger.log(Level.INFO,"faithPath: " + this.userFaithPath.toString());
+        logger.log(Level.INFO,"personalBoard: " + this.personalBoard.toString());
+        logger.log(Level.INFO,"Lorenzo Cards deck: " + this.lorenzoCardsDeck.toString());
+        logger.log(Level.INFO,"Croce nera Pos: " + croceNera.toString());
     }
 
 }

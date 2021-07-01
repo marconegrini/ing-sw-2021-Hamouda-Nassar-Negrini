@@ -19,11 +19,17 @@ import it.polimi.ingsw.model.devCardsDecks.CardsDeck;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class TurnManager {
 
+    private static final Logger logger = Logger.getLogger(TurnManager.class.getName());
     private boolean multiplayer;
     private List<MultiPlayer> players;
     private SinglePlayer player;
@@ -90,6 +96,13 @@ public class TurnManager {
      * @return OkMessage if marble inserted correctly, ErrorMessage if selected row or column doesn't exists
      */
     public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum,boolean useStorageLCs) {
+
+        try {
+            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
+
         List<Marble> pickedMarbles;
         ArrayList<Resource> recentlyResourcesFromWhiteMarble = new ArrayList<>();
         Resource recentlyAddedRes = null;
@@ -113,7 +126,7 @@ public class TurnManager {
         } catch (IndexOutOfBoundsException e){
             return new ErrorMessage("Selected row or column doesn't exists");
         }
-        System.out.println(pickedMarbles);
+        logger.log(Level.INFO, String.valueOf(pickedMarbles));
         boolean usedLeaderCard = false;
         List<Resource> resourcesToStore = new ArrayList<>();
 
@@ -195,7 +208,7 @@ public class TurnManager {
                 } else { //white marble isn't used
                     for (StorageLeaderCard sld : storageCardsPlayerOwns) {
                         boolean temp = sld.hasAvailableSlots();
-                        System.out.println("sld.hasAvailableSlots(); ---*>"+temp);
+                        logger.log(java.util.logging.Level.INFO,"sld.hasAvailableSlots(); ---*>"+temp);
                         if (sld.storageType().equals(recentlyAddedRes) && sld.hasAvailableSlots()) {
                             try {
                                 sld.putResourceInCardStorage(null, recentlyAddedRes);
@@ -215,7 +228,7 @@ public class TurnManager {
         }
 
         this.resorucesToStore = resourcesToStore;
-        System.out.println(resourcesToStore);
+        logger.log(java.util.logging.Level.INFO,resourcesToStore.toString());
         if(resourcesToStore.isEmpty()){
             this.turnDone();
             return new OkMessage("You don't have resources to store!");
@@ -244,7 +257,7 @@ public class TurnManager {
                         this.resorucesToStore.remove(res);
                     //previous line wasn't correct. It removed all the occurrences of specified resource
                     //this.resorucesToStore.removeAll(resourcesIn);
-                    System.out.println(this.resorucesToStore.toString());
+                    logger.log(java.util.logging.Level.INFO,this.resorucesToStore.toString());
                     return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
                 }
             } catch (StorageOutOfBoundsException e1) {
@@ -331,8 +344,7 @@ public class TurnManager {
                 return new BuyDVCardError("The cards deck is empty please choose another one", false);
             }
 
-//            System.out.println("playerResources: " + playerResources + "\n");
-            System.out.println("devCardCost: " + devCardCost + "\n");
+            logger.log(java.util.logging.Level.INFO,"devCardCost: " + devCardCost + "\n");
 
             boolean usedLeaderCard = false;
 
@@ -443,6 +455,12 @@ public class TurnManager {
      */
     public boolean pullNeededResources(Player player, List<Resource> cost){
 
+        try {
+            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
+
         List<Resource> warehouseResources = player.getWarehouseResource();
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
         List<Resource> toTakeFromCoffer = new ArrayList<>();
@@ -465,7 +483,7 @@ public class TurnManager {
             for (Resource resource : cost) {
                 //warehouse
                 if (warehouseResources.contains(resource)) {
-                    System.out.println("Passed here 1 + Resource: "+resource);//testing
+                    logger.log(java.util.logging.Level.INFO,"Passed here 1 + Resource: "+resource);//testing
                     warehouseResources.remove(resource);
                     toTakeFromWarehouse.add(resource);
                     pulled = true;
@@ -481,7 +499,7 @@ public class TurnManager {
                             {
                                 //pull one resource from any deposit/slot of teh card
                                 try {
-                                    System.out.println("Passed here 1 + Resource: " + resource); //testing
+                                    logger.log(java.util.logging.Level.INFO,"Passed here 1 + Resource: " + resource); //testing
                                     sld.pullResource();
                                     pulled = true;
                                 } catch (EmptySlotException e) {
@@ -494,7 +512,7 @@ public class TurnManager {
 
                 //coffer
                 if (!pulled){
-                    System.out.println("Passed here 3 + Resource: " + resource);//testing
+                    logger.log(java.util.logging.Level.INFO,"Passed here 3 + Resource: " + resource);//testing
                     toTakeFromCoffer.add(resource);
                 }
 
@@ -516,8 +534,15 @@ public class TurnManager {
      * @return outcome message encoded as ServerMessage Object
      */
     public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
-        System.out.println(slots.toString());
-        System.out.println(player.getPeekCardsInDevCardSLots());
+
+        try {
+            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
+
+        logger.log(java.util.logging.Level.INFO,slots.toString());
+        logger.log(java.util.logging.Level.INFO,player.getPeekCardsInDevCardSLots().toString());
         if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true, player.getClonedWarehouse(), player.getClonedCoffer());
         if (slots.size() > 3) return new ProductionResultMessage(true,"From server: Already selected the maximum of 3 slots!", false, null, null);
         List<Resource> productionInCost = new ArrayList<>();
@@ -534,7 +559,7 @@ public class TurnManager {
 
         //checks if resources needed for production are satisfied by warehouse and/or coffer
         if (containsNeededResources(player, productionInCost)) {
-            System.out.println(productionInCost);
+            logger.log(java.util.logging.Level.INFO,productionInCost.toString());
 
             pullNeededResources(player, productionInCost);
 
