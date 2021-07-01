@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -13,11 +15,13 @@ import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.server.controller.TurnManager;
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +30,8 @@ import static org.junit.Assert.assertEquals;
  * Class that tests Cards deck methods
  */
 public class CardsDeckTest {
+
+    private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
     private DevelopmentCardParser parser;
@@ -43,7 +49,12 @@ public class CardsDeckTest {
     @Before
     public void setUp(){
         LeaderCardParser leaderCardParser = new LeaderCardParser();
-        List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
+        List<LeaderCard> leaderCards = null;
+        try {
+            leaderCards = leaderCardParser.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(java.util.logging.Level.SEVERE, e.getMessage(), e);
+        }
         leaderCardParser.close();
         StorageLeaderCards = leaderCards.stream()
                 .filter(card->(card.getCardType().equals(CardType.STORAGE)))
