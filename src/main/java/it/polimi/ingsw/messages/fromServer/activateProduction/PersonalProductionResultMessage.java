@@ -37,16 +37,16 @@ public class PersonalProductionResultMessage extends ServerMessage {
         if(asSecondProduction){
             //meaning that it was the second production activated after the main one and the player obtained resources.
             //Show message and terminate.
-            serverHandler.getView().showMessage(resultMessage, true, false);
+            serverHandler.getView().showMessage(resultMessage, false, false);
         } else {
             //meaning that it was the only production activated or that no previous resources or faith points were obtained.
             if(error){
-                serverHandler.getView().showMessage(resultMessage, true, false);
+                serverHandler.getView().showMessage(resultMessage, false, false);
                 ClientMessage message = serverHandler.getView().selectAction("", false);
                 serverHandler.sendJson(message);
             } else {
                 //Production activated
-                serverHandler.getView().showMessage(resultMessage, true, false);
+                serverHandler.getView().showMessage(resultMessage, false, false);
             }
         }
     }
