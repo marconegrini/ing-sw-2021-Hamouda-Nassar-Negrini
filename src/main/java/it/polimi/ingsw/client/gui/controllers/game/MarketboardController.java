@@ -53,7 +53,6 @@ public class MarketboardController {
         Window theStage = source.getScene().getWindow();
         theStage.hide();
         isRow = false;
-        System.out.println("before platform");
 
 
         List<StorageLeaderCard> slds = new ArrayList<>();
@@ -62,11 +61,9 @@ public class MarketboardController {
                 if(ld.getCardType().equals(CardType.STORAGE))
                     slds.add(((StorageLeaderCard) ld));
             }
-            System.out.println("tra platform");
 
             if (slds.stream().anyMatch(StorageLeaderCard::hasAvailableSlots)) {
                 Platform.runLater(() ->{
-                    System.out.println("In platform");
                     Stage newStage = new Stage();
                     FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/useStorageCards.fxml"));
                     Parent root = null;
@@ -106,11 +103,9 @@ public class MarketboardController {
                 if(ld.getCardType().equals(CardType.STORAGE))
                     slds.add(((StorageLeaderCard) ld));
             }
-            System.out.println("tra platform");
 
             if (slds.stream().anyMatch(StorageLeaderCard::hasAvailableSlots)) {
                 Platform.runLater(() ->{
-                    System.out.println("In platform");
                     Stage newStage = new Stage();
                     FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/useStorageCards.fxml"));
                     Parent root = null;
@@ -126,8 +121,10 @@ public class MarketboardController {
                     newStage.initModality(Modality.APPLICATION_MODAL);
                     newStage.show();
                 });
+                return;
             }
-        } else ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, row+1, false));
+        }
+        ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, row+1, false));
 
     }
 
