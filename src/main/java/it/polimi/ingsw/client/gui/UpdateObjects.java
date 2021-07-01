@@ -9,15 +9,9 @@ import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -192,13 +186,6 @@ public class UpdateObjects {
                         rood.setPrefWidth(50);
                         rood.setPrefHeight(50);
 
-                        /*
-                        rood.setText(player);
-                        rood.setAlignment(Pos.TOP_CENTER);
-                        rood.setTextFill(Color.web("#ffffff"));
-                        rood.setFont(new Font("Arial", 15));
-                         */
-
                         String zeros = "000000";
                         Random random = new Random();
                         String s = Integer.toString(random.nextInt(0X1000000), 16);
@@ -345,18 +332,37 @@ public class UpdateObjects {
     }
 
     public static void updateLeaderCards(List<LeaderCard> leaderCards, Scene scene) {
+
         for (int i = 0; i < 2; i++) {
             Label card = (Label) scene.lookup("#leaderCard" + (i + 1));
             card.setStyle("-fx-background-image: url(\"images/leadercards/" +
                     leaderCards.get(i).toPath() + ".png\");" +
                     " -fx-background-size: 100% 100%;" +
                     "-fx-border-width: 5");
+            if (leaderCards.get(i).getCardType().equals(CardType.STORAGE) && leaderCards.get(i).isActivated()) {
+                StorageLeaderCard storageLeaderCard = (StorageLeaderCard) leaderCards.get(i);
+                Resource leaderResource =storageLeaderCard.storageType();
+
+                int maxCapacity = storageLeaderCard.getMaxCapacity();
+                Integer capacity = storageLeaderCard.getLeaderCardPower().get(leaderResource);
+                if (capacity == null)   capacity = 0;
+                int emptyCap = maxCapacity - capacity;
+                int occupiedSlots = maxCapacity - emptyCap;
+
+                for (int j=1; j <= occupiedSlots; j++){
+                    Label slot = (Label) scene.lookup("#resource" + (i+1) +  j);
+                    slot.getStyleClass().add(leaderResource.toString().toLowerCase());
+                }
+            }
             if (leaderCards.get(i).isActivated()) {
                 card.getStyleClass().remove("notSelectedCard");
                 card.getStyleClass().add("selectedCard");
                 card.setOpacity(1.0);
+            } else if (leaderCards.get(i).isDiscarded()){
+                card.setOpacity(0.9);
+                card.getStyleClass().remove("notSelectedCard");
+                card.getStyleClass().add("redFrame");
             } else card.setOpacity(0.9);
-            //System.out.println("Label leader: " + card);
         }
     }
 
