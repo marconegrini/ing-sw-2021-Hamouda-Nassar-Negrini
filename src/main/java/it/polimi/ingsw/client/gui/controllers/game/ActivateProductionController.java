@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
+import it.polimi.ingsw.messages.fromClient.ActivatePersonalProductionMessage;
 import it.polimi.ingsw.messages.fromClient.ActivateProductionMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -35,10 +37,6 @@ public class ActivateProductionController {
     public Label servant1;
     public Label coin1;
     public Label shield1;
-    @FXML
-    private Label leaderCard2;
-    @FXML
-    private Label stone2, shield2, coin2, servant2, label2;
     @FXML
     private Label personalProduction;
     private boolean selectedPersonalProduction = false;
@@ -114,8 +112,32 @@ public class ActivateProductionController {
     public void activate(ActionEvent actionEvent) {
         System.out.println(selectedSlots);
 
-        if (selectedSlots.isEmpty()) return;
+        if (selectedSlots.isEmpty() && !selectedPersonalProduction) return;
+        if (selectedSlots.isEmpty()){
+            Platform.runLater(() -> {
+                Stage newStage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/activatePersonalProduction.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                newStage.setTitle("Personal production");
+                Scene scene = new Scene(root, 1080, 670);
+                SceneManager.setPopUpScene(scene);
+                newStage.setScene(scene);
+                newStage.initStyle(StageStyle.TRANSPARENT);
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.show();
+            });
 
+            Node source = (Node) actionEvent.getSource();
+            Window theStage = source.getScene().getWindow();
+            theStage.hide();
+
+            return;
+        }
         int activatedLeaderCards = 0;
 
         for (LeaderCard lc : ControllerGUI.getServerHandler().getLightModel().getLeaderCards())
