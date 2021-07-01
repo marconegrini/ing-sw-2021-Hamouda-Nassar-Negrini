@@ -13,12 +13,16 @@ import it.polimi.ingsw.server.controller.TurnManager;
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * a class used in the SERVER, contains info like socket,Client, readers,writers and View type.
  */
 public class ClientHandler extends Thread {
 
+    private static final Logger logger = Logger.getLogger(ClientHandler.class.getName());
     private final Socket client;
     private InputStreamReader isr;
     private OutputStreamWriter osw;
@@ -45,6 +49,11 @@ public class ClientHandler extends Thread {
      */
     @Override
     public void run(){
+        try {
+            LogManager.getLogManager().readConfiguration(this.getClass().getClassLoader().getResourceAsStream("logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
         try{
             this.isr = new InputStreamReader(client.getInputStream());
             this.osw = new OutputStreamWriter(client.getOutputStream());
@@ -52,18 +61,18 @@ public class ClientHandler extends Thread {
             this.writer = new BufferedWriter(this.osw);
             out = new PrintWriter(writer, true);
         } catch (IOException e){
-            System.out.println("Could not open connection to " + client.getInetAddress());
+            logger.log(Level.SEVERE,"Could not open connection to " + client.getInetAddress());
         }
 
-        System.out.println("-------------");
-        System.out.println("Connected to: " + client);
-        System.out.println("-------------");
+        logger.log(Level.INFO,"-------------");
+        logger.log(Level.INFO,"Connected to: " + client);
+        logger.log(Level.INFO,"-------------");
         //pingClient();
         startLogin();
         try{
             processClientMessages();
         } catch (IOException e){
-            System.out.println("Client " + client.getInetAddress() + " connection drop");
+            logger.log(Level.SEVERE,"Client " + client.getInetAddress() + " connection drop");
             this.turnManager.turnDone();
             this.turnManager.setDisconnected();
         }
@@ -71,7 +80,7 @@ public class ClientHandler extends Thread {
         try {
             client.close();
         } catch (IOException e) {
-            System.out.println("Exception occurred while closing server socket");
+            logger.log(Level.SEVERE,"Exception occurred while closing server socket");
         }
     }
 
@@ -81,6 +90,8 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     private void processClientMessages() throws IOException {
+
+
         ClientMessageFactory factory = new ClientMessageFactory();
         boolean stop = false;
         while (!stop) {
@@ -88,11 +99,11 @@ public class ClientHandler extends Thread {
                     String jsonMessage = reader.readLine();
                     if(jsonMessage != null) {
                         ClientMessage message = factory.returnMessage(jsonMessage);
-                        System.out.println(message);
+                        logger.log(Level.INFO,message.toString());
                         message.serverProcess(this);
                     }
             } catch (MalformedJsonException e) {
-                System.out.println("Invalid json object from client");
+                logger.log(Level.INFO,"Invalid json object from client");
             }
             if (shouldStop.get())
                 stop = true;
@@ -160,7 +171,7 @@ public class ClientHandler extends Thread {
      * Invoked when a user exits from game while in waiting room
      */
     public void exitFromGame(){
-        System.out.println(nickname + " is exiting form the game");
+        logger.log(Level.INFO,nickname + " is exiting form the game");
         sendJson(new EndGameMessage("You exit from the game"));
         Server.removeClientHandler(this);
         setShouldStop();

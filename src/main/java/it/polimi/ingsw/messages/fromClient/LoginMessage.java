@@ -6,6 +6,8 @@ import it.polimi.ingsw.messages.fromServer.ServerLoginErrorMessage;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+import java.util.logging.Level;
+
 /**
  * sent from the client to authenticate the user in the game. The user is set in the waiting room after the message
  * has been received. If the message is sent by the fourth connecting client, the game is started automatically
@@ -28,7 +30,7 @@ public class LoginMessage extends ClientMessage {
                 clientHandler.sendJson(new ServerLoginErrorMessage("Error: Nickname already exists."));
             else {
                 clientHandler.setNickname(nickname);
-                System.out.println("Added " + clientHandler.getNickname());
+                ClientMessage.logger.log(Level.INFO,"Added " + clientHandler.getNickname());
                 Server.add(clientHandler);
                 if(Server.getPlayersNumber() == 4)
                     Server.startMultiplayerGame();
@@ -40,7 +42,7 @@ public class LoginMessage extends ClientMessage {
             }
         } else {
             clientHandler.setNickname(nickname);
-            System.out.println(nickname + " started a single player game");
+            ClientMessage.logger.log(Level.INFO,nickname + " started a single player game");
             Server.startSinglePlayerGame(clientHandler);
         }
     }

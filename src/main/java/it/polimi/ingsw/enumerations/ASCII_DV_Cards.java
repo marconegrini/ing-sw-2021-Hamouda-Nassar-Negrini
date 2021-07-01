@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * Class that contains special characters to trace development cards in cli
+ */
 public enum ASCII_DV_Cards {
 
     GREEN("\u001B[32m" + "⛊" + "\u001B[0m"),

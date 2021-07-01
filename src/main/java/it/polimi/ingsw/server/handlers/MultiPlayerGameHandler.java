@@ -15,9 +15,16 @@ import java.util.List;
 import java.util.Random;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Class that handles the multiplayer game. Contains references to all participants and manages
+ * turns and clients updates.
+ */
 public class MultiPlayerGameHandler extends Thread {
 
+    private static final Logger logger = Logger.getLogger(MultiPlayerGameHandler.class.getName());
     private List<ClientHandler> clientHandlers;
     private TurnManager turnManager;
     private final MultiPlayerGameInstance game;
@@ -51,12 +58,12 @@ public class MultiPlayerGameHandler extends Thread {
      */
     @Override
     public void run() {
-        System.out.println("Multiplayer game started");
+        logger.log(Level.INFO,"Multiplayer game started");
 
         sendToClients(new StartGameMessage());
 
         for (ClientHandler ch : clientHandlers) {
-            System.out.println("\nPlayer " + ch.getNickname());
+            logger.log(Level.INFO,"\nPlayer " + ch.getNickname());
             MultiPlayer player = (MultiPlayer) ch.getPlayer();
             player.printPlayer();
         }
@@ -204,7 +211,7 @@ public class MultiPlayerGameHandler extends Thread {
         ArrayList<ClientHandler> tempArr = new ArrayList();
         ClientHandler searchedCH = clientHandlers.stream().filter(x -> x.getPlayer().hasCalamaio()).findFirst().orElseGet(null);
         if(searchedCH==null){
-            System.out.println("Null pointer Exception");
+            System.err.println("Null pointer Exception");
             System.exit(-2);
         }
         tempArr.add(0, searchedCH);
@@ -214,7 +221,7 @@ public class MultiPlayerGameHandler extends Thread {
         if (clientHandlers.size() == tempArr.size() -1 ) {
             clientHandlers = tempArr;
         } else {
-            System.out.println("error while reOrdinating clientHandlers List after setting the Calamaio");
+            System.err.println("error while reOrdinating clientHandlers List after setting the Calamaio");
             System.exit(-2);
         }
 

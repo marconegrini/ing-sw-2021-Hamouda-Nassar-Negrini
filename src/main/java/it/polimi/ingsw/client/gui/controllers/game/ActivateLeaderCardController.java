@@ -18,6 +18,9 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
+/**
+ * GUI controller class invoked to activate a leader card
+ */
 public class ActivateLeaderCardController {
 
     private Label selectedCard;

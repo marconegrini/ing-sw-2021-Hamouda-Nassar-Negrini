@@ -1,39 +1,60 @@
 package it.polimi.ingsw.server;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromServer.ParticipantsMessage;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
 import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.net.InetAddress;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+
+/**
+ * Class that starts single or multiplayer games.
+ * Contains waiting room for players that choose the multiplayer game.
+ */
 public class Server {
 
     /**
      * Linked list that keeps track of users waiting to start the game
      */
     private static final LinkedList<ClientHandler> clientHandlers = new LinkedList<>();
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
+
 
     public static void main(String[] args) throws IOException {
+        try {
+            LogManager.getLogManager().readConfiguration(Server.class.getClassLoader().getResourceAsStream("logging.properties"));
+        } catch (SecurityException | IOException e1) {
+            e1.printStackTrace();
+        }
+
         InetAddress inetAddress = InetAddress.getLocalHost();
-        System.out.println("IP Address:- " + inetAddress.getHostAddress());
+        logger.log(Level.INFO,"IP Address:- " + inetAddress.getHostAddress());
         ServerSocket serverSocket = new ServerSocket(5056);
-        System.out.println("Server On listening with port: " + serverSocket);
-        System.out.println("-------------");
+        System.out.println(ANSITextFormat.BOLD +"Server running..."+ANSITextFormat.RESET);
+        logger.log(Level.INFO,"Server On listening with port: " + serverSocket);
+        logger.log(Level.INFO,"-------------");
         while (true){
             Socket clientSocket ;
             try{
                 clientSocket = serverSocket.accept();
-                System.out.println("-------------");
-                System.out.println("New connection from: " + clientSocket);
-                System.out.println("Assigning a new thread to the host: " + clientSocket);
-                System.out.println("-------------");
+                logger.log(Level.INFO,"-------------");
+                logger.log(Level.INFO,"New connection from: " + clientSocket);
+                logger.log(Level.INFO,"Assigning a new thread to the host: " + clientSocket);
+                logger.log(Level.INFO,"-------------");
                 ClientHandler client  = new ClientHandler(clientSocket);
                 client.start();
             } catch(IOException e){
-                System.out.println("Connection dropped");
+                logger.log(Level.INFO,"Connection dropped");
                 e.printStackTrace();
             }
         }
@@ -84,12 +105,12 @@ public class Server {
     }
 
     public static synchronized void printCurrentPlayers(){
-        System.out.println("Players:");
+        logger.log(Level.INFO,"Players:");
         for (ClientHandler clientHandler: clientHandlers){
-            System.out.println(clientHandler.getNickname());
+            logger.log(Level.INFO,clientHandler.getNickname());
         }
-        System.out.println("");
-        System.out.println("--------");
+        logger.log(Level.INFO,"");
+        logger.log(Level.INFO,"--------");
     }
 
     /**
@@ -113,7 +134,7 @@ public class Server {
      */
     public static synchronized void removeClientHandler (ClientHandler clientHandler){
         clientHandlers.remove(clientHandler);
-        System.out.println("Removed " + clientHandler.getNickname());
+        logger.log(Level.INFO,"Removed " + clientHandler.getNickname());
         sendParticipantsNumberUpdate();
     }
 

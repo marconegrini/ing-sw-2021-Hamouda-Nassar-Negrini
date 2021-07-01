@@ -2,6 +2,9 @@ package it.polimi.ingsw.client.gui.controllers;
 
 import it.polimi.ingsw.client.ServerHandler;
 
+/**
+ * GUI controller that contains a static reference to server handler
+ */
 public class ControllerGUI {
 
     private static ServerHandler serverHandler;

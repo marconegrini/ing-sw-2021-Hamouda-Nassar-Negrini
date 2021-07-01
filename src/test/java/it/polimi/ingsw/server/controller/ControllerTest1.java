@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class that tests controller's methods
+ */
 public class ControllerTest1 {
     TurnManager turnManager;
     TurnManager singlePlayerTurnManager;

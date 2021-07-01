@@ -1,13 +1,21 @@
 package it.polimi.ingsw.messages.fromClient;
 
+import it.polimi.ingsw.client.ClientApp;
 import it.polimi.ingsw.messages.fromServer.CalamaioErrorMessage;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.exceptions.StorageOutOfBoundsException;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.INFO;
 
 /**
  * message sent by the client TO THE SERVER, in response of the initialiseCalamaio message
@@ -16,6 +24,7 @@ import java.util.List;
 public class CalamaioResponseMessage extends ClientMessage {
 
 
+    private static final Logger logger = Logger.getLogger(CalamaioResponseMessage.class.getName());
     int choice1 = 0;
     int choice2 = 0;
     int destStorage1 = 0;
@@ -33,14 +42,18 @@ public class CalamaioResponseMessage extends ClientMessage {
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
+
+        Logger logger = Logger.getLogger(ClientApp.class.getName());
+
+
         if (choice1 != 0) {
-            System.out.println("Here1");
+            logger.log(INFO,"Here1");
             if (destStorage1 != 0) {
                 //
                 try {
                     clientHandler.getPlayer().putWarehouseResources(destStorage1, resourceConverter(choice1));
                     allIsWell =true; //will pass from here ONLY IF there no exception thrown
-                    System.out.println("Here2");
+                    logger.log(Level.INFO,"Here2");
 
                 } catch (StorageOutOfBoundsException e) {
                     clientHandler.sendJson(new CalamaioErrorMessage("StorageOutOfBoundsException"));
@@ -56,12 +69,12 @@ public class CalamaioResponseMessage extends ClientMessage {
                         try {
                             clientHandler.getPlayer().putWarehouseResources(destStorage2, resourceConverter(choice2));
                             allIsWell =true; //will pass from here ONLY IF there no exception thrown
-                            System.out.println("Here3");
+                            logger.log(Level.INFO,"Here3");
 
                         } catch (StorageOutOfBoundsException e) {
 
                             clientHandler.getPlayer().pullWarehouseResources( resourceConverter(choice1) );
-                            System.out.println("Here4");
+                            logger.log(Level.INFO,"Here4");
 
                             clientHandler.sendJson(new CalamaioErrorMessage("StorageOutOfBoundsException"));
                             e.printStackTrace();
@@ -69,7 +82,7 @@ public class CalamaioResponseMessage extends ClientMessage {
                         } catch (IllegalInsertionException e) {
 
                             clientHandler.getPlayer().pullWarehouseResources( resourceConverter(choice1) );
-                            System.out.println("Here5");
+                            logger.log(Level.INFO,"Here5");
 
                             clientHandler.sendJson(new CalamaioErrorMessage("IllegalInsertionException"));
                             e.printStackTrace();
@@ -84,11 +97,11 @@ public class CalamaioResponseMessage extends ClientMessage {
 //        clientHandler.sendJson(new UpdateFaithPathMessage(othersFaithPath,clientHandler.getPlayer().getFaithPathPosition()));
 //        clientHandler.sendJson(new UpdateWarehouseMessage(clientHandler.getPlayer().getPersonalBoard().getWarehouse()));
 
-        System.out.println("All is well : " + allIsWell);
+        logger.log(Level.INFO,"All is well : " + allIsWell);
 
-        System.out.println("getAccesses(): " + clientHandler.getTurnManager().getAccesses());
+        logger.log(Level.INFO,"getAccesses(): " + clientHandler.getTurnManager().getAccesses());
         if (allIsWell){
-            System.out.println("---PASSED--clientDone()---");
+            logger.log(Level.INFO,"---PASSED--clientDone()---");
         clientHandler.getTurnManager().clientDone();
         }
     }

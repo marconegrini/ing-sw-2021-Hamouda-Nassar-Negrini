@@ -27,7 +27,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+/**
+ * GUI class that handles methods invoked in graphic user interface
+ */
 public class GUIView extends View {
     /**
      * Shows a view in which the user can insert his nickname and the game modality.

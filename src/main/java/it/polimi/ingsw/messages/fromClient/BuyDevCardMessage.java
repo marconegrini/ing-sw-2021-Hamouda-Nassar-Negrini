@@ -32,21 +32,21 @@ public class BuyDevCardMessage extends ClientMessage{
         Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
 
-        //TESTING
-    if (player.getClonedCoffer().keySet().stream().anyMatch(x->player.getClonedCoffer().get(x)<20))
-        {
-            List<Resource> resourcesIn = new ArrayList<>();
-            for (int i = 0; i < 8; i++)
-                resourcesIn.add(Resource.SHIELD);
-            for (int i = 0; i < 8; i++)
-                resourcesIn.add(Resource.COIN);
-            for (int i = 0; i < 8; i++)
-                resourcesIn.add(Resource.SERVANT);
-            for (int i = 0; i < 8; i++)
-                resourcesIn.add(Resource.STONE);
-
-            player.putCofferResources(resourcesIn);
-        }
+//        //TESTING
+//    if (player.getClonedCoffer().keySet().stream().anyMatch(x->player.getClonedCoffer().get(x)<20))
+//        {
+//            List<Resource> resourcesIn = new ArrayList<>();
+//            for (int i = 0; i < 8; i++)
+//                resourcesIn.add(Resource.SHIELD);
+//            for (int i = 0; i < 8; i++)
+//                resourcesIn.add(Resource.COIN);
+//            for (int i = 0; i < 8; i++)
+//                resourcesIn.add(Resource.SERVANT);
+//            for (int i = 0; i < 8; i++)
+//                resourcesIn.add(Resource.STONE);
+//
+//            player.putCofferResources(resourcesIn);
+//        }
 
 
         //for testing   -- full all leader cards storage

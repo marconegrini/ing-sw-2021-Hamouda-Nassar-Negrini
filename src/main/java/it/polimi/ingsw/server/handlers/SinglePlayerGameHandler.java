@@ -12,10 +12,19 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
 import it.polimi.ingsw.server.controller.TurnManager;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
+/**
+ * Class that handles the execution of the single player game
+ */
 public class SinglePlayerGameHandler extends Thread {
 
+    private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
     private ClientHandler clientHandler;
     private TurnManager turnManager;
     private final SinglePlayerGameInstance game;
@@ -49,7 +58,8 @@ public class SinglePlayerGameHandler extends Thread {
      */
     @Override
     public void run() {
-        System.out.println(ANSITextFormat.BOLD + "\nSingle player game started\n" + ANSITextFormat.RESET);
+
+        logger.log(Level.INFO,ANSITextFormat.BOLD + "\nSingle player game started\n" + ANSITextFormat.RESET);
         SinglePlayer player = (SinglePlayer) clientHandler.getPlayer();
         player.printPlayer();
 
@@ -135,6 +145,7 @@ public class SinglePlayerGameHandler extends Thread {
      */
     public ServerMessage pickActionCard() {
 
+
         LorenzoCard lorenzoCard = actionCards.pop();
         Integer lorenzoPosition;
         ServerMessage messageToReturn = null;
@@ -143,7 +154,7 @@ public class SinglePlayerGameHandler extends Thread {
         switch (lorenzoCard.getType()) {
 
             case DISCARD2BLUEDVCARDS:
-                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2BLUEDVCARDS);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.DISCARD2BLUEDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.BLUE);
                 if (ended) {
                     gameEnded = true;
@@ -154,7 +165,7 @@ public class SinglePlayerGameHandler extends Thread {
                 break;
 
             case DISCARD2GREENDVCARDS:
-                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2GREENDVCARDS);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.DISCARD2GREENDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.GREEN);
                 if (ended) {
                     gameEnded = true;
@@ -165,7 +176,7 @@ public class SinglePlayerGameHandler extends Thread {
                 break;
 
             case DISCARD2VIOLETDVCARDS:
-                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2VIOLETDVCARDS);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.DISCARD2VIOLETDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.VIOLET);
                 if (ended) {
                     gameEnded = true;
@@ -176,7 +187,7 @@ public class SinglePlayerGameHandler extends Thread {
                 break;
 
             case DISCARD2YELLOWDVCARDS:
-                System.out.println("Picked Up a " + LorenzoCardType.DISCARD2YELLOWDVCARDS);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.DISCARD2YELLOWDVCARDS);
                 ended = turnManager.discardDevelopmentCards(CardColor.YELLOW);
                 if (ended) {
                     gameEnded = true;
@@ -187,7 +198,7 @@ public class SinglePlayerGameHandler extends Thread {
                 break;
 
             case TWOFAITHPOINTSCARD:
-                System.out.println("Picked Up a " + LorenzoCardType.TWOFAITHPOINTSCARD);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.TWOFAITHPOINTSCARD);
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
@@ -208,7 +219,7 @@ public class SinglePlayerGameHandler extends Thread {
                 break;
 
             case FAITHANDSHUFFLECARD:
-                System.out.println("Picked Up a " + LorenzoCardType.FAITHANDSHUFFLECARD);
+                logger.log(Level.INFO,"Picked Up a " + LorenzoCardType.FAITHANDSHUFFLECARD);
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);

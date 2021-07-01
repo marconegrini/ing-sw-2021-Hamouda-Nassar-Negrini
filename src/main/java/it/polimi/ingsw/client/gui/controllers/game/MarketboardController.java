@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI controller class invoked when playing with marketboard
+ */
 public class MarketboardController {
 
     private Label selectedLabel;

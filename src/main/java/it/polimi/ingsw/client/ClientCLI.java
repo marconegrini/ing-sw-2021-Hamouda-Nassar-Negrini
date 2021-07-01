@@ -3,11 +3,16 @@ package it.polimi.ingsw.client;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-
+/**
+ * Class that contains methods to interact with the user in the CLI game
+ */
 public class ClientCLI implements Runnable{
 
+    public static Logger logger = Logger.getLogger(ClientCLI.class.getName());
     private ServerHandler serverHandler;
 
     //public static void main(String[] args) throws IOException {

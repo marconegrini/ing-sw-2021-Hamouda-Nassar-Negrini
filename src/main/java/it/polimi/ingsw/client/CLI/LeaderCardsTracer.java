@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enumerations.CardType.*;
 
+/**
+ * Class that traces leader cards for the CLI
+ */
 public class LeaderCardsTracer {
     public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) {
         ArrayList<String> results = new ArrayList<>();

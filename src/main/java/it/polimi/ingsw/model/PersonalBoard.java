@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class that contains all player's structures needed to play the game.
+ * Contains methods to interact with these structures.
+ */
 public class PersonalBoard {
 
     private Warehouse warehouse;

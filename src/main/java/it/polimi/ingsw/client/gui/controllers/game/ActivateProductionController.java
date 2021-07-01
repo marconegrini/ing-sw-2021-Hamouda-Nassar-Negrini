@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI class invoked to activate production.
+ */
 public class ActivateProductionController {
 
     @FXML

@@ -3,9 +3,15 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.Color;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Class that contains marbles. Inserting a marble in the market board generates a list of resources.
+ */
 public class MarketBoard {
 
+    private static final Logger logger = Logger.getLogger(MarketBoard.class.getName());
     private Marble[][] marbles;
     private Marble externalMarble;
 
@@ -117,7 +123,7 @@ public class MarketBoard {
 
         //pickedResources = fromMarblesToResources(pickedMarbles);
         for(Marble marble : pickedMarbles)
-            System.out.println(marble.toString());
+            logger.log(Level.INFO,marble.toString());
         return pickedMarbles;
     }
 
@@ -128,42 +134,6 @@ public class MarketBoard {
 
     public Color getExternalMarbleColor () {return externalMarble.getColor();}
 
-    /*
-    public List<Marble> getRowOrColumnMarbles(boolean isRow, Integer rowOrColNum){
-        List<Marble> marblesToReturn = new ArrayList<>();
-        if(isRow){
-            for(int i = 0; i < 4; i++)
-                marblesToReturn.add(marbles[rowOrColNum][i]);
-        } else {
-            for(int i = 0; i < 3; i++)
-                marblesToReturn.add(marbles[i][rowOrColNum]);
-        }
-        return marblesToReturn;
-    }
-    */
-
-    /*
-        //for testing purpose only
-        public static void main(String[] args) {
-            MarketBoard market = new MarketBoard();
-
-            market.printm(market);
-            System.out.println(market.getExternalMarbleColor());
-            market.insertMarble(false,1);
-            market.printm(market);
-            System.out.println(market.getExternalMarbleColor());
-        }
-
-        public void printm(MarketBoard market){
-            for (int i=0; i<3; i++){
-                for (int j=0; j<4; j++){
-                    System.out.print(ASCII_Marbles.getShape(market.getMarketBoardMarbles()[i][j].getColor().toString())+" ");
-                }
-                System.out.println("\n");
-            }
-        }
-
-     */
 
 
 }

@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.Player;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+/**
+ * Class that extends the Game Instance class and overwrites the methods for the single player game
+ */
 public class SinglePlayerGameInstance extends GameInstance {
 
     private SinglePlayer player;

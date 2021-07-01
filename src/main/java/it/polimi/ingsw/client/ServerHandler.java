@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
 /**
  * Class handled by CLIENT thread. Contains references to all user's required classes, such as
@@ -52,26 +53,26 @@ public class ServerHandler implements Runnable{
             writer = new BufferedWriter(osw);
             out = new PrintWriter(writer, true);
         } catch (IOException e){
-            System.out.println("Cannot open connection to " + server);
+            ClientCLI.logger.log(Level.INFO,"Cannot open connection to " + server);
             return;
         }
 
         try{
             processServerMessages();
         } catch (IOException e) {
-            System.out.println("Server" + server.getInetAddress() + " connection drop");
+            ClientCLI.logger.log(Level.INFO,"Server" + server.getInetAddress() + " connection drop");
         }
 
         try{
             server.close();
         } catch (IOException e){
-                System.out.println("Exception occurred while closing client socket");
+            ClientCLI.logger.log(Level.INFO,"Exception occurred while closing client socket");
         }
     }
 
     /**
      * receive server messages and processes them, unconditionally form the message type
-     * @throws IOException
+     * @throws IOException if the server disconnects
      */
     public void processServerMessages() throws IOException{
         ServerMessageFactory factory = new ServerMessageFactory();
@@ -81,12 +82,11 @@ public class ServerHandler implements Runnable{
                 System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
                 try {
                         String jsonMessage = reader.readLine();
-                        System.out.println(jsonMessage);
-                        if(jsonMessage != null) {
-                            ServerMessage message = factory.returnMessage(jsonMessage);
-                            System.out.println(message.toString());
-                            System.out.println("\n");
-                            message.clientProcess(this);
+                    ClientCLI.logger.log(Level.INFO,jsonMessage);
+                    if(jsonMessage != null) {
+                        ServerMessage message = factory.returnMessage(jsonMessage);
+                        ClientCLI.logger.log(Level.INFO,message.toString());
+                        message.clientProcess(this);
                         }
 
                 } catch (IOException e) {
@@ -113,7 +113,7 @@ public class ServerHandler implements Runnable{
 
     /**
      * used pack a ClientMessage into a json file. Sends it to the server
-     * @param message
+     * @param message message to parse as json
      */
     public void sendJson(ClientMessage message){
         Gson gson = new Gson();

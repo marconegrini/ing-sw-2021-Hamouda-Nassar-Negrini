@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Stack;
 
+/**
+ * Class that contains development cards. This class is used by the development cards decks.
+ */
 public class Deck {
 
     private Stack<DevelopmentCard> deck;

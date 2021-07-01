@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CardSlotParser</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.parser</a>
+</div>
+
+<h1>Coverage Summary for Class: CardSlotParser (it.polimi.ingsw.model.parser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardSlotParser</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.parser;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.google.gson.JsonElement;
+<i class="no-highlight">4</i>&nbsp;import com.google.gson.JsonObject;
+<i class="no-highlight">5</i>&nbsp;import com.google.gson.JsonStreamParser;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.io.InputStreamReader;
+<i class="no-highlight">8</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;public class CardSlotParser extends Parser{
+<b class="fc"><i class="no-highlight">11</i>&nbsp;    public CardSlotParser() {</b>
+<b class="fc"><i class="no-highlight">12</i>&nbsp;        this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream(&quot;/CardSlotsWarehouse.json&quot;)));</b>
+<b class="fc"><i class="no-highlight">13</i>&nbsp;        this.parser = new JsonStreamParser(this.reader);</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;    }</b>
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    public Integer getCardSlotsNumber(){
+<i class="no-highlight">17</i>&nbsp;
+<b class="fc"><i class="no-highlight">18</i>&nbsp;        Integer cardSlotsNumber = 0;</b>
+<i class="no-highlight">19</i>&nbsp;
+<b class="fc"><i class="no-highlight">20</i>&nbsp;        while(parser.hasNext()){</b>
+<i class="no-highlight">21</i>&nbsp;
+<b class="fc"><i class="no-highlight">22</i>&nbsp;            JsonElement element = parser.next();</b>
+<i class="no-highlight">23</i>&nbsp;
+<b class="fc"><i class="no-highlight">24</i>&nbsp;            if(element.isJsonObject()){</b>
+<i class="no-highlight">25</i>&nbsp;
+<b class="fc"><i class="no-highlight">26</i>&nbsp;                JsonObject fileObject = element.getAsJsonObject();</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;                cardSlotsNumber = fileObject.get(&quot;devCardSlotNum&quot;).getAsInt();</b>
+<i class="no-highlight">28</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        }</b>
+<i class="no-highlight">30</i>&nbsp;
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        return cardSlotsNumber;</b>
+<i class="no-highlight">32</i>&nbsp;    }
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-06-30 13:17</div>
+</div>
+</body>
+</html>

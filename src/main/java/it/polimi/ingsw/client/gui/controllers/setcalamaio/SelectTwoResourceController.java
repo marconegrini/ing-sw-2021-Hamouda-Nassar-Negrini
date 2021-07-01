@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * GUI controller class invoked in the initial calamaio setup to choose two resources
+ */
 public class SelectTwoResourceController {
 
     @FXML

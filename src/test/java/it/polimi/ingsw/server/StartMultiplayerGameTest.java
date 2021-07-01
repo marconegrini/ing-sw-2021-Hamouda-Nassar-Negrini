@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+/**
+ * Class that test the start of the multiplayer game
+ */
 public class StartMultiplayerGameTest {
 
     @Test

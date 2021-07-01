@@ -12,6 +12,9 @@ import it.polimi.ingsw.enumerations.Resource;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * White marble leader card
+ */
 public class WhiteMarbleLeaderCard extends LeaderCard {
 
     private final HashMap<Resource, Integer> productionOut;

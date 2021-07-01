@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
 import java.util.*;
 
+/**
+ * Class that contains development cards to buy. Development card are placed inside decks.
+ */
 public class CardsDeck {
 
     private Deck[][] cardsDeck;

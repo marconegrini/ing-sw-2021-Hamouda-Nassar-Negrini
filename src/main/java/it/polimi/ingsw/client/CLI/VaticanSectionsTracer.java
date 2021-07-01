@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.VaticanSection;
 
 import java.util.List;
 
+/**
+ * Class that contains methods to trace vatican sections for the CLI
+ */
 public class VaticanSectionsTracer {
 
     public void showVaticanSections(List<VaticanSection> vaticanSections){

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
-
+/**
+ * Text format
+ */
 public enum ANSITextFormat {
 
         BOLD("\u001b[1m"),

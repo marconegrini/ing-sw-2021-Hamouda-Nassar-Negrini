@@ -4,7 +4,15 @@ import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.PersonalBoard;
 import it.polimi.ingsw.model.Player;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Class that extends player object and overwrites methods for the multiplayer game.
+ */
 public class MultiPlayer extends Player {
+
+    private static final Logger logger = Logger.getLogger(MultiPlayer.class.getName());
 
     public MultiPlayer(String nickname){
         this.nickname = nickname;
@@ -57,9 +65,9 @@ public class MultiPlayer extends Player {
     }
 
     public void printPlayer(){
-        System.out.println("Calamaio: " + this.hasCalamaio);
+        logger.log(Level.INFO,"Calamaio: " + this.hasCalamaio);
         //System.out.println("leader cards: " + this.leaderCards.toString());
-        System.out.println("faithPath: " + this.userFaithPath);
-        System.out.println("personalBoard: " + this.personalBoard);
+        logger.log(Level.INFO,"faithPath: " + this.userFaithPath.toString());
+        logger.log(Level.INFO,"personalBoard: " + this.personalBoard.toString());
     }
 }

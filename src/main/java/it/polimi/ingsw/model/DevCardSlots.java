@@ -9,9 +9,15 @@ import it.polimi.ingsw.exceptions.IllegalInsertionException;
 import it.polimi.ingsw.model.parser.CardSlotParser;
 
 import java.util.*;
+import java.util.logging.Logger;
 
+/**
+ * Slots containing development cards bought from development cards deck. Development cards are stored
+ * within three different slots.
+ */
 public class DevCardSlots {
 
+    private static final Logger logger = Logger.getLogger(DevCardSlots.class.getName());
     private ArrayList<Stack<DevelopmentCard>> cardSlot;
 
     public DevCardSlots(){
@@ -61,28 +67,28 @@ public class DevCardSlots {
      * @throws IndexOutOfBoundsException if slot number doesn't exists
      */
     public void addCard(int slotNumber, DevelopmentCard developmentCard) throws IllegalInsertionException, IndexOutOfBoundsException{
-        System.out.println("IN: DevCardSlots/addCard():\n");
+        logger.log(java.util.logging.Level.INFO,"IN: DevCardSlots/addCard():\n");
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
-        System.out.println(cardSlot.get(slotNumber));
-        System.out.println(cardSlot.get(slotNumber).isEmpty());
+        logger.log(java.util.logging.Level.INFO,cardSlot.get(slotNumber).toString());
+        logger.log(java.util.logging.Level.INFO, String.valueOf(cardSlot.get(slotNumber).isEmpty()));
         //if selected slot contains Cards
         if(!cardSlot.get(slotNumber).isEmpty()) {
             Level bottomCardLevel = cardSlot.get(slotNumber).peek().getLevel();
             Level upperCardLevel = developmentCard.getLevel();
-            System.out.println("bottomCardLevel " + bottomCardLevel);
-            System.out.println("upperCardLevel " + upperCardLevel);
+            logger.log(java.util.logging.Level.INFO,"bottomCardLevel " + bottomCardLevel);
+            logger.log(java.util.logging.Level.INFO,"upperCardLevel " + upperCardLevel);
             if (bottomCardLevel.equals(Level.FIRST) && upperCardLevel.equals(Level.SECOND))
                 cardSlot.get(slotNumber).push(developmentCard);
             else if(bottomCardLevel.equals(Level.SECOND) && upperCardLevel.equals(Level.THIRD)) {
                 cardSlot.get(slotNumber).push(developmentCard);
             }
             else {
-                System.out.println("KO: INSERTION OF CARD WITH LOWER LEVEL ON ONE WITH HIGHER LEVEL, OR A CARD WITH HIGHER ON EMPTY SLOT");
+                logger.log(java.util.logging.Level.INFO,"KO: INSERTION OF CARD WITH LOWER LEVEL ON ONE WITH HIGHER LEVEL, OR A CARD WITH HIGHER ON EMPTY SLOT");
                 throw new IllegalInsertionException();
             }
         } else {
             //if selected slot is empty
-            System.out.println("OK: PLAYER's selected slot is empty");
+            logger.log(java.util.logging.Level.INFO,"OK: PLAYER's selected slot is empty");
             if(developmentCard.getLevel().equals(Level.FIRST))
                 cardSlot.get(slotNumber).push(developmentCard);
             else throw new IllegalInsertionException();
@@ -99,7 +105,7 @@ public class DevCardSlots {
     public HashMap<Resource, Integer> resourcesProductionIn(int slotNumber) throws EmptySlotException, IndexOutOfBoundsException {
         if(slotNumber < 0 || slotNumber > (cardSlot.size()-1)) throw new IndexOutOfBoundsException();
         if(cardSlot.get(slotNumber).size() != 0){
-            System.out.println(cardSlot.get(slotNumber).peek().getProductionIn());
+            logger.log(java.util.logging.Level.INFO,cardSlot.get(slotNumber).peek().getProductionIn().toString());
             return (HashMap<Resource, Integer>) cardSlot.get(slotNumber).peek().getProductionIn().clone();
         } else throw new EmptySlotException();
     }
