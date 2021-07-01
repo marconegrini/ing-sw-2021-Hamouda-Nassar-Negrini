@@ -113,6 +113,9 @@ public class BuyDevelopmentCardController {
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+            UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+            UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
         });
 
     }

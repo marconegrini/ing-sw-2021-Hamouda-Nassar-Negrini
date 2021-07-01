@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
 import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.ActivateLeaderCardMessage;
 import javafx.application.Platform;
@@ -77,6 +78,9 @@ public class ActivateLeaderCardController {
             newStage.setOnCloseRequest( event ->{ event.consume();});
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+            UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+            UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
         });
     }
 }
