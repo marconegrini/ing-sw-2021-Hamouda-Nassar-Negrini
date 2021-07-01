@@ -1,6 +1,7 @@
 package it.polimi.ingsw.messages.fromServer.activateProduction;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
@@ -53,8 +54,14 @@ public class ProductionResultMessage extends ServerMessage {
             if(goToPersonalProduction){
                 //the player couldn't activate production due to insufficient resources. Move on and ask for the
                 //the activation of personal production
-                serverHandler.getLightModel().setWarehouse(new Warehouse(this.warehouse));
-                serverHandler.getLightModel().setCoffer(new Coffer(this.coffer));
+                Warehouse newWarehouse = new Warehouse(this.warehouse);
+                Coffer newCoffer = new Coffer(this.coffer);
+                serverHandler.getLightModel().setWarehouse(newWarehouse);
+                serverHandler.getLightModel().setCoffer(newCoffer);
+                if (!serverHandler.getIsCli()){
+                    UpdateObjects.updateWarehouse(newWarehouse);
+                    UpdateObjects.updateCoffer(newCoffer);
+                }
                 message = serverHandler.getView().activatePersonalProduction();
             } else {
                 //ask again to activate normal production because specified parameters are incorrect

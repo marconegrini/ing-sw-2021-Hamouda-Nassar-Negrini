@@ -33,6 +33,7 @@ public class ServerHandler implements Runnable{
     private LightModel lightModel;
     private View view;
     private boolean isCli;
+    private boolean isMultiplayer= false;
 
     public ServerHandler(Socket server, boolean isCli){
         this.server = server;
@@ -150,6 +151,13 @@ public class ServerHandler implements Runnable{
         return isCli;
     }
 
+    public void setIsMultiplayer (boolean isMultiplayer){
+        this.isMultiplayer = isMultiplayer;
+    }
+
+    public boolean getIsMultiplayer (){
+        return this.isMultiplayer;
+    }
 
 
 }

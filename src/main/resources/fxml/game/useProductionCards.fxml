@@ -6,21 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.MarketboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="450.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.ActivateProductionController">
    <children>
       <AnchorPane layoutX="62.0" layoutY="10.0" prefHeight="500.0" prefWidth="533.0" styleClass="renaissanceBackground" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button layoutX="249.0" layoutY="135.0" mnemonicParsing="false" onAction="#useLeaderCards" prefHeight="57.0" prefWidth="122.0" text="Yes">
+            <Button layoutX="249.0" layoutY="135.0" mnemonicParsing="false" onAction="#useProductionCards" prefHeight="57.0" prefWidth="122.0" text="Yes">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="65.0" layoutY="135.0" mnemonicParsing="false" onAction="#dontUseLeaderCards" prefHeight="57.0" prefWidth="122.0" text="No">
+            <Button layoutX="65.0" layoutY="135.0" mnemonicParsing="false" onAction="#dontUseProductionCards" prefHeight="57.0" prefWidth="122.0" text="No">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Label fx:id="massageLabel" layoutX="27.0" layoutY="14.0" maxHeight="101.0" maxWidth="838.0" prefHeight="82.0" prefWidth="387.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Do you want to use your storage leader card?" textAlignment="CENTER" textFill="#000d80">
+            <Label fx:id="massageLabel" layoutX="27.0" layoutY="14.0" maxHeight="101.0" maxWidth="838.0" prefHeight="82.0" prefWidth="387.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Do you want to use your production leader card?" textAlignment="CENTER" textFill="#000d80">
                <font>
                   <Font size="30.0" />
                </font>

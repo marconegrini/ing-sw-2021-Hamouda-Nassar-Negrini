@@ -16,9 +16,15 @@
      -fx-border-width: 5;
 }
 
+.greenFrame{
+    -fx-border-color:  #0cad14;
+     -fx-border-width: 5;
+}
+
 .onMouseEntered{
      -fx-border-color:  #c6c4c4;
  }
+
 
 
 

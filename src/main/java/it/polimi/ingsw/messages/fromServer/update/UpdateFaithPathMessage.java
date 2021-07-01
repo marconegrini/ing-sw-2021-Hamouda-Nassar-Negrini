@@ -26,7 +26,7 @@ public class UpdateFaithPathMessage extends ServerMessage {
         serverHandler.getLightModel().setOtherPlayersFaithPathPosition(this.othersPositions);
         serverHandler.getLightModel().setFaithPathPosition(this.playerPosition);
         if (!serverHandler.getIsCli()){
-            UpdateObjects.updateFaithPath(playerPosition);
+            UpdateObjects.updateFaithPath(othersPositions, playerPosition);
         }
     }
 }

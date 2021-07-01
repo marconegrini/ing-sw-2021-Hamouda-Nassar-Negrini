@@ -57,3 +57,9 @@
     -fx-background-image: url('../../images/popecards/front4.png');
     -fx-background-size: 100% 100%;
 }
+
+.personalProduction{
+    -fx-background-image: url('../../images/game/personalProduction.png');
+    -fx-background-size: 100% 100%;
+}
+

@@ -53,6 +53,7 @@ public class LoginController {
 
         isMultiplayer = selected.getText().equalsIgnoreCase("YES");
         ControllerGUI.getServerHandler().sendJson(new LoginMessage(nicknameTextField.getText(), isMultiplayer));
+        ControllerGUI.getServerHandler().setIsMultiplayer(isMultiplayer);
     }
 
     /**
