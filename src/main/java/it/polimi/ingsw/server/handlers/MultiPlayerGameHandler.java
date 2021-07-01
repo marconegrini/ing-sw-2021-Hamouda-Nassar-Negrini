@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.handlers;
 
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -131,7 +133,11 @@ public class MultiPlayerGameHandler extends Thread {
     public void sendLeaderCards() {
         LeaderCardParser parser = new LeaderCardParser();
         Stack<LeaderCard> deck = new Stack();
-        deck = parser.getLeaderCardsDeck();
+        try {
+            deck = parser.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
         Collections.shuffle(deck);
         for (ClientHandler ch : clientHandlers) {
             List<LeaderCard> leaderCards = new ArrayList();

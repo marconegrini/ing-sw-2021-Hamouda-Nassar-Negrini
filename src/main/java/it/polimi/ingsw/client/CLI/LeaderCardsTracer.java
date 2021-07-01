@@ -9,11 +9,14 @@ import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enumerations.CardType.*;
@@ -22,6 +25,9 @@ import static it.polimi.ingsw.enumerations.CardType.*;
  * Class that traces leader cards for the CLI
  */
 public class LeaderCardsTracer {
+
+    //private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
+
     public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) {
         ArrayList<String> results = new ArrayList<>();
 
@@ -218,9 +224,15 @@ public class LeaderCardsTracer {
 
 
     //for testing
+    /*
     public void main()  {
         LeaderCardParser leaderCardParser = new LeaderCardParser();
-        List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
+        List<LeaderCard> leaderCards = null;
+        try {
+            leaderCards = leaderCardParser.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
         leaderCardParser.close();
 
 
@@ -254,5 +266,7 @@ public class LeaderCardsTracer {
         output.forEach(System.out::println);
 
     }
+
+     */
 
 }
