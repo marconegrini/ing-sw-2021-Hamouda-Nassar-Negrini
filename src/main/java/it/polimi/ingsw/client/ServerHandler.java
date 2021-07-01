@@ -71,7 +71,7 @@ public class ServerHandler implements Runnable{
 
     /**
      * receive server messages and processes them, unconditionally form the message type
-     * @throws IOException
+     * @throws IOException if the server disconnects
      */
     public void processServerMessages() throws IOException{
         ServerMessageFactory factory = new ServerMessageFactory();
@@ -112,7 +112,7 @@ public class ServerHandler implements Runnable{
 
     /**
      * used pack a ClientMessage into a json file. Sends it to the server
-     * @param message
+     * @param message message to parse as json
      */
     public void sendJson(ClientMessage message){
         Gson gson = new Gson();

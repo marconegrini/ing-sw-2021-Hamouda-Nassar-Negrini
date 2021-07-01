@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.Player;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that extends player object and overwrites methods for the multiplayer game.
+ */
 public class MultiPlayer extends Player {
 
     private static final Logger logger = Logger.getLogger(MultiPlayer.class.getName());

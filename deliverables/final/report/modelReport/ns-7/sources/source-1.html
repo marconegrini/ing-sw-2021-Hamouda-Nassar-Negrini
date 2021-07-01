@@ -1,0 +1,209 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SinglePlayer</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.singleplayer</a>
+</div>
+
+<h1>Coverage Summary for Class: SinglePlayer (it.polimi.ingsw.model.singleplayer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SinglePlayer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,4%
+  </span>
+  <span class="absValue">
+    (34/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.singleplayer;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.FaithPath;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.PersonalBoard;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.Player;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.cards.LorenzoCard;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.enumerations.LorenzoCardType;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.util.Collections;
+<i class="no-highlight">10</i>&nbsp;import java.util.Stack;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;public class SinglePlayer extends Player {
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;    private Stack&lt;LorenzoCard&gt; lorenzoCardsDeck;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    //private Stack&lt;LorenzoCard&gt; temporaryDeck;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    private Integer croceNera;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    private Stack&lt;LorenzoCard&gt; poppedLorenzosCard;
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;    //TODO single player userFaithPath
+<i class="no-highlight">23</i>&nbsp;
+<b class="fc"><i class="no-highlight">24</i>&nbsp;    public SinglePlayer(String nickname){</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;        this.userFaithPath = new FaithPath();</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;        this.hasCalamaio = true;</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        this.personalBoard = new PersonalBoard();</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        lorenzoCardsDeck = new Stack();</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2GREENDVCARDS));</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2YELLOWDVCARDS));</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2BLUEDVCARDS));</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.DISCARD2VIOLETDVCARDS));</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.TWOFAITHPOINTSCARD));</b>
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.FAITHANDSHUFFLECARD));</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        lorenzoCardsDeck.push(new LorenzoCard(LorenzoCardType.TWOFAITHPOINTSCARD));</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        Collections.shuffle(lorenzoCardsDeck);</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        poppedLorenzosCard = new Stack&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        croceNera = 0;</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;    }</b>
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    @Override
+<i class="no-highlight">43</i>&nbsp;    public void incrementFaithPathPosition() {
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        this.userFaithPath.incrementUserPosition();</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;    }</b>
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;    @Override
+<i class="no-highlight">48</i>&nbsp;    public Integer getFaithPathPosition() {
+<b class="fc"><i class="no-highlight">49</i>&nbsp;        return this.userFaithPath.getUserPosition();</b>
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    @Override
+<i class="no-highlight">53</i>&nbsp;    public void updateFaithPath(Integer newLorenzoPos) {
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        this.userFaithPath.update(newLorenzoPos);</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;    }</b>
+<i class="no-highlight">56</i>&nbsp;
+<i class="no-highlight">57</i>&nbsp;    /**
+<i class="no-highlight">58</i>&nbsp;     * Increments black cross position in faith path
+<i class="no-highlight">59</i>&nbsp;     */
+<i class="no-highlight">60</i>&nbsp;    public void incrementLorenzoPosition(){
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        if(croceNera &lt; userFaithPath.getEnd())</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            croceNera++;</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;    }</b>
+<i class="no-highlight">64</i>&nbsp;
+<i class="no-highlight">65</i>&nbsp;    /**
+<i class="no-highlight">66</i>&nbsp;     * @return the entire action cards deck
+<i class="no-highlight">67</i>&nbsp;     */
+<i class="no-highlight">68</i>&nbsp;    public Stack&lt;LorenzoCard&gt;getActionCards(){
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        return lorenzoCardsDeck;</b>
+<i class="no-highlight">70</i>&nbsp;    }
+<i class="no-highlight">71</i>&nbsp;
+<i class="no-highlight">72</i>&nbsp;    /**
+<i class="no-highlight">73</i>&nbsp;     * @return action card picked from the main deck and left apart
+<i class="no-highlight">74</i>&nbsp;     */
+<i class="no-highlight">75</i>&nbsp;    public Stack&lt;LorenzoCard&gt; getPoppedLorenzosCard() {
+<b class="nc"><i class="no-highlight">76</i>&nbsp;        return poppedLorenzosCard;</b>
+<i class="no-highlight">77</i>&nbsp;    }
+<i class="no-highlight">78</i>&nbsp;
+<i class="no-highlight">79</i>&nbsp;    /**
+<i class="no-highlight">80</i>&nbsp;     * @return black cross&#39; position in faithpath
+<i class="no-highlight">81</i>&nbsp;     */
+<i class="no-highlight">82</i>&nbsp;    public Integer getLorenzoPosition(){
+<b class="fc"><i class="no-highlight">83</i>&nbsp;        return this.croceNera;</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     *
+<i class="no-highlight">88</i>&nbsp;     * @return true if the black cross reached the end of faith path
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    public boolean lorenzoWins(){
+<b class="fc"><i class="no-highlight">91</i>&nbsp;        if(croceNera.equals(this.userFaithPath.getEnd())) return true;</b>
+<b class="fc"><i class="no-highlight">92</i>&nbsp;        return false;</b>
+<i class="no-highlight">93</i>&nbsp;    }
+<i class="no-highlight">94</i>&nbsp;
+<i class="no-highlight">95</i>&nbsp;    public void printPlayer(){
+<b class="fc"><i class="no-highlight">96</i>&nbsp;        System.out.println(&quot;calamaio: &quot; + this.hasCalamaio);</b>
+<i class="no-highlight">97</i>&nbsp;        //System.out.println(&quot;leader cards: &quot; + this.leaderCards.toString());
+<b class="fc"><i class="no-highlight">98</i>&nbsp;        System.out.println(&quot;faithPath: &quot; + this.userFaithPath);</b>
+<b class="fc"><i class="no-highlight">99</i>&nbsp;        System.out.println(&quot;personalBoard: &quot; + this.personalBoard);</b>
+<b class="fc"><i class="no-highlight">100</i>&nbsp;        System.out.println(&quot;Lorenzo Cards deck: &quot; + this.lorenzoCardsDeck);</b>
+<b class="fc"><i class="no-highlight">101</i>&nbsp;        System.out.println(&quot;Croce nera Pos: &quot; + croceNera);</b>
+<b class="fc"><i class="no-highlight">102</i>&nbsp;    }</b>
+<i class="no-highlight">103</i>&nbsp;
+<i class="no-highlight">104</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-06-30 13:17</div>
+</div>
+</body>
+</html>

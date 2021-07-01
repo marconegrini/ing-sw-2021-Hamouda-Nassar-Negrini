@@ -27,6 +27,10 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class that contains methods invoked by client message's server process methods.
+ * Controller's methods modify Model classes and return Server Messages for the client.
+ */
 public class TurnManager {
 
     private static final Logger logger = Logger.getLogger(TurnManager.class.getName());

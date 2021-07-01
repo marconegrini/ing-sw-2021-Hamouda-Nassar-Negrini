@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Class that builds client side leader cards from json files sent from server.
+ */
 public class LeaderCardFactory {
 
     private static final Logger logger = Logger.getLogger(LeaderCardFactory.class.getName());

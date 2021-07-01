@@ -7,6 +7,10 @@ import it.polimi.ingsw.model.parser.WarehouseParser;
 
 import java.util.*;
 
+/**
+ * Class that implements deposits interface. Needed to store player's resources with limitations
+ * on storages capacity and rules on insertions.
+ */
 public class Warehouse implements Deposit{
 
     private Map<Integer, Storage> warehouse;

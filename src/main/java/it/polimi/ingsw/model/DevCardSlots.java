@@ -11,6 +11,10 @@ import it.polimi.ingsw.model.parser.CardSlotParser;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * Slots containing development cards bought from development cards deck. Development cards are stored
+ * within three different slots.
+ */
 public class DevCardSlots {
 
     private static final Logger logger = Logger.getLogger(DevCardSlots.class.getName());

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * Enumeration class for cards colors
+ */
 public enum CardColor {
     GREEN, BLUE, YELLOW, VIOLET;
 

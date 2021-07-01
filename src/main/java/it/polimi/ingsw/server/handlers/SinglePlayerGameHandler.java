@@ -19,6 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+/**
+ * Class that handles the execution of the single player game
+ */
 public class SinglePlayerGameHandler extends Thread {
 
     private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());

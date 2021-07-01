@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.logging.*;
 import java.util.Arrays;
 
+/**
+ * Main Client class that launches the CLI game or the GUI one
+ */
 public class ClientApp {
 /*
 *   SEVERE (highest)
@@ -35,12 +38,6 @@ public class ClientApp {
 
 
         boolean cliParam = false; // default value
-
-//        System.out.println(Arrays.toString(ASCII_Resources.values()));
-//        System.out.println(Arrays.toString(ASCII_DV_Cards.values()));
-//
-//        LeaderCardsTracer leaderCardTracer = new LeaderCardsTracer();
-//        leaderCardTracer.main();
 
 
 

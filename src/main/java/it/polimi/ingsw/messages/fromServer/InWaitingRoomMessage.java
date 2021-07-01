@@ -2,6 +2,9 @@ package it.polimi.ingsw.messages.fromServer;
 
 import it.polimi.ingsw.client.ServerHandler;
 
+/**
+ * Message sent from server to client to start the waiting in the waiting room
+ */
 public class InWaitingRoomMessage extends ServerMessage{
 
     public InWaitingRoomMessage() {

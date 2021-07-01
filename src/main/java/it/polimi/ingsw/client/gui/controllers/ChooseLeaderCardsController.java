@@ -9,6 +9,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * GUI controller class used to choose leader cards.
+ */
 public class ChooseLeaderCardsController {
 
     @FXML

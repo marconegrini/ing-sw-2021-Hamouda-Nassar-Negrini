@@ -7,7 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-
+/**
+ * Class that contains methods to interact with the user in the CLI game
+ */
 public class ClientCLI implements Runnable{
 
     public static Logger logger = Logger.getLogger(ClientCLI.class.getName());

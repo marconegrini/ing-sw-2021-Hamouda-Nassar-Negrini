@@ -1,6 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
-
+/**
+ * Class that contains special characters to trace resources
+ */
 public enum ASCII_Resources {
 
     COIN("\u001B[33m" + "⛂" +  "\u001B[0m"),

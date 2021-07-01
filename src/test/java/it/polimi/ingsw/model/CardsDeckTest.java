@@ -10,6 +10,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class that tests Cards deck methods
+ */
 public class CardsDeckTest {
     private CardsDeck cardsDeck;
     private DevelopmentCardParser parser;

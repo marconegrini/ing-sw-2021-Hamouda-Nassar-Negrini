@@ -12,6 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * Storage leader card class.
+ */
 public class StorageLeaderCard extends LeaderCard {
 
     private static final Logger logger = Logger.getLogger(StorageLeaderCard.class.getName());

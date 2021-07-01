@@ -13,7 +13,9 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.Socket;
 
-
+/**
+ * GUI controller class invoked to set a connection with server
+ */
 public class ConnectionToServerController {
 
 

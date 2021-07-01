@@ -16,6 +16,9 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
+/**
+ * GUI controller class invoked when the user needs to select an action to perform
+ */
 public class SelectActionController {
 
 

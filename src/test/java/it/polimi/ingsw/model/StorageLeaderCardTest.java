@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
+/**
+ * Class that tests storage leader card's methods
+ */
 public class StorageLeaderCardTest {
 
     List<LeaderCard> StorageLeaderCards;

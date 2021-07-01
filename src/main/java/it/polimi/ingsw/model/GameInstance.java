@@ -6,6 +6,9 @@ import it.polimi.ingsw.exceptions.MaxPlayersException;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract class inherited by MultiplayerGameInstance
+ */
 public abstract class GameInstance {
 
     protected CardsDeck cardsDeck;

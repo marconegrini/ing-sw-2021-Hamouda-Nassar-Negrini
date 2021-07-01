@@ -1,5 +1,8 @@
 package it.polimi.ingsw.enumerations;
 
+/**
+ * Enumeration class for leader card type
+ */
 public enum CardType {
 
     DISCOUNT,PRODUCTION,MARBLE,STORAGE;

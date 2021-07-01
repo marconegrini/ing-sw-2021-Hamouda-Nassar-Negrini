@@ -19,6 +19,9 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
+/**
+ * GUI controller class invoked when buying a development card
+ */
 public class BuyDevelopmentCardController {
 
     private Label selectedCard;

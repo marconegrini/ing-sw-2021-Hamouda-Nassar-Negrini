@@ -17,6 +17,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
+/**
+ * Class that tests personal board methods
+ */
 public class PersonalBoardTest {
 
     private Warehouse warehouse;

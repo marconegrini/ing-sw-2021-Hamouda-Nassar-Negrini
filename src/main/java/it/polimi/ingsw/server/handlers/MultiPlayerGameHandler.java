@@ -18,6 +18,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that handles the multiplayer game. Contains references to all participants and manages
+ * turns and clients updates.
+ */
 public class MultiPlayerGameHandler extends Thread {
 
     private static final Logger logger = Logger.getLogger(MultiPlayerGameHandler.class.getName());

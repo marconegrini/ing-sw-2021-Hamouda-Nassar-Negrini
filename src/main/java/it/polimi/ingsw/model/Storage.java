@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Storage represents a shelf inside Warehouse
  * capacity: the maximum space that can be occupied inside this storage
- * resources: an ArrayList that contains resources stored in this storage, with .size() <= capacity
+ * resources: an ArrayList that contains resources stored in this storage, with .size() less or equals to the capacity
  */
 public class Storage {
     private Integer capacity;

@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.parser.FaithPathParser;
 
 import java.util.*;
 
+/**
+ * Class that contains the user's pawn and his position. Keeps track of updates in papal favor cards in
+ * vatican sections array list.
+ */
 public class FaithPath {
 
     private Integer userPosition;

@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that extends game instance and overwrites methods for multiplayer game
+ */
 public class MultiPlayerGameInstance extends GameInstance {
 
     private static final Logger logger = Logger.getLogger(MultiPlayerGameInstance.class.getName());

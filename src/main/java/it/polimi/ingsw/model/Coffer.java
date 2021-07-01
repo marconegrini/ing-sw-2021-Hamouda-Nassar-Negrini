@@ -4,6 +4,9 @@ import it.polimi.ingsw.enumerations.Resource;
 
 import java.util.*;
 
+/**
+ * Class that implements deposits interface. Needed to store player's resources with no restrictions
+ */
 public class Coffer implements Deposit{
 
     private Map<Resource, Integer> coffer;

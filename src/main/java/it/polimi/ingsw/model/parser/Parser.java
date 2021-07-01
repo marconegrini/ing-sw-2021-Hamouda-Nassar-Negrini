@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Main parser class extended by all parsers.
+ */
 public abstract class Parser {
     /*
     protected String filePath;

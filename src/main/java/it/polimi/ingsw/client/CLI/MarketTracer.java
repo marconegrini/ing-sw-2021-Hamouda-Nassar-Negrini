@@ -8,7 +8,9 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//A class that contains methods to trace the market board for the CLI
+/**
+ * Class that contains methods to trace the market board for the CLI
+ */
 public class MarketTracer{
         Marble[][] marbles;
 
@@ -16,7 +18,7 @@ public class MarketTracer{
     /**
      * method that traces the market board for the CLI
      * @param marketBoard A matrix [3][4] of Marble elements
-     * @return
+     * @return an arraylist containing the market board traced as characters
      */
     public ArrayList<String> marketTracer(MarketBoard marketBoard){
         ArrayList<String> result = new ArrayList<>();

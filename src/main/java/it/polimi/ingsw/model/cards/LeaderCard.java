@@ -83,7 +83,7 @@ public abstract class LeaderCard extends Card {
     }
 
     /**
-     * @return the activation cost of the STORAGE leader card type, as an hashMap of <Resource, Integer>
+     * @return the activation cost of the STORAGE leader card type, as an hashMap of Resource, Integer
      * @throws WrongCardTypeException if the card is not a STORAGE leader card type.
      */
     public HashMap<Resource, Integer> getStorageCardActivationCostResources() throws WrongCardTypeException {

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Parser class that initialises faith path from json file.
+ */
 public class FaithPathParser extends Parser{
 
     ArrayList<VaticanSection> vaticanSections;

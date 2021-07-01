@@ -6,6 +6,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that contains marbles. Inserting a marble in the market board generates a list of resources.
+ */
 public class MarketBoard {
 
     private static final Logger logger = Logger.getLogger(MarketBoard.class.getName());

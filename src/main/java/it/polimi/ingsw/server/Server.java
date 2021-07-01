@@ -15,6 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+
+/**
+ * Class that starts single or multiplayer games.
+ * Contains waiting room for players that choose the multiplayer game.
+ */
 public class Server {
 
     /**

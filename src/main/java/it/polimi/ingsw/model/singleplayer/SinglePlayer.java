@@ -11,6 +11,9 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class that extends Player main class and contains methods for the single player game
+ */
 public class SinglePlayer extends Player {
 
     private static final Logger logger = Logger.getLogger(SinglePlayer.class.getName());

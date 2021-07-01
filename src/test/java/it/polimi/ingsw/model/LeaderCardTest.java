@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
+/**
+ * Class that tests leader cards methods
+ */
 public class LeaderCardTest {
 
     List<LeaderCard> StorageLeaderCards;
