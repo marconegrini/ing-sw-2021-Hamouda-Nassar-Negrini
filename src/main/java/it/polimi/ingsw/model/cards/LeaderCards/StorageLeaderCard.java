@@ -35,16 +35,14 @@ public class StorageLeaderCard extends LeaderCard {
     public StorageLeaderCard(
             CardType cardType,
             int victoryPoints,
-            boolean isActivated,
-            boolean isDiscarded,
             Integer maxCapacity,
             HashMap<Resource, Integer> activationCost,
             HashMap<Resource, Integer> slots,
             ArrayList<Resource> storage) {
         this.cardType = cardType;
         this.Vp = victoryPoints;
-        this.isActivated = isActivated;
-        this.isDiscarded = isDiscarded;
+        this.isActivated = false;
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.slots = slots;
         this.maxCapacity = maxCapacity;

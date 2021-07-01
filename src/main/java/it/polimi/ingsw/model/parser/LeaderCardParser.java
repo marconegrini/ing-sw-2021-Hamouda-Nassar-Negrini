@@ -52,9 +52,6 @@ public class LeaderCardParser extends Parser{
                     JsonArray jsonArray1 = jsonObject.get("activationCost").getAsJsonArray();
                     JsonArray jsonArray2 = jsonObject.get("leaderPower").getAsJsonArray();
 
-                    boolean isActivated = jsonObject.get("isActivated").getAsBoolean();
-                    boolean isDiscarded = jsonObject.get("isDiscarded").getAsBoolean();
-
                     if(jsonObject.get("type").getAsString().equals("discount")){
 
                         String tempcardType = jsonObject.get("type").getAsString();
@@ -87,12 +84,6 @@ public class LeaderCardParser extends Parser{
 
 
                         DiscountLeaderCard leaderCard = new DiscountLeaderCard(cardType ,victoryPoints, activationCost, discountedResource);
-
-                        if(isActivated)
-                            leaderCard.activate();
-
-                        if(isDiscarded)
-                            leaderCard.discard();
 
                         leaderCards.push(leaderCard);
                     }
@@ -128,12 +119,6 @@ public class LeaderCardParser extends Parser{
                         }
 
                         StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, activationCost, storage);
-
-                        if(isActivated)
-                            leaderCard.activate();
-
-                        if(isDiscarded)
-                            leaderCard.discard();
 
                         leaderCards.push(leaderCard);
 
@@ -174,12 +159,6 @@ public class LeaderCardParser extends Parser{
 
                         WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(cardType, victoryPoints, activationCost, productionOut);
 
-                        if(isActivated)
-                            leaderCard.activate();
-
-                        if(isDiscarded)
-                            leaderCard.discard();
-
                         leaderCards.push(leaderCard);
 
                     }
@@ -217,12 +196,6 @@ public class LeaderCardParser extends Parser{
                         }
 
                         ProdPowerLeaderCard leaderCard = new ProdPowerLeaderCard(cardType, victoryPoints, activationCost, productionIn, outProductionResourceNum, outProductionFaithPoints);
-
-                        if(isActivated)
-                            leaderCard.activate();
-
-                        if(isDiscarded)
-                            leaderCard.discard();
 
                         leaderCards.push(leaderCard);
 
