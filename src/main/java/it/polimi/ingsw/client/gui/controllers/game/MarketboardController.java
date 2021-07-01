@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
 import it.polimi.ingsw.client.gui.SceneManager;
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.PickResourcesMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -177,6 +178,9 @@ public class MarketboardController {
             newStage.initStyle(StageStyle.TRANSPARENT);
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+            UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+            UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
         });
     }
 }

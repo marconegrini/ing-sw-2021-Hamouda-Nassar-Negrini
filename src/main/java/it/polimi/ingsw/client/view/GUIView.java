@@ -324,13 +324,16 @@ public class GUIView extends View {
 
         System.out.println("Selected leader cards:\n" + leaderCards);
         synchronized (this) {
-            for (int i = 0; i < 2; i++) {
-                Label card = (Label) SceneManager.getScene().lookup("#card" + (i + 1));
-                card.setStyle("-fx-background-image: url(\"images/leadercards/" +
-                        leaderCards.get(i).toPath() + ".png\");" +
-                        " -fx-background-size: 100% 100%;" +
-                        "-fx-border-width: 5");
-            }
+            Platform.runLater(() -> {
+
+                for (int i = 0; i < 2; i++) {
+                    Label card = (Label) SceneManager.getScene().lookup("#card" + (i + 1));
+                    card.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                            leaderCards.get(i).toPath() + ".png\");" +
+                            " -fx-background-size: 100% 100%;" +
+                            "-fx-border-width: 5");
+                }
+            });
         }
 
     }
@@ -360,7 +363,7 @@ public class GUIView extends View {
 
         Platform.runLater(() -> {
             Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activatePersonalProduction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/activatePersonalProduction.fxml"));
             Parent root = null;
             try {
                 root = loader.load();

@@ -27,13 +27,13 @@
             </Label>
          </children>
          <stylesheets>
-            <URL value="@../../css/game/bakgrounds.css" />
-            <URL value="@../../css/buttons.css" />
+            <URL value="@../../../css/game/bakgrounds.css" />
+            <URL value="@../../../css/buttons.css" />
          </stylesheets>
       </AnchorPane>
    </children>
    <stylesheets>
-      <URL value="@../../css/login/connectionPage.css" />
-      <URL value="@../../css/fonts.css" />
+      <URL value="@../../../css/login/connectionPage.css" />
+      <URL value="@../../../css/fonts.css" />
    </stylesheets>
 </AnchorPane>

@@ -49,22 +49,22 @@ public class ActivateProductionController {
         Label label;
         try {
             label = (Label) mouseEvent.getPickResult().getIntersectedNode();
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             //e.printStackTrace();
             return;
         }
 
         Integer slot = GridPane.getColumnIndex(label);
 
-        if (label == null)  return;
-        if (selectedSlots.contains(slot)){
+        if (label == null) return;
+        if (selectedSlots.contains(slot)) {
             selectedSlots.remove(slot);
-        } else{
+        } else {
             selectedSlots.add(slot);
         }
 
         if (label.getStyleClass().contains("selectedCard")) label.getStyleClass().remove("selectedCard");
-        else    label.getStyleClass().add("selectedCard");
+        else label.getStyleClass().add("selectedCard");
     }
 
     public void back(ActionEvent actionEvent) {
@@ -74,7 +74,7 @@ public class ActivateProductionController {
 
         selectedSlots.clear();
 
-        if (!ControllerGUI.getServerHandler().getIsMultiplayer())   return;
+        if (!ControllerGUI.getServerHandler().getIsMultiplayer()) return;
 
         Platform.runLater(() -> {
             Stage newStage = new Stage();
@@ -95,14 +95,17 @@ public class ActivateProductionController {
             });
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
+            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+            UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+            UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
         });
     }
 
     public void selectPersonalProduction(MouseEvent mouseEvent) {
-        if (selectedPersonalProduction){
+        if (selectedPersonalProduction) {
             selectedPersonalProduction = false;
             personalProduction.getStyleClass().remove("selectedCard");
-        } else{
+        } else {
             selectedPersonalProduction = true;
             personalProduction.getStyleClass().add("selectedCard");
         }
@@ -111,7 +114,7 @@ public class ActivateProductionController {
     public void activate(ActionEvent actionEvent) {
         System.out.println(selectedSlots);
 
-        if (selectedSlots.isEmpty())    return;
+        if (selectedSlots.isEmpty()) return;
 
         int activatedLeaderCards = 0;
 
@@ -121,7 +124,7 @@ public class ActivateProductionController {
         if (activatedLeaderCards > 0) {
             Platform.runLater(() -> {
                 Stage newStage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/useProductionCards.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/useProductionCards.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
@@ -141,9 +144,9 @@ public class ActivateProductionController {
             });
         } else {
             ControllerGUI.getServerHandler().sendJson(new ActivateProductionMessage(selectedSlots, null));
+            selectedSlots.clear();
         }
 
-        selectedSlots.clear();
 
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -154,7 +157,7 @@ public class ActivateProductionController {
     public void useProductionCards(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/selectLeaderResources.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/selectLeaderResources.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
@@ -173,41 +176,34 @@ public class ActivateProductionController {
             newStage.show();
 
             int activatedLeaderCards = 1;
-            for (LeaderCard lc : ControllerGUI.getServerHandler().getLightModel().getLeaderCards())
-                if (lc.getCardType().equals(CardType.PRODUCTION) && lc.isActivated()){
+            for (LeaderCard lc : ControllerGUI.getServerHandler().getLightModel().getLeaderCards()) {
+                if (lc.getCardType().equals(CardType.PRODUCTION) && lc.isActivated()) {
                     Node source = (Node) actionEvent.getSource();
                     Scene theScene = SceneManager.getPopUpScene();
-                    Label card = (Label) scene.lookup("#leaderCard"+activatedLeaderCards);
+
+                    System.out.println("Leader card: " + lc);
+                    Label card = (Label) scene.lookup("#leaderCard" + activatedLeaderCards);
                     card.setStyle("-fx-background-image: url(\"images/leadercards/" +
                             lc.toPath() + ".png\");" +
                             " -fx-background-size: 100% 100%;" +
-                            "-fx-border-width: 5");
+                            "-fx-border-width: 5;-fx-border-color: #0cad14;");
 
-                    Label label = (Label) scene.lookup("#servant"+activatedLeaderCards);
+                    Label label = (Label) scene.lookup("#servant" + activatedLeaderCards);
                     label.setOpacity(1);
-                    label = (Label) scene.lookup("#coin"+activatedLeaderCards);
+                    label = (Label) scene.lookup("#coin" + activatedLeaderCards);
                     label.setOpacity(1);
-                    label = (Label) scene.lookup("#shield"+activatedLeaderCards);
+                    label = (Label) scene.lookup("#shield" + activatedLeaderCards);
                     label.setOpacity(1);
-                    label = (Label) scene.lookup("#stone"+activatedLeaderCards);
+                    label = (Label) scene.lookup("#stone" + activatedLeaderCards);
                     label.setOpacity(1);
-                    label = (Label) scene.lookup("#label"+activatedLeaderCards);
+                    label = (Label) scene.lookup("#label" + activatedLeaderCards);
                     label.setOpacity(1);
 
                     activatedLeaderCards++;
                 }
-
-            UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
-            /*if (activatedLeaderCards == 1){
-                stone2.setOpacity(0);
-                shield2.setOpacity(0);
-                coin2.setOpacity(0);
-                servant2.setOpacity(0);
-                label2.setOpacity(0);
-                leaderCard2.setOpacity(0);
             }
 
-             */
+            //UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
         });
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -228,7 +224,7 @@ public class ActivateProductionController {
         System.out.println("select: " + selectedSlots);
         List<Resource> resources = new ArrayList<>();
 
-        if (selectedLabel1 == null){
+        if (selectedLabel1 == null) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("ERROR");
@@ -243,25 +239,23 @@ public class ActivateProductionController {
         for (LeaderCard lc : ControllerGUI.getServerHandler().getLightModel().getLeaderCards())
             if (lc.getCardType().equals(CardType.PRODUCTION) && lc.isActivated()) activatedLeaderCards++;
 
-        if (activatedLeaderCards > 1){
-            if (selectedLabel2 == null){
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("ERROR");
-                    alert.setHeaderText("Error: Resource");
-                    alert.setContentText("You have to select an output resource from the second column.");
-                    alert.showAndWait();
-                });
-                return;
-            }
+        if (activatedLeaderCards > 1 && selectedLabel2 == null) {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Error: Resource");
+                alert.setContentText("You have to select an output resource from the second column.");
+                alert.showAndWait();
+            });
+            return;
         }
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
 
-        resources.add(Resource.getEnum(getResource(selectedLabel1)));
-        resources.add(Resource.getEnum(getResource(selectedLabel2)));
-        //System.out.println(resources);
+        if (selectedLabel1 != null) resources.add(Resource.getEnum(getResource(selectedLabel1)));
+        if (selectedLabel2 != null) resources.add(Resource.getEnum(getResource(selectedLabel2)));
+        System.out.println("Leader cards production: " + resources);
         ControllerGUI.getServerHandler().sendJson(new ActivateProductionMessage(selectedSlots, resources));
         selectedSlots.clear();
     }
@@ -270,10 +264,10 @@ public class ActivateProductionController {
 
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 
-        if (selectedLabel1 == null){
+        if (selectedLabel1 == null) {
             selectedLabel1 = label;
             selectedLabel1.getStyleClass().add("selectedCard");
-        } else{
+        } else {
             selectedLabel1.getStyleClass().remove("selectedCard");
             selectedLabel1 = label;
             selectedLabel1.getStyleClass().add("selectedCard");
@@ -283,10 +277,10 @@ public class ActivateProductionController {
     public void selectLabel2(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 
-        if (selectedLabel2 == null){
+        if (selectedLabel2 == null) {
             selectedLabel2 = label;
             selectedLabel2.getStyleClass().add("selectedCard");
-        } else{
+        } else {
             selectedLabel2.getStyleClass().remove("selectedCard");
             selectedLabel2 = label;
             selectedLabel2.getStyleClass().add("selectedCard");
@@ -295,8 +289,9 @@ public class ActivateProductionController {
 
     /**
      * This method is used to get a string from the styleSheet of a label
-     * @param label  is the label from which you want to retrieve the string
-     * @return  the string retrieved from the label
+     *
+     * @param label is the label from which you want to retrieve the string
+     * @return the string retrieved from the label
      */
     private String getResource(Label label) {
         if (label.getStyleClass().contains("coin")) return "coin";
