@@ -357,6 +357,25 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage activatePersonalProduction() {
-        return null;
+
+        Platform.runLater(() -> {
+            Stage newStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activatePersonalProduction.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            newStage.setTitle("Personal production");
+            Scene scene = new Scene(root, 1080, 670);
+            SceneManager.setPopUpScene(scene);
+            newStage.setScene(scene);
+            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.show();
+        });
+
+        return new EmptyMessage();
     }
 }
