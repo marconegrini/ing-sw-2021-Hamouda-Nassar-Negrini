@@ -203,6 +203,7 @@ public class CLIView extends View {
 
         while (!selected) {
             if (!err || return_) {
+                System.out.println("\n");
                 System.out.println(ANSITextFormat.BOLD+"Select action to perform:\n"+ANSITextFormat.RESET+"a) Take resources from market\nb) Buy development card\nc) Activate production");
                 System.out.println("Sub actions:\nd) Activate leader card\ne) Discard leader card\nf) Move warehouse resources");
                 System.out.println("\n[Type show + market/deposits/slots/faith path/development deck/leader cards to see eventual updates]");
