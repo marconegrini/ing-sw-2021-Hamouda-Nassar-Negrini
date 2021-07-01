@@ -58,11 +58,7 @@ public class SinglePlayerGameHandler extends Thread {
      */
     @Override
     public void run() {
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
         logger.log(Level.INFO,ANSITextFormat.BOLD + "\nSingle player game started\n" + ANSITextFormat.RESET);
         SinglePlayer player = (SinglePlayer) clientHandler.getPlayer();
         player.printPlayer();
@@ -148,11 +144,7 @@ public class SinglePlayerGameHandler extends Thread {
      * @return
      */
     public ServerMessage pickActionCard() {
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         LorenzoCard lorenzoCard = actionCards.pop();
         Integer lorenzoPosition;

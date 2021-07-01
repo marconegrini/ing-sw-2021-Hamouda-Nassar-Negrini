@@ -101,11 +101,7 @@ public class TurnManager {
      */
     public ServerMessage pickResources(Player player, boolean isRow, int rowOrColNum,boolean useStorageLCs) {
 
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         List<Marble> pickedMarbles;
         ArrayList<Resource> recentlyResourcesFromWhiteMarble = new ArrayList<>();
@@ -459,11 +455,7 @@ public class TurnManager {
      */
     public boolean pullNeededResources(Player player, List<Resource> cost){
 
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         List<Resource> warehouseResources = player.getWarehouseResource();
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
@@ -539,11 +531,7 @@ public class TurnManager {
      */
     public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
 
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         logger.log(java.util.logging.Level.INFO,slots.toString());
         logger.log(java.util.logging.Level.INFO,player.getPeekCardsInDevCardSLots().toString());

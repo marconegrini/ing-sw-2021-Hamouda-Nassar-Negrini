@@ -216,4 +216,4 @@ $RECYCLE.BIN/
 # http://www.sonarlint.org/commandline/
 # SonarLint working directories, configuration files (including credentials)
 .sonarlint/
-!/src/main/java/it/polimi/ingsw/messages/fromServer/UpdateWarehouseMessage.java
+/.sensei/

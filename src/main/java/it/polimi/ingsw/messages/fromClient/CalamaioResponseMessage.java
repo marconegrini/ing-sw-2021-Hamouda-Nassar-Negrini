@@ -44,11 +44,7 @@ public class CalamaioResponseMessage extends ClientMessage {
     public void serverProcess(ClientHandler clientHandler) {
 
         Logger logger = Logger.getLogger(ClientApp.class.getName());
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         if (choice1 != 0) {
             logger.log(INFO,"Here1");

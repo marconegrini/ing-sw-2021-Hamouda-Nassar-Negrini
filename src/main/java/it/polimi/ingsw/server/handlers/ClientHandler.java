@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
     @Override
     public void run(){
         try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+            LogManager.getLogManager().readConfiguration(this.getClass().getClassLoader().getResourceAsStream("logging.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }
@@ -90,11 +90,7 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     private void processClientMessages() throws IOException {
-        try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
-        } catch (SecurityException | IOException e1) {
-            e1.printStackTrace();
-        }
+
 
         ClientMessageFactory factory = new ClientMessageFactory();
         boolean stop = false;

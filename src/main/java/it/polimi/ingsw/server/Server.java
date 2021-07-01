@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -31,7 +32,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+            LogManager.getLogManager().readConfiguration(Server.class.getClassLoader().getResourceAsStream("logging.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }

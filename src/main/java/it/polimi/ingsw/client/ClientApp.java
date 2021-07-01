@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.CLI.LeaderCardsTracer;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.enumerations.ASCII_DV_Cards;
 import it.polimi.ingsw.enumerations.ASCII_Resources;
+import it.polimi.ingsw.server.Server;
 import javafx.application.Application;
 
 import java.io.FileInputStream;
@@ -29,7 +30,7 @@ public class ClientApp {
 
         Logger logger = Logger.getLogger(ClientApp.class.getName());
         try {
-            LogManager.getLogManager().readConfiguration(new FileInputStream("src/main/java/it/polimi/ingsw/Logger/logging.properties"));
+            LogManager.getLogManager().readConfiguration(ClientApp.class.getClassLoader().getResourceAsStream("logging.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }
