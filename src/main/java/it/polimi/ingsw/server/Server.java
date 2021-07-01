@@ -1,4 +1,5 @@
 package it.polimi.ingsw.server;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromServer.ParticipantsMessage;
 import it.polimi.ingsw.server.handlers.ClientHandler;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
@@ -33,6 +34,7 @@ public class Server {
         InetAddress inetAddress = InetAddress.getLocalHost();
         logger.log(Level.INFO,"IP Address:- " + inetAddress.getHostAddress());
         ServerSocket serverSocket = new ServerSocket(5056);
+        System.out.println(ANSITextFormat.BOLD +"Server running..."+ANSITextFormat.RESET);
         logger.log(Level.INFO,"Server On listening with port: " + serverSocket);
         logger.log(Level.INFO,"-------------");
         while (true){
