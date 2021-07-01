@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.ActivateLeaderCardMessage;
+import it.polimi.ingsw.messages.fromClient.DiscardLeaderCardMessage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +46,7 @@ public class ActivateLeaderCardController {
     public void activate(ActionEvent actionEvent) {
         if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));
-        System.out.println("index: " + index);
+        //System.out.println("index: " + index);
         ControllerGUI.getServerHandler().sendJson(new ActivateLeaderCardMessage(index-1));
 
         Node source = (Node) actionEvent.getSource();
@@ -82,5 +83,19 @@ public class ActivateLeaderCardController {
             UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
             UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
         });
+    }
+
+    public void discard(ActionEvent actionEvent) {
+        if (selectedCard == null)   return;
+        Integer index = Integer.parseInt(selectedCard.getId().substring(10));
+        //System.out.println("index: " + index);
+
+        Node source = (Node) actionEvent.getSource();
+        Window theStage = source.getScene().getWindow();
+        theStage.hide();
+        ControllerGUI.getServerHandler().sendJson(new DiscardLeaderCardMessage(index-1));
+        UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), SceneManager.getScene());
+        UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+        UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
     }
 }
