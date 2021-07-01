@@ -22,7 +22,7 @@
                   <Font size="59.0" />
                </font>
             </Label>
-            <Button fx:id="activateButton" layoutX="549.0" layoutY="552.0" mnemonicParsing="false" onAction="#activate" prefHeight="69.0" prefWidth="381.0" text="Activate" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="549.0" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="552.0">
+            <Button fx:id="activateButton" layoutX="694.0" layoutY="552.0" mnemonicParsing="false" onAction="#activate" prefHeight="69.0" prefWidth="298.0" text="Activate" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="694.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="552.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -33,7 +33,12 @@
             <CheckBox fx:id="selectedSecond" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
             <CheckBox fx:id="selectedThird" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
             <CheckBox fx:id="selectedFourth" layoutX="156.0" layoutY="9.0" mnemonicParsing="false" opacity="0.0" text="CheckBox" />
-            <Button fx:id="backButton" layoutX="127.0" layoutY="552.0" mnemonicParsing="false" onAction="#back" prefHeight="69.0" prefWidth="381.0" text="back">
+            <Button fx:id="backButton" layoutX="51.0" layoutY="552.0" mnemonicParsing="false" onAction="#back" prefHeight="69.0" prefWidth="298.0" text="Back">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button fx:id="activateButton1" layoutX="378.0" layoutY="552.0" mnemonicParsing="false" onAction="#discard" prefHeight="69.0" prefWidth="298.0" text="Discard">
                <font>
                   <Font size="30.0" />
                </font>
