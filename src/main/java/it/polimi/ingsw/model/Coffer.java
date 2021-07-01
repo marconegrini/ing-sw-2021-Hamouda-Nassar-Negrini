@@ -18,13 +18,13 @@ public class Coffer implements Deposit{
         coffer.put(Resource.SHIELD, 0);
         coffer.put(Resource.STONE, 0);
 
-
+        /*
         //debugging
         coffer.put(Resource.COIN, 10);
         coffer.put(Resource.SERVANT, 10);
         coffer.put(Resource.SHIELD, 10);
         coffer.put(Resource.STONE, 10);
-
+         */
 
 
     }
