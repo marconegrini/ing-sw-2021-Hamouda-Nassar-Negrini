@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Class that contains methods to interact with the user in the CLI game
  */
-public class ClientCLI implements Runnable{
+public class ClientCLI implements Runnable {
 
     public static Logger logger = Logger.getLogger(ClientCLI.class.getName());
     private ServerHandler serverHandler;
@@ -37,10 +37,10 @@ public class ClientCLI implements Runnable{
             if (userInput.equalsIgnoreCase("EXIT")) {
                 break;
             } else {
-                if (userInput.equals("localhost") || userInput.equals("\n") || userInput.equals("")){
+                if (userInput.equals("localhost") || userInput.equals("\n") || userInput.equals("")) {
                     userInput = defaultServerIP;
                     ok = true;
-            }
+                }
                 try {
                     server = new Socket(userInput, 5056);
                     ok = true;
@@ -49,10 +49,13 @@ public class ClientCLI implements Runnable{
                 }
             }
         }
-                serverHandler = new ServerHandler(server, true);
-                Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
-                serverHandlerThread.start();
-            }
+
+        if (!userInput.equalsIgnoreCase("EXIT")) {
+            serverHandler = new ServerHandler(server, true);
+            Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+            serverHandlerThread.start();
+        }
+    }
 
 }
 

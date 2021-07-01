@@ -249,7 +249,7 @@ public class TurnManager {
         if (!discard) {
             try {
                 player.putWarehouseResources(destStorage, resourcesIn);
-                if(this.resorucesToStore.equals(resourcesIn)){
+                if(this.resorucesToStore.containsAll(resourcesIn) && resourcesIn.containsAll(this.resorucesToStore)){
                     turnDone();
                     return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!", player.getClonedWarehouse());
                 } else {
@@ -294,7 +294,7 @@ public class TurnManager {
                     sp.updateFaithPath(lorenzoPosition);
                 }
             }
-            if(resorucesToStore.equals(resourcesIn)) {
+            if(resorucesToStore.containsAll(resourcesIn) && resourcesIn.containsAll(resorucesToStore)) {
                 turnDone();
                 return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!", player.getClonedWarehouse());
             } else {
@@ -455,8 +455,6 @@ public class TurnManager {
      */
     public boolean pullNeededResources(Player player, List<Resource> cost){
 
-
-
         List<Resource> warehouseResources = player.getWarehouseResource();
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
         List<Resource> toTakeFromCoffer = new ArrayList<>();
@@ -531,8 +529,6 @@ public class TurnManager {
      */
     public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
 
-
-
         logger.log(java.util.logging.Level.INFO,slots.toString());
         logger.log(java.util.logging.Level.INFO,player.getPeekCardsInDevCardSLots().toString());
         if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true, player.getClonedWarehouse(), player.getClonedCoffer());
@@ -587,7 +583,7 @@ public class TurnManager {
             if(usedLC) {
                 return new ProductionResultMessage(false,"Activated production and resources brought from coffer. Leader card power used.", true, player.getClonedWarehouse(), player.getClonedCoffer());
             } else {
-                return new ProductionResultMessage(false, "Activated production and resources brought coffer", true, player.getClonedWarehouse(), player.getClonedCoffer());
+                return new ProductionResultMessage(false, "Activated production and resources brought from coffer", true, player.getClonedWarehouse(), player.getClonedCoffer());
             }
         } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true, player.getClonedWarehouse(), player.getClonedCoffer());
     }
@@ -622,7 +618,7 @@ public class TurnManager {
                     resourcesFromFirstProduction.clear();
                     obtainedFaithPointsFromProduction = false;
                     turnDone();
-                    return new PersonalProductionResultMessage(false, "Obtained the resource from personal production",  true);
+                    return new PersonalProductionResultMessage(false, "Obtained the resource from personal production. Added to coffer resources previously obtained.",  true);
                 } else {
                     //It's the first production of the player. Try to activate leader production and terminate turn.
                     player.putCofferResources(resourceOut);
@@ -667,9 +663,9 @@ public class TurnManager {
                 resourcesFromFirstProduction.clear();
                 obtainedFaithPointsFromProduction = false;
                 turnDone();
-                return new PersonalProductionResultMessage(false, "Personal production not activated. Added resources previously obtained.", true);
+                return new PersonalProductionResultMessage(false, "Personal production not activated. Added to coffer resources previously obtained.", true);
             } else {
-                //the player hasn't obtained anything before.
+                //the player hasn't obtained anything before. The turn is not done
                 return new PersonalProductionResultMessage(true, "Personal production not activated. You haven't obtained resources or faith points previously.", false);
             }
         }
@@ -975,6 +971,7 @@ public class TurnManager {
     public boolean getDisconnected(){
         return this.disconnected;
     }
+
 }
 
 

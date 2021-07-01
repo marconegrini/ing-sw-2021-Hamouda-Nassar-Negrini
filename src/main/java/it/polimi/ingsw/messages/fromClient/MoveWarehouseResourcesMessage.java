@@ -22,7 +22,6 @@ public class MoveWarehouseResourcesMessage extends ClientMessage{
 
     @Override
     public void serverProcess(ClientHandler clientHandler) {
-        Player player = clientHandler.getPlayer();
         TurnManager turnManager = clientHandler.getTurnManager();
         ServerMessage outcome = turnManager.moveResourcesInWarehouse(clientHandler.getPlayer(), sourceStorage, destStorage);
         clientHandler.sendJson(outcome);

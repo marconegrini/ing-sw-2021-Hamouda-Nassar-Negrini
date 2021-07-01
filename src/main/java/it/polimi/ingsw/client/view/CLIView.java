@@ -218,9 +218,9 @@ public class CLIView extends View {
                 //read. If an action command is specified, "show" is set to false, "selected" is set to true and the WHILE stops.
                 System.out.println("\nMake a choice:");
                 //if it's a normal read from user's input
-                if (!err || return_) {
+                //if (!err || return_) {
                     choice = scanner.nextLine();
-                }//otherwise use the input passed as argument, it's the case when it's an error message and a client has already choosed what he wants.
+                //}//otherwise use the input passed as argument, it's the case when it's an error message and a client has already choosed what he wants.
                 switch (choice) {
                     case "show market":
                         marketTracer.marketTracer(clientLightModel.getMarketBoard());
@@ -258,7 +258,7 @@ public class CLIView extends View {
                         System.out.println("\nInsert external marble in the market.");
                         boolean OK = false;
                         while (!OK) {
-                            System.out.println("Row or column?\ntype \"return\" to select another action\n");
+                            System.out.println("Row or column?\n(type \"return\" to select another action)\n");
                             String rowOrCol = scanner.nextLine();
                             if (rowOrCol.equalsIgnoreCase("COLUMN")) {
                                 OK = true;
@@ -357,8 +357,7 @@ public class CLIView extends View {
                     Integer index = 0;
                     depositsTracer.depositsTracer(clientLightModel.getWarehouse(), clientLightModel.getCoffer());
                     leaderCardsTracer.printLeaderCards(clientLightModel.getLeaderCards()).forEach(System.out::println);
-                    System.out.println("Select a leader card to activate:\n");
-                    System.out.println("or type \"return\" to choose another action\n");
+                    System.out.println("Select a leader card to activate (or type \"return\" to choose another action):\n");
                     boolean okCards = false;
                     while (!okCards) {
                         String selectedCard = scanner.nextLine();
@@ -835,13 +834,7 @@ public class CLIView extends View {
 
 
         System.out.println("Which Development card do you want to buy?");
-        System.out.println();
-
-
-//        if (err)
-//            scanner.nextLine(); //flush the scanner;
         System.out.println("Choose a card or type \"return\" to choose another action: \n");
-
 
         char maxChar = (char) ('a' + devCards.size() - 1);
 
@@ -879,8 +872,6 @@ public class CLIView extends View {
             }
             devCardSlot--; //make it starts from 0
             row--; //make it starts from 0
-
-            System.out.println(row + " " + column + " " + devCardSlot + " ");
 
             return new BuyDevCardMessage(row, column, devCardSlot);
         }
