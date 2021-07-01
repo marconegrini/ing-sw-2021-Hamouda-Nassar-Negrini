@@ -32,6 +32,8 @@ public class WhiteMarbleLeaderCard extends LeaderCard {
         this.activationCost = activationCost;
         this.productionOut = productionOut;
         this.cardType = cardType;
+        this.isActivated = false;
+        this.isDiscarded = false;
         //this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);
     }
 

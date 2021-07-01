@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
@@ -29,7 +31,7 @@ public class LeaderCardParser extends Parser{
         this.parser = new JsonStreamParser(this.reader);
     }
 
-    public Stack<LeaderCard> getLeaderCardsDeck(){
+    public Stack<LeaderCard> getLeaderCardsDeck() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
 
 
         Stack<LeaderCard> leaderCards = new Stack();
@@ -49,6 +51,9 @@ public class LeaderCardParser extends Parser{
 
                     JsonArray jsonArray1 = jsonObject.get("activationCost").getAsJsonArray();
                     JsonArray jsonArray2 = jsonObject.get("leaderPower").getAsJsonArray();
+
+                    boolean isActivated = jsonObject.get("isActivated").getAsBoolean();
+                    boolean isDiscarded = jsonObject.get("isDiscarded").getAsBoolean();
 
                     if(jsonObject.get("type").getAsString().equals("discount")){
 
@@ -82,6 +87,12 @@ public class LeaderCardParser extends Parser{
 
 
                         DiscountLeaderCard leaderCard = new DiscountLeaderCard(cardType ,victoryPoints, activationCost, discountedResource);
+
+                        if(isActivated)
+                            leaderCard.activate();
+
+                        if(isDiscarded)
+                            leaderCard.discard();
 
                         leaderCards.push(leaderCard);
                     }
@@ -117,6 +128,12 @@ public class LeaderCardParser extends Parser{
                         }
 
                         StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, activationCost, storage);
+
+                        if(isActivated)
+                            leaderCard.activate();
+
+                        if(isDiscarded)
+                            leaderCard.discard();
 
                         leaderCards.push(leaderCard);
 
@@ -157,6 +174,12 @@ public class LeaderCardParser extends Parser{
 
                         WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(cardType, victoryPoints, activationCost, productionOut);
 
+                        if(isActivated)
+                            leaderCard.activate();
+
+                        if(isDiscarded)
+                            leaderCard.discard();
+
                         leaderCards.push(leaderCard);
 
                     }
@@ -195,6 +218,12 @@ public class LeaderCardParser extends Parser{
 
                         ProdPowerLeaderCard leaderCard = new ProdPowerLeaderCard(cardType, victoryPoints, activationCost, productionIn, outProductionResourceNum, outProductionFaithPoints);
 
+                        if(isActivated)
+                            leaderCard.activate();
+
+                        if(isDiscarded)
+                            leaderCard.discard();
+
                         leaderCards.push(leaderCard);
 
                     }
@@ -202,11 +231,5 @@ public class LeaderCardParser extends Parser{
             }
         }
                 return leaderCards;
-    }
-
-    public static void main(String[] args) {
-        LeaderCardParser parser = new LeaderCardParser();
-        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
-        parser.close();
     }
 }
