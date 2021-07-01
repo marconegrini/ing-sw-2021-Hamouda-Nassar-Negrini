@@ -145,7 +145,12 @@ public class SinglePlayerGameHandler extends Thread {
      */
     public ServerMessage pickActionCard() {
 
-
+        if(actionCards.isEmpty()){
+            while(!poppedActionsCard.isEmpty()){
+                actionCards.push(poppedActionsCard.pop());
+            }
+            Collections.shuffle(actionCards);
+        }
         LorenzoCard lorenzoCard = actionCards.pop();
         Integer lorenzoPosition;
         ServerMessage messageToReturn = null;
@@ -223,9 +228,11 @@ public class SinglePlayerGameHandler extends Thread {
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
-                actionCards.addAll(poppedActionsCard);
-                poppedActionsCard.clear();
-                Collections.shuffle(this.actionCards);
+                while(!poppedActionsCard.isEmpty()){
+                    actionCards.push(poppedActionsCard.pop());
+                }
+                actionCards.push(lorenzoCard);
+                Collections.shuffle(actionCards);
                 if (player.lorenzoWins()) {
                     gameEnded = true;
                     messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "Lorenzo reached the end of the faith path! " + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
@@ -234,7 +241,9 @@ public class SinglePlayerGameHandler extends Thread {
                 messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nLorenzo advanced of one position in faith path. Action cards have been reshuffled.\n" + ANSITextFormat.RESET, LorenzoCardType.FAITHANDSHUFFLECARD);
                 break;
         }
-        poppedActionsCard.push(lorenzoCard);
+
+        if(!lorenzoCard.getType().equals(LorenzoCardType.FAITHANDSHUFFLECARD))
+            poppedActionsCard.push(lorenzoCard);
 
         return messageToReturn;
     }

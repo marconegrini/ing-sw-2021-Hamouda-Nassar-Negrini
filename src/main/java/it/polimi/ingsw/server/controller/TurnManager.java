@@ -684,42 +684,46 @@ public class TurnManager {
      *      * other users' faith paths. Else, it returns false.
      */
     public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource) {
-        if(player.isLeaderCardActivated(CardType.PRODUCTION)){
-            HashMap<Resource, Integer> prodInCost = null;
-            prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
-            List<Resource> productionInputCost = new ArrayList();
-            for(Resource r : prodInCost.keySet()){
-                for(int i = 0; i < prodInCost.get(r); i++){
-                    productionInputCost.add(r);
-                }
-            }
 
-            //checks if there are enough resources in warehouse and/or coffer to activate leader card production
-            if (containsNeededResources(player, productionInputCost)) {
-
-                pullNeededResources(player, productionInputCost);
-
-                List<Resource> clientChoice = new ArrayList<>();
-                clientChoice.addAll(leaderResource);
-                //inserts in coffer chosen resource
-                player.putCofferResources(clientChoice);
-                //increments user faith position and updates other user's faith paths
-                player.incrementFaithPathPosition();
-                if(multiplayer) {
-                    Integer newPlayerPosition = player.getFaithPathPosition();
-                    if(player.isRapportoInVaticano(newPlayerPosition))
-                        for (Player p : players)
-                            p.updateFaithPath(player.getFaithPathPosition());
-                    if(newPlayerPosition.equals(player.faithPathEnd())){
-                        endedFaithPath = true;
-                        if(firstPlayerToEnd == null)
-                            firstPlayerToEnd = (MultiPlayer) player;
+        if(leaderResource != null) {
+            if (player.isLeaderCardActivated(CardType.PRODUCTION)) {
+                HashMap<Resource, Integer> prodInCost = null;
+                prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
+                List<Resource> productionInputCost = new ArrayList();
+                for (Resource r : prodInCost.keySet()) {
+                    for (int i = 0; i < prodInCost.get(r); i++) {
+                        productionInputCost.add(r);
                     }
                 }
-                return true;
+
+                //checks if there are enough resources in warehouse and/or coffer to activate leader card production
+                if (containsNeededResources(player, productionInputCost)) {
+
+                    pullNeededResources(player, productionInputCost);
+
+                    List<Resource> clientChoice = new ArrayList<>();
+                    clientChoice.addAll(leaderResource);
+                    //inserts in coffer chosen resource
+                    player.putCofferResources(clientChoice);
+                    //increments user faith position and updates other user's faith paths
+                    player.incrementFaithPathPosition();
+                    if (multiplayer) {
+                        Integer newPlayerPosition = player.getFaithPathPosition();
+                        if (player.isRapportoInVaticano(newPlayerPosition))
+                            for (Player p : players)
+                                p.updateFaithPath(player.getFaithPathPosition());
+                        if (newPlayerPosition.equals(player.faithPathEnd())) {
+                            endedFaithPath = true;
+                            if (firstPlayerToEnd == null)
+                                firstPlayerToEnd = (MultiPlayer) player;
+                        }
+                    }
+                    return true;
+                }
             }
-        }
-        return false;
+            return false;
+
+        } else return false;
     }
 
     /**
