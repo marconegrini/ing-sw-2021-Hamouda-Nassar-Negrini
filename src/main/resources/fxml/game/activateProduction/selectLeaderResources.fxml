@@ -127,6 +127,10 @@
                   <String fx:value="notSelectedCard" />
                </styleClass>
             </Label>
+            <Label fx:id="resource21" layoutX="646.0" layoutY="455.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource22" layoutX="739.0" layoutY="455.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource11" layoutX="105.0" layoutY="455.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource12" layoutX="196.0" layoutY="455.0" prefHeight="52.0" prefWidth="50.0" />
          </children>
       </AnchorPane>
    </children>

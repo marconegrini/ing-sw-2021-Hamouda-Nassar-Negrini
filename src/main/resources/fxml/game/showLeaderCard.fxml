@@ -22,6 +22,10 @@
             </Label>
             <Label fx:id="card1" layoutX="280.0" layoutY="198.0" prefHeight="380.0" prefWidth="240.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" stylesheets="@../../css/game/chooseLeaderCard.css" />
             <Label fx:id="card2" layoutX="528.0" layoutY="198.0" prefHeight="380.0" prefWidth="240.0" style="-fx-border-width: 5;" styleClass="notSelectedCard" />
+            <Label fx:id="resource21" layoutX="581.0" layoutY="500.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource22" layoutX="670.0" layoutY="500.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource11" layoutX="332.0" layoutY="500.0" prefHeight="52.0" prefWidth="50.0" />
+            <Label fx:id="resource12" layoutX="422.0" layoutY="500.0" prefHeight="52.0" prefWidth="50.0" />
          </children>
       </AnchorPane>
    </children>

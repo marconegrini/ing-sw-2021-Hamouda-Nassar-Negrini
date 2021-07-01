@@ -13,7 +13,7 @@
    <children>
       <AnchorPane layoutX="223.0" layoutY="14.0" prefHeight="642.0" prefWidth="989.0" styleClass="boardbg" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <GridPane fx:id="faithPathGrid" alignment="CENTER" layoutX="31.0" layoutY="30.0" prefHeight="137.0" prefWidth="943.0">
+            <GridPane fx:id="faithPathGrid" alignment="CENTER" layoutX="31.0" layoutY="35.0" prefHeight="132.0" prefWidth="927.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -42,7 +42,7 @@
               </rowConstraints>
                <children>
                   <Label fx:id="rood" prefHeight="161.0" prefWidth="125.0" style="-fx-background-color: #800d0d; -fx-border-color: #000000; -fx-border-width: 2;" styleClass="rood" GridPane.rowIndex="2" />
-                  <Label fx:id="roodLorenzo" alignment="CENTER_RIGHT" prefHeight="36.0" prefWidth="34.0" styleClass="lorenzoRood" GridPane.rowIndex="2" />
+                  <Label fx:id="roodLorenzo" contentDisplay="CENTER" prefHeight="45.0" prefWidth="42.0" styleClass="lorenzoRood" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <GridPane fx:id="devCardsSlots" layoutX="379.0" layoutY="282.0" prefHeight="335.0" prefWidth="569.0">
@@ -137,13 +137,17 @@
             <URL value="@../../../css/game/chooseLeaderCard.css" />
          </stylesheets>
       </AnchorPane>
-      <Label fx:id="leaderCard1" layoutX="20.0" layoutY="14.0" prefHeight="313.0" prefWidth="207.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="14.0" />
-      <Label fx:id="leaderCard2" layoutX="20.0" layoutY="335.0" prefHeight="313.0" prefWidth="207.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="335.0" />
+      <Label fx:id="leaderCard1" layoutX="20.0" layoutY="14.0" prefHeight="313.0" prefWidth="207.0" styleClass="storage" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="14.0" />
+      <Label fx:id="leaderCard2" layoutX="20.0" layoutY="335.0" prefHeight="313.0" prefWidth="207.0" styleClass="storage" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="335.0" />
       <Button fx:id="showMarket" layoutX="1218.0" layoutY="349.0" mnemonicParsing="false" onAction="#showMarketBoard" prefHeight="62.0" prefWidth="133.0" text="Show MarketBoard" />
       <Button fx:id="activateProduction" layoutX="1218.0" layoutY="429.0" mnemonicParsing="false" onAction="#activateProduction" prefHeight="62.0" prefWidth="133.0" text="Activate Production" />
       <Button fx:id="activateLeaderCard" layoutX="1218.0" layoutY="510.0" mnemonicParsing="false" onAction="#ActivateLeaderCard" prefHeight="62.0" prefWidth="133.0" text="Activate/Discard Leader Card" />
       <Label fx:id="lorenzoCard" layoutX="1218.0" layoutY="93.0" prefHeight="154.0" prefWidth="147.0" styleClass="backLorenzoCard" />
       <Button fx:id="buyDevCard" layoutX="1218.0" layoutY="587.0" mnemonicParsing="false" onAction="#BuyDevelopmentCard" prefHeight="62.0" prefWidth="133.0" text="Buy Development Card" />
+      <Label fx:id="resource21" layoutX="46.0" layoutY="578.0" prefHeight="52.0" prefWidth="50.0" />
+      <Label fx:id="resource22" layoutX="123.0" layoutY="578.0" prefHeight="52.0" prefWidth="50.0" />
+      <Label fx:id="resource11" layoutX="46.0" layoutY="257.0" prefHeight="52.0" prefWidth="50.0" />
+      <Label fx:id="resource12" layoutX="123.0" layoutY="257.0" prefHeight="52.0" prefWidth="50.0" />
    </children>
    <stylesheets>
       <URL value="@../../../css/login/connectionPage.css" />
