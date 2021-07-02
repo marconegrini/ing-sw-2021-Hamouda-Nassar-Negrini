@@ -210,7 +210,7 @@ public class GUIView extends View {
             for (Resource resource : resources) {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
-                label.getStyleClass().add("notSelectedCard");
+                //label.getStyleClass().add("notSelectedCard");
                 label.setPrefHeight(60.0);
                 label.setPrefWidth(60.0);
                 Platform.runLater(() -> {
@@ -230,7 +230,7 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
-        return null;
+        return new EmptyMessage();
     }
 
     /**

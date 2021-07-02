@@ -48,7 +48,6 @@ public class UpdateObjects {
             for (Resource resource : resources) {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
-                label.getStyleClass().add("notSelectedCard");
                 label.setPrefHeight(70.0);
                 label.setPrefWidth(70.0);
                 Platform.runLater(() -> {
@@ -79,7 +78,6 @@ public class UpdateObjects {
             for (Resource resource : resources) {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
-                label.getStyleClass().add("notSelectedCard");
                 label.setPrefHeight(70.0);
                 label.setPrefWidth(70.0);
                 Platform.runLater(() -> {
@@ -386,37 +384,6 @@ public class UpdateObjects {
             i++;
         }
 
-        /*
-        for (int i = 0; i < devCards.size(); i++) {
-            Label label = (Label) scene.lookup("#card" + i);
-            try {
-                label.setStyle("-fx-background-image: url(\"images/devcards/" +
-                        devCards.get(i).toPath() + ".png\");" +
-                        " -fx-background-size: 100% 100%;" +
-                        "-fx-border-width: 5");
-            } catch (NullPointerException e) {
-                label.setStyle("-fx-background-image: url(\"images/devcards/backCard.png\");" +
-                        " -fx-background-size: 100% 100%;" +
-                        "-fx-border-width: 5");
-            }
-            i++;
-        }
-
-         */
-
-
-        /*
-        for (int i=0; i<devCards.size(); i++){
-            String path = "images/devcards/" + devCards.get(i).toPath() + ".png";
-            //Image image = new Image(Objects.requireNonNull(UpdateObjects.class.getClassLoader().getResourceAsStream(path)), 150, 200, false, false);
-            Image image = new Image(path, 150, 200, false, false);
-            //System.out.println(image);
-            Label label = (Label) scene.lookup("#card" + i);
-            label.setGraphic(new ImageView(image));
-            label.setStyle("-fx-border-width: 5; -fx-border-color:  #1d1d2b;");
-        }
-
-         */
     }
 
     public static void updatePopeCards (List<VaticanSection> vaticanSections, Scene scene){
