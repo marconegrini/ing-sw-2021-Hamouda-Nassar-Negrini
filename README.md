@@ -21,8 +21,9 @@ Regole complete + CLI + GUI + Socket + 1 Funzionalità aggiuntiva (partite multi
 I file jar del progetto sono posizionati all'interno del percorso deliverables\final\jar. Posizionandosi con il terminale
 windows sul jar del server, digitando 'java -jar PSP32-server', verrà eseguito il server. 
 Allo stesso modo, avviando PSP32-client inizierà di default il gioco in GUI.
-Per avviare il gioco da linea di comando è necessario installare WSL (Windows Subsystem for Linux), posizionarsi sulla 
-cartella di PSP32-client, ed eseguire il jar (sempre con 'java -jar PSP32-client') digitando come opzione di esecuzione -c o --cli.
+Per avviare il gioco da linea di comando e visualizzare correttamente i caratteri speciali è necessario installare WSL 
+(Windows Subsystem for Linux), posizionarsi sulla cartella di PSP32-client, ed eseguire il jar (sempre con 'java -jar PSP32-client') 
+digitando come opzione di esecuzione -c o --cli.
 
 ##Componenti del gruppo
 Adel Nassar
