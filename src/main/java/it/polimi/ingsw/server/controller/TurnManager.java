@@ -39,7 +39,7 @@ public class TurnManager {
     private SinglePlayer player;
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
-    private List<Resource> resorucesToStore;
+    private List<Resource> resourcesToStore;
     private List<Resource> resourcesFromFirstProduction;
     private boolean obtainedFaithPointsFromProduction;
     private boolean done;
@@ -59,7 +59,7 @@ public class TurnManager {
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
-        this.resorucesToStore = new ArrayList<>();
+        this.resourcesToStore = new ArrayList<>();
         this.done = false;
         this.sevenDevCardsBought = false;
         this.firstPlayerToEnd = null;
@@ -227,7 +227,7 @@ public class TurnManager {
             }
         }
 
-        this.resorucesToStore = resourcesToStore;
+        this.resourcesToStore = resourcesToStore;
         logger.log(java.util.logging.Level.INFO,resourcesToStore.toString());
         if(resourcesToStore.isEmpty()){
             this.turnDone();
@@ -249,21 +249,21 @@ public class TurnManager {
         if (!discard) {
             try {
                 player.putWarehouseResources(destStorage, resourcesIn);
-                if(this.resorucesToStore.containsAll(resourcesIn) && resourcesIn.containsAll(this.resorucesToStore)){
+                if(equalContent(this.resourcesToStore, resourcesIn)){
                     turnDone();
                     return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!", player.getClonedWarehouse());
                 } else {
                     for(Resource res : resourcesIn)
-                        this.resorucesToStore.remove(res);
+                        this.resourcesToStore.remove(res);
                     //previous line wasn't correct. It removed all the occurrences of specified resource
                     //this.resorucesToStore.removeAll(resourcesIn);
-                    logger.log(java.util.logging.Level.INFO,this.resorucesToStore.toString());
-                    return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
+                    logger.log(java.util.logging.Level.INFO,this.resourcesToStore.toString());
+                    return new ResourcesToStoreMessage(false, this.resourcesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
                 }
             } catch (StorageOutOfBoundsException e1) {
-                return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resorucesToStore);
+                return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resourcesToStore);
             } catch (IllegalInsertionException e2) {
-                return new ErrorWarehouseMessage("\nInsertion not permitted. Insert again resources in warehouse.\n", this.resorucesToStore);
+                return new ErrorWarehouseMessage("\nInsertion not permitted. Insert again resources in warehouse.\n", this.resourcesToStore);
             }
         } else {
             //if the player chose to discard resources, others faith paths are updated and
@@ -294,14 +294,14 @@ public class TurnManager {
                     sp.updateFaithPath(lorenzoPosition);
                 }
             }
-            if(resorucesToStore.containsAll(resourcesIn) && resourcesIn.containsAll(resorucesToStore)) {
+            if(equalContent(this.resourcesToStore, resourcesIn)) {
                 turnDone();
                 return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!", player.getClonedWarehouse());
             } else {
                 for(Resource res : resourcesIn){
-                    this.resorucesToStore.remove(res);
+                    this.resourcesToStore.remove(res);
                 }
-                return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
+                return new ResourcesToStoreMessage(false, this.resourcesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
             }
         }
     }
@@ -970,6 +970,26 @@ public class TurnManager {
 
     public boolean getDisconnected(){
         return this.disconnected;
+    }
+
+    private boolean equalContent(List<Resource> resources1, List<Resource> resources2){
+        boolean contains = true;
+        List<Resource> temp = new ArrayList<>(resources1);
+        for(Resource resource : resources2){
+            contains = temp.remove(resource);
+            if(!contains) break;
+        }
+        if(contains){
+            temp.clear();
+            temp = new ArrayList<>(resources2);
+            for(Resource resource : resources1){
+                contains = temp.remove(resource);
+                if(!contains) break;
+            }
+        }
+        if(contains)
+            this.resourcesToStore.clear();
+        return contains;
     }
 
 }

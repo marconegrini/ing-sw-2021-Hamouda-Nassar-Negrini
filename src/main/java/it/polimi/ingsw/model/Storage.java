@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,4 +34,5 @@ public class Storage {
     public void insert(List<Resource> resources){
         this.resources.addAll(resources);
     }
+
 }
