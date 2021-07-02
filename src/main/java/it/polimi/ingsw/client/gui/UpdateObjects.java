@@ -195,16 +195,17 @@ public class UpdateObjects {
                                 "-fx-stroke: firebrick;-fx-stroke-width: 2px;"
                         );
 
-                            faithPathGrid.add(rood, 0, 2);
+                        faithPathGrid.add(rood, 0, 2);
                         rood.getStyleClass().add("outline");
                     }
                 }
             }
 
-            for (String player : players){
-                Label rood = (Label) SceneManager.getScene().lookup("#rood"+player);
-                    GridPane.setColumnIndex(rood, getFaithPathCol(othersPositions.get(player)));
-                    GridPane.setRowIndex(rood, getFaithPathRow(othersPositions.get(player)));;
+            for (String player : players) {
+                Label rood = (Label) SceneManager.getScene().lookup("#rood" + player);
+                GridPane.setColumnIndex(rood, getFaithPathCol(othersPositions.get(player)));
+                GridPane.setRowIndex(rood, getFaithPathRow(othersPositions.get(player)));
+                ;
             }
         });
     }
@@ -332,36 +333,42 @@ public class UpdateObjects {
 
     public static void updateLeaderCards(List<LeaderCard> leaderCards, Scene scene) {
 
+
         for (int i = 0; i < 2; i++) {
-            Label card = (Label) scene.lookup("#leaderCard" + (i + 1));
-            card.setStyle("-fx-background-image: url(\"images/leadercards/" +
-                    leaderCards.get(i).toPath() + ".png\");" +
-                    " -fx-background-size: 100% 100%;" +
-                    "-fx-border-width: 5");
-            if (leaderCards.get(i).getCardType().equals(CardType.STORAGE) && leaderCards.get(i).isActivated()) {
-                StorageLeaderCard storageLeaderCard = (StorageLeaderCard) leaderCards.get(i);
-                Resource leaderResource =storageLeaderCard.storageType();
+            try {
+                Label card = (Label) scene.lookup("#leaderCard" + (i + 1));
+                card.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                        leaderCards.get(i).toPath() + ".png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
 
-                int maxCapacity = storageLeaderCard.getMaxCapacity();
-                Integer capacity = storageLeaderCard.getLeaderCardPower().get(leaderResource);
-                if (capacity == null)   capacity = 0;
-                int emptyCap = maxCapacity - capacity;
-                int occupiedSlots = maxCapacity - emptyCap;
+                if (leaderCards.get(i).getCardType().equals(CardType.STORAGE) && leaderCards.get(i).isActivated()) {
+                    StorageLeaderCard storageLeaderCard = (StorageLeaderCard) leaderCards.get(i);
+                    Resource leaderResource = storageLeaderCard.storageType();
 
-                for (int j=1; j <= occupiedSlots; j++){
-                    Label slot = (Label) scene.lookup("#resource" + (i+1) +  j);
-                    slot.getStyleClass().add(leaderResource.toString().toLowerCase());
+                    int maxCapacity = storageLeaderCard.getMaxCapacity();
+                    Integer capacity = storageLeaderCard.getLeaderCardPower().get(leaderResource);
+                    if (capacity == null) capacity = 0;
+                    int emptyCap = maxCapacity - capacity;
+                    int occupiedSlots = maxCapacity - emptyCap;
+
+                    for (int j = 1; j <= occupiedSlots; j++) {
+                        Label slot = (Label) scene.lookup("#resource" + (i + 1) + j);
+                        slot.getStyleClass().add(leaderResource.toString().toLowerCase());
+                    }
                 }
+                if (leaderCards.get(i).isActivated()) {
+                    card.getStyleClass().remove("notSelectedCard");
+                    card.getStyleClass().add("selectedCard");
+                    card.setOpacity(1.0);
+                } else if (leaderCards.get(i).isDiscarded()) {
+                    card.setOpacity(0.9);
+                    card.getStyleClass().remove("notSelectedCard");
+                    card.getStyleClass().add("redFrame");
+                } else card.setOpacity(0.9);
+            } catch (NullPointerException e) {
+
             }
-            if (leaderCards.get(i).isActivated()) {
-                card.getStyleClass().remove("notSelectedCard");
-                card.getStyleClass().add("selectedCard");
-                card.setOpacity(1.0);
-            } else if (leaderCards.get(i).isDiscarded()){
-                card.setOpacity(0.9);
-                card.getStyleClass().remove("notSelectedCard");
-                card.getStyleClass().add("redFrame");
-            } else card.setOpacity(0.9);
         }
     }
 
@@ -386,24 +393,24 @@ public class UpdateObjects {
 
     }
 
-    public static void updatePopeCards (List<VaticanSection> vaticanSections, Scene scene){
-        for (int i=0; i<3; i++){
+    public static void updatePopeCards(List<VaticanSection> vaticanSections, Scene scene) {
+        for (int i = 0; i < 3; i++) {
             Label card = (Label) scene.lookup("#popeCard" + i);
-            if (vaticanSections.get(i).isCardFlipped()){
-                card.getStyleClass().add("popeCardFront" + (i+2));
-                if (vaticanSections.get(i).isActivated()){
+            if (vaticanSections.get(i).isCardFlipped()) {
+                card.getStyleClass().add("popeCardFront" + (i + 2));
+                if (vaticanSections.get(i).isActivated()) {
                     card.getStyleClass().add("greenFrame");
                 }
             } else {
-                card.getStyleClass().add("popeCardBack" + (i+2));
-                if(vaticanSections.get(i).isActivated()){
+                card.getStyleClass().add("popeCardBack" + (i + 2));
+                if (vaticanSections.get(i).isActivated()) {
                     card.getStyleClass().add("redFrame");
                 }
             }
         }
     }
 
-    public static void updateLorenzoCard (LorenzoCardType lorenzoCardType, Scene scene){
+    public static void updateLorenzoCard(LorenzoCardType lorenzoCardType, Scene scene) {
         Label card = (Label) scene.lookup("#lorenzoCard");
         card.setStyle("-fx-background-image: url(\"images/singleplayer/" +
                 lorenzoCardType.toString().toLowerCase() + ".png\");" +
