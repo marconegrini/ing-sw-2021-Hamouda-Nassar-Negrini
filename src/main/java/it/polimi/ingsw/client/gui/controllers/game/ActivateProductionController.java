@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.enumerations.CardType;
 import it.polimi.ingsw.enumerations.Resource;
-import it.polimi.ingsw.messages.fromClient.ActivatePersonalProductionMessage;
 import it.polimi.ingsw.messages.fromClient.ActivateProductionMessage;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import javafx.application.Platform;
@@ -52,7 +51,6 @@ public class ActivateProductionController {
         try {
             label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         } catch (ClassCastException e) {
-            //e.printStackTrace();
             return;
         }
 
@@ -220,8 +218,6 @@ public class ActivateProductionController {
             int activatedLeaderCards = 1;
             for (LeaderCard lc : ControllerGUI.getServerHandler().getLightModel().getLeaderCards()) {
                 if (lc.getCardType().equals(CardType.PRODUCTION) && lc.isActivated()) {
-                    Node source = (Node) actionEvent.getSource();
-                    Scene theScene = SceneManager.getPopUpScene();
 
                     System.out.println("Leader card: " + lc);
                     Label card = (Label) scene.lookup("#leaderCard" + activatedLeaderCards);
@@ -245,8 +241,8 @@ public class ActivateProductionController {
                 }
             }
 
-            //UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
         });
+
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
