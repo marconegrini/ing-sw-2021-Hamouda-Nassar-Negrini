@@ -12,12 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Window;
 
+/**
+ * GUI controller class invoked to activate the personal production
+ */
 public class ActivatePersonalProductionController {
 
     private Label selectedLabel1, selectedLabel2, selectedLabel3;
 
-
-
+    /**
+     * This method manage the selection of the resources and send the message to the server
+     * @param actionEvent
+     */
     public void select(ActionEvent actionEvent) {
         if (selectedLabel3 == null || selectedLabel1 == null || selectedLabel2 == null) {
             Platform.runLater(() -> {
@@ -37,6 +42,10 @@ public class ActivatePersonalProductionController {
         theStage.hide();
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectLabel1(MouseEvent mouseEvent) {
 
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
@@ -51,6 +60,10 @@ public class ActivatePersonalProductionController {
         }
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectLabel2(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 
@@ -64,6 +77,10 @@ public class ActivatePersonalProductionController {
         }
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectLabel3(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 
@@ -90,6 +107,10 @@ public class ActivatePersonalProductionController {
         return "";
     }
 
+    /**
+     * Allows the user to go back to the main menu
+     * @param actionEvent
+     */
     public void back(ActionEvent actionEvent) {
         ControllerGUI.getServerHandler().sendJson(new ActivatePersonalProductionMessage(null, null, null, null, true, false));
         Node source = (Node) actionEvent.getSource();

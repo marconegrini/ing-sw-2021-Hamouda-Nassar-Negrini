@@ -27,6 +27,10 @@ public class BuyDevelopmentCardController {
     private Label selectedCard;
     private static int column, row;
 
+    /**
+     * Take the selected card from the user and starts the buying process
+     * @param actionEvent
+     */
     public void selectDevCard(ActionEvent actionEvent) {
 
         int id = Integer.parseInt(selectedCard.getId().substring(4));
@@ -63,6 +67,10 @@ public class BuyDevelopmentCardController {
 
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectCard(MouseEvent mouseEvent) {
 
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
@@ -81,6 +89,10 @@ public class BuyDevelopmentCardController {
 
     }
 
+    /**
+     * Allows the user to go back to the main menu
+     * @param actionEvent
+     */
     public void back(ActionEvent actionEvent) {
 
         Node source = (Node) actionEvent.getSource();
@@ -112,6 +124,10 @@ public class BuyDevelopmentCardController {
 
     }
 
+    /**
+     * Send the message to the client with the selection of the user
+     * @param mouseEvent
+     */
     public void selectSlot(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         Integer slot = Integer.parseInt(label.getId().substring(4));

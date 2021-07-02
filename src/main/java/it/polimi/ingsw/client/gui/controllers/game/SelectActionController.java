@@ -17,11 +17,15 @@ import javafx.stage.Window;
 import java.io.IOException;
 
 /**
- * GUI controller class invoked when the user needs to select an action to perform
+ * GUI controller class invoked when the user needs to select an action to perform on a multiplayer game
  */
 public class SelectActionController {
 
 
+    /**
+     * When invoked it shows the marketboard
+     * @param actionEvent
+     */
     public void pickResources(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -50,6 +54,10 @@ public class SelectActionController {
     }
 
 
+    /**
+     * When invoked it shows the activate production window
+     * @param actionEvent
+     */
     public void activateProduction(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -77,6 +85,10 @@ public class SelectActionController {
     }
 
 
+    /**
+     * When invoked it shows the buy development card window
+     * @param actionEvent
+     */
     public void buyDevelopmentCard(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -103,6 +115,10 @@ public class SelectActionController {
         });
     }
 
+    /**
+     * When invoked it shows the leader cards window
+     * @param actionEvent
+     */
 
     public void activateLeaderCard(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();

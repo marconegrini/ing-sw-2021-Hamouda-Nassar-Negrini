@@ -34,17 +34,28 @@ public class MarketboardController {
     private static Integer column, row;
     private static boolean isRow = false;
 
+    /**
+     * Used to activate the blink of the arrow where the mouse is over
+     * @param mouseEvent
+     */
     public void enteredSelection(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         selectedLabel = label;
         label.setOpacity(0.33);
     }
 
-
+    /**
+     * Used to deactivate the blink of the arrow where the mouse is over
+     * @param mouseEvent
+     */
     public void exitedSelection(MouseEvent mouseEvent) {
         selectedLabel.setOpacity(0.0);
     }
 
+    /**
+     * Send the message to the server based on the selected column
+     * @param mouseEvent
+     */
     public void selectCol(MouseEvent mouseEvent) {
         column = GridPane.getColumnIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (column == null)     column = 0;
@@ -88,6 +99,10 @@ public class MarketboardController {
 
     }
 
+    /**
+     * Send the message to the server based on the selected row
+     * @param mouseEvent
+     */
     public void selectRow(MouseEvent mouseEvent) {
         row = GridPane.getRowIndex(mouseEvent.getPickResult().getIntersectedNode());
         if (row == null)     row = 0;
@@ -128,6 +143,10 @@ public class MarketboardController {
 
     }
 
+    /**
+     * Used to no use the leader card storage power
+     * @param actionEvent
+     */
     public void dontUseLeaderCards(ActionEvent actionEvent) {
         System.out.println(column);
         System.out.println(row);
@@ -140,6 +159,10 @@ public class MarketboardController {
         ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, result+1, false));
     }
 
+    /**
+     * Used to use the leader card storage power
+     * @param actionEvent
+     */
     public void useLeaderCards(ActionEvent actionEvent) {
         System.out.println(column);
         System.out.println(row);
@@ -152,6 +175,10 @@ public class MarketboardController {
         ControllerGUI.getServerHandler().sendJson(new PickResourcesMessage(isRow, result+1, true));
     }
 
+    /**
+     * Allows the user to go back to the main menu
+     * @param actionEvent
+     */
     public void back(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();

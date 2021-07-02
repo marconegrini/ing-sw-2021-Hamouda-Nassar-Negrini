@@ -43,6 +43,10 @@ public class ActivateProductionController {
     private static List<Integer> selectedSlots = new ArrayList<>();
     private Label selectedLabel1, selectedLabel2;
 
+    /**
+     * Add a green frame around the selected card
+     * @param mouseEvent
+     */
     public void selectedDevCardSlot(MouseEvent mouseEvent) {
         Label label;
         try {
@@ -65,6 +69,10 @@ public class ActivateProductionController {
         else label.getStyleClass().add("selectedCard");
     }
 
+    /**
+     * Allows the user to go back to the main menu
+     * @param actionEvent
+     */
     public void back(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -99,6 +107,10 @@ public class ActivateProductionController {
         });
     }
 
+    /**
+     * Manage the selection of the personal production
+     * @param mouseEvent
+     */
     public void selectPersonalProduction(MouseEvent mouseEvent) {
         if (selectedPersonalProduction) {
             selectedPersonalProduction = false;
@@ -109,6 +121,10 @@ public class ActivateProductionController {
         }
     }
 
+    /**
+     * Activate the personal production sending the correct message to the server
+     * @param actionEvent
+     */
     public void activate(ActionEvent actionEvent) {
         System.out.println(selectedSlots);
 
@@ -176,6 +192,10 @@ public class ActivateProductionController {
 
     }
 
+    /**
+     * Takes the input of the user related to the activation of the production leader card
+     * @param actionEvent
+     */
     public void useProductionCards(ActionEvent actionEvent) {
         Platform.runLater(() -> {
             Stage newStage = new Stage();
@@ -233,6 +253,10 @@ public class ActivateProductionController {
 
     }
 
+    /**
+     * Takes the input of the user related to the activation of the production leader card
+     * @param actionEvent
+     */
     public void dontUseProductionCards(ActionEvent actionEvent) {
         System.out.println("dont use: " + selectedSlots);
         ControllerGUI.getServerHandler().sendJson(new ActivateProductionMessage(selectedSlots, null));
@@ -242,6 +266,10 @@ public class ActivateProductionController {
         theStage.hide();
     }
 
+    /**
+     * Send the activation message to the server
+     * @param actionEvent
+     */
     public void select(ActionEvent actionEvent) {
         System.out.println("select: " + selectedSlots);
         List<Resource> resources = new ArrayList<>();
@@ -282,6 +310,10 @@ public class ActivateProductionController {
         selectedSlots.clear();
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectLabel1(MouseEvent mouseEvent) {
 
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
@@ -296,6 +328,10 @@ public class ActivateProductionController {
         }
     }
 
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectLabel2(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 

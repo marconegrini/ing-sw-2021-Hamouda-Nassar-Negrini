@@ -35,6 +35,10 @@ public class PutResourcesController {
     private Label selectedLabel;
     private Label selectedShelf;
 
+    /**
+     * Allows the user to insert the selected label on the first shelf
+     * @param mouseEvent
+     */
     public void selectedFirstShelf(MouseEvent mouseEvent) {
         if (selectedLabel == null) return;
 
@@ -79,6 +83,10 @@ public class PutResourcesController {
 
     }
 
+    /**
+     * Allows the user to insert the selected label on the second shelf
+     * @param mouseEvent
+     */
     public void selectedSecondShelf(MouseEvent mouseEvent) {
         if (selectedLabel == null) return;
         List<Resource> resourcesOnShelf = ControllerGUI.getServerHandler().getLightModel().getWarehouse().getWarehouseStorage(2);
@@ -122,6 +130,10 @@ public class PutResourcesController {
 
     }
 
+    /**
+     * Allows the user to insert the selected label on the third shelf
+     * @param mouseEvent
+     */
     public void selectedThirdShelf(MouseEvent mouseEvent) {
         if (selectedLabel == null) return;
         List<Resource> resourcesOnShelf = ControllerGUI.getServerHandler().getLightModel().getWarehouse().getWarehouseStorage(3);
@@ -166,7 +178,10 @@ public class PutResourcesController {
 //        System.out.println(resourcesGrid.getChildren().size());
     }
 
-
+    /**
+     * Add a green frame around the selected resource
+     * @param mouseEvent
+     */
     public void selectResource(MouseEvent mouseEvent) {
         try{
             selectedLabel = (Label) mouseEvent.getPickResult().getIntersectedNode();
@@ -215,6 +230,10 @@ public class PutResourcesController {
         return null;
     }
 
+    /**
+     * Invoked when a user choose to discard the selected resource
+     * @param actionEvent
+     */
     public void discardResource(ActionEvent actionEvent) {
         if (selectedLabel == null) return;
         List<Resource> resourceToInsert = new ArrayList<>();
@@ -229,6 +248,10 @@ public class PutResourcesController {
 
     }
 
+    /**
+     * Used to shift two shelfs
+     * @param mouseEvent
+     */
     public void moveResources(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         disSelectResources(null);

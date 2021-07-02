@@ -27,6 +27,10 @@ public class ActivateLeaderCardController {
 
     private Label selectedCard;
 
+    /**
+     * This method add a green frame to the selected label
+     * @param mouseEvent
+     */
     public void selectCard(MouseEvent mouseEvent) {
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
 
@@ -43,6 +47,10 @@ public class ActivateLeaderCardController {
         }
     }
 
+    /**
+     * Activate the selected leader card
+     * @param actionEvent
+     */
     public void activate(ActionEvent actionEvent) {
         if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));
@@ -55,6 +63,10 @@ public class ActivateLeaderCardController {
 
     }
 
+    /**
+     * Allows the user to go back to the main menu
+     * @param actionEvent
+     */
     public void back(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
@@ -85,6 +97,10 @@ public class ActivateLeaderCardController {
         });
     }
 
+    /**
+     * Discard the actual selected label
+     * @param actionEvent
+     */
     public void discard(ActionEvent actionEvent) {
         if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));

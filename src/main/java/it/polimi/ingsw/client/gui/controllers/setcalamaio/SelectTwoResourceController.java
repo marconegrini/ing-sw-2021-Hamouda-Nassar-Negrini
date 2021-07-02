@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -26,6 +23,8 @@ import java.util.Objects;
  */
 public class SelectTwoResourceController {
 
+    @FXML
+    private Button playButton;
     @FXML
     private RadioButton stoneRadio2, shieldRadio2, servantRadio2, coinRadio2;
     @FXML
@@ -52,15 +51,7 @@ public class SelectTwoResourceController {
     public void ContinueToGame(ActionEvent actionEvent) {
         if (insertedResource1 && insertedResource2) {
             ControllerGUI.getServerHandler().sendJson(new CalamaioResponseMessage(resourceConverter(selectedLabel1), resourceConverter(selectedLabel2), selectedShelf1, selectedShelf2));
-
-            try {
-                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/setcalamaio/waiting_game.fxml")));
-                SceneManager.setScene(new Scene(root, 1080, 720));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
+            playButton.setDisable(true);
         }else{
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -14,9 +14,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * GUI controller class invoked when the user needs to select an action to perform on a single player game
+ */
+
 public class SinglePlayerGameController {
 
 
+    /**
+     * When invoked it shows the marketboard
+     * @param actionEvent
+     */
     public void showMarketBoard(ActionEvent actionEvent) {
         Platform.runLater(() ->{
             Stage newStage = new Stage();
@@ -41,6 +49,11 @@ public class SinglePlayerGameController {
         });
     }
 
+    /**
+     * When invoked it shows the activate production window
+     * @param actionEvent
+     */
+
     public void activateProduction(ActionEvent actionEvent) {
         Platform.runLater(() ->{
             Stage newStage = new Stage();
@@ -64,6 +77,11 @@ public class SinglePlayerGameController {
         });
     }
 
+    /**
+     * When invoked it shows the leader cards window
+     * @param actionEvent
+     */
+
     public void ActivateLeaderCard(ActionEvent actionEvent) {
         Platform.runLater(() ->{
             Stage newStage = new Stage();
@@ -86,6 +104,11 @@ public class SinglePlayerGameController {
             UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
         });
     }
+
+    /**
+     * When invoked it shows the buy development card window
+     * @param actionEvent
+     */
 
     public void BuyDevelopmentCard(ActionEvent actionEvent) {
         Platform.runLater(() ->{

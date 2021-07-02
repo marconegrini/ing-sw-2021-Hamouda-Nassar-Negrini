@@ -54,7 +54,7 @@ public class ConnectionToServerController {
 
 
         IPTextFiled.clear();
-        ServerHandler serverHandler = new ServerHandler(server, false);
+        ServerHandler serverHandler = new ServerHandler(server, false, false);
         ControllerGUI.setServerHandler(serverHandler);
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
