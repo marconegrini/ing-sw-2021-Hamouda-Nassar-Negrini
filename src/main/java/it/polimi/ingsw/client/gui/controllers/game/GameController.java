@@ -17,10 +17,6 @@ public class GameController {
     public void selectedDevCardSlot(MouseEvent mouseEvent) {
     }
 
-    public void corssMove(GridPane faithPathGrid, Label crossShape){
-        faithPathGrid.add(crossShape,1,1);
-    }
-
     public void selectedFirstShelf(MouseEvent mouseEvent) {
     }
 
@@ -29,8 +25,5 @@ public class GameController {
 
     public void selectedThirdShelf(MouseEvent mouseEvent) {
     }
-
-
-
 
 }
