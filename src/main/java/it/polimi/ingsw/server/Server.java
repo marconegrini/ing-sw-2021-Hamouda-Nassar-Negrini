@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromServer.ParticipantsMessage;
 import it.polimi.ingsw.server.handlers.ClientHandler;
+import it.polimi.ingsw.server.handlers.ClientPingHandler;
 import it.polimi.ingsw.server.handlers.MultiPlayerGameHandler;
 import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
@@ -12,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.net.InetAddress;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -28,7 +30,7 @@ public class Server {
      */
     private static final LinkedList<ClientHandler> clientHandlers = new LinkedList<>();
     private static final Logger logger = Logger.getLogger(Server.class.getName());
-
+    private static AtomicBoolean firstTime = new AtomicBoolean(false);
 
     public static void main(String[] args) throws IOException {
         try {
@@ -36,28 +38,44 @@ public class Server {
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }
-
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        logger.log(Level.INFO,"IP Address:- " + inetAddress.getHostAddress());
         ServerSocket serverSocket = new ServerSocket(5056);
+
         System.out.println(ANSITextFormat.BOLD +"Server running..."+ANSITextFormat.RESET);
         logger.log(Level.INFO,"Server On listening with port: " + serverSocket);
         logger.log(Level.INFO,"-------------");
+
+        ServerSocket serverPingSocket = new ServerSocket(5070);
+        System.out.println(ANSITextFormat.BOLD +"Thread for ping running..."+ANSITextFormat.RESET);
+        logger.log(Level.INFO,"listening with port: " + serverSocket);
+        logger.log(Level.INFO,"-------------");
+
         while (true){
-            Socket clientSocket ;
+            Socket clientSocket;
             try{
                 clientSocket = serverSocket.accept();
+
+//                //if true run ClientPingHandler for that client
+//                if (sockets.stream().anyMatch(x->x.getInetAddress().getHostAddress().equals(clientSocket.getInetAddress().getHostAddress())))
+//                {
+//                    ClientPingHandler clientPingHandler = new ClientPingHandler(clientSocket);
+//                    clientPingHandler.start();
+//                    sockets.remove(clientSocket);
+//                }
+//                sockets.add(clientSocket);
+
                 logger.log(Level.INFO,"-------------");
                 logger.log(Level.INFO,"New connection from: " + clientSocket);
                 logger.log(Level.INFO,"Assigning a new thread to the host: " + clientSocket);
                 logger.log(Level.INFO,"-------------");
-                ClientHandler client  = new ClientHandler(clientSocket);
+                ClientHandler client  = new ClientHandler(clientSocket,serverPingSocket);
                 client.start();
             } catch(IOException e){
                 logger.log(Level.INFO,"Connection dropped");
                 e.printStackTrace();
             }
+            logger.log(Level.INFO,"completed cycle in Server main process");
         }
+
     }
 
     public synchronized void checkStart(){

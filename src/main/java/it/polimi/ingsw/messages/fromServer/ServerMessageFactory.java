@@ -51,9 +51,6 @@ public class ServerMessageFactory {
                 case ERROR:
                     returnMessage = gson.fromJson(receivedMessage, ErrorMessage.class);
                     break;
-                case PING:
-                    returnMessage = gson.fromJson(receivedMessage, ServerPingMessage.class);
-                    break;
                 case GAMESTARTED:
                     returnMessage = gson.fromJson(receivedMessage, GameStartedMessage.class);
                     break;

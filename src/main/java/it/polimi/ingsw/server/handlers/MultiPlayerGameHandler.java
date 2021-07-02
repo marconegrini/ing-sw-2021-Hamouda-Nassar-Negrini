@@ -59,7 +59,6 @@ public class MultiPlayerGameHandler extends Thread {
     @Override
     public void run() {
         logger.log(Level.INFO,"Multiplayer game started");
-
         sendToClients(new StartGameMessage());
 
         for (ClientHandler ch : clientHandlers) {
