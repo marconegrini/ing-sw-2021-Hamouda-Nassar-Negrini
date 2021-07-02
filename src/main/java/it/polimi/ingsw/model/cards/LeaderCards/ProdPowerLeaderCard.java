@@ -47,6 +47,7 @@ public class ProdPowerLeaderCard extends LeaderCard {
         this.cardType = cardType;
         this.Vp = vp;
         this.isActivated = false;
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.productionIn = productionIn;
 

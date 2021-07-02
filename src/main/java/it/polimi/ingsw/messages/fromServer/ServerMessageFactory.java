@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.messages.fromServer.activateProduction.PersonalProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.activateProduction.ProductionResultMessage;
 import it.polimi.ingsw.messages.fromServer.leadercard.LeaderResultMessage;
@@ -87,7 +89,14 @@ public class ServerMessageFactory {
                 case CHOOSELEADERCARDS:
                     JsonArray jsonLeaderCards1 = messageObject.getAsJsonArray("leaderCards");
                     LeaderCardFactory factory1 = new LeaderCardFactory();
-                    List<LeaderCard> leaderCards1 = factory1.create(jsonLeaderCards1);
+                    List<LeaderCard> leaderCards1 = null;
+                    try {
+                        leaderCards1 = factory1.create(jsonLeaderCards1);
+                    } catch (AlreadyActivatedLeaderCardException e) {
+                        e.printStackTrace();
+                    } catch (AlreadyDiscardedLeaderCardException e) {
+                        e.printStackTrace();
+                    }
                     returnMessage = new ChooseLeaderCardMessage(leaderCards1);
                     break;
                 case UPDATELEADERCARDS:
@@ -96,7 +105,14 @@ public class ServerMessageFactory {
                 case UPDATELEADERCARDSTATUS:
                     JsonArray jsonLeaderCards2 = messageObject.getAsJsonArray("leaderCards");
                     LeaderCardFactory factory2 = new LeaderCardFactory();
-                    List<LeaderCard> leaderCards2 = factory2.create(jsonLeaderCards2);
+                    List<LeaderCard> leaderCards2 = null;
+                    try {
+                        leaderCards2 = factory2.create(jsonLeaderCards2);
+                    } catch (AlreadyActivatedLeaderCardException e) {
+                        e.printStackTrace();
+                    } catch (AlreadyDiscardedLeaderCardException e) {
+                        e.printStackTrace();
+                    }
                     returnMessage = new UpdateLeaderCardStatusMessage(leaderCards2);
                     break;
                 case UPDATEMARKETBOARD:

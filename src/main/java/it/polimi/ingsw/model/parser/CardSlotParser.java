@@ -10,6 +10,7 @@ import java.util.Objects;
 /**
  * Parser class that initialises development card slots from json file.
  */
+
 public class CardSlotParser extends Parser{
     public CardSlotParser() {
         this.reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/CardSlotsWarehouse.json")));

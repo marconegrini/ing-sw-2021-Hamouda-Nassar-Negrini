@@ -39,7 +39,7 @@ public class TurnManager {
     private SinglePlayer player;
     private CardsDeck cardsDeck;
     private MarketBoard marketBoard;
-    private List<Resource> resorucesToStore;
+    private List<Resource> resourcesToStore;
     private List<Resource> resourcesFromFirstProduction;
     private boolean obtainedFaithPointsFromProduction;
     private boolean done;
@@ -59,7 +59,7 @@ public class TurnManager {
     public TurnManager(CardsDeck cardsDeck, MarketBoard marketBoard){
         this.cardsDeck = cardsDeck;
         this.marketBoard = marketBoard;
-        this.resorucesToStore = new ArrayList<>();
+        this.resourcesToStore = new ArrayList<>();
         this.done = false;
         this.sevenDevCardsBought = false;
         this.firstPlayerToEnd = null;
@@ -227,7 +227,7 @@ public class TurnManager {
             }
         }
 
-        this.resorucesToStore = resourcesToStore;
+        this.resourcesToStore = resourcesToStore;
         logger.log(java.util.logging.Level.INFO,resourcesToStore.toString());
         if(resourcesToStore.isEmpty()){
             this.turnDone();
@@ -249,21 +249,21 @@ public class TurnManager {
         if (!discard) {
             try {
                 player.putWarehouseResources(destStorage, resourcesIn);
-                if(this.resorucesToStore.equals(resourcesIn)){
+                if(equalContent(this.resourcesToStore, resourcesIn)){
                     turnDone();
                     return new ResourcesToStoreMessage(true, null, "Resources correctly inserted!", player.getClonedWarehouse());
                 } else {
                     for(Resource res : resourcesIn)
-                        this.resorucesToStore.remove(res);
+                        this.resourcesToStore.remove(res);
                     //previous line wasn't correct. It removed all the occurrences of specified resource
                     //this.resorucesToStore.removeAll(resourcesIn);
-                    logger.log(java.util.logging.Level.INFO,this.resorucesToStore.toString());
-                    return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
+                    logger.log(java.util.logging.Level.INFO,this.resourcesToStore.toString());
+                    return new ResourcesToStoreMessage(false, this.resourcesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
                 }
             } catch (StorageOutOfBoundsException e1) {
-                return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resorucesToStore);
+                return new ErrorWarehouseMessage("Selected slot doesn't exists", this.resourcesToStore);
             } catch (IllegalInsertionException e2) {
-                return new ErrorWarehouseMessage("\nInsertion not permitted. Insert again resources in warehouse.\n", this.resorucesToStore);
+                return new ErrorWarehouseMessage("\nInsertion not permitted. Insert again resources in warehouse.\n", this.resourcesToStore);
             }
         } else {
             //if the player chose to discard resources, others faith paths are updated and
@@ -294,14 +294,14 @@ public class TurnManager {
                     sp.updateFaithPath(lorenzoPosition);
                 }
             }
-            if(resorucesToStore.equals(resourcesIn)) {
+            if(equalContent(this.resourcesToStore, resourcesIn)) {
                 turnDone();
                 return new ResourcesToStoreMessage(true, null, "Resources correctly discarded!", player.getClonedWarehouse());
             } else {
                 for(Resource res : resourcesIn){
-                    this.resorucesToStore.remove(res);
+                    this.resourcesToStore.remove(res);
                 }
-                return new ResourcesToStoreMessage(false, this.resorucesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
+                return new ResourcesToStoreMessage(false, this.resourcesToStore, "Insert or discard remaining resources.", player.getClonedWarehouse());
             }
         }
     }
@@ -455,8 +455,6 @@ public class TurnManager {
      */
     public boolean pullNeededResources(Player player, List<Resource> cost){
 
-
-
         List<Resource> warehouseResources = player.getWarehouseResource();
         List<Resource> toTakeFromWarehouse = new ArrayList<>();
         List<Resource> toTakeFromCoffer = new ArrayList<>();
@@ -531,8 +529,6 @@ public class TurnManager {
      */
     public ServerMessage activateProduction (Player player, List<Integer> slots, List<Resource> leaderResource){
 
-
-
         logger.log(java.util.logging.Level.INFO,slots.toString());
         logger.log(java.util.logging.Level.INFO,player.getPeekCardsInDevCardSLots().toString());
         if(slots.isEmpty()) return new ProductionResultMessage(true, "Empty development card slots!", true, player.getClonedWarehouse(), player.getClonedCoffer());
@@ -587,7 +583,7 @@ public class TurnManager {
             if(usedLC) {
                 return new ProductionResultMessage(false,"Activated production and resources brought from coffer. Leader card power used.", true, player.getClonedWarehouse(), player.getClonedCoffer());
             } else {
-                return new ProductionResultMessage(false, "Activated production and resources brought coffer", true, player.getClonedWarehouse(), player.getClonedCoffer());
+                return new ProductionResultMessage(false, "Activated production and resources brought from coffer", true, player.getClonedWarehouse(), player.getClonedCoffer());
             }
         } else return new ProductionResultMessage(true, "Insufficient resources to activate production on selected slots", true, player.getClonedWarehouse(), player.getClonedCoffer());
     }
@@ -622,7 +618,7 @@ public class TurnManager {
                     resourcesFromFirstProduction.clear();
                     obtainedFaithPointsFromProduction = false;
                     turnDone();
-                    return new PersonalProductionResultMessage(false, "Obtained the resource from personal production",  true);
+                    return new PersonalProductionResultMessage(false, "Obtained the resource from personal production. Added to coffer resources previously obtained.",  true);
                 } else {
                     //It's the first production of the player. Try to activate leader production and terminate turn.
                     player.putCofferResources(resourceOut);
@@ -667,9 +663,9 @@ public class TurnManager {
                 resourcesFromFirstProduction.clear();
                 obtainedFaithPointsFromProduction = false;
                 turnDone();
-                return new PersonalProductionResultMessage(false, "Personal production not activated. Added resources previously obtained.", true);
+                return new PersonalProductionResultMessage(false, "Personal production not activated. Added to coffer resources previously obtained.", true);
             } else {
-                //the player hasn't obtained anything before.
+                //the player hasn't obtained anything before. The turn is not done
                 return new PersonalProductionResultMessage(true, "Personal production not activated. You haven't obtained resources or faith points previously.", false);
             }
         }
@@ -684,42 +680,46 @@ public class TurnManager {
      *      * other users' faith paths. Else, it returns false.
      */
     public boolean activateLeaderCardProduction(Player player, List<Resource> leaderResource) {
-        if(player.isLeaderCardActivated(CardType.PRODUCTION)){
-            HashMap<Resource, Integer> prodInCost = null;
-            prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
-            List<Resource> productionInputCost = new ArrayList();
-            for(Resource r : prodInCost.keySet()){
-                for(int i = 0; i < prodInCost.get(r); i++){
-                    productionInputCost.add(r);
-                }
-            }
 
-            //checks if there are enough resources in warehouse and/or coffer to activate leader card production
-            if (containsNeededResources(player, productionInputCost)) {
-
-                pullNeededResources(player, productionInputCost);
-
-                List<Resource> clientChoice = new ArrayList<>();
-                clientChoice.addAll(leaderResource);
-                //inserts in coffer chosen resource
-                player.putCofferResources(clientChoice);
-                //increments user faith position and updates other user's faith paths
-                player.incrementFaithPathPosition();
-                if(multiplayer) {
-                    Integer newPlayerPosition = player.getFaithPathPosition();
-                    if(player.isRapportoInVaticano(newPlayerPosition))
-                        for (Player p : players)
-                            p.updateFaithPath(player.getFaithPathPosition());
-                    if(newPlayerPosition.equals(player.faithPathEnd())){
-                        endedFaithPath = true;
-                        if(firstPlayerToEnd == null)
-                            firstPlayerToEnd = (MultiPlayer) player;
+        if(leaderResource != null) {
+            if (player.isLeaderCardActivated(CardType.PRODUCTION)) {
+                HashMap<Resource, Integer> prodInCost = null;
+                prodInCost = player.getLeaderCardsPower(CardType.PRODUCTION);
+                List<Resource> productionInputCost = new ArrayList();
+                for (Resource r : prodInCost.keySet()) {
+                    for (int i = 0; i < prodInCost.get(r); i++) {
+                        productionInputCost.add(r);
                     }
                 }
-                return true;
+
+                //checks if there are enough resources in warehouse and/or coffer to activate leader card production
+                if (containsNeededResources(player, productionInputCost)) {
+
+                    pullNeededResources(player, productionInputCost);
+
+                    List<Resource> clientChoice = new ArrayList<>();
+                    clientChoice.addAll(leaderResource);
+                    //inserts in coffer chosen resource
+                    player.putCofferResources(clientChoice);
+                    //increments user faith position and updates other user's faith paths
+                    player.incrementFaithPathPosition();
+                    if (multiplayer) {
+                        Integer newPlayerPosition = player.getFaithPathPosition();
+                        if (player.isRapportoInVaticano(newPlayerPosition))
+                            for (Player p : players)
+                                p.updateFaithPath(player.getFaithPathPosition());
+                        if (newPlayerPosition.equals(player.faithPathEnd())) {
+                            endedFaithPath = true;
+                            if (firstPlayerToEnd == null)
+                                firstPlayerToEnd = (MultiPlayer) player;
+                        }
+                    }
+                    return true;
+                }
             }
-        }
-        return false;
+            return false;
+
+        } else return false;
     }
 
     /**
@@ -971,6 +971,27 @@ public class TurnManager {
     public boolean getDisconnected(){
         return this.disconnected;
     }
+
+    private boolean equalContent(List<Resource> resources1, List<Resource> resources2){
+        boolean contains = true;
+        List<Resource> temp = new ArrayList<>(resources1);
+        for(Resource resource : resources2){
+            contains = temp.remove(resource);
+            if(!contains) break;
+        }
+        if(contains){
+            temp.clear();
+            temp = new ArrayList<>(resources2);
+            for(Resource resource : resources1){
+                contains = temp.remove(resource);
+                if(!contains) break;
+            }
+        }
+        if(contains)
+            this.resourcesToStore.clear();
+        return contains;
+    }
+
 }
 
 

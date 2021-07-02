@@ -10,6 +10,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.multiplayer.MultiPlayer;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +29,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class PlayerTest {
 
+    private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
     Player playerMulti;
     Player playerSingle;
     Stack<LeaderCard> leaderCardList;
@@ -51,7 +54,11 @@ public class PlayerTest {
         leaderCardsDeck2 = new ArrayList<>();
         leaderCardsDeck3 = new ArrayList<>();
         leaderCardsDeck4 = new ArrayList<>();
-        leaderCardList = lcp.getLeaderCardsDeck();
+        try {
+            leaderCardList = lcp.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(java.util.logging.Level.SEVERE, e.getMessage(), e);
+        }
         storageLeaderCard = leaderCardList.stream()
                 .filter(card->(card.getCardType().equals(CardType.DISCOUNT)))
                 .collect(Collectors.toList());

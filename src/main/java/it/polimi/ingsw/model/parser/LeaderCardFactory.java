@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCardCost;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
@@ -27,7 +29,7 @@ public class LeaderCardFactory {
 
     private static final Logger logger = Logger.getLogger(LeaderCardFactory.class.getName());
 
-    public List<LeaderCard> create(JsonArray jsonLeaderCardsArray){
+    public List<LeaderCard> create(JsonArray jsonLeaderCardsArray) throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
         List<LeaderCard> leaderCards= new ArrayList<>();
 
         for (JsonElement jsonElement : jsonLeaderCardsArray) {
@@ -36,6 +38,9 @@ public class LeaderCardFactory {
             int victoryPoints = jsonObject.get("Vp").getAsInt();
             String tempCardType = jsonObject.get("cardType").getAsString();
             CardType cardType = CardType.getEnum(tempCardType);
+
+            boolean isActivated = jsonObject.get("isActivated").getAsBoolean();
+            boolean isDiscarded = jsonObject.get("isDiscarded").getAsBoolean();
 
             if(jsonObject.get("cardType").getAsString().equals("DISCOUNT")){
 
@@ -54,6 +59,13 @@ public class LeaderCardFactory {
                 HashMap<Resource,Integer> discountedResource = getCorrectHashMap(new Gson().fromJson(discount.toString(), HashMap.class));
 
                 DiscountLeaderCard leaderCard = new DiscountLeaderCard(cardType ,victoryPoints, activationCost, discountedResource);
+
+                if(isActivated)
+                    leaderCard.activate();
+
+                if(isDiscarded)
+                    leaderCard.discard();
+
                 leaderCards.add(leaderCard);
             }
             Gson gson = new Gson();
@@ -63,8 +75,6 @@ public class LeaderCardFactory {
                 HashMap<Resource, Integer> activationCost = getCorrectHashMap(new Gson().fromJson(jsonObject1.toString(), HashMap.class));
                 JsonObject jsonObject2 = jsonObject.get("slots").getAsJsonObject();
                 HashMap<Resource, Integer> slots = getCorrectHashMap(new Gson().fromJson(jsonObject2.toString(), HashMap.class));
-                boolean isAvailable = jsonObject.get("isActivated").getAsBoolean();
-                boolean isDiscarded = jsonObject.get("isDiscarded").getAsBoolean();
                 Integer maxCapacity = jsonObject.get("maxCapacity").getAsInt();
                 JsonArray jsonArray1 = jsonObject.get("storage").getAsJsonArray();
 
@@ -79,7 +89,14 @@ public class LeaderCardFactory {
 
 
 
-                StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, isAvailable, isDiscarded, maxCapacity, activationCost, slots, storage);
+                StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, maxCapacity, activationCost, slots, storage);
+
+                if(isActivated)
+                    leaderCard.activate();
+
+                if(isDiscarded)
+                    leaderCard.discard();
+
                 leaderCards.add(leaderCard);
             }
 
@@ -100,6 +117,13 @@ public class LeaderCardFactory {
                 HashMap<Resource, Integer> productionOut = getCorrectHashMap(new Gson().fromJson(jsonObject1.toString(), HashMap.class));
 
                 WhiteMarbleLeaderCard leaderCard = new WhiteMarbleLeaderCard(cardType, victoryPoints, activationCost, productionOut);
+
+                if(isActivated)
+                    leaderCard.activate();
+
+                if(isDiscarded)
+                    leaderCard.discard();
+
                 leaderCards.add(leaderCard);
             }
 
@@ -122,6 +146,13 @@ public class LeaderCardFactory {
                 Integer outProductionFaithPoints = jsonObject.get("outProductionFaithPoints").getAsInt();
 
                 ProdPowerLeaderCard leaderCard = new ProdPowerLeaderCard(cardType, victoryPoints, activationCost, productionIn, outProductionResourceNum, outProductionFaithPoints);
+
+                if(isActivated)
+                    leaderCard.activate();
+
+                if(isDiscarded)
+                    leaderCard.discard();
+
                 leaderCards.add(leaderCard);
             }
         }

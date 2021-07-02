@@ -9,11 +9,14 @@ import it.polimi.ingsw.model.cards.LeaderCards.WhiteMarbleLeaderCard;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.enumerations.CardType.*;
@@ -22,6 +25,9 @@ import static it.polimi.ingsw.enumerations.CardType.*;
  * Class that traces leader cards for the CLI
  */
 public class LeaderCardsTracer {
+
+    //private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
+
     public ArrayList<String> printLeaderCards(List<LeaderCard> leaderCards) {
         ArrayList<String> results = new ArrayList<>();
 
@@ -52,17 +58,13 @@ public class LeaderCardsTracer {
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
 
-                    /*
-                    try {
-                        leaderCard.activate();
-                    } catch (AlreadyActivatedLeaderCardException e) {
-                        e.printStackTrace();
-                    } catch (AlreadyDiscardedLeaderCardException e) {
-                        e.printStackTrace();
+                    if(leaderCard.isActivated()){
+                        statusString = ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t ";
+                    } else if(leaderCard.isDiscarded()){
+                        statusString = ANSITextFormat.RED_COLOR+"DISCARDED"+ANSITextFormat.RESET+"\t\t ";
+                    } else {
+                        statusString = "NOT ACTIVATED";
                     }
-
-                     */
-                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t " : "NOT ACTIVATED";
 
                     //getting the disc. leader card power as ascii shapes
                     for (Resource resource : discountLeaderCard.getLeaderCardPower().keySet()) {
@@ -88,7 +90,14 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t " : "NOT ACTIVATED";
+
+                    if(leaderCard.isActivated()){
+                        statusString = ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t ";
+                    } else if(leaderCard.isDiscarded()){
+                        statusString = ANSITextFormat.RED_COLOR+"DISCARDED"+ANSITextFormat.RESET+"\t\t ";
+                    } else {
+                        statusString = "NOT ACTIVATED";
+                    }
 
                     //getting the prod. leader card power as ascii shapes
                     for (Resource resource : prodPowerLeaderCard.getLeaderCardPower().keySet()) {
@@ -113,7 +122,14 @@ public class LeaderCardsTracer {
 
                         costString += value + ASCII_DV_Cards.getDVShape(leaderCardCost.getColor().toString()) + ", ";
                     }
-                    statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t " : "NOT ACTIVATED";
+
+                    if(leaderCard.isActivated()){
+                        statusString = ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t ";
+                    } else if(leaderCard.isDiscarded()){
+                        statusString = ANSITextFormat.RED_COLOR+"DISCARDED"+ANSITextFormat.RESET+"\t\t ";
+                    } else {
+                        statusString = "NOT ACTIVATED";
+                    }
 
                     //getting the marble leader card power as ascii shapes
                     for (Resource resource : whiteMarbleLeaderCard.getLeaderCardPower().keySet()) {
@@ -181,25 +197,14 @@ public class LeaderCardsTracer {
                         tempStr="\u001b[48;5;16m " + ASCII_Resources.getShape(leaderResource.toString()) + "  " +"  \u001B[0m";
                     }
                 }
-                statusString = leaderCard.isActivated() ? ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t " : "NOT ACTIVATED";
 
-//                    powerString = powerString.substring(0,powerString.length() - 1 ) ;
-//                System.out.println("\n"+tempStr+"\n");
-
-
-//                for (Resource resource : storageLeaderCard.getLeaderCardPower().keySet()) {
-//
-//                    String value = storageLeaderCard.getLeaderCardPower().get(resource).toString();
-//
-//                    for (int i = 0; i < 2; i++) {
-//                        if (i > Character.getNumericValue((value).charAt(0))) {
-//                            powerString += "1" +"\u001b[48;5;246m"+ " " + ASCII_Resources.getShape(resource.toString()) + " " + ANSITextFormat.RESET.toString() ;
-//                        }
-//                    }
-//                }
-//                costString = costString.substring(0, costString.length()-2); //remove the last ", "
-
-
+                if(leaderCard.isActivated()){
+                    statusString = ANSITextFormat.GREEN_COLOR+"ACTIVATED"+ANSITextFormat.RESET+"\t\t ";
+                } else if(leaderCard.isDiscarded()){
+                    statusString = ANSITextFormat.RED_COLOR+"DISCARDED"+ANSITextFormat.RESET+"\t\t ";
+                } else {
+                    statusString = "NOT ACTIVATED";
+                }
 
                 powerString = spacing + powerString; //adding (9) spacing before power string
                 results.add(String.format(stringFormat, "(" + cardChar++ + ")",statusString, ANSITextFormat.BOLD.toString() + storageLeaderCard.getCardType() + ANSITextFormat.RESET.toString(), storageLeaderCard.getVictoryPoints(), costString, powerString,"|"));
@@ -213,46 +218,6 @@ public class LeaderCardsTracer {
         }
 
         return results;
-    }
-
-
-
-    //for testing
-    public void main()  {
-        LeaderCardParser leaderCardParser = new LeaderCardParser();
-        List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
-        leaderCardParser.close();
-
-
-        //leaderCards1 do not contains <Marble> leader cards
-        List<LeaderCard> leaderCards1 = leaderCards.stream()
-                .filter(x -> !(x.getCardType().equals(CardType.STORAGE)))
-                .collect(Collectors.toList());
-
-        List<StorageLeaderCard> leaderCards2 = (List<StorageLeaderCard>)(List<?>) leaderCards.stream()
-                .filter(x -> (x.getCardType().equals(CardType.STORAGE)))
-                .collect(Collectors.toList());
-
-        try {
-            Optional<StorageLeaderCard> st = leaderCards2.stream().filter(x -> x.storageType().equals(Resource.COIN)).findFirst();
-            st.get().putResourceInCardStorage(null, Resource.COIN);
-
-            Optional<StorageLeaderCard> st2 = leaderCards2.stream().filter(x -> x.storageType().equals(Resource.SHIELD)).findFirst();
-            st2.get().putResourceInCardStorage(null, Resource.SHIELD);
-            st2.get().putResourceInCardStorage(null, Resource.SHIELD);
-        }catch(IllegalInsertionException ex){
-            ex.printStackTrace();
-        }
-
-
-
-//        System.out.println(st.get().getOccupiedSlots());
-//        leaderCards2.stream().findAny().get().putResourceInCardStorage(null,Resource.STONE);
-
-        LeaderCardsTracer leaderCardsTracer = new LeaderCardsTracer();
-        ArrayList<String> output = leaderCardsTracer.printLeaderCards(leaderCards);
-        output.forEach(System.out::println);
-
     }
 
 }

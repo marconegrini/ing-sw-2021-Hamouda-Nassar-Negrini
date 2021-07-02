@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.handlers;
 
 import it.polimi.ingsw.enumerations.ANSITextFormat;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.messages.fromServer.*;
 import it.polimi.ingsw.messages.fromServer.update.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -10,6 +12,7 @@ import it.polimi.ingsw.enumerations.LorenzoCardType;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInstance;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.TurnManager;
 
 import java.io.FileInputStream;
@@ -32,6 +35,7 @@ public class SinglePlayerGameHandler extends Thread {
     private Stack<LorenzoCard> poppedActionsCard;
     private SinglePlayer player;
     boolean gameEnded = false;
+    //private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     /**
      * @param clientHandler
@@ -91,7 +95,12 @@ public class SinglePlayerGameHandler extends Thread {
     public void sendLeaderCards() {
         LeaderCardParser parser = new LeaderCardParser();
         Stack<LeaderCard> deck = new Stack<>();
-        deck = parser.getLeaderCardsDeck();
+        try {
+
+            deck = parser.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
         Collections.shuffle(deck);
         List<LeaderCard> leaderCards = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -145,7 +154,12 @@ public class SinglePlayerGameHandler extends Thread {
      */
     public ServerMessage pickActionCard() {
 
-
+        if(actionCards.isEmpty()){
+            while(!poppedActionsCard.isEmpty()){
+                actionCards.push(poppedActionsCard.pop());
+            }
+            Collections.shuffle(actionCards);
+        }
         LorenzoCard lorenzoCard = actionCards.pop();
         Integer lorenzoPosition;
         ServerMessage messageToReturn = null;
@@ -223,9 +237,11 @@ public class SinglePlayerGameHandler extends Thread {
                 player.incrementLorenzoPosition();
                 lorenzoPosition = player.getLorenzoPosition();
                 player.updateFaithPath(lorenzoPosition);
-                actionCards.addAll(poppedActionsCard);
-                poppedActionsCard.clear();
-                Collections.shuffle(this.actionCards);
+                while(!poppedActionsCard.isEmpty()){
+                    actionCards.push(poppedActionsCard.pop());
+                }
+                actionCards.push(lorenzoCard);
+                Collections.shuffle(actionCards);
                 if (player.lorenzoWins()) {
                     gameEnded = true;
                     messageToReturn = new EndGameMessage(ANSITextFormat.BOLD + "Lorenzo reached the end of the faith path! " + ANSITextFormat.RED_COLOR + "You lost!\n" + ANSITextFormat.RESET);
@@ -234,7 +250,9 @@ public class SinglePlayerGameHandler extends Thread {
                 messageToReturn = new SinglePlayerActionMessage(ANSITextFormat.BOLD + "Lorenzo Action card picked:\nLorenzo advanced of one position in faith path. Action cards have been reshuffled.\n" + ANSITextFormat.RESET, LorenzoCardType.FAITHANDSHUFFLECARD);
                 break;
         }
-        poppedActionsCard.push(lorenzoCard);
+
+        if(!lorenzoCard.getType().equals(LorenzoCardType.FAITHANDSHUFFLECARD))
+            poppedActionsCard.push(lorenzoCard);
 
         return messageToReturn;
     }

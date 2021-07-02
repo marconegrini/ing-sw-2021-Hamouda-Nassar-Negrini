@@ -35,7 +35,7 @@ public class DiscountLeaderCard extends LeaderCard {
         this.cardType = cardType;
         this.Vp = vp;
         this.isActivated = false;
-
+        this.isDiscarded = false;
         this.activationCost = activationCost;
         this.discountedResource = discountedResource;
         //this.cardsCompositionMethods =new CardsCompositionMethods(activationCost);

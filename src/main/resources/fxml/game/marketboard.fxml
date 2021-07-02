@@ -66,17 +66,22 @@
             <Label fx:id="externalMarble" layoutX="259.0" layoutY="53.0" prefHeight="55.0" prefWidth="55.0" AnchorPane.bottomAnchor="392.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="53.0" />
          </children>
       </AnchorPane>
-      <Label fx:id="leaderCard1" layoutX="24.0" layoutY="25.0" prefHeight="235.0" prefWidth="165.0" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="25.0" />
-      <Label fx:id="leaderCard2" layoutX="24.0" layoutY="271.0" prefHeight="235.0" prefWidth="165.0" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="271.0" />
+      <Label fx:id="leaderCard1" layoutX="24.0" layoutY="25.0" prefHeight="235.0" prefWidth="165.0" styleClass="storage" AnchorPane.bottomAnchor="337.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="25.0" />
+      <Label fx:id="leaderCard2" layoutX="24.0" layoutY="271.0" prefHeight="235.0" prefWidth="165.0" styleClass="storage" AnchorPane.bottomAnchor="91.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="411.0" AnchorPane.topAnchor="271.0" />
       <Button fx:id="backButton" layoutX="128.0" layoutY="522.0" mnemonicParsing="false" onAction="#back" prefHeight="17.0" prefWidth="329.0" text="Back" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="128.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="522.0">
          <font>
             <Font size="35.0" />
          </font>
       </Button>
+      <Label fx:id="resource21" layoutX="59.0" layoutY="457.0" prefHeight="38.0" prefWidth="43.0" />
+      <Label fx:id="resource22" layoutX="120.0" layoutY="457.0" prefHeight="38.0" prefWidth="43.0" />
+      <Label fx:id="resource11" layoutX="59.0" layoutY="213.0" prefHeight="38.0" prefWidth="43.0" />
+      <Label fx:id="resource12" layoutX="120.0" layoutY="213.0" prefHeight="38.0" prefWidth="43.0" />
    </children>
    <stylesheets>
       <URL value="@../../css/login/connectionPage.css" />
       <URL value="@../../css/fonts.css" />
       <URL value="@../../css/buttons.css" />
+      <URL value="@../../css/game/chooseLeaderCard.css" />
    </stylesheets>
 </AnchorPane>

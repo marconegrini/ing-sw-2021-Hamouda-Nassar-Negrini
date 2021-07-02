@@ -64,21 +64,27 @@ public class ClientCLI implements Runnable {
         String playerHostAddress = server.getInetAddress().getHostAddress();
         ClientPingMessage clientPingMessage = new ClientPingMessage();
 
-        serverHandler = new ServerHandler(server, true);
-        Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
-        serverHandlerThread.start();
+        if (!userInput.equalsIgnoreCase("EXIT")) {
+
+            serverHandler = new ServerHandler(server, true);
+            Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
+            serverHandlerThread.start();
 
 
-        try {
-            serverPingSocket = new Socket(userInput, 5070);
-        } catch (IOException e) {
-            System.out.println("Server unreachable, Try another ip address: ");
+            try {
+                serverPingSocket = new Socket(userInput, 5070);
+            } catch (IOException e) {
+                System.out.println("Server unreachable, Try another ip address: ");
+            }
+            serverPingSender = new ServerPingSender(serverPingSocket);
+            Thread serverPingSenderThread = new Thread(serverPingSender);
+            serverPingSenderThread.start();
+
         }
-        serverPingSender = new ServerPingSender(serverPingSocket);
-        Thread serverPingSenderThread = new Thread(serverPingSender);
-        serverPingSenderThread.start();
-
     }
+
 }
+
+
 
 

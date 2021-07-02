@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -32,54 +31,38 @@
                   <Font size="59.0" />
                </font>
             </Label>
-            <Label fx:id="servant1" layoutX="58.0" layoutY="309.0" onMouseClicked="#selectServant1" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="servant1" layoutX="58.0" layoutY="309.0" onMouseClicked="#selectServant1" prefHeight="74.0" prefWidth="74.0" styleClass="servant">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="servant" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
-            <Label fx:id="coin1" layoutX="207.0" layoutY="309.0" onMouseClicked="#selectCoin1" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="coin1" layoutX="207.0" layoutY="309.0" onMouseClicked="#selectCoin1" prefHeight="74.0" prefWidth="74.0" styleClass="coin">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="coin" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
-            <Label fx:id="shield1" layoutX="337.0" layoutY="309.0" onMouseClicked="#selectShield1" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="shield1" layoutX="337.0" layoutY="309.0" onMouseClicked="#selectShield1" prefHeight="74.0" prefWidth="74.0" styleClass="shield">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="shield" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
             <Label fx:id="massageLabel" layoutX="191.0" layoutY="140.0" maxHeight="101.0" maxWidth="838.0" prefHeight="85.0" prefWidth="675.0" style="-fx-alignment: center; -fx-font-weight: bold; -fx-background-color: #6e6e80; -fx-border-color: #1d1d2b; -fx-border-width: 5;" text="Select one resource and put it on a shelf" textAlignment="CENTER" textFill="#000d80">
                <font>
                   <Font size="59.0" />
                </font>
             </Label>
-            <Label fx:id="stone1" layoutX="464.0" layoutY="309.0" onMouseClicked="#selectStone1" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="stone1" layoutX="464.0" layoutY="309.0" onMouseClicked="#selectStone1" prefHeight="74.0" prefWidth="74.0" styleClass="stone">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="stone" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
             <Label layoutX="665.0" layoutY="257.0" prefHeight="287.0" prefWidth="278.0" style="-fx-border-color: #1d1d2b; -fx-border-width: 5;" styleClass="warehouse" stylesheets="@../../../css/game/warehouse.css" />
             <RadioButton fx:id="servantRadio1" layoutX="132.0" layoutY="413.0" mnemonicParsing="false" opacity="0.0" text="servant">
@@ -134,49 +117,33 @@
                   <Font size="59.0" />
                </font>
             </Label>
-            <Label fx:id="servant2" layoutX="58.0" layoutY="457.0" onMouseClicked="#selectServant2" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="servant2" layoutX="58.0" layoutY="457.0" onMouseClicked="#selectServant2" prefHeight="74.0" prefWidth="74.0" styleClass="servant">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="servant" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
-            <Label fx:id="coin2" layoutX="207.0" layoutY="457.0" onMouseClicked="#selectCoin2" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="coin2" layoutX="207.0" layoutY="457.0" onMouseClicked="#selectCoin2" prefHeight="74.0" prefWidth="74.0" styleClass="coin">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="coin" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
-            <Label fx:id="shield2" layoutX="337.0" layoutY="457.0" onMouseClicked="#selectShield2" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="shield2" layoutX="337.0" layoutY="457.0" onMouseClicked="#selectShield2" prefHeight="74.0" prefWidth="74.0" styleClass="shield">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="shield" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
-            <Label fx:id="stone2" layoutX="464.0" layoutY="457.0" onMouseClicked="#selectStone2" prefHeight="74.0" prefWidth="74.0">
+            <Label fx:id="stone2" layoutX="464.0" layoutY="457.0" onMouseClicked="#selectStone2" prefHeight="74.0" prefWidth="74.0" styleClass="stone">
                <stylesheets>
                   <URL value="@../../../css/game/icons.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                   <URL value="@../../../css/game/activeCard.css" />
                </stylesheets>
-               <styleClass>
-                  <String fx:value="stone" />
-                  <String fx:value="notSelectedCard" />
-               </styleClass>
             </Label>
             <RadioButton fx:id="coinRadio2" layoutX="142.0" layoutY="423.0" mnemonicParsing="false" opacity="0.0" text="servant">
                <toggleGroup>

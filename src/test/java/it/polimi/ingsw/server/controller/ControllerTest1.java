@@ -22,18 +22,22 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayer;
 
 import static org.junit.Assert.assertEquals;
 
+import it.polimi.ingsw.server.handlers.SinglePlayerGameHandler;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  * Class that tests controller's methods
  */
 public class ControllerTest1 {
+
+    private static final Logger logger = Logger.getLogger(SinglePlayerGameHandler.class.getName());
     TurnManager turnManager;
     TurnManager singlePlayerTurnManager;
     CardsDeck cardsDeck;
@@ -70,7 +74,12 @@ public class ControllerTest1 {
         players.add(player3);
         players.add(player4);
         LeaderCardParser leaderCardParser = new LeaderCardParser();
-        List<LeaderCard> leaderCards = leaderCardParser.getLeaderCardsDeck();
+        List<LeaderCard> leaderCards = null;
+        try {
+            leaderCards = leaderCardParser.getLeaderCardsDeck();
+        } catch (AlreadyActivatedLeaderCardException | AlreadyDiscardedLeaderCardException e) {
+            logger.log(java.util.logging.Level.SEVERE, e.getMessage(), e);
+        }
         leaderCardParser.close();
         StorageLeaderCards = leaderCards.stream()
                 .filter(card->(card.getCardType().equals(CardType.STORAGE)))

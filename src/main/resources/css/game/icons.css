@@ -7,16 +7,32 @@
     -fx-shape: "M 300 100 Q 400 100 400 150 Q 400 200 300 200 Q 300 200 300 250 L 300 300 L 300 350 Q 300 400 250 400 L 250 400 Q 200 400 200 350 L 200 250 L 200 200 Q 200 200 150 200 Q 100 200 100 150 L 100 150 Q 100 100 200 100 Q 200 100 200 50 Q 200 0 250 0 L 250 0 Q 300 0 300 50 L 300 100 ";
     -fx-background-color:  #800d0d;
 }
-
+/*
 .stone{
     -fx-shape: "M 400 350 L 450 100 L 550 100 L 600 200 L 650 250 L 650 350 L 400 350 L 450 100 L 500 50 L 600 50 L 650 150 L 700 200 L 700 300 L 650 350 ";
     -fx-background-color: #adadaa;
 }
+*/
 
 /*.coin{*/
 /*    -fx-shape: "M 50 300 A 50 50 0 1 1 600 300 A 50 50 0 1 1 50 300 C 50 325 100 325 100 350 C 100 375 150 375 150 400 C 150 425 200 425 200 450 C 200 475 250 475 250 500 C 300 500 300 550 350 500 C 375 475 425 475 450 450 C 450 425 500 425 500 400 C 500 375 550 375 550 350 C 550 325 600 325 600 300 ";*/
 /*    -fx-background-color: #b89311;*/
 /*}*/
+
+.stone{
+    -fx-background-image: url('../../images/resources/stone.png');
+    -fx-background-size: 100% 100%;
+}
+
+.servant{
+    -fx-background-image: url('../../images/resources/servant.png');
+    -fx-background-size: 100% 100%;
+}
+
+.shield{
+    -fx-background-image: url('../../images/resources/shield.png');
+    -fx-background-size: 100% 100%;
+}
 
 .coin{
     -fx-background-image: url('../../images/resources/coin.png');
@@ -27,16 +43,18 @@
     -fx-background-image: url('../../images/marbles/yellow.png');
     -fx-background-size: 100% 100%;
 }
-
+/*
 .servant{
     -fx-shape: "M 300 500 L 600 500 Q 600 400 500 400 C 500 375 550 375 550 350 C 500 325 550 325 500 300 C 500 275 550 275 550 250 C 500 225 550 225 500 200 Q 450 150 400 200 C 350 225 400 225 350 250 C 350 275 400 275 400 300 C 350 325 400 325 350 350 C 350 375 400 375 400 400 Q 300 400 300 500 L 300 500 L 300 500 L 600 500 C 600 475 650 475 650 450 Q 600 400 550 400 C 550 375 600 375 600 350 C 550 325 600 325 550 300 C 550 275 600 275 600 250 C 550 225 600 225 550 200 C 400 100 400 200 400 200 ";
     -fx-background-color: #503199;
 }
 
+
 .shield{
     -fx-shape: "M 300 150 L 400 150 Q 400 200 450 200 Q 450 350 350 500 Q 250 350 250 200 Q 300 200 300 150 L 350 100 L 450 100 Q 450 150 500 150 Q 500 350 350 500 ";
     -fx-background-color: #479dd6;
 }
+*/
 
 .arrow{
     -fx-shape: "M 150 150 L 250 50 L 350 150 L 300 150 L 300 200 L 300 300 L 200 300 L 200 150 L 150 150 ";

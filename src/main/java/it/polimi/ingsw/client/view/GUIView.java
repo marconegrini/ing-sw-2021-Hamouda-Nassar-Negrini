@@ -210,7 +210,7 @@ public class GUIView extends View {
             for (Resource resource : resources) {
                 Label label = new Label();
                 label.getStyleClass().add(resource.toString().toLowerCase());
-                label.getStyleClass().add("notSelectedCard");
+                //label.getStyleClass().add("notSelectedCard");
                 label.setPrefHeight(60.0);
                 label.setPrefWidth(60.0);
                 Platform.runLater(() -> {
@@ -230,7 +230,7 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage buyDVCard(ArrayList<DevelopmentCard> devCards, boolean err) {
-        return null;
+        return new EmptyMessage();
     }
 
     /**
@@ -315,24 +315,28 @@ public class GUIView extends View {
     @Override
     public void showLeaderCards(List<LeaderCard> leaderCards) {
 
+        Scene scene = null;
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/showLeaderCard.fxml")));
-            SceneManager.setScene(new Scene(root, 1080, 670));
+            scene = new Scene(root, 1080, 670);
+            SceneManager.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Selected leader cards:\n" + leaderCards);
         synchronized (this) {
-            for (int i = 0; i < 2; i++) {
-                Label card = (Label) SceneManager.getScene().lookup("#card" + (i + 1));
-                card.setStyle("-fx-background-image: url(\"images/leadercards/" +
-                        leaderCards.get(i).toPath() + ".png\");" +
-                        " -fx-background-size: 100% 100%;" +
-                        "-fx-border-width: 5");
-            }
-        }
+            Label card = (Label) SceneManager.getScene().lookup("#card1");
+            card.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                    leaderCards.get(0).toPath() + ".png\");" +
+                    " -fx-background-size: 100% 100%;" +
+                    "-fx-border-width: 5");
 
+            Label card1 = (Label) SceneManager.getScene().lookup("#card2");
+            card1.setStyle("-fx-background-image: url(\"images/leadercards/" +
+                    leaderCards.get(1).toPath() + ".png\");" +
+                    " -fx-background-size: 100% 100%;" +
+                    "-fx-border-width: 5");
+        }
     }
 
     @Override
@@ -341,7 +345,7 @@ public class GUIView extends View {
 
     @Override
     public ClientMessage activateProduction() {
-        return null;
+        return new EmptyMessage();
     }
 
     /**
@@ -360,7 +364,7 @@ public class GUIView extends View {
 
         Platform.runLater(() -> {
             Stage newStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activatePersonalProduction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/game/activateProduction/activatePersonalProduction.fxml"));
             Parent root = null;
             try {
                 root = loader.load();
@@ -371,7 +375,10 @@ public class GUIView extends View {
             Scene scene = new Scene(root, 1080, 670);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest(event -> {
+                event.consume();
+            });
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
         });

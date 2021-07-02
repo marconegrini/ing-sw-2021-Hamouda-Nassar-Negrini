@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonStreamParser;
+import it.polimi.ingsw.exceptions.AlreadyActivatedLeaderCardException;
+import it.polimi.ingsw.exceptions.AlreadyDiscardedLeaderCardException;
 import it.polimi.ingsw.model.cards.LeaderCards.DiscountLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.ProdPowerLeaderCard;
 import it.polimi.ingsw.model.cards.LeaderCards.StorageLeaderCard;
@@ -29,7 +31,7 @@ public class LeaderCardParser extends Parser{
         this.parser = new JsonStreamParser(this.reader);
     }
 
-    public Stack<LeaderCard> getLeaderCardsDeck(){
+    public Stack<LeaderCard> getLeaderCardsDeck() throws AlreadyActivatedLeaderCardException, AlreadyDiscardedLeaderCardException {
 
 
         Stack<LeaderCard> leaderCards = new Stack();
@@ -202,11 +204,5 @@ public class LeaderCardParser extends Parser{
             }
         }
                 return leaderCards;
-    }
-
-    public static void main(String[] args) {
-        LeaderCardParser parser = new LeaderCardParser();
-        Stack<LeaderCard> leaderCards = parser.getLeaderCardsDeck();
-        parser.close();
     }
 }

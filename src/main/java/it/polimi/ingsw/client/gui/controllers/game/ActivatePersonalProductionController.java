@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.controllers.game;
 
+import it.polimi.ingsw.client.gui.UpdateObjects;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.enumerations.Resource;
 import it.polimi.ingsw.messages.fromClient.ActivatePersonalProductionMessage;
@@ -94,5 +95,9 @@ public class ActivatePersonalProductionController {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
+        //UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
+        UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
+        UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
+
     }
 }

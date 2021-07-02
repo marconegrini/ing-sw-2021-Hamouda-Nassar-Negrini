@@ -26,5 +26,8 @@
  }
 
 
-
+ .storage{
+ -fx-background-image: url('../../images/leadercards/storageShield.png');
+ -fx-background-size: 100% 100%;
+}
 

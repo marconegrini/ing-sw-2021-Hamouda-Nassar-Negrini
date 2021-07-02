@@ -70,7 +70,7 @@ public class ProductionResultMessage extends ServerMessage {
         } else {
             //the player was able to activate normal production. Ask to it if he wants to activate
             //also the personal one.
-            serverHandler.getView().showMessage(resultMessage, true, false);
+            serverHandler.getView().showMessage(resultMessage, false, false);
             serverHandler.getLightModel().setWarehouse(new Warehouse(this.warehouse));
             serverHandler.getLightModel().setCoffer(new Coffer(this.coffer));
             message = serverHandler.getView().activatePersonalProduction();
