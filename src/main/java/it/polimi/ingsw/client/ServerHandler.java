@@ -79,9 +79,9 @@ public class ServerHandler implements Runnable{
         try{
             boolean stop = false;
             while(!stop) {
-                System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
+                //System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
                 try {
-                        String jsonMessage = reader.readLine();
+                    String jsonMessage = reader.readLine();
                     ClientCLI.logger.log(Level.INFO,jsonMessage);
                     if(jsonMessage != null) {
                         ServerMessage message = factory.returnMessage(jsonMessage);
