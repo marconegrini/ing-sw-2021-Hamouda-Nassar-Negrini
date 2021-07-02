@@ -11,6 +11,8 @@ import it.polimi.ingsw.enumerations.Resource;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.util.*;
@@ -249,7 +251,6 @@ public class UpdateObjects {
 
         Platform.runLater(() -> {
             for (Integer index : keys) {
-                System.out.println("Inserted ");
                 Label card = new Label();
                 card.setPrefWidth(200);
                 card.setPrefHeight(400);
@@ -368,6 +369,7 @@ public class UpdateObjects {
 
     public static void updateDevCardsDeck(ArrayList<DevelopmentCard> devCards, Scene scene) {
 
+
         int i = 0;
         for (DevelopmentCard card : devCards) {
             Label label = (Label) scene.lookup("#card" + i);
@@ -383,6 +385,38 @@ public class UpdateObjects {
             }
             i++;
         }
+
+        /*
+        for (int i = 0; i < devCards.size(); i++) {
+            Label label = (Label) scene.lookup("#card" + i);
+            try {
+                label.setStyle("-fx-background-image: url(\"images/devcards/" +
+                        devCards.get(i).toPath() + ".png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
+            } catch (NullPointerException e) {
+                label.setStyle("-fx-background-image: url(\"images/devcards/backCard.png\");" +
+                        " -fx-background-size: 100% 100%;" +
+                        "-fx-border-width: 5");
+            }
+            i++;
+        }
+
+         */
+
+
+        /*
+        for (int i=0; i<devCards.size(); i++){
+            String path = "images/devcards/" + devCards.get(i).toPath() + ".png";
+            //Image image = new Image(Objects.requireNonNull(UpdateObjects.class.getClassLoader().getResourceAsStream(path)), 150, 200, false, false);
+            Image image = new Image(path, 150, 200, false, false);
+            //System.out.println(image);
+            Label label = (Label) scene.lookup("#card" + i);
+            label.setGraphic(new ImageView(image));
+            label.setStyle("-fx-border-width: 5; -fx-border-color:  #1d1d2b;");
+        }
+
+         */
     }
 
     public static void updatePopeCards (List<VaticanSection> vaticanSections, Scene scene){
