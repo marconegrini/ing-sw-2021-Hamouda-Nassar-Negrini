@@ -112,6 +112,8 @@ public class ServerHandler implements Runnable{
                 alert.showAndWait();
                 SceneManager.getPrimaryStage().hide();
             });
+        } else {
+            System.exit(0);
         }
     }
 
