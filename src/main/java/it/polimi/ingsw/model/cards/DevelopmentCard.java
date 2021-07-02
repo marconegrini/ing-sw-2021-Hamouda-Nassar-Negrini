@@ -92,7 +92,7 @@ public class DevelopmentCard extends Card{
      * @return  a String that will be used for the path of the image
      */
     public String toPath() throws NullPointerException{
-        return this.color.toString() + this.Vp;
+        return this.color.toString().toLowerCase() + this.Vp;
     }
 
 }
