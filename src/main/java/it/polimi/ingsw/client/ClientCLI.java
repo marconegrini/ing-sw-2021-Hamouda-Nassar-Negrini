@@ -15,16 +15,13 @@ import java.util.regex.Pattern;
 /**
  * Class that contains methods to interact with the user in the CLI game
  */
+
 public class ClientCLI implements Runnable {
 
     public static Logger logger = Logger.getLogger(ClientCLI.class.getName());
     private ServerHandler serverHandler;
     private ServerPingSender serverPingSender;
-    Socket serverPingSocket;
-    //public static void main(String[] args) throws IOException {
-    //    Client client = new Client();
-    //    client.run();
-    //}
+
 
     /**
      * run method that handles ServerHandler thread
@@ -35,12 +32,12 @@ public class ClientCLI implements Runnable {
     public void run() {
 
         String userInput = "";
+
         Socket server = null;
+        Socket serverPingSocket = null;
+
         System.out.println("Insert the server IP (type \"exit\" to exit): ");
         Scanner scanner = new Scanner(System.in);
-
-//        Random r = new Random();
-
 
         boolean ok = false;
         while (!ok && server == null) {
@@ -54,6 +51,7 @@ public class ClientCLI implements Runnable {
                 }
                 try {
                     server = new Socket(userInput, 5056);
+
                     ok = true;
                 } catch (IOException e) {
                     System.out.println("Server unreachable, Try another ip address: ");

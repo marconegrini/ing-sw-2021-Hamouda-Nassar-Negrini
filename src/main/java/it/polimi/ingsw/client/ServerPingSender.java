@@ -22,6 +22,7 @@ public class ServerPingSender implements Runnable {
 
     Socket socket;
     ClientPingMessage clientPingMessage = new ClientPingMessage();
+
     public ServerPingSender(Socket socket, ServerHandler owner) {
         this.socket = socket;
         this.owner = owner;
@@ -39,7 +40,7 @@ public class ServerPingSender implements Runnable {
             return;
         }
 
-        while (!owner.getShouldStop().get()) {
+        while (true) {
             sendJson(clientPingMessage);
             try {
                 // thread to sleep for 5000 milliseconds
@@ -47,7 +48,11 @@ public class ServerPingSender implements Runnable {
             } catch (Exception e) {
                 System.out.println(e);
             }
+            if(owner.getShouldStop()){
+                break;
+            }
         }
+
         try {
             socket.close();
         } catch (IOException e) {

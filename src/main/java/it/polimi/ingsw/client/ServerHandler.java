@@ -160,8 +160,8 @@ public class ServerHandler implements Runnable{
         this.isMultiplayer = isMultiplayer;
     }
 
-    public AtomicBoolean getShouldStop() {
-        return shouldStop;
+    public boolean getShouldStop() {
+        return shouldStop.get();
     }
 
     public void setShouldStop(boolean shouldStop) {
