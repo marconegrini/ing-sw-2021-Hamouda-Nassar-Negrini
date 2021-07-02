@@ -92,7 +92,11 @@ public class MultiPlayerGameHandler extends Thread {
                     for(ClientHandler ch1 : clientHandlers)
                         if(ch1.getNickname().equals(player.getNickname()))
                             firstToFinish = ch1;
-                    sendToClients(new OkMessage(firstToFinish.getNickname() + " reached the end of faith path!"));
+                    if(turnManager.reachedFaithPathEnd()) {
+                        sendToClients(new OkMessage(firstToFinish.getNickname() + " reached the end of faith path!"));
+                    } else {
+                        sendToClients(new OkMessage(firstToFinish.getNickname() + " bought seven development cards!"));
+                    }
                     Integer playerIndex = clientHandlers.indexOf(firstToFinish);
                     for(int i = 0; i < playerIndex +1; i++)
                         sendToClient(clientHandlers.get(i), new OkMessage("Wait for other players to finish their turn..."));
