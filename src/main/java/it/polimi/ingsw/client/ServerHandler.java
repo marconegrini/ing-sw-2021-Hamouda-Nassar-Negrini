@@ -1,16 +1,15 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.MalformedJsonException;
+import it.polimi.ingsw.client.gui.SceneManager;
 import it.polimi.ingsw.client.view.CLIView;
 import it.polimi.ingsw.client.view.GUIView;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessageFactory;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.multiplayer.MultiPlayer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.net.Socket;
@@ -49,7 +48,7 @@ public class ServerHandler implements Runnable{
         try {
             isr = new InputStreamReader(server.getInputStream());
             osw = new OutputStreamWriter(server.getOutputStream());
-            reader = new BufferedReader(isr); //ciao
+            reader = new BufferedReader(isr);
             writer = new BufferedWriter(osw);
             out = new PrintWriter(writer, true);
         } catch (IOException e){
@@ -60,8 +59,12 @@ public class ServerHandler implements Runnable{
         try{
             processServerMessages();
         } catch (IOException e) {
+            System.out.println("connection from server lost");
             ClientCLI.logger.log(Level.INFO,"Server" + server.getInetAddress() + " connection drop");
+
+
         }
+
 
         try{
             server.close();
@@ -78,7 +81,6 @@ public class ServerHandler implements Runnable{
         ServerMessageFactory factory = new ServerMessageFactory();
         boolean stop = false;
         while(!stop) {
-            //System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
             try {
                     String jsonMessage = reader.readLine();
                 ClientCLI.logger.log(Level.INFO,jsonMessage);
@@ -89,19 +91,28 @@ public class ServerHandler implements Runnable{
                     }
 
             } catch (IOException e) {
-                /* Check if we were interrupted because another thread has asked us to stop */
 
-                    /* Yes, exit the loop gracefully */
                     stop = true;
 
             }
             if (shouldStop.get()) {
                 stop = true;
-                //this.getView().closeScanner();
             }
         }
 
-        System.out.println("Game ended");
+        ClientCLI.logger.log(Level.INFO,"Game ended");
+
+        //This code is to close the window for gui
+        if (!isCli){
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Server error.");
+                alert.setContentText("The server get offline");
+                alert.showAndWait();
+                SceneManager.getPrimaryStage().hide();
+            });
+        }
     }
 
     /**
@@ -159,6 +170,5 @@ public class ServerHandler implements Runnable{
     public boolean getIsMultiplayer (){
         return this.isMultiplayer;
     }
-
 
 }
