@@ -1,16 +1,17 @@
 package it.polimi.ingsw.server.handlers;
 import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
+import it.polimi.ingsw.enumerations.ANSITextFormat;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.ClientMessageFactory;
 import it.polimi.ingsw.messages.fromServer.EndGameMessage;
 import it.polimi.ingsw.messages.fromServer.ServerLoginMessage;
 import it.polimi.ingsw.messages.fromServer.ServerMessage;
-import it.polimi.ingsw.messages.fromServer.ServerPingMessage;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.controller.TurnManager;
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class ClientHandler extends Thread {
     private TurnManager turnManager;
     private String nickname;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
-
+    private ServerSocket serverPingSocket;
     /**
      * Class constructor
      * @param clientSocket
@@ -42,6 +43,13 @@ public class ClientHandler extends Thread {
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
     }
+    public ClientHandler(Socket clientSocket,ServerSocket serverPingSocket) throws IOException {
+        this.client = clientSocket;
+        this.serverPingSocket = serverPingSocket;
+
+    }
+    private Socket clientPingSocket;
+
 
     /**
      * Initializes I/O variables and sets up client's connection. Starts login process and call the method
@@ -49,11 +57,26 @@ public class ClientHandler extends Thread {
      */
     @Override
     public void run(){
+
         try {
             LogManager.getLogManager().readConfiguration(this.getClass().getClassLoader().getResourceAsStream("logging.properties"));
         } catch (SecurityException | IOException e1) {
             e1.printStackTrace();
         }
+        try {
+
+            clientPingSocket = serverPingSocket.accept();
+            logger.log(Level.INFO,"-------------");
+
+            ClientPingHandler clientPingHandler = new ClientPingHandler(clientPingSocket);
+            clientPingHandler.start();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         try{
             this.isr = new InputStreamReader(client.getInputStream());
             this.osw = new OutputStreamWriter(client.getOutputStream());
@@ -82,6 +105,13 @@ public class ClientHandler extends Thread {
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Exception occurred while closing server socket");
         }
+        try {
+            if (serverPingSocket!=null)
+            serverPingSocket.close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Exception occurred while closing server socket");
+        }
+        logger.log(Level.INFO,"end run of Client Handler");
     }
 
     /**
@@ -90,7 +120,6 @@ public class ClientHandler extends Thread {
      * @throws IOException
      */
     private void processClientMessages() throws IOException {
-
 
         ClientMessageFactory factory = new ClientMessageFactory();
         boolean stop = false;
@@ -108,6 +137,8 @@ public class ClientHandler extends Thread {
             if (shouldStop.get())
                 stop = true;
         }
+        logger.log(Level.INFO,"end of processClientMessages");
+
     }
 
     /**
@@ -138,10 +169,6 @@ public class ClientHandler extends Thread {
         } catch (IOException ignored) {}
     }
 
-    public void pingClient(){
-        ServerMessage ping = new ServerPingMessage();
-        this.sendJson(ping);
-    }
 
     public String getNickname(){
         return nickname;

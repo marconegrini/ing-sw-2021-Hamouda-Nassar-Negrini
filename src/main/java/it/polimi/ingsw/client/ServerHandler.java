@@ -29,7 +29,7 @@ public class ServerHandler implements Runnable{
     private BufferedReader reader;
     private BufferedWriter writer;
     private PrintWriter out;
-    private AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private static AtomicBoolean shouldStop = new AtomicBoolean(false);
     private LightModel lightModel;
     private View view;
     private boolean isCli;
@@ -76,36 +76,29 @@ public class ServerHandler implements Runnable{
      */
     public void processServerMessages() throws IOException{
         ServerMessageFactory factory = new ServerMessageFactory();
-        try{
-            boolean stop = false;
-            while(!stop) {
-                //System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
-                try {
+        boolean stop = false;
+        while(!stop) {
+            //System.out.println(ANSITextFormat.ITALIC +"\nWaiting for a json message from server..."+ANSITextFormat.RESET + "\n");
+            try {
                     String jsonMessage = reader.readLine();
-                    ClientCLI.logger.log(Level.INFO,jsonMessage);
-                    if(jsonMessage != null) {
-                        ServerMessage message = factory.returnMessage(jsonMessage);
-                        ClientCLI.logger.log(Level.INFO,message.toString());
-                        message.clientProcess(this);
-                        }
-
-                } catch (IOException e) {
-                    /* Check if we were interrupted because another thread has asked us to stop */
-                    if (shouldStop.get()) {
-                        /* Yes, exit the loop gracefully */
-                        stop = true;
-                    } else {
-                        /* No, rethrow the exception */
-                        throw e;
+                ClientCLI.logger.log(Level.INFO,jsonMessage);
+                if(jsonMessage != null) {
+                    ServerMessage message = factory.returnMessage(jsonMessage);
+                    ClientCLI.logger.log(Level.INFO,message.toString());
+                    message.clientProcess(this);
                     }
-                }
-                if (shouldStop.get()) {
+
+            } catch (IOException e) {
+                /* Check if we were interrupted because another thread has asked us to stop */
+
+                    /* Yes, exit the loop gracefully */
                     stop = true;
-                    //this.getView().closeScanner();
-                }
+
             }
-        } catch (MalformedJsonException e){
-            System.out.println("Invalid json object from server");
+            if (shouldStop.get()) {
+                stop = true;
+                //this.getView().closeScanner();
+            }
         }
 
         System.out.println("Game ended");
@@ -153,6 +146,14 @@ public class ServerHandler implements Runnable{
 
     public void setIsMultiplayer (boolean isMultiplayer){
         this.isMultiplayer = isMultiplayer;
+    }
+
+    public static AtomicBoolean getShouldStop() {
+        return shouldStop;
+    }
+
+    public static void setShouldStop(boolean shouldStop) {
+        ServerHandler.shouldStop.set(shouldStop);
     }
 
     public boolean getIsMultiplayer (){

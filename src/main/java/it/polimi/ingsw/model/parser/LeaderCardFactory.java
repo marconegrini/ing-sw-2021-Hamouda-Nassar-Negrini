@@ -88,7 +88,6 @@ public class LeaderCardFactory {
                 }
 
 
-                logger.log(java.util.logging.Level.INFO,storage.toString());
 
                 StorageLeaderCard leaderCard = new StorageLeaderCard(cardType, victoryPoints, maxCapacity, activationCost, slots, storage);
 
