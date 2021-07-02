@@ -54,7 +54,6 @@ public class ActivateLeaderCardController {
     public void activate(ActionEvent actionEvent) {
         if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));
-        //System.out.println("index: " + index);
         ControllerGUI.getServerHandler().sendJson(new ActivateLeaderCardMessage(index-1));
 
         Node source = (Node) actionEvent.getSource();
@@ -104,7 +103,6 @@ public class ActivateLeaderCardController {
     public void discard(ActionEvent actionEvent) {
         if (selectedCard == null)   return;
         Integer index = Integer.parseInt(selectedCard.getId().substring(10));
-        //System.out.println("index: " + index);
 
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();

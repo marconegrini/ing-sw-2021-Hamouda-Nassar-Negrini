@@ -116,7 +116,6 @@ public class ActivatePersonalProductionController {
         Node source = (Node) actionEvent.getSource();
         Window theStage = source.getScene().getWindow();
         theStage.hide();
-        //UpdateObjects.updateLeaderCards(ControllerGUI.getServerHandler().getLightModel().getLeaderCards(), scene);
         UpdateObjects.updateCoffer(ControllerGUI.getServerHandler().getLightModel().getCoffer());
         UpdateObjects.updateWarehouse(ControllerGUI.getServerHandler().getLightModel().getWarehouse());
 
