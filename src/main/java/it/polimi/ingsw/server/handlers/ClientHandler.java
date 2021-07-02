@@ -68,7 +68,7 @@ public class ClientHandler extends Thread {
             clientPingSocket = serverPingSocket.accept();
             logger.log(Level.INFO,"-------------");
 
-            ClientPingHandler clientPingHandler = new ClientPingHandler(clientPingSocket);
+            ClientPingHandler clientPingHandler = new ClientPingHandler(clientPingSocket, this);
             clientPingHandler.start();
 
 
@@ -105,6 +105,7 @@ public class ClientHandler extends Thread {
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Exception occurred while closing server socket");
         }
+        
         try {
             if (serverPingSocket!=null)
             serverPingSocket.close();
@@ -186,10 +187,6 @@ public class ClientHandler extends Thread {
         this.turnManager = turnManager;
     }
 
-    public TurnManager getTurnManager(){
-        return this.turnManager;
-    }
-
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
@@ -202,6 +199,10 @@ public class ClientHandler extends Thread {
         sendJson(new EndGameMessage("You exit from the game"));
         Server.removeClientHandler(this);
         setShouldStop();
+    }
+    
+    public TurnManager getTurnManager(){
+        return this.turnManager;
     }
 
 

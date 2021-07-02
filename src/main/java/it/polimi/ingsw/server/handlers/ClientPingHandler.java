@@ -26,9 +26,11 @@ public class ClientPingHandler extends Thread {
     private PrintWriter out;
     private AtomicLong currentTimeMillis = new AtomicLong();
     private AtomicBoolean stop = new AtomicBoolean();
+    private ClientHandler owner;
 
-    public ClientPingHandler(Socket clientSocket) throws IOException {
+    public ClientPingHandler(Socket clientSocket, ClientHandler owner) throws IOException {
         this.client = clientSocket;
+        this.owner = owner;
     }
 
 
@@ -45,8 +47,12 @@ public class ClientPingHandler extends Thread {
             logger.log(Level.SEVERE, "Could not open connection to " + client.getInetAddress());
         }
 
+        String clientid = String.valueOf(this.client.getPort());
+
+        logger.log(Level.INFO, clientid);
+
         logger.log(Level.INFO, "-------PING HANDLER------");
-        logger.log(Level.INFO, "Connected to: " + client);
+        logger.log(Level.INFO, "Connected to clientid : " + clientid);
         logger.log(Level.INFO, "-------------");
 
         ClientMessageFactory factory = new ClientMessageFactory();
@@ -65,7 +71,7 @@ public class ClientPingHandler extends Thread {
                             String messageTypeString = messageObject.get("type").getAsString();
 
                             if (messageTypeString.equals("PING")) {
-                                logger.log(Level.INFO, "Received PING Message");
+                                logger.log(Level.INFO, "Received PING Message from clientid : "+ clientid);
                                 currentTimeMillis.set(System.currentTimeMillis());
                             }
 //                    message.serverProcess(this);
@@ -94,9 +100,11 @@ public class ClientPingHandler extends Thread {
                 Thread.currentThread().interrupt();
             }
             if (System.currentTimeMillis() - currentTimeMillis.get() > 15000) {
-                System.out.println("Client disconnected - via Timer!");
-                ServerHandler.setShouldStop(true);
+                System.out.println("Client disconnected - via Timer! , clientid =" + clientid);
+                //ServerHandler.setShouldStop(true);
                 t.interrupt();
+                owner.getTurnManager().turnDone();
+                owner.getTurnManager().setDisconnected();
                 break;
             }
         }
@@ -104,9 +112,10 @@ public class ClientPingHandler extends Thread {
         try {
             client.close();
         } catch (IOException e) {
-            ClientCLI.logger.log(Level.INFO, "Exception occurred while closing client socket");
+            ClientCLI.logger.log(Level.INFO, "Exception occurred while closing client socket , clientid = " + clientid);
         }
-logger.log(Level.INFO,"end run of Client ping Handler - exit class");
+
+    logger.log(Level.INFO,"end run of Client ping Handler - exit class , clientid = " + clientid);
     }
 
 }

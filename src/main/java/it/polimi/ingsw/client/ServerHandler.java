@@ -60,8 +60,7 @@ public class ServerHandler implements Runnable{
             processServerMessages();
         } catch (IOException e) {
             System.out.println("connection from server lost");
-            ClientCLI.logger.log(Level.INFO,"Server" + server.getInetAddress() + " connection drop");
-
+            ClientCLI.logger.log(Level.SEVERE,"Server" + server.getInetAddress() + " connection drop [using IO Exception]");
 
         }
 
@@ -69,7 +68,7 @@ public class ServerHandler implements Runnable{
         try{
             server.close();
         } catch (IOException e){
-            ClientCLI.logger.log(Level.INFO,"Exception occurred while closing client socket");
+            ClientCLI.logger.log(Level.SEVERE,"Exception occurred while closing client socket");
         }
     }
 
