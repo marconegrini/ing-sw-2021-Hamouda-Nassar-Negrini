@@ -375,7 +375,10 @@ public class GUIView extends View {
             Scene scene = new Scene(root, 1080, 670);
             SceneManager.setPopUpScene(scene);
             newStage.setScene(scene);
-            newStage.initStyle(StageStyle.TRANSPARENT);
+            newStage.resizableProperty().setValue(Boolean.FALSE);
+            newStage.setOnCloseRequest(event -> {
+                event.consume();
+            });
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.show();
         });
