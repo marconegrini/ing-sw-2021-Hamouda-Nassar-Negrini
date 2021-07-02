@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.View;
 import it.polimi.ingsw.messages.fromClient.ClientMessage;
 import it.polimi.ingsw.messages.fromClient.ClientPingMessage;
+import it.polimi.ingsw.server.Server;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,11 +18,13 @@ public class ServerPingSender implements Runnable {
     private BufferedReader reader;
     private BufferedWriter writer;
     private PrintWriter out;
+    private ServerHandler owner;
 
     Socket socket;
     ClientPingMessage clientPingMessage = new ClientPingMessage();
-    public ServerPingSender(Socket socket) {
+    public ServerPingSender(Socket socket, ServerHandler owner) {
         this.socket = socket;
+        this.owner = owner;
     }
 
     public void run() {
@@ -36,7 +39,7 @@ public class ServerPingSender implements Runnable {
             return;
         }
 
-        while (!ServerHandler.getShouldStop().get()) {
+        while (!owner.getShouldStop().get()) {
             sendJson(clientPingMessage);
             try {
                 // thread to sleep for 5000 milliseconds

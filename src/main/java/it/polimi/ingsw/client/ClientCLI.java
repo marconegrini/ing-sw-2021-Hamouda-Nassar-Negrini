@@ -76,7 +76,7 @@ public class ClientCLI implements Runnable {
             } catch (IOException e) {
                 System.out.println("Server unreachable, Try another ip address: ");
             }
-            serverPingSender = new ServerPingSender(serverPingSocket);
+            serverPingSender = new ServerPingSender(serverPingSocket, serverHandler);
             Thread serverPingSenderThread = new Thread(serverPingSender);
             serverPingSenderThread.start();
 

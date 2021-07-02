@@ -28,7 +28,7 @@ public class ServerHandler implements Runnable{
     private BufferedReader reader;
     private BufferedWriter writer;
     private PrintWriter out;
-    private static AtomicBoolean shouldStop = new AtomicBoolean(false);
+    private AtomicBoolean shouldStop = new AtomicBoolean(false);
     private LightModel lightModel;
     private View view;
     private boolean isCli;
@@ -160,12 +160,12 @@ public class ServerHandler implements Runnable{
         this.isMultiplayer = isMultiplayer;
     }
 
-    public static AtomicBoolean getShouldStop() {
+    public AtomicBoolean getShouldStop() {
         return shouldStop;
     }
 
-    public static void setShouldStop(boolean shouldStop) {
-        ServerHandler.shouldStop.set(shouldStop);
+    public void setShouldStop(boolean shouldStop) {
+        ServerHandler.this.shouldStop.set(shouldStop);
     }
 
     public boolean getIsMultiplayer (){

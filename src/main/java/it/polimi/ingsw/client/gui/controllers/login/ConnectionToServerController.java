@@ -71,7 +71,7 @@ public class ConnectionToServerController {
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
 
-        ServerPingSender serverPingSender = new ServerPingSender(serverPingSocket);
+        ServerPingSender serverPingSender = new ServerPingSender(serverPingSocket, serverHandler);
         Thread serverPingSenderThread = new Thread(serverPingSender);
         serverPingSenderThread.start();
     }
