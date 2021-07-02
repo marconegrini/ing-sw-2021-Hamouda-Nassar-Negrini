@@ -3,9 +3,11 @@
  -fx-background-size: 150% 150%;
 }
 
+/*
 .button{
     -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
 }
+*/
 
 #connectButton {
     -fx-background-color: linear-gradient( #392228, #603944);
