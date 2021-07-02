@@ -26,14 +26,10 @@ public class BuyDevelopmentCardController {
 
     private Label selectedCard;
     private static int column, row;
-    //private Integer slot;
 
     public void selectDevCard(ActionEvent actionEvent) {
 
         int id = Integer.parseInt(selectedCard.getId().substring(4));
-        //slot = Integer.parseInt(selectedCard.getId().substring(4));
-
-        //System.out.println("slot before: " + slot);
 
         row = id / 4;
         column = id % 4;
@@ -51,7 +47,6 @@ public class BuyDevelopmentCardController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Select slot");
             Scene scene = new Scene(root, 1080, 720);
             SceneManager.setPopUpScene(scene);
@@ -63,11 +58,9 @@ public class BuyDevelopmentCardController {
             Label label = (Label) scene.lookup("#cardToInsert");
             label.setBackground(selectedCard.getBackground());
 
-            System.out.println("Label to insert: " + label);
             UpdateObjects.updateDevCardsSlot(ControllerGUI.getServerHandler().getLightModel().getPeekDevCardsInSlot(), scene, true);
         });
 
-        //System.out.println(selectedCard.getId());
     }
 
     public void selectCard(MouseEvent mouseEvent) {
@@ -85,7 +78,7 @@ public class BuyDevelopmentCardController {
             selectedCard.getStyleClass().remove("notSelectedCard");
             selectedCard.getStyleClass().add("selectedCard");
         }
-        //System.out.println(label);
+
     }
 
     public void back(ActionEvent actionEvent) {
@@ -105,7 +98,6 @@ public class BuyDevelopmentCardController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //ConnectionToServerController controller = loader.getController();
             newStage.setTitle("Select action");
             Scene scene = new Scene(root, 500, 390);
             SceneManager.setPopUpScene(scene);
@@ -121,11 +113,8 @@ public class BuyDevelopmentCardController {
     }
 
     public void selectSlot(MouseEvent mouseEvent) {
-        //System.out.println("selected card:" + ControllerGUI.getServerHandler().getLightModel().getDevelopmentCardsDeck());
-        //System.out.println("row: "+ row + " col: "+ column);
         Label label = (Label) mouseEvent.getPickResult().getIntersectedNode();
         Integer slot = Integer.parseInt(label.getId().substring(4));
-        //System.out.println("slot after: " + slot);
 
         ControllerGUI.getServerHandler().sendJson(new BuyDevCardMessage(row, column, slot));
         Node source = (Node) mouseEvent.getSource();
