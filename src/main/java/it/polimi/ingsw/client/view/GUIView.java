@@ -266,7 +266,7 @@ public class GUIView extends View {
                 e.printStackTrace();
             }
         } else{
-            System.out.println("viewing the single home");
+            //System.out.println("viewing the single home");
             try {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/game/singleplayer/singlePlayerGame.fxml")));
                 SceneManager.setScene(new Scene(root, 1360, 670));
