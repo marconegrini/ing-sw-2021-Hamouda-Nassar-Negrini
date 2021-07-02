@@ -25,6 +25,7 @@ public class ClientHandler extends Thread {
 
     private static final Logger logger = Logger.getLogger(ClientHandler.class.getName());
     private final Socket client;
+    private Socket clientPing;
     private InputStreamReader isr;
     private OutputStreamWriter osw;
     private BufferedReader reader;
@@ -34,7 +35,6 @@ public class ClientHandler extends Thread {
     private TurnManager turnManager;
     private String nickname;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
-    private ServerSocket serverPingSocket;
     /**
      * Class constructor
      * @param clientSocket
@@ -43,12 +43,12 @@ public class ClientHandler extends Thread {
     public ClientHandler(Socket clientSocket) throws IOException {
         this.client = clientSocket;
     }
-    public ClientHandler(Socket clientSocket,ServerSocket serverPingSocket) throws IOException {
+
+    public ClientHandler(Socket clientSocket,Socket clientPingSocket) throws IOException {
         this.client = clientSocket;
-        this.serverPingSocket = serverPingSocket;
+        this.clientPing = clientPingSocket;
 
     }
-    private Socket clientPingSocket;
 
 
     /**
@@ -65,10 +65,9 @@ public class ClientHandler extends Thread {
         }
         try {
 
-            clientPingSocket = serverPingSocket.accept();
             logger.log(Level.INFO,"-------------");
 
-            ClientPingHandler clientPingHandler = new ClientPingHandler(clientPingSocket, this);
+            ClientPingHandler clientPingHandler = new ClientPingHandler(this.clientPing, this);
             clientPingHandler.start();
 
 
@@ -107,8 +106,8 @@ public class ClientHandler extends Thread {
         }
         
         try {
-            if (serverPingSocket!=null)
-            serverPingSocket.close();
+            if (clientPing!=null)
+            clientPing.close();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Exception occurred while closing server socket");
         }

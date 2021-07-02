@@ -45,29 +45,23 @@ public class Server {
         logger.log(Level.INFO,"-------------");
 
         ServerSocket serverPingSocket = new ServerSocket(5070);
+
         System.out.println(ANSITextFormat.BOLD +"Thread for ping running..."+ANSITextFormat.RESET);
         logger.log(Level.INFO,"listening with port: " + serverSocket);
         logger.log(Level.INFO,"-------------");
 
         while (true){
             Socket clientSocket;
+            Socket clientPingSocket;
             try{
                 clientSocket = serverSocket.accept();
-
-//                //if true run ClientPingHandler for that client
-//                if (sockets.stream().anyMatch(x->x.getInetAddress().getHostAddress().equals(clientSocket.getInetAddress().getHostAddress())))
-//                {
-//                    ClientPingHandler clientPingHandler = new ClientPingHandler(clientSocket);
-//                    clientPingHandler.start();
-//                    sockets.remove(clientSocket);
-//                }
-//                sockets.add(clientSocket);
+                clientPingSocket = serverPingSocket.accept();
 
                 logger.log(Level.INFO,"-------------");
                 logger.log(Level.INFO,"New connection from: " + clientSocket);
                 logger.log(Level.INFO,"Assigning a new thread to the host: " + clientSocket);
                 logger.log(Level.INFO,"-------------");
-                ClientHandler client  = new ClientHandler(clientSocket,serverPingSocket);
+                ClientHandler client  = new ClientHandler(clientSocket,clientPingSocket);
                 client.start();
             } catch(IOException e){
                 logger.log(Level.INFO,"Connection dropped");
