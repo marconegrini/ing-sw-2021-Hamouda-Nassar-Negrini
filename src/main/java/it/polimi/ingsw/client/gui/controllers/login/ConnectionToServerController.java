@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.controllers.login;
 
 import it.polimi.ingsw.client.ServerHandler;
+import it.polimi.ingsw.client.ServerPingSender;
 import it.polimi.ingsw.client.gui.controllers.ControllerGUI;
 import it.polimi.ingsw.messages.fromClient.ExitFromGameMessage;
 import it.polimi.ingsw.messages.fromClient.SelectLeaderCardMessage;
@@ -23,7 +24,6 @@ public class ConnectionToServerController {
     private TextField IPTextFiled;
 
 
-    //private static ServerHandler serverHandler;
 
     /**
      * Invoked when the connect button is pressed. Tries to start the connection with the server
@@ -52,13 +52,28 @@ public class ConnectionToServerController {
             return;
         }
 
+        Socket serverPingSocket;
+        try {
+            serverPingSocket = new Socket(IPTextFiled.getText(), 5070);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setHeaderText("Server unreachable.");
+            alert.setContentText("Be sure that you wrote a correct IP address or try to change the server.");
+            alert.showAndWait();
+            return;
+        }
+
 
         IPTextFiled.clear();
-        ServerHandler serverHandler = new ServerHandler(server, false, false);
+        ServerHandler serverHandler = new ServerHandler(server, false);
         ControllerGUI.setServerHandler(serverHandler);
         Thread serverHandlerThread = new Thread(serverHandler, "server_" + server.getInetAddress().getHostAddress());
         serverHandlerThread.start();
 
+        ServerPingSender serverPingSender = new ServerPingSender(serverPingSocket);
+        Thread serverPingSenderThread = new Thread(serverPingSender);
+        serverPingSenderThread.start();
     }
 
     /**

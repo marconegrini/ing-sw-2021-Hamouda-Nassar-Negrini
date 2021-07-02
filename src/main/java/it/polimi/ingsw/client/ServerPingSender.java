@@ -20,7 +20,7 @@ public class ServerPingSender implements Runnable {
 
     Socket socket;
     ClientPingMessage clientPingMessage = new ClientPingMessage();
-    ServerPingSender(Socket socket) {
+    public ServerPingSender(Socket socket) {
         this.socket = socket;
     }
 

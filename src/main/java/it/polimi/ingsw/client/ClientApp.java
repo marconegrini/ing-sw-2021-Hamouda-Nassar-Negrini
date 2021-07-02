@@ -40,7 +40,6 @@ public class ClientApp {
 
         if (cliParam) {
             ClientCLI clientCLI = new ClientCLI();
-//            clientCLI.run();
             clientCLI.run();
         } else {
             Application.launch(ClientGUI.class);
