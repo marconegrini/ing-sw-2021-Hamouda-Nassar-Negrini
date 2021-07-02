@@ -44,7 +44,6 @@ public class ChooseLeaderCardsController {
     }
 
     public void selectSlot2(MouseEvent mouseEvent) {
-        //System.out.println("Inside select slot 2 with bool: " + selectedSecond.isSelected());
         if (selectedSecond.isSelected()) {
             selectedSecond.setSelected(false);
             card2.getStyleClass().remove("selectedCard");
@@ -124,7 +123,6 @@ public class ChooseLeaderCardsController {
             if (selectedFourth.isSelected()) if (slot1 == 0) slot1 = 4;
             else slot2 = 4;
 
-            System.out.println("Selected cards: " + slot1 + " " + slot2);
             ControllerGUI.getServerHandler().sendJson(new SelectLeaderCardMessage((slot1-1), (slot2-1)));
         } else
             Platform.runLater(() -> {
