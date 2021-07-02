@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.MarketboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #1d1d2b;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.gui.controllers.game.MarketboardController">
    <children>
       <Label prefHeight="241.0" prefWidth="300.0" style="-fx-background-color: #4d4d4d;" textFill="#4d4d4d" AnchorPane.bottomAnchor="208.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="51.0" />
       <AnchorPane layoutX="5.0" layoutY="10.0" prefHeight="500.0" prefWidth="390.0" styleClass="marketboard" stylesheets="@../../css/game/bakgrounds.css" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
