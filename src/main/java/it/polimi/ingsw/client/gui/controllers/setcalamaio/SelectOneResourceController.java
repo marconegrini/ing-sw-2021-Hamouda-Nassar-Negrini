@@ -207,7 +207,7 @@ public class SelectOneResourceController {
             return;
         }
         servantRadio.setSelected(true);
-        servant.getStyleClass().remove("notSelectedCard");
+        //servant.getStyleClass().remove("notSelectedCard");
         servant.getStyleClass().add("selectedCard");
         disSelectResources(servant);
         selectedLabel = servant;
@@ -232,7 +232,7 @@ public class SelectOneResourceController {
             return;
         }
         shieldRadio.setSelected(true);
-        shield.getStyleClass().remove("notSelectedCard");
+        //shield.getStyleClass().remove("notSelectedCard");
         shield.getStyleClass().add("selectedCard");
         disSelectResources(shield);
         selectedLabel = shield;
@@ -258,7 +258,7 @@ public class SelectOneResourceController {
             return;
         }
         stoneRadio.setSelected(true);
-        stone.getStyleClass().remove("notSelectedCard");
+        //stone.getStyleClass().remove("notSelectedCard");
         stone.getStyleClass().add("selectedCard");
         disSelectResources(stone);
         selectedLabel = stone;
@@ -283,7 +283,7 @@ public class SelectOneResourceController {
             return;
         }
         coinRadio.setSelected(true);
-        coin.getStyleClass().remove("notSelectedCard");
+        //coin.getStyleClass().remove("notSelectedCard");
         coin.getStyleClass().add("selectedCard");
         disSelectResources(coin);
         selectedLabel = coin;
@@ -300,25 +300,25 @@ public class SelectOneResourceController {
         //selected = (RadioButton)resources.getSelectedToggle();
         if (!coin.equals(label)) {
             coin.getStyleClass().remove("selectedCard");
-            coin.getStyleClass().add("notSelectedCard");
+            //coin.getStyleClass().add("notSelectedCard");
             //System.out.println("disselected Coin");
             // System.out.println(" toggle text: " + selected.getText());
         }
         if (!stone.equals(label)) {
             stone.getStyleClass().remove("selectedCard");
-            stone.getStyleClass().add("notSelectedCard");
+            //stone.getStyleClass().add("notSelectedCard");
             //System.out.println("disselected Stone");
             //System.out.println(" toggle text: " + selected.getText());
         }
         if (!servant.equals(label)) {
             servant.getStyleClass().remove("selectedCard");
-            servant.getStyleClass().add("notSelectedCard");
+            //servant.getStyleClass().add("notSelectedCard");
             //System.out.println("disselected Servant");
             //System.out.println(" toggle text: " + selected.getText());
         }
         if (!shield.equals(label)) {
             shield.getStyleClass().remove("selectedCard");
-            shield.getStyleClass().add("notSelectedCard");
+            //shield.getStyleClass().add("notSelectedCard");
             //System.out.println("disselected Shield");
             //System.out.println(" toggle text: " + selected.getText());
         }

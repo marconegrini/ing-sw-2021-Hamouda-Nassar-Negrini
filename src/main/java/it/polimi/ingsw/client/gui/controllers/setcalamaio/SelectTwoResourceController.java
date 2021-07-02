@@ -409,7 +409,7 @@ public class SelectTwoResourceController {
         }
 
         servantRadio1.setSelected(true);
-        servant1.getStyleClass().remove("notSelectedCard");
+        //servant1.getStyleClass().remove("notSelectedCard");
         servant1.getStyleClass().add("selectedCard");
         disSelectResources1(servant1);
         selectedLabel1 = servant1;
@@ -444,7 +444,7 @@ public class SelectTwoResourceController {
         }
 
         shieldRadio1.setSelected(true);
-        shield1.getStyleClass().remove("notSelectedCard");
+        //shield1.getStyleClass().remove("notSelectedCard");
         shield1.getStyleClass().add("selectedCard");
         disSelectResources1(shield1);
         selectedLabel1 = shield1;
@@ -480,7 +480,7 @@ public class SelectTwoResourceController {
         }
 
         stoneRadio1.setSelected(true);
-        stone1.getStyleClass().remove("notSelectedCard");
+        //stone1.getStyleClass().remove("notSelectedCard");
         stone1.getStyleClass().add("selectedCard");
         disSelectResources1(stone1);
         selectedLabel1 = stone1;
@@ -515,7 +515,7 @@ public class SelectTwoResourceController {
         }
 
         coinRadio1.setSelected(true);
-        coin1.getStyleClass().remove("notSelectedCard");
+        //coin1.getStyleClass().remove("notSelectedCard");
         coin1.getStyleClass().add("selectedCard");
         disSelectResources1(coin1);
         selectedLabel1 = coin1;
@@ -550,7 +550,7 @@ public class SelectTwoResourceController {
         }
 
         servantRadio2.setSelected(true);
-        servant2.getStyleClass().remove("notSelectedCard");
+        //servant2.getStyleClass().remove("notSelectedCard");
         servant2.getStyleClass().add("selectedCard");
         disSelectResources2(servant2);
         selectedLabel2 = servant2;
@@ -585,7 +585,7 @@ public class SelectTwoResourceController {
         }
 
         shieldRadio2.setSelected(true);
-        shield2.getStyleClass().remove("notSelectedCard");
+        //shield2.getStyleClass().remove("notSelectedCard");
         shield2.getStyleClass().add("selectedCard");
         disSelectResources2(shield2);
         selectedLabel2 = shield2;
@@ -622,7 +622,7 @@ public class SelectTwoResourceController {
         }
 
         stoneRadio2.setSelected(true);
-        stone2.getStyleClass().remove("notSelectedCard");
+        //stone2.getStyleClass().remove("notSelectedCard");
         stone2.getStyleClass().add("selectedCard");
         disSelectResources2(stone2);
         selectedLabel2 = stone2;
@@ -657,7 +657,7 @@ public class SelectTwoResourceController {
         }
 
         coinRadio2.setSelected(true);
-        coin2.getStyleClass().remove("notSelectedCard");
+        //coin2.getStyleClass().remove("notSelectedCard");
         coin2.getStyleClass().add("selectedCard");
         disSelectResources2(coin2);
         selectedLabel2 = coin2;
@@ -673,19 +673,19 @@ public class SelectTwoResourceController {
     private void disSelectResources1(Label label) {
         if (!coin1.equals(label)) {
             coin1.getStyleClass().remove("selectedCard");
-            coin1.getStyleClass().add("notSelectedCard");
+            //coin1.getStyleClass().add("notSelectedCard");
         }
         if (!stone1.equals(label)) {
             stone1.getStyleClass().remove("selectedCard");
-            stone1.getStyleClass().add("notSelectedCard");
+            //stone1.getStyleClass().add("notSelectedCard");
         }
         if (!servant1.equals(label)) {
             servant1.getStyleClass().remove("selectedCard");
-            servant1.getStyleClass().add("notSelectedCard");
+            //servant1.getStyleClass().add("notSelectedCard");
         }
         if (!shield1.equals(label)) {
             shield1.getStyleClass().remove("selectedCard");
-            shield1.getStyleClass().add("notSelectedCard");
+            //shield1.getStyleClass().add("notSelectedCard");
         }
     }
 
@@ -697,19 +697,19 @@ public class SelectTwoResourceController {
     private void disSelectResources2(Label label) {
         if (!coin2.equals(label)) {
             coin2.getStyleClass().remove("selectedCard");
-            coin2.getStyleClass().add("notSelectedCard");
+            //coin2.getStyleClass().add("notSelectedCard");
         }
         if (!stone2.equals(label)) {
             stone2.getStyleClass().remove("selectedCard");
-            stone2.getStyleClass().add("notSelectedCard");
+            //stone2.getStyleClass().add("notSelectedCard");
         }
         if (!servant2.equals(label)) {
             servant2.getStyleClass().remove("selectedCard");
-            servant2.getStyleClass().add("notSelectedCard");
+            //servant2.getStyleClass().add("notSelectedCard");
         }
         if (!shield2.equals(label)) {
             shield2.getStyleClass().remove("selectedCard");
-            shield2.getStyleClass().add("notSelectedCard");
+            //shield2.getStyleClass().add("notSelectedCard");
         }
     }
 

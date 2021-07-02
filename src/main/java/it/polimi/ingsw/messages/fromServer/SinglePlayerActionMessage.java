@@ -26,6 +26,6 @@ public class SinglePlayerActionMessage extends ServerMessage{
         if (!serverHandler.getIsCli()){
             UpdateObjects.updateLorenzoCard(lorenzoCard, SceneManager.getScene());
         }
-        serverHandler.getView().showMessage(actionPerformed, true, false);
+        serverHandler.getView().showMessage(actionPerformed, false, false);
     }
 }
