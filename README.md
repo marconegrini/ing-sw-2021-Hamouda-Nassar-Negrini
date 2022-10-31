@@ -1,4 +1,4 @@
-Implementazione del gioco da tavolo [Maestri del Rinascimento](http://www.craniocreations.it/prodotto/masters-of-renaissance/)
+Implementazione del gioco da tavolo [Maestri del Rinascimento](https://www.craniocreations.it/prodotto/maestri-del-rinascimento)
 
 Interazione e gameplay da linea di comando (CLI) e grafica (GUI)
 
